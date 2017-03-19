@@ -1,0 +1,14 @@
+.accordion{:style => 'border'}
+  %h3 &nbsp; Status change list:
+  %div{:style => 'padding:10px;'}
+    %table{:style => 'width:95%;text-align:left;'}
+      %thead
+        %tr
+          %th{:style => 'width:200px;'} Time
+          %th{:style => 'width:120px;'}  Status
+          %th Reviewer Comments
+      -@stats.each do |stat|
+        %tr
+          %td= stat.changed_at 
+          %td= stat.status.status
+          %td= stat.comments

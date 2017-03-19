@@ -1,0 +1,105 @@
+<input type="hidden" id="specifier_table_entry_id" value="new" />
+<table style="float:left; clear:both; margin-top:0px;">
+  <tr style="font-weight:bold;">
+    <td>
+      Type:
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <select id="new_specifier_type" name="type">
+        <option id="species-option" value='species'>Species</option>
+        <option id="specimen-option" value='specimen'>Specimen</option>
+        <option id="apomorphy-option" value='apomorphy'>Apomorphy</option>
+      </select>
+    </td>
+  </tr>
+  <tr style="font-weight:bold;" class="other_specifier">
+    <td>Kind:</td>
+  </tr>
+  <tr class="other_specifier">
+    <td colspan="2">
+      <select name="kind" id="new_specifier_kind" class="other_specifier">
+        <option class="internal-spec" value="internal extant">Internal - Extant</option>
+        <option class="internal-spec" value="internal extinct">Internal - Extinct</option>
+        <option class="external-spec" value="external extant">External - Extant</option>
+        <option class="external-spec" value="external extinct">External - Extinct</option>
+      </select>
+      <select name="kind_type" id="new_specifier_kind_type" class="other_specifier">
+        <option value="specifier">Specifier</option>
+        <option value="qualifier">Qualifier</option>
+      </select>
+    </td>
+  </tr>
+  <tr class="specifier_apomorphies" style="font-weight:bold;">
+     <td>Character Name:</td><td>Phenotype:</td>
+   </tr>
+   <tr class="specifier_apomorphies">
+     <td><input type="text" class="specifier_apomorphies" size="17" id="new_specifier_character_name" name="character_name"/></td>
+     <td><input type="text" class="specifier_apomorphies" size="17" id="new_specifier_phenotype" name="phenotype"/></td>
+   </tr>
+  <tr style="font-weight:bold" class="specifier_others">
+    <td><span class="specifier_apomorphies" style="font-size:9px">(as exhibited in)<br/></span>Taxon Name:</td>  <td>Author:</td> 
+    <td class="specifier_specimens">Comments:</td>
+  </tr>
+  <tr>
+    <td><input type="text" name="specifier_name" id="new_specifier_name" size="17"/></td>
+    <td><input type="text" name="specifier_authors" id="new_specifier_authors" size="17" /></td>
+    
+    <td class="specifier_specimens">
+      <input class="specifier_specimens" type="text" name="comments" id="new_specifier_comments" size="17" />
+    </td>
+  </tr>
+  <tr style="font-weight:bold" class="specifier_others">
+    <td class="specifier_species">Code:</td> 
+    <td class="specifier_other">Year:</td> 
+  </tr>
+  <tr>
+    <td class="specifier_species">
+      <select name="code" id="new_specifier_code" class="specifier_species">
+        <option value="ICBN">ICN - the botanical code</option>
+        <option value="ICZN">ICZN - the zoological code</option>
+        <option value="ICNB">ICNB - the bacterial code</option>
+        <option value="ICTV">ICTV - the virus code</option>
+      </select>
+    </td>
+    <td>
+       <input type="text" name="specifier_year" id="new_specifier_year" size="6" class="specifier_others"/>
+    </td>
+  </tr>
+  <tr class="specifier_apomorphies" style="font-weight:bold;">
+      <td>Description:</td>
+  </tr>
+  <tr class="specifier_apomorphies" style="font-weight:bold;">
+      <td colspan="3"><textarea class="specifier_apomorphies" id="new_specifier_description" name="description" rows="7" cols="50" ></textarea></td>
+   </tr>
+  <tr class="specifier_specimens" style="font-weight:bold">
+      <td>Collector:</td>
+      <td>Collector number:</td>
+      <td>Institutional code:</td>
+     
+    </tr>
+    <tr class="specifier_specimens">
+      <td><input class="specifier_specimens" type="text" id="new_specifier_collector" name="collector" size="17" /></td>
+      <td><input class="specifier_specimens" type="text" id="new_specifier_collector_number" name="collector_number" size="17" /></td>
+      <td><input class="specifier_specimens" type="text" id="new_specifier_institutional_code" name="institutional_code" size="17" /></td>     
+    </tr>
+  <tr style="font-weight:bold" class="specifier-outlinks">
+    <td><img class="outlink" id="ubio_outlink_img" src="/images/ubioLogo.png" title="Search UBIO" />&nbsp;<span id="ubio_id_link">UBIO ID:</span></td>
+    <td><img class="outlink" id="ncbi_outlink_img" src="/images/ncbiLogo.GIF" title="Search NCBI" />&nbsp;<span id="ncbi_id_link">NCBI ID:</span></td>
+    <td><img class="outlink" id="treebase_outlink_img" src="/images/treebase.gif" title="Search TreeBase" />&nbsp;<span id="treebase_id_link">TreeBase ID:</span></td>
+  </tr>
+  <tr>
+    <td>
+      <input  type="text" id="new_ubio_id" name="ubio_id" size="17" />
+    </td>
+    <td>
+      <input  type="text" id="new_ncbi_id" name="ncbi_id" size="17" />
+    </td>
+    <td>
+      <input  type="text" id="new_treebase_id" name="treebase_id" size="17" />
+    </td>
+  </tr>
+
+  
+</table>

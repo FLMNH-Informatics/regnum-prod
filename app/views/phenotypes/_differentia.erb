@@ -1,0 +1,45 @@
+ <div id="windowtitle" class="windowtitle">
+    <table  width="100%"><tr><td><span id="title1" class="title">Genus: <%=@genus%></span>
+      </td><td valign="top" align="right">&nbsp;&nbsp;&nbsp; <span id="closebutton" class ="closebutton" onClick="$('differentia_window').toggle();"><a href="javascript:void(0)"> X </a></span></td></tr></table>
+  </div>
+<% species_autocomplete = nil %>
+<table>
+  <tr class="body-odd"><th class="h">Relation</th> <th class="h">Differentia</th></tr>
+  <%@differentiae.each do |differentia|%>
+  
+  <tr class="body-odd"><td class="b">
+    <%=differentia.relation_term.label%>
+    </td><td class="b">
+      <%=differentia.ontology_term.label%>
+   </td> </tr>
+ <%end%>
+  
+  <tr><td valign="top">
+         <%= text_field_with_auto_complete :relation, :term, {}, {:method => :get} %>
+  <input type="hidden" id="relation_id"  name="relation_id" value="<%=  species_autocomplete.nil? ? '' : species_autocomplete.species_id %>"/>
+      <script>$('relation_term').onkeyup = clear_id
+        $('relation_term').value = '<%=  species_autocomplete.nil? ? "" : species_autocomplete.species.name %>'
+        function clear_id(){
+              $('relation_id').value = ""
+              $('relation_term_auto_complete').style.display="block"
+        }
+        $('relation_term_auto_complete').style.display="block"
+      </script>
+    </td>
+    <td valign="top">
+      
+        <%= text_field_with_auto_complete :differentia, :term, {}, {:method => :get} %> <input type="button" value="Add" onclick="create_relation($('differentia_id').value,$('relation_id').value,$('ontology_comp').value,<%=params[:character_id]%>,<%=params[:state_id]%>,'<%=params[:col]%>','<%=@genus%>')"/>
+  <input type="hidden" id="differentia_id"  name="differentia_id" value="<%=  species_autocomplete.nil? ? '' : species_autocomplete.species_id %>"/>
+      <script>$('differentia_term').onkeyup = clear_id
+        $('differentia_term').value = '<%=  species_autocomplete.nil? ? "" : species_autocomplete.species.name %>'
+        function clear_id(){
+              $('differentia_id').value = ""
+              $('differentia_term_auto_complete').style.display="block"
+        }
+        $('differentia_term_auto_complete').style.display="block"
+      </script>
+    </td></tr>
+  <input type="hidden" id="ontology_comp" value="<%=@ont_comp_id%>"/>
+
+  
+</table>

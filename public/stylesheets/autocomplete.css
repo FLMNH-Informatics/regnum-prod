@@ -1,0 +1,67 @@
+.ui-autocomplete {
+max-height: 100px;
+overflow-y: auto;
+/* prevent horizontal scrollbar */
+overflow-x: hidden;
+}
+#auto_complete_tooltip {
+    width: 400px;
+    position: absolute;
+    background: #ffb;
+    border: 1px solid #888;
+    margin: 0;
+    padding: 6px;
+    overflow: auto;
+}
+
+#auto_complete_tooltip dd {
+    margin: 6px 0 0 0;
+}
+
+#auto_complete_tooltip #bid {
+    float: right;
+}
+
+#auto_complete_tooltip h2 {
+    display: inline;
+    font-size: 120%;
+    /*line-height: 120%;*/
+    /*text-decoration: underline;*/
+    /*border-bottom: 1px dashed;*/
+    padding: 2px;
+    /*margin: 0px 0 0px 0px;*/
+}
+
+#auto_complete_tooltip h2:hover {
+    background: #FFF3B3;
+}
+
+#auto_complete {
+max-width: 300px;
+overflow: auto;
+background: #fff;
+position: absolute;
+border:1px solid #888;
+}
+
+#auto_complete ul {
+margin:0;
+padding:0;
+width:100%;
+list-style-type:none;
+}
+
+#auto_complete ul li {
+margin:0;
+padding:3px;
+}
+
+#auto_complete ul li.selected {
+background-color: #ffb;
+}
+
+#auto_complete ul strong.highlight {
+color: #800;
+margin:0;
+padding:0;
+}

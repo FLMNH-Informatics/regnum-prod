@@ -1,0 +1,36 @@
+=form_for @user, :url => '/admin/update_user/'+ @user.id.to_s  do |f|
+  %table
+    %tr
+      %td.name First Name
+    %tr
+      %td= f.text_field :first_name, :size => 20
+    %tr
+      %td.name Last Name
+    %tr
+      %td= f.text_field :last_name, :size => 20
+    %tr
+      %td.name Email
+    %tr
+      %td= f.text_field :email, :size => 20
+    %tr
+      %td.name Institution
+    %tr
+      %td= f.text_field :institution, :size => 20
+    %tr
+      %td.name Role
+    %tr
+      %td
+        %select{:name => 'user[role_id]'}
+          = options_from_collection_for_select(@roles, 'id', 'name', @user.role_id)
+    %tr
+      %td.name Password
+    %tr
+      %td
+        %input{:type => :password, :name => :password}
+    %tr
+      %td.name Password Confirmation
+    %tr
+      %td
+        %input{:type => :password, :name => :password_confirmation}
+
+%span{:style => 'font-size:9px;'}* leave the password field empty if you don't want to change it

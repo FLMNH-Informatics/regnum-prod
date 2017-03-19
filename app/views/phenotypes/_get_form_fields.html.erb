@@ -1,0 +1,61 @@
+<input type="hidden" name="phenotype[state_id]" value="<%=params[:state_id]%>" />
+
+<% species_autocomplete = nil %>
+<table>
+  <% if params[:index].to_i > 0 %>
+      <tr><td> Entity: </td> <td>
+        <input id="entity" type="text" size="35" name="termQuery" data-input="entity_id" />
+        <script type="text/javascript">
+            jQuery('#entity').autocomplete({
+              source: '/ontologies/auto_complete_terms',
+              select
+            })
+
+            //$( "#entity" ).on( "autocompleteselect", function( event, ui ) {  jQuery('#entity_id').value = jQuery(event.target).val()} );
+            //new Ajax.Autocompleter('entity', 'auto_complete', '/ontologies/auto_complete_terms', {method:'get', onShow:onAcShowInWindow, onHide:onAcHide, onRender:onAcRender, afterUpdateElement:updateId});
+        </script>
+        <a href="#" onclick="show_differentia($('entity_id').value,<%=params[:character_id]%>,<%=params[:state_id]%>,'ontology_composition_id')">Edit </a></td>
+        <input type="hidden" id="entity_id"  name="phenotype[entity_id]" value="<%= @pheno.try(:entity_id).nil? ? "" : @pheno.entity_id.to_s %>"/>
+  <%end%>
+
+  <% if params[:index] == "1" || params[:index] == "2" %>
+      <tr><td> Within</td> <td><input type="text" /></td></tr>
+  <%end%>
+
+  <% if params[:index] == "3" || params[:index] == "4" %>
+      <tr><td> Quality: </td> <td>
+        <input id="quality" type="text" size="35" name="termQuery" data-input="quality_id" />
+        <script type="text/javascript">
+
+            new Ajax.Autocompleter('quality', 'auto_complete', '/ontologies/auto_complete_terms', {method:'get', onShow:onAcShowInWindow, onHide:onAcHide, onRender:onAcRender, afterUpdateElement:updateId}); <%# , parameters:'ontology_id=106' %>
+        </script>
+        <a href="#" onclick="show_differentia($('quality_id').value,<%=params[:character_id]%>,<%=params[:state_id]%>,'quality_ontology_id')">Edit </a></td></tr>
+      <input type="hidden" id="quality_id" name="phenotype[quality_id]" value="<%=  @pheno.try(:quality_id).nil? ? "" : @pheno.quality_id.to_s %>"/>
+
+      <tr><td> Related Entity </td> <td>
+        <input id="dependent" type="text" size="35" name="termQuery" data-input="dependent_id" />
+        <script type="text/javascript">
+            new Ajax.Autocompleter('dependent', 'auto_complete', '/ontologies/auto_complete_terms', {method:'get', onShow:onAcShowInWindow, onHide:onAcHide, onRender:onAcRender, afterUpdateElement:updateId});
+        </script>
+        <a href="#" onclick="show_differentia($('dependent_id').value,<%=params[:character_id]%>,<%=params[:state_id]%>,'related_entity_ontology_id')">Edit </a></td></tr>
+      <input type="hidden" id="dependent_id"  name="phenotype[dependent_entity_id]" value="<%=  @pheno.try(:dependent_entity_id).nil? ? "" : @pheno.dependent_entity_id.to_s %>"/>
+  <%end%>
+
+  <%if params[:index] == "1"%>
+      <tr><td colspan="2"><input type="radio" name="is_present" value="1"> Present
+        <input type="radio" name="phenotype[is_present]" value="0" > Absent</td></tr>
+  <%elsif params[:index] == "2" %>
+      <tr><td> Count</td> <td><input type="text" name="count"/></td></tr>
+  <%elsif params[:index] == "4" %>
+      <tr><td>Minimum value</td> <td><input type="text" name="minimum" /></td></tr>
+      <tr><td>Maximum value</td> <td><input type="text" name="maximum" /></td></tr>
+      <tr><td> Unit </td> <td>
+        <input id="unit" type="text" size="35" name="termQuery" data-input="unit_id" />
+        <script type="text/javascript">
+            new Ajax.Autocompleter('unit', 'auto_complete', '/ontologies/auto_complete_terms', {method:'get', onShow:onAcShowInWindow, onHide:onAcHide, onRender:onAcRender, afterUpdateElement:updateId});
+        </script>
+        <a href="#" onclick="show_differentia($('unit_id').value,<%=params[:character_id]%>,<%=params[:state_id]%>,'unit_ontology_id')">Edit </a></td></tr>
+      <input type="hidden" id="unit_id"  name="phenotype[unit_id]" value="<%=  @pheno.try(:unit_id).nil? ? "" : @pheno.unit_id.to_s %>"/>
+  <%end%>
+</table>
+

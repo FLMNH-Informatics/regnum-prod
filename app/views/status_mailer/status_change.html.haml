@@ -1,0 +1,11 @@
+!!!
+%html
+  %head
+    %meta{:content => 'text/html; charset=UTF-8', :'http-equiv' => 'Content-Type'}
+  %body
+    %h3 Phyloregnum Submission Status Change Notification
+    %p 
+      = "Your submission for #{@sub.name} has been changed to status #{@sub.status.status}"
+    %p 
+      = "The reviewer left the following comments: #{@sub.status_comments}"
+

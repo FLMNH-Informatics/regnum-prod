@@ -1,0 +1,10 @@
+%table#specifier-select-table.select-table{:style => 'width:98%;'}
+  -if @results.length > 0
+    -@results.each do |result|
+      %tr.select-row{:id => result['value']}
+        %td=result['label']
+        %td=result['value']
+  -else
+    %tr
+      %td{:style => 'width:200px;text-align:center'}
+        No Matching Results

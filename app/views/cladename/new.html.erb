@@ -1,0 +1,261 @@
+
+<input type="hidden" value="new" name="submission_id" id="submission_id" class="value-input" />
+
+<input type="hidden" value="" name="cladename[abbreviation]" id="abbreviation" class="value-input" />
+
+<input type="button" id="character-window-button" value="Special characters viewer" class="button"  style="margin-left:30px" />
+<div id="new-cladename-window">
+  <ul id="new-cladename-tabs" >
+    <li class="active-tab tab" id="tab1">Clade Name</li>
+
+    <li id="tab3" class="tab">Clade Type &amp; Specifiers</li>
+    <li id="tab4" class="tab">Clade Definition</li>
+    <li id="spinner" style="border:none;background:none;display:none;"><img src="/images/ajax-loader.gif" />&nbsp;&nbsp;saving...</li>
+  </ul>
+
+  <div id="new-cladename-content" >
+
+    <div id="tab1-div">
+
+        <table style="margin:10px 0px;">
+          <tr><td style="font-weight:bold">Clade Name:</td><td style="font-weight:bold">Clade Name Author(s):</td></tr>
+          <tr>
+            <td><input data-bind="value: name"type="text" id="new_name" name="cladename[name]" value="" class="value-input"/>
+              &nbsp;&nbsp;<span id="status"></span></td>
+            <td><input data-bind="value: authors" type="text" id="new_authors" name="cladename[authors]" value="" class="value-input" size="22"/></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div id="new-preexisting-box">
+                <input data-bind="checked: preexisting" type="checkbox" id="new_preexisting" class="value-input" name="cladename[preexisting]" />
+                  <b><%= label_tag ' Pre-existing Name' %></b>
+                <div id="new-preexisting-table" data-bind="visible: preexisting" >
+                  <table>
+                    <tr>
+                      <td style="font-weight:bold;">Code:</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <select data-bind="value: preexisting_code" name="cladename[preexisting_code]" id="new_preexisting_code" class="value-input">
+                          <option value="ICBN">ICN - the botanical code</option>
+                          <option value="ICZN">ICZN - the zoological code</option>
+                          <option value="ICNB">ICNB - the bacterial code</option>
+                          <option value="ICTV">ICTV - the virus code</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold">Author(s):</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input data-bind="value: preexisting_authors" type="text" name="cladename[preexisting_authors]" id="new_preexisting_authors" size="20" class="value-input" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><span id="preexist-ref-holder"><a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting',d.citations.preexisting()[0],e)}" href="#" id="new-preexisting-reference-add">Edit Reference</a></span></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr><td colspan="2" style="font-weight:bold">Comments:</td></tr>
+          <tr><td colspan="2"><textarea data-bind="value: comments" name="cladename[comments]" class="value-input" id="new_comments" rows="5" cols="40" ></textarea></td></tr>
+         <!-- <tr>
+            <td style="font-weight:bold">
+              <div id="new-establish-box">
+                <input type="checkbox" id="new_establish" name="cladename[establish]"  class="value-input"/>&nbsp;establish under PhyloCode
+              </div>
+            </td>
+          </tr> -->
+        </table>
+
+        
+
+    </div><!-- end tab1-div -->
+
+  <div style="display:none" id="tab2-div"> </div><!-- end tab2-div -->
+
+  <div id="tab3-div"  style="display:none;margin-left:5px;">
+
+    <div style="float:left;margin-right:20px;">
+    <p> <b>Clade Type:</b>
+    <p>
+      <select data-bind="value: type" name="cladename[type]" id="new_type" class="value-input">
+        <option value="node-based_standard">Node Based - Standard</option>
+        <option value="node-based_crown_clade_branch-modified">Node Based - Crown Clade - Branch-modified</option>
+        <option value="node-based_crown_clade_apomorphy-modified">Node Based - Crown Clade - Apomorphy-modified</option>
+        <option value="branch-based_standard">Branch Based - Standard</option>
+        <option value="branch-based_total_clade">Branch Based - Total Clade</option>
+        <option value="branch-based_total_clade_explicit">Branch Based - Total Clade - Explicit</option>
+        <option value="apomorphy-based_standard">Apomorphy Based</option>
+      </select>
+    </p>
+
+    </div>
+    <!-- knockout.js code bound -->
+    <div style="float:left;clear:both;" id="specifiers-table-holder">
+      <p><b>Clade Specifiers & Qualifiers:</b>&nbsp;&nbsp;<input data-bind="click: pr.ba.addSpecifier" type="button" value="add" class="submit_button" /></p>
+      <table id="specifiers-table" class="specifiers-table sortable-table">
+        <thead>
+          <th style="width:100px">Type</th>
+          <th style="width:200px">Kind</th>
+          <th style="width:200px">Name</th>
+          <th style="width:200px">Author(s)</th>
+          <th style="width:70px;">actions</th>
+        </thead>
+        
+        <tbody data-bind="foreach: specifiers.currentPageData">
+        
+          <tr class="odd-row" >
+             <td data-bind="text: specifier_type"></td>
+             <td><span data-bind="text: specifier_kind"></span>&nbsp;<span data-bind="text: specifier_kind_type"></span></td>
+             <td data-bind="text: specifier_name"></td>
+             <td data-bind="text: specifier_authors"></td>
+             <td>
+                <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="edit" />&nbsp;
+                <input class="submit_button" data-bind="click: pr.ba.deleteSpecifier" type="button"  value="delete" />
+             </td>
+          </tr>
+                
+        </tbody>
+        
+      </table>
+      <span class="table-controls">
+        <a href="#" data-bind="click: specifiers.moveFirst">First</a>
+        <a href="#" data-bind="click: specifiers.movePrevious">Previous</a>
+        <a href="#" data-bind="click: specifiers.moveNext">Next</a>
+        <a href="#" data-bind="click: specifiers.moveLast">Last</a>
+        Page    
+        <span data-bind="text: specifiers.currentPage" min="1"></span>
+         of <span data-bind="text: specifiers.pageCount"></span>
+      </span>
+    </div>
+    <!-- knockout.js code end -->
+  </div><!-- end tab3-div -->
+
+  <div id="tab4-div" style="display:none;margin-left:5px;clear:both;">
+
+      <div style="float:left;margin-right:20px;">
+
+              <p><b>Abbreviated Definition:</b></p>
+              <div data-bind="html: abbreviation" id="new_abbreviation" ></div>
+
+                <p><b><%= label_tag 'Clade Definition:' %></b></p>
+                <p>
+            <textarea data-bind="value: definition" name="cladename[definition]" id="new_definition"  rows="16" cols="60" class="value-input" ></textarea>
+                </p>
+      </div>
+
+      
+     <div style="width:600px;float:left;">
+      <div style="float:right;clear:both;font-weight:bold;max-width:600px;" id="citation-tables">
+
+        <p>Clade Citation:</p>
+        <div class="citations-table" id="def-citation" >
+          <table class="sortable-table" id="description">
+            <thead>
+            <tr style="background-color:white;">
+              <th style="width:200px;">Type</th><th style="width:200px;">Title</th>
+              <th style="width:200px;">Author(s)</th><th colspan="2" >actions</th>
+            </tr>
+            </thead>
+            <tbody data-bind="foreach: citations.description" >
+              <tr id="clade-citation" class="odd-row">
+                <td data-bind="text: citation_type"></td>
+                <td style="max-width:200px" data-bind="text: title"></td>
+                <td style="max-width:200px" data-bind="text: citation_authors"></td>
+                <td>
+          <input data-bind="click: function(d,e){pr.ba.editCitation('description',d,e)}" type="button" class="def-citation submit_button edit" value="edit"/>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Primary Phylogeny Reference: </p>
+        <div id="primary-phylo-citation" class="citations-table">
+          <table class="sortable-table" id="primary-phylogeny">
+            <thead>
+              <tr style="background-color:white;">
+                <th style="width:100px;">Type</th><th style="width:200px;">Title</th>
+                <th style="width:200px;">Author(s)</th><th colspan="2" >actions</th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: citations['primary-phylogeny']">
+              <tr class="odd-row">
+                <td data-bind="text: citation_type"></td>
+                <td style="max-width:200px" data-bind="text: title"></td>
+                <td style="max-width:200px" data-bind="text: citation_authors"></td>
+                <td><input data-bind="click: function(d,e){pr.ba.editCitation('primary-phylogeny',d,e)}"type="button" class="submit_button" value="edit"/></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Additional Phylogeny References: &nbsp;&nbsp;<input data-bind="click: function(d,e){pr.ba.addCitation('phylogeny',d,e)}" type="button" value="add" class="submit_button" /></p>
+        <div id="phylo-citations" class="citations-table">
+            <table class="sortable-table">
+              <thead>
+               <tr style="background-color:white;">
+                   <th style="width:100px;">Type</th><th style="width:200px">Title</th><th style="width:200px;">Authors</th><th style="width:100px;">actions</th>
+              </tr>
+              </thead>
+              <tbody data-bind="foreach: citations.phylogeny.currentPageData">
+              <tr class="odd-row">
+                <td data-bind="text: citation_type"></td>
+                <td style="max-width:200px" data-bind="text: title"></td>
+                <td style="max-width:200px" data-bind="text: citation_authors"></td>
+                <td>
+            <input data-bind="click: function(d,e){pr.ba.editCitation('phylogeny',d,e)}" type="button" class="submit_button" value="edit" />&nbsp;
+            <input data-bind="click: function(d,e){pr.ba.deleteCitation('phylogeny',d,e)}" type="button" class="submit_button" value="delete" />
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <span class="table-controls">
+              <a href="#" data-bind="click: citations.phylogeny.moveFirst">First</a>
+              <a href="#" data-bind="click: citations.phylogeny.movePrevious">Previous</a>
+              <a href="#" data-bind="click: citations.phylogeny.moveNext">Next</a>
+              <a href="#" data-bind="click: citations.phylogeny.moveLast">Last</a>
+              Page    
+              <span data-bind="text: citations.phylogeny.currentPage" min="1"></span>
+               of <span data-bind="text: citations.phylogeny.pageCount"></span>
+            </span>
+        </div>
+      </div>
+  </div><!-- end tab4-div -->
+
+
+</div>
+
+<div id="save-and-reference" style="float:left;clear:both;margin-left:5px;min-width:290px;">
+  
+  <p style="color:#444;font-weight:bold;">Name String:</p>
+  <div data-bind="text: name_string"  id="new_name_string"></div>
+  <p style="color:#444;font-weight:bold;">Registration #:&nbsp;&nbsp;<span style="color:#333" class="temp-id"></span></p>
+  <div id="new-cladename-save-submit">
+     <input type="button" value="Save" class="button" style="border:1px solid #999" />&nbsp;&nbsp;<input style="border:1px solid #999" type="button" value="Submit" class="button" />
+  </div>
+</div>
+
+
+<!-- floatable window -->
+<div id="new-cladename-synonyms" class="float-window" style="display:none;">
+  <div class="window-title-bar" >
+    <div style="margin:8px 10px 0px 10px;">
+    Synonyms List
+        <div class="close-button" title="close window" onclick="jQuery('#new-cladename-synonyms').fadeOut();">X</div>
+    </div>
+  </div>
+  <div class="float-window-content" id="synonyms-window-content" >
+    <%= render :partial => 'shared/synonyms_table' %>
+  </div>
+</div>
+ <%#= draggable_element "new-cladename-synonyms" %>
+
+</div>
+
+</div>
+<div style="margin-left:30px;float:left;clear:both;max-width:800px;min-width:600px;">
+<%= render :partial => 'shared/status_change_list' %>
+</div>

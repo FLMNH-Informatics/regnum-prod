@@ -1,0 +1,23 @@
+%div{:style => 'margin:10px 0px;float:left;clear:both;width:100%;'}
+  =render :partial => 'shared/status_change_list'
+.submission-holder{:style => 'float:left;clear:both;'}
+  =render :partial => 'shared/cladename_view'
+.editor-box
+  =form_for @sub, :url => '/submissions/'+@sub.id.to_s, :method => :put do |s|
+    %table
+      %tr
+        %td.name Status:
+        %td{:style => 'text-align:right;'}
+          %input{:type => 'submit', :value => 'Save', :id => 'sub_save_button'}
+      %tr
+        %td
+          %select{:name => 'status'}
+            = options_from_collection_for_select Status.all, :status_id, :status, @sub.status_id
+      %tr
+        %td.name{:colspan => '2' } Editor Comments:
+      %tr
+        %td{:colspan => '2'}
+          %textarea{ :name => 'editor_comments', :rows => 5, :cols => 87 }
+
+
+

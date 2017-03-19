@@ -1,0 +1,21 @@
+<% items = type == :terms ?
+        @concept.terms.select{|term| !term.preferred } :
+        @concept.relationships.with_terms.select{|r| r.super_sub == super_sub } %>
+               <%# .sort_by{|r| r.rel_term.downcase+r.con_term.downcase} %>
+<% if !items.empty? %>
+    <dl id="<%= id %>">
+        <dt><%= title %></dt>
+        <% items.each do |item| %>
+            <dd>
+              <% if type == :terms %>
+                  <%= item.term %>
+              <% else %>
+                  <%= item.rel_term %>
+                  <a href="javascript:void(0)" onClick="showTooltip(<%= item.to_concept_id %>)">
+                    <%= item.con_term %>
+                  </a>
+              <% end %>
+            </dd>
+        <% end %>
+    </dl>
+<% end %>

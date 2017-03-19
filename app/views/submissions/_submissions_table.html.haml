@@ -1,0 +1,29 @@
+.sortable-table-div
+  %table#user_submissions_table.sortable-table
+    %tr.sortable-table-header-row
+      %th.sortable.table-header-link=table_sort_header('name')
+      %th.sortable.table-header-link=table_sort_header('status_id','status')
+      %th.sortable.table-header-link=table_sort_header('submitted_by') 
+      %th{:colspan => 3}
+    %tbody
+      -@subs.each do |sub|
+        %tr{:class => cycle('odd-row','even-row'), :id => sub.id, :title => "click to open submission"  }
+          %td= sub.name
+          %td= sub.status.status
+          %td{ :style => 'width:180px'}= sub.user.last_name + ', ' + sub.user.first_name
+          %td{ :style => 'width:40px'}
+            =form_for sub, :url => submission_path(sub.id), :html => {:method => :get } do |s|
+              %input.submit_button{:type => 'submit', :value => 'review'} 
+          -if current_user.is_admin? 
+            %td{:style => 'width:40px'}
+              =form_for sub, :url => my_submission_path + '/' + sub.id.to_s, :html => {:method => :get } do |s|
+                %input.submit_button{:type => 'submit', :value => 'edit'} 
+          %td{ :style => 'width:40px'}
+            =form_for sub, :url => submission_path(sub.id), :html => {:method => :delete } do |s|
+              %input.submit_button{:type => 'submit', :value => 'delete', :title => 'click to delete'}
+      %tr
+        %td{:colspan => 5, :style => 'text-align:center;padding:1px;border:none;'}
+          =will_paginate @subs, renderer: RemoteLinkRenderer,:params => {:controller => :submissions, :action => nil}
+      %tr
+        %td{:colspan => 5, :style => 'text-align:center;padding:1px;border:none;'}
+          =page_entries_info @subs, {:model => 'clade names'}

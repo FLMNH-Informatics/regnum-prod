@@ -1,0 +1,18 @@
+.account_box
+  Please Log In
+  %form{ :action => '/authenticate', :method => 'post' }
+    %table{:style => 'font-weight:bold;margin:20px;'}
+      %tr
+        %td Email:
+      %tr
+        %td
+          %input{:type => 'text', :name => 'account[email]'}
+      %tr
+        %td Password:
+      %tr
+        %td
+          %input{:type => 'password', :name => "account[password]"}
+      %tr
+        %td{:style => 'text-align:right;padding-top:10px;'}
+          %input{:type => 'submit', :value => "submit", :class => 'button', :style => "border:1px solid #999;"}
+    %a{:href => '/signup', :style=> 'font-size:10px;'} create an account

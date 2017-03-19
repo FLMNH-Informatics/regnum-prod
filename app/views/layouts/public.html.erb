@@ -1,0 +1,114 @@
+<%#*<!DOCTYPE html>%>
+<%#*<html>%>
+<%#*<head>%>
+  <%#*<title>Regnum</title>%>
+  <%#= stylesheet_link_tag :all %>
+  <%#= javascript_include_tag :defaults %>
+  <%#= csrf_meta_tag %>
+<%#*</head>%>
+<%#*<body>%>
+
+<%#= yield %>
+
+<%#*</body>%>
+<%#*</html>%>
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>  <%= controller.controller_name%> : <%= controller.action_name %></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <%= stylesheet_link_tag 'tabs', 'basic', 'shared', 'display', 'jquery-ui-humanity.css', 'cladename' %>
+    <!-- include customized style sheets for each controller if they exist -->
+    <% if FileTest.exists?("public/stylesheets/#{controller.controller_name}.css") %>
+      <%= stylesheet_link_tag controller.controller_name %>
+    <% end %>
+
+    <%= javascript_include_tag :defaults  %>
+    <%= javascript_include_tag 'jquery.js'  %>
+    <%= javascript_include_tag 'jquery.form.js'  %>
+    <%= javascript_include_tag 'jquery-ui.min.js'  %>
+    <script>
+       //make jquery relinquish control of $ so we don't conflict
+       //with prototype or other libs.
+       jQuery.noConflict();
+    </script>
+    <%= javascript_files_to_use %>
+    <%#= javascript_include_tag 'create_cladename.js'  %>
+    <%#= javascript_include_tag 'list_submissions.js'  %>
+    <% if FileTest.exists?("public/javascripts/#{controller.controller_name}.js") %>
+      <%= javascript_include_tag controller.controller_name %>
+    <% end %>
+
+    <%= csrf_meta_tag %>
+
+  </head>
+  <body>
+    <div style="background-color:#FFFDF3;width:100%;" id="container">
+      <div id="pageheader">
+        <p align="center">
+          <%= image_tag "tolkin_logo.png" %>
+          <span style='font-size:20px;font-weight:bold;'><span style="font-style:italic;">RegNum</span> - The international clade names repository</span>
+          <%#= image_tag("pin_icon.gif",:onclick=>"oBM('url=#{request.request_uri}')") %>
+        </p>
+
+
+      </div>      
+    
+        <%#= raw(generate_sub_subtabs) if logged_in?  %>
+     
+        
+                <p align="center" id="notice" class="status-msg">
+                    <%= flash[:notice] ||  flash[:error] %>
+                </p>
+                <div style="width:50%;margin: auto auto;font-weight:bold;font-size:15px;line-height:1.5em;text-align:justify;">
+                  Welcome to Phyloregnum.org. Phyloregnum is a repository for new and existing phylogenetic clade names. Use the search box below to find regesitered clade names. All names listed here have been reviewed and approved by authority reviewers. If you are interested in submitting clade name(s) for review, you may register for an account <a href="/signup">here</a>.
+                </div>
+                <%= yield %>
+         
+         
+         <div style="font-size:8px;font-weight:bold;text-align:center;padding-top:5px;color:#666;clear:both;"><p>phyloregnum.org 2013</p></div>
+     
+
+    </div>
+
+
+    <div id="float-window-holder" style="display:none;">
+      <!--<div class="window-title-bar" >
+        <div style="margin:8px 10px 0px 10px;">
+          <span style="text-transform:capitalize;" id="window-for-text"></span>
+          <div class="close-button" title="close window" onclick="jQuery('#float-window-holder').fadeOut();">X</div>
+        </div>
+      </div>-->
+      <div  id="float-window-content-holder" ></div>
+    </div>
+    <%#= draggable_element "float-window-holder" %>
+	<%#= render(:partial=>"issues/feedback", :layout=>false) if logged_in?%>
+    
+      <form id="login-box" action="/authenticate" method="post" style="display:none;">
+        <table>
+          <tr>
+             <td>Email</td>
+          </tr>
+          <tr>
+            <td><input type="text" name="account[email]" size="20" /></td>
+          </tr>
+          <tr>
+             <td>Password</td>
+          </tr>
+          <tr>
+            <td><input type="password" name="account[password]" size="20" /></td>
+          </tr>
+          <tr>
+            <td><input type="submit" value="login" /></td> 
+          </tr>
+        </table>
+      </form>
+   
+    <!-- include javascript for defining behavior of page elements - unobtrusive javascript -->
+    <% if FileTest.exists?("public/javascripts/#{controller.controller_name}/#{controller.action_name}.js") %>
+      <%= javascript_include_tag controller.controller_name + '/' + controller.action_name %>
+    <% end %>
+  </body>
+</html>

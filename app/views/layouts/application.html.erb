@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>  <%= controller.controller_name%> : <%= controller.action_name %></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <%= stylesheet_link_tag 'tabs', 'basic', 'shared', 'display', 'jquery-ui-humanity', 'cladename', 'autocomplete','characters' %>
+    <!-- include customized style sheets for each controller if they exist -->
+    <% if FileTest.exists?("public/stylesheets/#{controller.controller_name}.css") %>
+      <%= stylesheet_link_tag controller.controller_name %>
+    <% end %>
+
+
+    <%#= javascript_include_tag :defaults  %>
+    <%= javascript_include_tag 'jquery.js'  %>
+    <%= javascript_include_tag 'jquery.form.js'  %>
+    <%= javascript_include_tag 'jquery-ui.min.js'  %>
+    <script>
+       //make jquery relinquish control of $ so we don't conflict
+       //with prototype or other libs.
+       jQuery.noConflict();
+    </script>
+    <%= javascript_files_to_use %>
+    <%#= javascript_include_tag 'create_cladename.js'  %>
+    <%#= javascript_include_tag 'list_submissions.js'  %>
+    <% if FileTest.exists?("public/javascripts/#{controller.controller_name}.js") %>
+      <%= javascript_include_tag controller.controller_name %>
+    <% end %>
+
+    <%= csrf_meta_tag %>
+    <%= javascript_tag "var AUTH_TOKEN = '#{form_authenticity_token}';" if protect_against_forgery? %>
+  </head>
+  <body>
+    <div id="container">
+      <div id="pageheader">
+        <p align="center">
+          <%= image_tag "tolkin_logo.png" %>
+          <span style='font-size:20px;font-weight:bold;'><span style="font-style:italic;">RegNum</span> - The international clade names repository</span>
+          <%#= image_tag("pin_icon.gif",:onclick=>"oBM('url=#{request.request_uri}')") %>
+        </p>
+
+          <p align="right">
+            <% if logged_in? %>
+              Logged in as <span style="color:blue"><%= current_user.email  %></span><br/>
+                <%=link_to 'account', '/accounts/'+current_user.id.to_s %> | <%=link_to 'logout', '/logout'%>
+            <% else %>
+                <%=link_to 'login', '/login'%>
+            <% end %>
+          </p>
+
+      </div>      
+      <%#=raw("<div/>")%>
+      <%= raw(generate_tabs )%>
+      <div id="main">
+        <%= raw(generate_subtabs) if logged_in?  %>
+       
+        <!--  <input id="help-button" type="button" value="?" class="button" />-->
+  
+      </div>
+        <%#= raw(generate_sub_subtabs) if logged_in?  %>
+      <div id="contents_wrapper">
+         <div id="contents" >
+                <p align="center" id="notice" class="status-msg">
+                    <%= flash[:notice] ||  flash[:error] %>
+                </p>
+                <%= yield %>
+         
+         </div>
+         <div style="font-size:8px;font-weight:bold;text-align:center;padding-top:5px;color:#666;"><p>phyloregnum.org 2013</p></div>
+      </div>
+      
+
+       <div id="modal-window" style="display:none;">
+         <form id="resource_search_form" action="/search_res" method='get'>
+           <input type="hidden" name="resource" id="dialog_resource" />
+           <input type="text" name="search" size="20" id="dialog_search" /> <input type="submit" value="Search" id="dialog-search-button" disabled/>
+         </form>
+         <div id="specifier-resource-list" style="overflow:auto;text-align: center;margin-top:5px;">
+
+         </div>
+
+         <!--<input id="outlink_autocomplete_search" name="outlink_search_field" type="text" size="20" /> -->
+       </div>
+    </div>
+
+    <div id="float-window-holder" class="float-window" style="display:none;">
+      <div class="float-window-content" id="float-window-content-holder" ></div>
+    </div>
+    <div id="modal-message-window" style="display:none;">
+      <div style="height:80px;overflow:auto;text-align: center;margin-top:5px;">
+            <img src="/images/ajax-loader.gif"  />
+            <div style="font-weight:bold;margin:20px 10px;">Loading...</div>
+      </div>
+    </div>
+
+    <%#= draggable_element "float-window-holder" %>
+	<%#= render(:partial=>"issues/feedback", :layout=>false) if logged_in?%>
+
+
+   <!-- include javascript for defining behavior of page elements - unobtrusive javascript -->
+   <% if FileTest.exists?("public/javascripts/#{controller.controller_name}/#{controller.action_name}.js") %>
+      <%= javascript_include_tag controller.controller_name + '/' + controller.action_name %>
+    <% end %>
+  </body>
+</html>

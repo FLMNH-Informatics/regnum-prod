@@ -1,0 +1,14 @@
+<!-- <div id="windowtitle" class="windowtitle">
+    <table  width="100%"><tr><td><span id="title1" class="title">Create Character State</span>
+      </td><td valign="top" align="right">&nbsp;&nbsp;&nbsp; <span id="closebutton" class ="closebutton" onClick="window_close();"><a href="javascript:void(0)"> X </a></span></td></tr></table>
+  </div>
+-->
+<form action="/characters/<%=params[:character_id].to_s%>/states" method="post">
+  <table>
+    <tr><td>Symbol</td><td><input type="text" name="state[polarity]" /></td></tr>
+    <tr><td>State</td><td><input type="text" name="state[name]" /></td></tr>
+    <tr><td>Description</td><td><textarea name="state[description]" cols=30 rows=6></textarea></td></tr>
+    <tr><td></td><td><input type="submit" value="Save" />&nbsp;<input type="button" value="Cancel"  onClick="window_close();" /></td></tr>
+  </table>
+  <input type="hidden" id="authenticity_token" name="authenticity_token" value=<%="#{form_authenticity_token}"%> />
+</form>

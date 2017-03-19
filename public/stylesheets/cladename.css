@@ -1,0 +1,39 @@
+#type-tab-div>table, #name-tab-div table, #definition-tab-div table{
+  margin:5px;
+  width:98%;
+
+}
+.section-tab{
+   padding-bottom:1px;
+}
+.section-tab:hover{
+	cursor:pointer;
+}
+.ui-accordion-header{
+	padding-left:20px;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	overflow:hidden;
+	max-width:700px;
+}
+.ui-accordion-content{
+	border:1px solid #ccc;
+	max-width:700px;
+	padding: 10px;
+	margin:0px;
+}
+#submission_content #view-tabs{}
+
+#clade-name{
+	min-width:97%;
+	text-align:center;
+	font-weight:bold;
+	font-size:16px;
+	background-color:#fff;
+	padding:10px;
+	border-radius:3px;
+	border:1px solid #999;
+}
+.status-change-div .ui-accordion-header{
+	background-color:#BDEEFF;
+}

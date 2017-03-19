@@ -1,0 +1,13 @@
+<%=render :partial => "search_box"  , :locals => {:search_path => preexistingname_search_index_path}%>
+<table>
+    <tr class="h">
+        <th class="h">
+            Taxon Name
+        </th>
+        <th class="h">
+          Author
+        </th>
+  </tr>
+<%=render :partial => "preexistingname_record" ,  :collection => @preexistingnames %>
+</table>
+<%= will_paginate @preexistingnames %>

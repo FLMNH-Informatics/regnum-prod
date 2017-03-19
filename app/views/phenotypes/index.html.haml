@@ -1,0 +1,58 @@
+#new-clanename-window
+  #new-cladename-tabs
+    %ul{:style => "margin:0px;"}
+      %li#tab1.active-tab.tab Select Ontologies 
+      %li#tab3.tab Build Phenotypes
+      %li#tab4.tab{:style => 'display:none;'} Your Registered Phenotypes
+      %li#tab5.tab{:style => 'display:none;'} Search All Phenotypes
+      %li#spinner{:style=>"border:none;background:none;display:none;"}
+        %img{:src=>"/images/ajax-loader.gif"} &nbsp;&nbsp;saving...
+  #new-cladename-content{:style => "padding:5px;width:90%;"}
+    #tab1-div
+      #bioportal_ontologies{:style => 'margin:40px 20px;float:left;'}
+        %span{:style => 'font-size:12px;font-weight:bold;'} BioPortal Ontologies Available
+        %input#import_button{:type => 'button', :value => '>> Import >>', :style => 'margin-left:20px;'}
+        %div
+          %table{:style => 'width:100%;'}
+            %tr{:style => 'background-color:transparent;border:none;text-align:left;'}
+              %th{:style => 'width:5%;'} 
+              %th{:style => 'width:8%;'} ID
+              %th{:style => 'width:35%;'} Abbr.
+              %th Label        
+          %div{:style => 'height:400px;overflow:auto;border:2px solid #ccc;border-radius:3px;'}
+            %table#ontology_list_table{:style => 'border:2px solid #ddd;text-align:left;background-color:#eee;'}
+              %tbody{ :'data-bind' => 'foreach: ko.ontologyModel.ontologies.currentPageData()'}
+                %tr{:style => ""}
+                  %td{:style => 'width:30px;'}
+                    %input{:type => 'checkbox', :'data-bind' => "attr: { 'data-id': bioportal_id}"}
+                  %td{:style => 'width:50px;', :'data-bind' => 'text: bioportal_id'}
+                  %td{:style => 'width:150px;', :'data-bind' => 'text: abbreviation'}
+                  %td{:style => 'width:250px;', :'data-bind' => 'text: ontology.label'}
+              
+      #imported_ontologies{:style => 'float:left;margin:40px 20px;'}  
+        %span{:style => 'font-size:12px;font-weight:bold;'} Ontologies In Use
+        %input#remove_button{:type => 'button', :value => '<< Remove <<', :style => 'margin-left:20px;'} 
+        %div
+          %table{:style => 'width:100%;'}
+            %tr{:style => 'background-color:transparent;border:none;text-align:left;'}
+              %th{:style => 'width:5%;'} 
+              %th{:style => 'width:8%;'} ID
+              %th{:style => 'width:35%;'} Abbr.
+              %th Label   
+          %div{:style => 'height:400px;overflow:auto;border:2px solid #ccc;border-radius:3px;'}
+            %table#imported_ontology_table{:style => "background-color:#eee;"}
+              %tr{:style => 'background-color:transparent;border:none;'}
+                %th
+                %th ID
+                %th Abbr.
+                %th Label  
+              %tbody{ :'data-bind' => 'foreach: ko.ontologyModel.imported'}
+                %tr{:style => 'text-align:left'}
+                  %td{:style => 'width:30px;'}
+                    %input{:type => 'checkbox'}
+                  %td{:style => 'width:50px;', :'data-bind' => 'text: bioportal_id'}
+                  %td{:style => 'width:150px;', :'data-bind' => 'text: abbreviation'}
+                  %td{:style => 'width:250px;', :'data-bind' => 'text: ontology.label'}
+
+    #tab3-div{:style=>"display:none;margin-left:5px"}
+      = render :partial => "phenotypes_builder"

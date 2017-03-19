@@ -1,0 +1,13 @@
+%table#phylogeny.sortable-table
+  %thead
+    %tr{:style => 'background-color:white;'}
+      %th{:style => 'width:100px;'}Type
+      %th{:style => 'width:200px;'}Title
+      %th{:style => 'width:200px;'}Author(s)
+      %th{:colspan => '2', :style => 'width:90px;'}actions
+  %tbody
+    %tr{:class => 'odd-row'}
+      %td{:colspan => '3', :style => 'font-style:italic;text-align:center;font-weight:normal;color:darkred'}
+        One or more references required
+      %td
+        %input{:type => 'button', :class => 'submit_button add', :value => 'add'}

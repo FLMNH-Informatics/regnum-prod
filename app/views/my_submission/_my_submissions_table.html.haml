@@ -1,0 +1,27 @@
+.sortable-table-div
+  %table.sortable-table
+    %tr.sortable-table-header-row
+      %th.sortable.table-header-link{}= table_sort_header('name')
+      %th.sortable.table-header-link{:style => 'width:100px;'}= table_sort_header('status_id','status')
+      %th{:colspan => '3', :style => 'width:120px;'}
+    %tbody
+      -@subs.each do |sub|
+        -id = (sub.status.returned? || sub.status.unsubmitted?) ? sub.id.to_s : sub.id.to_s + '_locked'
+        %tr{:class => cycle('odd-row','even-row'), :id => id, }
+          %td= sub.name
+          %td= sub.status.status    
+          %td{ :style => 'width:40px'}
+            =form_for sub, :url => '/search/'+ sub.id.to_s, :method => :get do |s|
+              %input.submit_button{:type => 'submit', :value => 'view'}    
+          %td{ :style => 'width:40px'}
+            -if !sub.status.eq?('approved')  && !sub.status.eq?('rejected')  && !sub.status.eq?('submitted')       
+              =form_for sub, :method => :get, :url => '/my_submission/'+ sub.id.to_s do |s|
+                %input.submit_button{:type => 'submit', :value => 'edit', :title => 'click to edit'}
+          %td{ :style => 'width:50px'}  
+            -if !sub.status.eq?('approved')  && !sub.status.eq?('rejected')  && !sub.status.eq?('submitted')  
+              =form_for sub, :method => :delete, :url => '/my_submission/delete/'+ sub.id.to_s do |s|
+                %input.submit_button{:type => 'submit', :value => 'delete', :title => 'click to delete'}
+      %tr
+        %td{:colspan => 5, :style => 'text-align:center;border:none'}= will_paginate(@subs, :renderer => RemoteLinkRenderer, :container => false,          :params => {:controller => :my_submission, :action => nil}) 
+      %tr
+        %td{:colspan => 5, :style => 'text-align:center;border:none'}= page_entries_info @subs, {:model => 'clade names'}

@@ -1,0 +1,93 @@
+<input type="hidden" name="citation_for" id="new_citation_for"/>
+<input type="hidden" id="phylogeny_table_citation_id" value="new" />
+
+<form id="new-citation-form-entry" action="#">
+  <table>
+    <tr>
+      <td colspan="2">Type:</td><td colspan="2">Author(s):</td><td></td> 
+    </tr>
+    <tr>
+      <td colspan="2"><select id="new_citation_type" name="citation_type">
+        <option value="book">Book</option>
+        <option value="journal" selected>Journal</option>
+        <option value="book_section">Book Section</option>
+      </select></td>
+      <td colspan="2"><input type="text" size="25" id="new_citation_authors" name="citation_authors"/></td>
+    </tr>
+    
+    <tr class="journal_inputs">
+      <td colspan="2">Journal:</td><td colspan="2">Article Title:</td>
+    </tr>
+    <tr class="journal_inputs">
+      <td colspan="2"><input class="journal_inputs" type="text" size="25" id="new_journal" name="journal" /></td>
+      <td colspan="2"><input class="journal_inputs" type="text" size="25" id="new_title" name="title" /></td>
+    </tr>
+   
+    <tr>
+      <td >Figure #:</td><td>Year:</td><td class="other_inputs">Volume:</td><td class="journal_inputs">Number:</td>
+    </tr>
+    <tr>
+      <td >
+        <input type="text" size="3" id="new_figure" name="figure"/>&nbsp;&nbsp;
+      </td>
+      <td>
+        <input type="text" size="10" id="new_year" name="year" />&nbsp;&nbsp;
+      </td>
+      <td class="other_inputs">
+        <input class="other_inputs" type="text" size="10" id="new_volume" name="volume"/>&nbsp;&nbsp;
+      </td>
+      <td class="journal_inputs">
+        <input class="journal_inputs" type="text" size="10" id="new_number" name="number"/>&nbsp;&nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td>Pages:</td><td>Keywords:</td><td>ISBN/ISSN:</td>
+    </tr>
+    <tr>
+      <td>
+        <input type="text" size="10" id="new_pages" name="pages"/>&nbsp;&nbsp;
+      </td>
+      <td>
+        <input type="text" size="10" id="new_keywords" name="keywords"/>&nbsp;&nbsp;
+      </td>
+      <td>
+        <input type="text" size="10" id="new_isbn" name="isbn"/>&nbsp;&nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">URL:</td><td>DOI:</td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <input type="text" size="25" id="new_url" name="url"/>&nbsp;&nbsp;
+      </td>
+      <td colspan="2">
+        <input type="text" size="25" id="new_doi" name="doi"/>&nbsp;&nbsp;
+      </td>
+    </tr>
+
+    <tr class="treebase-outlink">
+       <td colspan="2"><img class="outlink" id="treebase_tree_outlink_img" src="/images/treebase.gif" title="Search TreeBase" />&nbsp;<span id="treebase_tree_id_link">TreeBase Tree ID:</span></td>
+     </tr>
+    <tr class="treebase-outlink">
+      <td colspan="2" class="phylogeny-citation">
+        <input class="phlyogeny-citation" type="text" size="25" id="new_treebase_tree_id" name="treebase_tree_id"/>&nbsp;&nbsp;
+      </td>
+    </tr>
+
+  </table>
+</form>
+<table style="font-weight:bold;">
+  <tr>
+    <td colspan="2">Attachment:</td>
+
+  </tr>
+  <tr>
+    <td colspan="2" id="citation-attachment-cell" style="width:300px;">
+      <form id="remote-attachment-form"  enctype="multipart/form-data" action="/my_submission/add_attachment" method="post">
+        <input type="file" id="new_remote_attachment" name="file" />
+      </form>
+    </td>
+    
+  </tr>
+</table>

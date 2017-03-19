@@ -1,0 +1,65 @@
+#deletediv {
+border:2px solid #CDCDCD;
+float:right;
+margin:5px;
+padding:3px;
+position:relative;
+width:13%;
+z-index: 0;
+left: -6px;
+top: 10px;
+}
+
+div.windowtitle {
+background-color:#FFF3B3;
+border-bottom:1px solid #CCCCCC;
+font-family:tahoma,verdana,sans-serif;
+font-size:85%;
+font-weight:bolder;
+height:20px;
+padding-left:5px;
+padding-right:5px;
+}
+
+.listmain {
+font-family:tahoma,verdana,sans-serif;
+font-size:85%;
+line-height:20px;
+list-style-image:none;
+list-style-position:outside;
+list-style-type:none;
+text-decoration:none;
+text-indent:10px;
+}
+
+body, div, td, th, h2, h3, h4 {
+color:#333333;
+font-family:verdana,sans-serif;
+font-size:small;
+voice-family:inherit;
+}
+
+
+div.autocomplete {
+  position:absolute;
+  width:250px;
+  background-color:white;
+  border:1px solid #888;
+  margin:0;
+  padding:0;
+}
+div.autocomplete ul {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+div.autocomplete ul li.selected { background-color: #ffb;}
+div.autocomplete ul li {
+  list-style-type:none;
+  display:block;
+  margin:0;
+  padding:2px;
+  height:32px;
+  cursor:pointer;
+}
+

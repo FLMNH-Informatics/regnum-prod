@@ -1,0 +1,45 @@
+.new_account_box
+  Sign up as a new user
+  %form{ :action => '/accounts', :method => 'post' }
+    %table{:style => 'font-weight:bold;margin:20px;'}
+      %tr
+        %td First Name:
+      %tr
+        %td
+          %input{:type => 'text', :name => "account[first_name]"}
+      %tr
+        %td Last Name:
+      %tr
+        %td
+          %input{:type => 'text', :name => "account[last_name]"}
+      %tr
+        %td Email:
+      %tr
+        %td
+          %input{:type => 'text', :name => "account[email]"}
+      %tr
+        %td Institution:
+      %tr
+        %td
+          %input{:type => 'text', :name => "account[institution]"}
+      %tr
+        %td Password:
+      %tr
+        %td
+          %input{:type => 'password', :name => "account[password]"}
+      %tr
+        %td Password Confirmation:
+      %tr
+        %td
+          %input{:type => 'password', :name => "account[password_confirmation]"}
+      %tr
+        %td Enter phrase below:
+      %tr
+        %td{:style => 'float:left'}= recaptcha_tags
+
+      %tr
+        %td{:style => 'padding-top:20px;text-align:right;'}
+          %input{:type => 'submit', :value => "submit" , :class => 'button', :style => "border:1px solid #999;"}
+  %a{:style => 'font-size:10px;',:href => '/login'} return to login
+
+

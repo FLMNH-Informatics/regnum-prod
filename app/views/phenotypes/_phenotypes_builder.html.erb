@@ -1,0 +1,29 @@
+<%= render :partial => "characters/query_string" , :locals => {:search_string => params[:query] , :action => "/characters" } %>
+<div id="characters-table-holder">
+  <%= render :partial => "phenotypes/characters_table" %>
+</div>
+<div id="right_panel" style="width:200px;float:right;">
+  <div class="windowtitle">Options</div>
+  <ul class="listmain">
+    <li class=""><a id="new-character" href="javascript:void(0)">New Character</a></li>
+    <!--<li class="characterOption"><a onclick="edit_character()" href="javascript:void(0)">Edit Character</a></li>-->
+    <li class="characterOption"><a id="delete-character"  href="javascript:void(0)">Delete Character</a></li>
+    <li class="characterOption"><a id="new-state"  href="javascript:void(0)">New State</a></li>
+    <!--<li class="stateOption"><a onclick="edit_state()" href="javascript:void(0)">Edit State</a></li>-->
+    <li class="stateOption"><a id="delete-state"  href="javascript:void(0)">Delete State</a></li>
+    <li class="stateOption"><a id="new-phenotype"  href="javascript:void(0)">New Phenotype</a></li>
+    <!--<li class="phenotypeOption"><a onclick="edit_phenotype()" href="javascript:void(0)">Edit Phenotype</a></li>-->
+    <li class="phenotypeOption"><a id="delete-phenotype"  href="javascript:void(0)">Delete Phenotype</a></li>
+  </ul>
+</div>
+<!--
+<div id="div_char_window" class="window"></div>
+
+<div id="bottom"></div>
+
+<div id="overlay"></div>
+-->
+<div id="auto_complete"></div>
+<div id="auto_complete_tooltip"></div>
+
+

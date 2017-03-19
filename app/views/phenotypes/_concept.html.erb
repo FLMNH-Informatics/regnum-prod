@@ -1,0 +1,7 @@
+<h2><%= @concept.terms.select{|term| term.preferred }.first.term %></h2>
+[<%= @concept.bioportal_id%>]
+<p><%= @concept.definition%></p>
+<%= render :partial => "dl_group", :locals => { :type => :terms, :title => 'Synonyms:', :id => 'synonyms' } %>
+<%= render :partial => "dl_group", :locals => { :type => :relationships, :title => 'Parents:', :id => 'parents', :super_sub => '1' } %>
+<%= render :partial => "dl_group", :locals => { :type => :relationships, :title => 'Children:', :id => 'children', :super_sub => '0' } %>
+<%= render :partial => "dl_group", :locals => { :type => :relationships, :title => 'Relationships:', :id => 'relationships', :super_sub => nil } %>

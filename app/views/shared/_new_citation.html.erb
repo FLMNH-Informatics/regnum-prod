@@ -1,0 +1,122 @@
+<input type="hidden" name="citation_for" id="new_citation_for"/>
+<input type="hidden" id="phylogeny_table_citation_id" value="new" />
+
+<form id="new-citation-form-entry" action="#">
+  <table>
+    <tr>
+      <td >Type:</td><td colspan="2">Author(s):</td><td></td> <td style="text-align:right;"><input type="button" id="citation_save_button" value="Save" /></td>
+    </tr>
+    <tr>
+      <td><select id="new_citation_type" name="citation_type">
+        <option value="book">Book</option>
+        <option value="journal">Journal</option>
+        <option value="book_section">Book Section</option>
+      </select></td>
+      <td colspan="2"><input type="text" size="25" id="new_citation_authors" name="citation_authors"/></td>
+    </tr>
+    <tr class="book_inputs">
+      <td colspan="2" >Title:</td> <td colspan="2" >Publisher:</td>
+    </tr>
+    <tr class="book_inputs">
+      <td colspan="2"><input class="book_inputs" type="text" size="25" id="new_title" name="title"/></td>
+      <td colspan="2" ><input class="book_inputs" type="text" size="25" id="new_publisher" name="publisher"/>&nbsp;&nbsp;  </td>
+    </tr>
+    <tr class="journal_inputs">
+      <td colspan="2">Journal:</td><td colspan="2">Article Title:</td>
+    </tr>
+    <tr class="journal_inputs">
+      <td colspan="2"><input class="journal_inputs" type="text" size="25" id="new_journal" name="journal" /></td>
+      <td colspan="2"><input class="journal_inputs" type="text" size="25" id="new_article_title" name="article_title" /></td>
+    </tr>
+    <tr class="book_inputs">
+      <td colspan="2">Book Editors:</td><td class="book_section_inputs" colspan="2">Series Editors:</td>
+    </tr>
+    <tr class="book_inputs">
+
+      <td colspan="2">
+        <input class="book_inputs" type="text" size="25" id="new_book_editors" name="book_editors"/>&nbsp;&nbsp;
+      </td>
+      <td  colspan="2">
+        <input class="book_section_inputs" type="text" size="25" id="new_series_editors" name="series_editors"/>&nbsp;&nbsp;
+      </td>
+    </tr>
+    <tr>
+          <td >Figure #:</td><td>Year:</td><td class="book_inputs">Edition:</td><td class="book_section_inputs">Num. of Vol.:</td><td class="book_inputs">City:</td><td class="other_inputs">Volume:</td><td class="journal_inputs">Number:</td>
+    </tr>
+    <tr>
+      <td >
+        <input type="text" size="3" id="new_figure" name="figure"/>&nbsp;&nbsp;
+      </td>
+      <td>
+        <input type="text" size="10" id="new_year" name="year" />&nbsp;&nbsp;
+      </td>
+      <td class="book_inputs">
+        <input class="book_inputs" type="text" size="10" id="new_edition" name="edition"/>&nbsp;&nbsp;
+      </td>
+      <td class="book_section_inputs">
+        <input class="book_section_inputs" type="text" size="10" id="new_volumes" name="volumes"/>&nbsp;&nbsp;
+      </td>
+      <td class="book_inputs">
+        <input class="book_inputs" type="text" size="10" id="new_city" name="city"/>&nbsp;&nbsp;
+      </td>
+      <td class="other_inputs">
+        <input class="other_inputs" type="text" size="10" id="new_volume" name="volume"/>&nbsp;&nbsp;
+      </td>
+      <td class="journal_inputs">
+        <input class="journal_inputs" type="text" size="10" id="new_number" name="number"/>&nbsp;&nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td>Pages:</td><td>Keywords:</td><td>Abstract:</td><td>ISBN/ISSN:</td>
+    </tr>
+    <tr>
+      <td>
+        <input type="text" size="10" id="new_pages" name="pages"/>&nbsp;&nbsp;
+      </td>
+      <td>
+        <input type="text" size="10" id="new_keywords" name="keywords"/>&nbsp;&nbsp;
+      </td>
+      <td>
+        <input type="text" size="10" id="new_abstract" name="abstract"/>&nbsp;&nbsp;
+      </td>
+      <td>
+        <input type="text" size="10" id="new_isbn" name="isbn"/>&nbsp;&nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">URL:</td><td>DOI:</td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <input type="text" size="25" id="new_url" name="url"/>&nbsp;&nbsp;
+      </td>
+      <td colspan="2">
+        <input type="text" size="25" id="new_doi" name="doi"/>&nbsp;&nbsp;
+      </td>
+    </tr>
+
+    <tr class="phylogeny-citation">
+       <td><img class="outlink" id="treebase_tree_outlink_img" src="/images/treebase.gif" title="Search TreeBase" />&nbsp;<span id="treebase_tree_id_link">TreeBase Tree ID:</span></td>
+     </tr>
+    <tr class="phylogeny-citation">
+      <td colspan="2" class="phylogeny-citation">
+        <input class="phlyogeny-citation" type="text" size="25" id="new_treebase_tree_id" name="treebase_tree_id"/>&nbsp;&nbsp;
+      </td>
+    </tr>
+
+  </table>
+</form>
+<table style="font-weight:bold;">
+  <tr>
+    <td colspan="2">Attachment:</td>
+
+  </tr>
+  <tr>
+    <td colspan="2" id="citation-attachment-cell" style="width:300px;">
+      <form id="citation-attachment-form"  enctype="multipart/form-data" action="/my_submission/add_attachment" method="post">
+        <input type="file" id="new_citation_attachment" name="file" />
+      </form>
+    </td>
+    
+  </tr>
+</table>

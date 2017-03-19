@@ -1,0 +1,21 @@
+%table#specifier-select-table.select-table{:style => 'width:98%;'}
+  -@results.each do |result|
+    %tr.select-row{:id => result['value']}
+      %td
+        %a.expander
+          [&#43;]
+      %td=result['label']
+      %td=result['value']
+    %tr{:style => 'display:none'}
+      %td{:colspan => 3}
+        %table
+          %tr
+            %td 
+              Basionym: 
+              =result['basionymUnit']
+            %td 
+              Rank: 
+              =result['rankName']
+            %td 
+              Package: 
+              =result['packageName']

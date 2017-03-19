@@ -1,0 +1,31 @@
+%div{:style => "font-size:14px;font-weight:bold;text-align:center;margin:20px auto 5px auto;width:580px;padding:5px;"} 
+  -if logged_in? 
+    Search all approved and submitted clade names
+  -else
+    Search all approved clade names
+.public-search-box{:style => "width:#{logged_in? ? '380px' : '580px'};margin:5px auto 40px auto;height:60px;display:block;"}	
+  .content_box{:style => 'float:left;margin:20px 10px;height:100%;'}
+    %form{:action => search_path, :id => 'search_form' }
+      %table{:style => 'width:100%'}
+        %tr
+          %td.content_title RegNum search:
+        %tr
+          %td{:style => 'text-align:left;'}           
+            %input{:type => :text, :size => 25, :name => 'term', :style => 'height:26px;font-size:1.0em;'}
+          %td{:style => 'text-align:right;'}
+            %input{:type => :submit, :value => 'search', :id => 'search_button', :class => 'button'}
+  - if !logged_in?
+    #link-box.content_box{:style => 'float:left;margin:20px 10px;width:140px;padding:10px 14px 10px 14px;height:100%;'}
+      %table{:style => 'width:100%;text-align:left;'}
+        %tr
+          %td
+            %a#sign-in-link.bold{:href => '/login'} Sign In
+        %tr
+          %td
+            %a#sign-up-link.bold{:href => '/signup'} Create Account  
+        %tr
+          %td
+            %a#sign-up-link.bold{:href => '/faq'} FAQ
+.sortable-table-holder
+
+

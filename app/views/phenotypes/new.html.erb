@@ -1,0 +1,22 @@
+<!-- <div id="windowtitle" class="windowtitle">
+  <table  width="100%"><tr><td><span id="title1" class="title">Create Phenotype</span>
+  </td><td valign="top" align="right">&nbsp;&nbsp;&nbsp; <span id="closebutton" class ="closebutton" onClick="window_close();"><a href="javascript:void(0)"> X </a></span></td></tr></table>
+</div>
+-->
+<form action="/phenotypes/create" method="post">
+
+  <select name="phenotype[entity_type]"  onchange="phenotype_selection(this, <%=params[:state_id]%>)">
+    <option value="0">Please select</option>
+    <option value="1">Presence / absence</option>
+    <option value="2">Count</option>
+    <option value="3">Qualitative</option>
+    <option value="4">Measurement</option>
+  </select>
+
+  <div id="phenotype_details">
+  </div>
+
+  <input type="submit" value="create" />
+
+  <input type="hidden" id="authenticity_token" name="authenticity_token" value=<%="#{form_authenticity_token}"%> />
+</form>

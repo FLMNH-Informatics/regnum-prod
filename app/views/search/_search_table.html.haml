@@ -1,0 +1,22 @@
+#search_table_div.sortable-table-div
+  %table.sortable-table{:id => 'search_table' }
+    %tr.sortable-table-header-row{:style => 'background-color:#D4E8FF'}
+      %th.sortable.table-header-link{:style => 'width:170px;'} 
+        =table_sort_header('name', 'clade name')
+      -if current_user && current_user.is_user?
+        %th.sortable.table-header-link
+          =table_sort_header('status_id', 'status')
+      %th.sortable.table-header-link
+        =table_sort_header('name_string')
+    -@sub.each do |s|
+      %tr.data-row{:class => cycle('odd-row','even-row'), :id => s.id }
+        %td= s.name
+        -if current_user && current_user.is_user?
+          %td= s.status.status
+        %td{:style => 'max-width:220px;'}= s.name_string
+    %tr
+      %td{:colspan => 3, :style => 'text-align:center;padding:3px;border:none;'}
+        = will_paginate @sub, :renderer => RemoteLinkRenderer
+    %tr
+      %td{:colspan => 3, :style => 'text-align:center;padding:1px;border:none;'}
+        = page_entries_info @sub, {:model => 'clade names'}

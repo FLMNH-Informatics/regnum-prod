@@ -1,0 +1,34 @@
+.sortable-table-div  
+  %table.sortable-table
+    %tr.sortable-table-header-row
+      %th.name.sortable.table-header-link{:style=>'width:170px;'}=table_sort_header('last_name', 'name')
+      %th.name.sortable.table-header-link{:style=>'width:80px;'}=table_sort_header('role_id', 'role')
+      %th.name.sortable.table-header-link{:style=>'width:90px;'}=table_sort_header('enabled')
+      %th.name.sortable.table-header-link{:style=>'width:200px;'}=table_sort_header('last_login')
+      %th{:style=>'width:40px;color:#333;text-align:center;', :colspan => 3} 
+    -@users.each do |user|
+      %tr{:class => cycle('odd-row','even-row'), :id => user.id }
+        %td= user.last_name + ', ' + user.first_name
+        %td= user.role.name
+        %td= user.enabled
+        %td= user.last_login
+        %td
+          =form_for user, :method => 'get', :url => '/admin/users/'+ user.id.to_s+'?user_action=edit' do |s|
+            %input.submit_button{:type => 'submit', :value => 'edit', :title => 'click to edit'}
+        -if user.id != session[:user_id]
+          %td
+            - user.enabled ? enb = 'disable' : enb = 'enable'
+            =form_for user, :method => :put, :url => '/admin/users/'+ user.id.to_s+'?user_action='+enb do |s|
+              %input.submit_button{:type => 'submit', :value => enb, :title => 'click to '+enb}
+          %td
+            =form_for user, :method => :delete, :url => '/admin/users/'+ user.id.to_s+'?user_action=delete' do |s|
+              %input.submit_button{:type => 'submit', :value => 'delete', :title => 'click to delete user'}
+        -else
+          %td
+          %td
+    %tr
+      %td{:colspan => 7, :style => 'text-align:center;padding:1px;border:none;'}
+        = will_paginate @users, :params => {:controller => :admin, :action => nil}
+    %tr
+      %td{:colspan => 7, :style => 'text-align:center;padding:1px;border:none;'}
+        = page_entries_info @users, {:model => 'users'}

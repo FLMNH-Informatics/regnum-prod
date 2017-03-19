@@ -1,0 +1,81 @@
+<input type="hidden" id="specifier_table_entry_id" value="new" />
+<form id="new-specifier-form">
+
+<table style="float:left; clear:both; margin-top:0px;">
+  <tr style="font-weight:bold;">
+    <td>
+      Type:
+    </td>
+     <td>Kind:</td>
+      <td>Character Name:</td>
+  </tr>
+  <tr>
+    <td>
+      <select id="new_specifier_type" name="specifier_type">
+        <option id="species-option" value='species'>Species</option>
+        <option id="specimen-option" value='specimen'>Specimen</option>
+        <option id="apomorphy-option" value='apomorphy' selected>Apomorphy</option>
+      </select>
+    </td>
+    <td >
+      <!--<select name="kind" id="new_specifier_kind">
+        <option class="internal-spec" value="internal extant">Internal - Extant</option>
+        <option class="internal-spec" value="internal extinct">Internal - Extinct</option>
+        <option class="external-spec" value="external extant">External - Extant</option>
+        <option class="external-spec" value="external extinct">External - Extinct</option>
+      </select>-->
+      <select name="specifier_kind_type" id="new_specifier_kind_type">
+        <option value="specifier">Specifier</option>
+        <option value="qualifier">Qualifier</option>
+      </select>
+    </td>
+    <td><input type="text" class="specifier_apomorphies" size="17" id="new_specifier_character_name" name="specifier_character_name"/></td>
+  </tr>
+  <tr style="font-weight:bold" class="specifier_others">
+    <td><span class="specifier_apomorphies" style="font-size:9px">(as exhibited in)<br/></span>Taxon Name:</td>  <td>Author:</td><td>Year:</td> 
+  </tr>
+  <tr>
+    <td><input type="text" name="specifier_name" id="new_specifier_name" size="17"/></td>
+    <td><input type="text" name="specifier_authors" id="new_specifier_authors" size="17" /></td>
+    <td>
+       <input type="text" name="specifier_year" id="new_specifier_year" size="6" />
+    </td>
+  </tr>
+  <tr class="specifier_apomorphies" style="font-weight:bold;">
+      <td>Description:</td>
+  </tr>
+  <tr class="specifier_apomorphies" style="font-weight:bold;">
+      <td colspan="3"><textarea class="specifier_apomorphies" id="new_specifier_description" name="specifier_description" rows="7" cols="50" ></textarea></td>
+   </tr>
+  <tr style="font-weight:bold" class="specifier-outlinks">
+    <td><img class="outlink" id="ubio_outlink_img" src="/images/ubioLogo.png" title="Search UBIO" />&nbsp;<span id="ubio_id_link">UBIO ID:</span></td>
+    <td><img class="outlink" id="ncbi_outlink_img" src="/images/ncbiLogo.GIF" title="Search NCBI" />&nbsp;<span id="ncbi_id_link">NCBI ID:</span></td>
+    <td><img class="outlink" id="treebase_outlink_img" src="/images/treebase.gif" title="Search TreeBase" />&nbsp;<span id="treebase_id_link">TreeBase ID:</span></td>
+  </tr>
+  <tr>
+    <td>
+      <input  type="text" id="new_ubio_id" name="ubio_id" size="17" />
+    </td>
+    <td>
+      <input  type="text" id="new_ncbi_id" name="ncbi_id" size="17" />
+    </td>
+    <td>
+      <input  type="text" id="new_treebase_id" name="treebase_id" size="17" />
+    </td>
+  </tr>  
+</table>
+</form>
+<table style="font-weight:bold;">
+  <tr>
+    <td colspan="2">Attachment:</td>
+
+  </tr>
+  <tr>
+    <td colspan="2" id="specifier-attachment-cell" style="width:300px;">
+      <form id="remote-attachment-form"  enctype="multipart/form-data" action="/my_submission/add_attachment" method="post">
+        <input type="file" id="new_remote_attachment" name="file" />
+      </form>
+    </td>
+    
+  </tr>
+</table>

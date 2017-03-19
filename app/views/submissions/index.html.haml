@@ -1,0 +1,12 @@
+.content_box{:style => 'margin:20px auto;display:block;max-width:390px;'}
+  %form{:action => '/submissions', :method => :get }
+    %table{:style => 'width:100%'}
+      %tr
+        %td.bold Submissions Search: 
+      %tr
+        %td{:style => 'text-align:left;'} 
+          %input{:type => :text, :size => 25, :name => 'term', :style => 'height:27px;'}
+        %td{:style => 'text-align:right;'}
+          %input{:type => :submit, :value => 'search', :id => 'search-button', :class => 'button'}
+#submissions_table_div.sortable-table-holder
+  = render :partial => 'submissions/submissions_table'

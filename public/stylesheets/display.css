@@ -1,0 +1,453 @@
+.table-header {
+  background-color:   #8c8c8c;
+  color: #ffffff;
+}
+.h {
+  background-color:   #8c8c8c;
+  color: #ffffff;
+}
+.body-odd {
+  background-color:   #eeeeee;
+  color: #000000;
+}
+.body-even {
+  background-color:   #ffffff;
+  color: #000000;
+}
+
+.mh
+{
+    font-family: tahoma, verdana, sans-serif;
+    /* font-weight: bolder;*/
+    font-size: 70%;
+    background-color: #4e4e4e;
+    color: #fefefe;
+    padding: 3px;
+}
+
+.mh a {
+    text-decoration: none;
+    color: #fefefe;
+	cursor:pointer;
+}
+
+.my
+{
+    font-family: tahoma, verdana, sans-serif;
+    font-size: 80%;
+    background-color: #FFEC8B;
+}
+
+.mr
+{
+    font-family: tahoma, verdana, sans-serif;
+    font-size: 80%;
+    background-color: #FF0000;
+}
+
+.mg
+{
+    font-family: tahoma, verdana, sans-serif;
+    font-size: 80%;
+    background-color: #DCD9D8;
+}
+
+.mb
+{
+    font-family: tahoma, verdana, sans-serif;
+    font-size: 80%;
+    background-color: #B0E2FF;
+}
+
+.mp
+{
+    font-family: tahoma, verdana, sans-serif;
+    font-weight: bolder;
+    font-size: 80%;
+    background-color: #FFB5C5;
+}
+
+th.h {
+  font-family: tahoma, verdana, sans-serif;
+  font-weight: bolder;
+  font-size: 80%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+th.nb {
+  font-family: tahoma, verdana, sans-serif;
+  font-weight: bolder;
+  font-size: 80%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-left-style: hidden;
+  border-right-style: hidden;
+
+}
+
+th.nb a {
+	text-decoration: none;
+}
+
+th.nrb {
+  font-family: tahoma, verdana, sans-serif;
+  font-weight: bolder;
+  font-size: 80%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-right-style: hidden;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: #fefefe;
+
+}
+
+th.nlb {
+  font-family: tahoma, verdana, sans-serif;
+  font-weight: bolder;
+  font-size: 80%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-left-style: hidden;
+
+}
+
+td.h {
+  font-family: tahoma, verdana, sans-serif;
+  font-weight: bolder;
+  font-size: 80%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+th.h a {
+  text-decoration: none;
+}
+
+td.h a {
+  text-decoration: none;
+}
+
+td.b {
+  font-family: tahoma, verdana, sans-serif;
+  font-size: 80%;
+  padding: 2px;
+}
+
+td.b a {
+  text-decoration: none;
+}
+
+td.btp {
+  font-family: tahoma, verdana, sans-serif;
+  font-size: 60%;
+  padding: 3px;
+  background-color: #fe4f4f;
+  width: inherit;
+  height: inherit;
+}
+
+td.bti {
+  font-family: tahoma, verdana, sans-serif;
+  font-size: 60%;
+  padding: 3px;
+  background-color: #fde481;
+  width: inherit;
+  height: inherit;
+}
+
+td.btc {
+  font-family: tahoma, verdana, sans-serif;
+  font-size: 60%;
+  padding: 3px;
+  background-color: #9be6fd;
+  width: inherit;
+  height: inherit;
+}
+
+td.btp a {
+  text-decoration: none;
+}
+
+td.bti a {
+  text-decoration: none;
+
+}
+
+td.btc a {
+  text-decoration: none;
+}
+
+#contentpane  {
+  width: 84%;
+  position: relative;
+
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+h5.reducedpadding {
+
+    padding-top: 3px;
+    padding-bottom: 8px;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+h4.reducedpadding {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+#navpane {
+  float: right;
+  width: 13%;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #cdcdcd;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.listmain {
+  list-style: none;
+  font-family: tahoma, verdana, sans-serif;
+  text-decoration: none;
+  font-size: 85%;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-left: 2px;
+  margin-right: 2px;
+  line-height: 20px;
+  text-indent: 10px;
+}
+
+div.sectiontitle {
+  display: block;
+  padding-top: 2px;
+  padding-bottom: 4px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+
+span.titletext {
+  padding-bottom: 3px;
+  font-family: tahoma, verdana, sans-serif;
+  font-size: 80%;
+  font-weight: bold;
+}
+
+span.bodytext {
+  font-family: tahoma, verdana, sans-serif;
+  font-size: 80%;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
+
+}
+
+span.bodytext a {
+  text-decoration: none;
+  font-family: tahoma, verdana, sans-serif;
+
+}
+
+span.pagetitletext {
+  font-family: tahoma, verdana, sans-serif;
+  font-size: 85%;
+}
+
+div.detailsdiv {
+  display: table-cell;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+div.statecodings {
+  width:98%;
+
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin-bottom: 2px;
+}
+
+div.leftcolumn {
+  width: 5%;
+  float: left;
+}
+div.rightcolumn {
+  width: 100%;
+  height:735px;
+  position:relative;
+  margin:0 auto;
+  border:0px;
+  overflow:auto;
+  overflow-y:hidden;
+
+}
+
+div.imagesdiv {
+  display: table-cell;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+img.noborderimage {
+
+
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-right-style: solid;
+  border-top-width: 3px;
+  border-bottom-width: 3px;
+  border-left-width: 3px;
+  border-right-width: 3px;
+  border-top-color: #c7c7c7;
+  border-bottom-color: #c7c7c7;
+  border-left-color: #c7c7c7;
+  border-right-color: #c7c7c7;
+}
+
+div.thumbnail
+{
+  float: left;
+  width: 110px;
+  height: 85px;
+
+  padding: 5px;
+}
+
+div.clearer {
+  display: block;
+
+}
+
+div.tooltip
+{
+  padding: 5px;
+  background-color: #FFF8DC;
+  border: 1px solid #DEB887;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #6b6b6b;
+  display:none;
+  position:absolute;
+  left:0px;
+  top:0px;
+}
+
+table.tableOutline{/*Table syle*/
+
+  height: 100%;
+
+  border:0px;
+
+	}
+
+table.tableOutline td {page-break-inside:avoid;} /*Cell styling*/
+table.tableOutline td:last-child {padding-right: 20px} /*Prevent Mozilla scrollbar from hiding cell content*/
+
+.tableTbody{/*Table body style */
+  width:100%;
+  overflow:auto;
+  overflow-x:hidden;
+  border:0px;
+	}
+
+
+
+.tableHeader{
+
+	position:relative;/*Making header static for ie */
+        top:expression(this.offsetParent.scrollTop-2);/*Making header static for ie */
+	Z-Index:2;/*Keeps text under header  */
+  text-align: center;
+  background-color:   #bababa;
+  color: #ffffff;
+
+	}
+
+.tableFooter{
+	height:20px;
+	position:relative;/*Making footer static for ie */
+	top:expression(this.offsetParent.clientHeight - this.offsetParent.scrollHeight + this.offsetParent.scrollTop);/*Making footer static for ie*/
+        Z-Index:2;/*Keeps text under header  */
+       text-wrap:suppress;
+       text-align:left;
+	color:white;
+	background-color:purple;
+	}
+
+
+        .tableSpacer{/*Keeps the body the same height */
+	height:100%;
+ }
+.fixed {
+    position: relative;/*Making left column static for ie  */
+    left: expression(parentNode.parentNode.parentNode.parentNode.scrollLeft-2); /*Making left column static for ie  */
+    color:white;
+    background-color:purple;
+    }
+
+
+
+
+table.coding {
+  border-color: #fefefe;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-right-style: solid;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-right-width: 1px;
+}
+
+
+#projects_body {
+    padding: 0px 20px 0px 20px
+}

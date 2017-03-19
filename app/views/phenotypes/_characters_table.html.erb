@@ -1,0 +1,52 @@
+<table class="characters">
+  <tr><th></th><th></th><th>ID</th><th>Character</th></tr>
+  <% @characters.each do |character| %>
+      <tr <%= character.states.empty? ? '' : 'class=closed' %> data-id="<%=character.id%>">
+        <td><input type="radio" name="all" onclick="selectCharacter(this)" /></td>
+        <% unless character.states.empty? %>
+            <td class="row-control"></td>
+        <% else %>
+            <td></td>
+        <% end %>
+        <td><%=character.id%></td>
+        <td style="max-width:100px;"><%=character.name%></td>
+      </tr>
+      <% unless character.states.empty? %>
+          <tr style="display:none;" class="states"><td></td><td colspan="3">
+            <table>
+              <tr><th></th><th></th><th>Symbol</th><th>State</th></tr>
+              <% character.states.each do |state| %>
+                  <tr <%= state.phenotypes.empty? ? '' : 'class=closed' %> data-id="<%=state[:id]%>">
+                    <td><input type="radio" name="all" onclick="selectState(this)" /></td>
+                    <% unless state.phenotypes.empty? %>
+                        <td class="row-control"></td>
+                    <% else %>
+                        <td></td>
+                    <% end %>
+                    <!--<td class="b"><%=state.id%></td>-->
+                    <td><%=state.polarity%></td>
+                    <td style="max-width:100px;"><%=state.name%></td>
+                  </tr>
+                  <% unless state.phenotypes.empty? %>
+                      <tr style="display:none;" class="phenotypes"><td></td><td colspan="3">
+                        <table>
+                          <tr><th></th><th>Entity</th><th>Quality</th><th>Related Entity</th></tr>
+                          <% state.phenotypes.each do |phenotype| %>
+                              <tr data-id="<%=phenotype.id%>">
+                                <td><input type="radio" name="all" onclick="selectPhenotype(this)" /></td>
+                                <!--<td class="b"><%=phenotype.id%></td>-->
+                                <td style="max-width:300px;"><%=phenotype.entity.try(:term).try(:term) %></td>
+                                <td style="max-width:300px;"><%=phenotype.quality_term.try(:term).try(:term)%></td>
+                                <td style="max-width:300px;"><%=phenotype.dependent_term.try(:term).try(:term)%></td>
+                              </tr>
+                          <%end%>
+                        </table>
+                      </td></tr>
+                  <%end%>
+              <%end%>
+            </table>
+          </td></tr>
+      <%end%>
+  <%end%>
+  <tr><span id="span_cit_pagination" class="bodytext"><%= will_paginate @characters %></span></tr>
+</table>

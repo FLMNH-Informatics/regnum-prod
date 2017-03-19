@@ -1,0 +1,16 @@
+.content_box{:style => 'float:center;margin:auto auto;width:300px;'}
+  %form{:action => search_path, :id => 'search_form' }
+    %table
+      %tr
+        %td.content_title RegNum Search:
+      %tr
+        %td
+          %input{:type => :text, :size => 18, :name => 'term'}
+          %input{:type => :submit, :value => 'search'}
+.sortable-table-holder
+  =render :partial => 'search/search_table'
+%div{:style => 'font-size:8px;text-align:center;margin:10px auto;width:650px;'} 
+  -if logged_in? 
+  	* Viewing all clade names including submitted and in-review
+  -else
+    * Viewing approved clade names only.

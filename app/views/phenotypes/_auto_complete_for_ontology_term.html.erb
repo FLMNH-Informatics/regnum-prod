@@ -1,0 +1,5 @@
+   <ul>
+   <% for term in @terms do %>
+     <li conceptId="<%= term.concept_id %>" ><% ind = term.term.downcase.start_with?(@query.downcase) ? 0 : term.term.downcase.index(" "+@query.downcase)+1 %><%= term.term[0,ind] %><strong><%= term.term[ind, @query.length] %></strong><%= term.term[@query.length+ind,term.term.length] %></li>
+   <% end %>
+   </ul>

@@ -1,0 +1,35 @@
+
+.title{:style => 'margin-left:20px;'} Edit Your Account
+%div{:style => 'margin:20px;padding:10px;background-color:#FFFAE1;border:1px solid #999;border-radius:3px;float:left;'}
+  =form_for @user, :url => '/accounts/'+ @user.id.to_s, :method => :put  do |f|
+    %table
+      %tr
+        %td.name First Name
+      %tr
+        %td= f.text_field :first_name, :size => 20
+      %tr
+        %td.name Last Name
+      %tr
+        %td= f.text_field :last_name, :size => 20
+      %tr
+        %td.name Email
+      %tr
+        %td= f.text_field :email, :size => 20
+      %tr
+        %td.name Institution
+      %tr
+        %td= f.text_field :institution, :size => 20
+      %tr
+        %td.name Password
+      %tr
+        %td
+          %input{:type => :password, :name => :password}
+      %tr
+        %td.name Password Confirmation
+      %tr
+        %td
+          %input{:type => :password, :name => :password_confirmation}
+      %tr
+        %td
+          %input{:type => :submit, :value => 'Save'}
+    %span{:style => 'font-size:9px;'}* leave the password field empty if you don't want to change it

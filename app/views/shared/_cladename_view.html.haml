@@ -1,0 +1,198 @@
+#submission_content.section.sized-content{ :style => 'float:left;clear:both;margin:auto auto;width:750px;min-height:500px;'}
+  #clade-name= @sub.name
+  %ul#view-tabs
+    %li#name-tab.section-tab{:style => 'border-bottom:1px solid #FFFAE1;'} Clade Name
+    %li#type-tab.section-tab{:style => 'background-color:#ffe8ac;'} Clade Type & Specifiers
+    %li#definition-tab.section-tab{:style => 'background-color:#ffe8ac;'} Clade Definition
+  #name-tab-div.section.section-tab-div{}
+    %table.clade-name-table
+      %tr
+        %td.name RegNum GUID:
+      %tr
+        %td= @sub.guid
+      %tr
+        %td.name Registration #:
+      %tr  
+        %td= @sub.temp_id
+      %tr
+        %td.name Name String:
+      %tr  
+        %td= @sub.name_string
+      %tr
+        %td.name Author(s):
+      %tr  
+        %td= @sub.authors
+      -if (!logged_in? || (current_user.is_editor? || current_user.is_admin?))
+        %tr
+          %td.name Establish under PhyloCode:
+        %tr  
+          %td= @sub.establish ? 'yes' : 'no'
+      %tr
+        %td.name Pre-existing name:
+      %tr  
+        %td= @sub.preexisting ? 'yes' : 'no'
+      -if @sub.preexisting == true
+        %tr
+          %td.name Pre-existing Code:
+        %tr  
+          %td= @sub.preexisting_code
+        %tr
+          %td.name Pre-existing Author(s):
+        %tr  
+          %td= @sub.preexisting_authors      
+        %tr  
+          %td.name Pre-existing Reference:
+        %tr
+          %td
+            .accordion
+              %h3 
+                &nbsp;
+                = @sub.citations['preexisting']['0']['title']
+              %div
+                %table
+                  -['citation_type','title','citation_authors'].each do |c|
+                    %tr
+                      %td
+                        %span
+                          %span{:style => 'font-weight:bold;'}= c.humanize + ': '
+                          = format_output(c,@sub.citations['preexisting']['0'].delete(c))
+                  -attachment_prepare(@sub.citations['preexisting']['0']).each do |key,val|
+                    -if !val.blank?
+                      %tr
+                        %td
+                          %span
+                            %span{:style => 'font-weight:bold;'}= key.humanize + ': '
+                            = format_output(key,val)
+      %tr
+        %td.name Comments:
+      %tr
+        %td{:style => 'text-align:justify'}=@sub.comments
+        
+  #type-tab-div.section.section-tab-div{:style => 'display:none;'}
+    %table
+      %tr
+        %td.name Type:
+      %tr
+        %td= @sub.type.try(:humanize)
+      %tr
+        %td.name
+          Specifiers/Qualifiers:
+      %tr
+        %td
+          .accordion
+            -@sub.specifiers.each do |key,val|
+              -val = attachment_prepare(val) 
+              -if val.has_key? 'specifier_name'
+                %h3
+                  &nbsp;
+                  = val['specifier_name'] + ' : '
+                  = (val['kind'] || val['specifier_kind'])+ ' ' + (val['kind_type'] || val['specifier_kind_type'])                               
+                %div
+                  %table               
+                    %tr
+                      %td
+                        %span
+                          %span{:style => 'font-weight:bold;'}= 'Specifier type: '
+                          = format_output('specifier_type',val.delete('specifier_type'))
+                    %tr
+                      %td
+                        %span
+                          %span{:style => 'font-weight:bold;'}= 'Specifier kind: '
+                          = format_output('specifier_kind',val.delete('specifier_kind')) + ' ' + format_output('specifier_kind_type',val.delete('specifier_kind_type'))
+                    -val.each do |k,v|
+                      -if !v.blank?
+                        %tr
+                          %td
+                            %span
+                              %span{:style => 'font-weight:bold;'}= k.humanize + ': '
+                            = format_output(k,v)
+                     
+  #definition-tab-div.section.section-tab-div{:style => 'display:none'}
+    %table
+      %tr
+        %td.name Abbreviated Definition:
+      %tr
+        %td= @sub.abbreviation
+      %tr
+        %td.name Definition:
+      %tr
+        %td{:style => 'text-align:justify;'}= @sub.definition
+      %tr
+        %td.name
+          Clade Citation:
+      %tr
+        %td
+          -if @sub.citations['description']['0'].is_a? Hash
+            .accordion
+              %h3 
+                &nbsp;
+                = (@sub.citations['description']['0'].has_key?('title') ? @sub.citations['description']['0']['title'] : @sub.citations['description']['0']['article_title'])
+              %div
+                %table{:style => 'max-width:500px'}
+                  -['citation_type','title','citation_authors'].each do |c|
+                    %tr
+                      %td
+                        %span
+                          %span{:style => 'font-weight:bold;'}= c.humanize + ': '
+                          = format_output(c,@sub.citations['description']['0'].delete(c))
+                  -attachment_prepare(@sub.citations['description']['0']).each do |key,val|
+                    -if !val.blank?
+                      %tr
+                        %td
+                          %span
+                            %span{:style => 'font-weight:bold;'}= key.humanize + ': '
+                            = format_output(key,val)
+      -if @sub.citations.has_key?('primary-phylogeny')
+        %tr
+          %td.name
+            Primary Phylogeny Reference:
+        %tr
+          %td
+            -if @sub.citations['primary-phylogeny']['0'].is_a?  Hash
+              .accordion
+                %h3 
+                  &nbsp;
+                  = (@sub.citations['primary-phylogeny']['0'].has_key?('title') ? @sub.citations['primary-phylogeny']['0']['title'] : @sub.citations['primary-phylogeny']['0']['article_title'])
+                %div
+                  %table{:style => 'max-width:500px'}
+                    -['citation_type','title','citation_authors'].each do |c|
+                      %tr
+                        %td
+                          %span
+                            %span{:style => 'font-weight:bold;'}= c.humanize + ': '
+                            = format_output(c,@sub.citations['primary-phylogeny']['0'].delete(c))
+                    -attachment_prepare(@sub.citations['primary-phylogeny']['0']).each do |key,val|
+                      -if !val.blank?
+                        %tr
+                          %td
+                            %span
+                              %span{:style => 'font-weight:bold;'}= key.humanize + ': '
+                              = format_output(key,val)
+      %tr
+        %td.name
+          Additional Phylogeny References:
+      %tr
+        %td
+          -if @sub.citations['phylogeny'].first.is_a? Hash
+            .accordion
+              -@sub.citations['phylogeny'].each do |ind,phy|
+                %h3
+                  &nbsp;  
+                  = phy['title']
+                %div
+                  %table{:style => 'max-width:500px'}
+                    -['citation_type','title','citation_authors'].each do |c|
+                      %tr
+                        %td
+                          %span
+                            %span{:style => 'font-weight:bold;'}= c.humanize + ': '
+                            = format_output(c,phy.delete(c))
+                    -attachment_prepare(phy).each do |key,val|
+                      -if !val.blank?
+                        %tr
+                          %td
+                            %span
+                              %span{:style => 'font-weight:bold;'}= key.humanize + ': '
+                              = format_output(key,val)
+
+
