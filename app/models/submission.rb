@@ -30,8 +30,10 @@ class Submission < ActiveRecord::Base
   serialize :citations, Hash
   serialize :specifiers, Hash
   
-  scope :opt_in, where(:establish => true)
-  scope :opt_out, where(:establish => false)
+  # scope :opt_in, where(:establish => true)
+  scope :opt_in, -> { where(establish: true) }
+  # scope :opt_out, where(:establish => false)
+  scope :opt_out, -> { where(establish: false) }
   #scope :approved, where(:status_id => Status.where(:status => 'approved').first.id)
   
   def temp_id

@@ -2,22 +2,22 @@
   #clade-name= @sub.name
   %ul#view-tabs
     %li#name-tab.section-tab{:style => 'border-bottom:1px solid #FFFAE1;'} Clade Name
-    %li#type-tab.section-tab{:style => 'background-color:#ffe8ac;'} Clade Type & Specifiers
-    %li#definition-tab.section-tab{:style => 'background-color:#ffe8ac;'} Clade Definition
+    %li#type-tab.section-tab{:style => 'background-color:#ffe8ac;'} Definition Type & Specifiers
+    %li#definition-tab.section-tab{:style => 'background-color:#ffe8ac;'} Definition
   #name-tab-div.section.section-tab-div{}
     %table.clade-name-table
       %tr
-        %td.name RegNum GUID:
+        %td.name RegNum URL:
       %tr
         %td= @sub.guid
       %tr
-        %td.name Registration #:
+        %td.name Registration Number:
       %tr  
         %td= @sub.temp_id
       %tr
         %td.name Name String:
       %tr  
-        %td= @sub.name_string
+        %td= name_string_formatted
       %tr
         %td.name Author(s):
       %tr  
@@ -71,12 +71,12 @@
   #type-tab-div.section.section-tab-div{:style => 'display:none;'}
     %table
       %tr
-        %td.name Type:
+        %td.name Definition Type:
       %tr
         %td= @sub.type.try(:humanize)
       %tr
         %td.name
-          Specifiers/Qualifiers:
+          Specifiers:
       %tr
         %td
           .accordion
@@ -85,7 +85,8 @@
               -if val.has_key? 'specifier_name'
                 %h3
                   &nbsp;
-                  = val['specifier_name'] + ' : '
+                  %em= val['specifier_name']
+                  = ' : '
                   = (val['kind'] || val['specifier_kind'])+ ' ' + (val['kind_type'] || val['specifier_kind_type'])                               
                 %div
                   %table               
@@ -112,7 +113,7 @@
       %tr
         %td.name Abbreviated Definition:
       %tr
-        %td= @sub.abbreviation
+        %td= abbreviation_formatted
       %tr
         %td.name Definition:
       %tr

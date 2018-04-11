@@ -1,17 +1,19 @@
-.sortable-table-div  
+.sortable-table-div
   %table.sortable-table
     %tr.sortable-table-header-row
       %th.name.sortable.table-header-link{:style=>'width:170px;'}=table_sort_header('last_name', 'name')
+      %th.name.sortable.table-header-link= table_sort_header('email', 'email')
       %th.name.sortable.table-header-link{:style=>'width:80px;'}=table_sort_header('role_id', 'role')
-      %th.name.sortable.table-header-link{:style=>'width:90px;'}=table_sort_header('enabled')
-      %th.name.sortable.table-header-link{:style=>'width:200px;'}=table_sort_header('last_login')
+      %th.name.sortable.table-header-link{:style=>'width:50px;'}=table_sort_header('enabled')
+      %th.name.sortable.table-header-link= table_sort_header('last_login')
       %th{:style=>'width:40px;color:#333;text-align:center;', :colspan => 3} 
     -@users.each do |user|
       %tr{:class => cycle('odd-row','even-row'), :id => user.id }
         %td= user.last_name + ', ' + user.first_name
+        %td.user-email= user.email
         %td= user.role.name
         %td= user.enabled
-        %td= user.last_login
+        %td.user-last-login{ :title => user.last_login }= user.last_login || "Never"
         %td
           =form_for user, :method => 'get', :url => '/admin/users/'+ user.id.to_s+'?user_action=edit' do |s|
             %input.submit_button{:type => 'submit', :value => 'edit', :title => 'click to edit'}

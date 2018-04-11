@@ -4,7 +4,9 @@
     %input{:type => :hidden, :name => :submission_id, :value => :new}
     %table
       %tr
-        %td.title Name:
+        %td.title
+          Name:
+          %span.required (Required)
       %tr
         %td
           %input{:name => 'name', :id => 'name', :type => :text, :size => 30}

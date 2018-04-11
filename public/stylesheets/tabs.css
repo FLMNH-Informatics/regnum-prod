@@ -9,8 +9,7 @@
 
 #main {
   position: relative;
-  height: 26px;
-  width: 100%;
+  height: 35px;
   background: #FFF3B3;
   border-top:1px solid #666;
   border-left:1px solid #666;
@@ -18,6 +17,7 @@
   border-radius: 0px 3px 0px 0px;
   z-index: 2;
   padding:0px;
+  padding-top: 5px;
 }
 
 #contents_wrapper {
@@ -50,7 +50,8 @@
   display: inline;
   list-style-type: none;
   padding: 4px 0;
-  margin-right:1px;
+  margin-right:3px;
+
 
 }
 
@@ -58,12 +59,12 @@
 {
   position: relative;
   top: 1px;
-  padding: 4px 0px;
+  padding: 6px 10px;
   display: inline;
   margin: 1px 2px 0 0;
   text-align: center;
   font-family: tahoma, verdana, sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   text-decoration: none;
   color: #333;
     border-radius: 3px 3px 0px 0px;
@@ -75,7 +76,8 @@
 }
 
 .top_tab.current a {
-  padding: 4px 10px;
+    padding: 8px 12px 4px 12px;
+    font-size: 120%;
   width: 100%;
   color: #333;
 }
@@ -83,7 +85,6 @@
 .top_tab.active a {
   position: relative;
   margin-top: 1px;
-  padding: 4px 10px;
   display:inline;
   height: 100%;
   text-decoration: none;
@@ -144,13 +145,23 @@ ul#secondary {
 .top_subtab > a, .top_subtab.inactive span {
   display: inline;
   padding: 5px 10px;
-  font-size: 11px;
+  font-size: 14px;
   border-right: 1px dotted #AAA;
+
+  margin:5px;
+  padding: 6px 12px;
+  line-height: 1.42857143;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  border-color: #ccc;
 }
 
 .top_subtab.active a {
   color: #06C;
-  border-top: 2px solid #FFF3B3;
+  #border-top: 2px solid #FFF3B3;
 }
 
 .top_subtab.active a:hover {
@@ -163,7 +174,7 @@ ul#secondary {
   color: #000;
 }
 
-.top_subtab.active:last-child a { border-right: none; }
+/*.top_subtab.active:last-child a { border-right: none; }*/
 
 .top_subtab.inactive span {
   color: gray;
@@ -173,8 +184,16 @@ ul#secondary {
 
 .top_subtab.current a {
   /*border-top: 2px solid #ffd155; */
-  background-color: #ffe190;
+  background-color: #FFFDF3;
   color: #333;
+    padding-bottom: 12px;
+    border-bottom-color: #FFFDF3;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.top_subtab.current a:hover{
+    background-color: #FFFDF3;
 }
 
 

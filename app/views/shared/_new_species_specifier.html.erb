@@ -23,14 +23,11 @@
         <option class="external-spec" value="external extant">External - Extant</option>
         <option class="external-spec" value="external extinct">External - Extinct</option>
       </select>
-      <select name="specifier_kind_type" id="new_specifier_kind_type" class="other_specifier">
-        <option value="specifier">Specifier</option>
-        <option value="qualifier">Qualifier</option>
-      </select>
+      <input style="display:none" value="Specifier" name="specifier_kind_type" id="new_specifier_kind_type" class="other_specifier" />
     </td>
   </tr> 
   <tr style="font-weight:bold" class="specifier_others">
-    <td>Taxon Name:</td>  <td>Author:</td> <td >Year:</td> 
+    <td>Taxon Name:</td>  <td>Basionym Author(s):</td> <td >Year:</td>
   </tr>
   <tr>
     <td><input type="text" name="specifier_name" id="new_specifier_name" size="17"/></td>
@@ -75,7 +72,7 @@
 </form>
 <table style="font-weight:bold;">
   <tr>
-    <td colspan="2">Attachment:</td>
+    <td colspan="2">Attach specimen image:&nbsp;&nbsp;<span class="required">(Optional)</span></td>
 
   </tr>
   <tr>

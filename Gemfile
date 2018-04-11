@@ -7,7 +7,7 @@ gem 'bcrypt-ruby', :require => "bcrypt"
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'htmlentities'
-gem 'mysql2', '~> 0.3.13'
+gem 'mysql2', '~> 0.3.18'
 ##rails 3.1.12 doesn't support
 # gem 'activerecord-mysql2-adapter'
 # gem 'ruby-debug19', :require => 'ruby-debug'
@@ -16,15 +16,13 @@ gem 'byebug'
 gem 'nokogiri'
 gem 'protected_attributes'
 
-gem 'rake', '11.1.1'
-
 gem 'will_paginate'
 gem "paperclip"
 gem 'rspec'
 gem 'haml'
 gem 'sass'
 gem 'uuidtools'
-gem "recaptcha", :require => "recaptcha/rails"
+gem "recaptcha", '~>0.3.4', :require => "recaptcha/rails"
 gem 'rufus-scheduler'
 #gem 'meta_where'  RAILS 3.1.12 doesn't support
 gem 'activerecord-import'#, '~>0.2.0'
@@ -34,8 +32,8 @@ gem 'activerecord-import'#, '~>0.2.0'
 # end
 # group :assets do
   gem 'sass-rails'#,   '~> 3.2.6'#'~> 3.1.7'
-  gem 'coffee-rails'#, '~> 3.2.2'#'~> 3.1.1'
-  gem 'uglifier'#,     '>= 1.0.3'
+#  gem 'coffee-rails'#, '~> 3.2.2'#'~> 3.1.1'
+#  gem 'uglifier'#,     '>= 1.0.3'
 # end
 #gem 'rmagick', '2.12.0'
 

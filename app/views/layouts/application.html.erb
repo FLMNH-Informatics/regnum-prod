@@ -38,14 +38,16 @@
           <%#= image_tag("pin_icon.gif",:onclick=>"oBM('url=#{request.request_uri}')") %>
         </p>
 
-          <p align="right">
+          <div class="account_nav" align="right">
             <% if logged_in? %>
-              Logged in as <span style="color:blue"><%= current_user.email  %></span><br/>
-                <%=link_to 'account', '/accounts/'+current_user.id.to_s %> | <%=link_to 'logout', '/logout'%>
+                <div>Logged in as <span style="color:blue"><%= current_user.email  %></span></div>
+                <div class="account_buttons">
+                <%=link_to 'my account', '/accounts/'+current_user.id.to_s %><%=link_to 'logout', '/logout'%>
+                </div>
             <% else %>
                 <%=link_to 'login', '/login'%>
             <% end %>
-          </p>
+          </div>
 
       </div>      
       <%#=raw("<div/>")%>

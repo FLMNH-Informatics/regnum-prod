@@ -59,6 +59,13 @@ p.note {
     line-height: 130%;
     margin-top: 0;
 }
+
+span.required{
+    font-weight: lighter;
+    font-size: 90%;
+    color: #444444;
+}
+
 /*new stuff */
 .bold{
   font-weight:bold;
@@ -69,6 +76,32 @@ p.note {
     font-size:12px;
     font-weight:normal;
 }
+
+.account_nav, .account_nav div{
+    font-size: 14px;
+}
+
+.account_buttons{
+    margin-top: 10px;
+}
+
+.account_buttons a{
+    margin:5px;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    user-select: none;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+}
+
+.account_buttons a:hover{
+    background-color: #eeeeee;
+}
+
 .account_box{
   font-size:1.5em;
   margin:60px auto;

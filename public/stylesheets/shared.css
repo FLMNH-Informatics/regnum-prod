@@ -54,3 +54,15 @@ div.left_btn {
 .chart_main td:last-child {
   border-right: none;
 }
+
+td.user-email{
+    overflow:hidden;
+    width: 120px;
+    max-width: 120px;
+}
+
+td.user-last-login{
+    overflow: hidden;
+    width: 60px;
+    max-width: 83px;
+}

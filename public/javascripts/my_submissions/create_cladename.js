@@ -150,7 +150,6 @@ function Phyloregnum(){
         //
        
         jQuery.each(this.submissionModel.specifiers(), function(ind,obj){
-
             if(obj.specifier_type === 'apomorphy'){
                apomorph.push(obj.specifier_character_name+'(' + obj.specifier_name + ')' )
             }else{
@@ -172,31 +171,36 @@ function Phyloregnum(){
             }
         })//
 
+
+        var gt = '&gt;&nbsp;'
+          , lt = '&lt;&nbsp;'
+          , nabla = '&nabla;';
+
         switch(this.submissionModel.type()){
             // <  = &lt;    > = &gt;
             case 'node-based_standard':
-                str = '&lt;'//'<'
+                str = lt//'<'
                 break
             case 'node-based_crown_clade':
-                str = '&lt;'// '<'
+                str = lt// '<'
                 break
             case 'node-based_crown_clade_branch-modified':
-                str =  '&gt;&nabla;'// '>∇'
+                str =  gt+nabla// '>∇'
                 break
             case 'node-based_crown_clade_apomorphy-modified':
-                str = '&gt;&nabla;'// '>∇'
+                str = gt+nabla// '>∇'
                 break
             case 'branch-based_standard':
-                str = '&gt;'// '>'
+                str = gt// '>'
                 break
             case 'branch-based_total_clade':
-                str = '&gt;'// '>'
+                str = gt// '>'
                 break
             case 'branch-based_total_clade_explicit':
-                str = '&gt;'//'>'
+                str = gt//'>'
                 break
             case 'apomorphy-based_standard':
-                str = '&gt;'//'>'
+                str = gt//'>'
                 break
         }//
      
@@ -361,14 +365,17 @@ jQuery.showSpecifier = function(sfor,callback){
         var ty = sfor.specifier_type
         temp = pr.templates[ty +'_specifier']  
     }
-    var opts = { width: 550, title: 'Specifier/Qualifier Edit', buttons: [
-      { text: 'Save', 
-        click: function(){
-          jQuery.save_specifier()
-          jQuery.closeFloatWindow() 
-        }
-      }
-    ]}
+    var opts = {
+        width: 550,
+        title: 'Edit Specifier',
+        buttons: [
+          { text: 'Save',
+            click: function(){
+              jQuery.save_specifier()
+              jQuery.closeFloatWindow()
+            }
+          }]
+    }
     //callback to setup observers
     var cback = function(){
         jQuery('#window-for-text').html((sfor == 'new' ? 'New' : 'Edit') + ' Specifier/Qualifier')       
@@ -400,7 +407,6 @@ jQuery.showSpecifier = function(sfor,callback){
 }
 //
 jQuery.showCitation = function(cobj,cfor,callback){
-    ///
     if(typeof(cobj) == 'undefined'){
         cobj = pr.emptyCitationObj
     }
@@ -422,9 +428,13 @@ jQuery.showCitation = function(cobj,cfor,callback){
         }else{
             jQuery('#citation-attachment-cell').html(pr.emptyAttachmentFile)
         }
+
+        if(cfor !== "primary-phylogeny"){
+            jQuery(".primary_only").remove();
+        }
     }
     ///
-    var opts = {width: 630, title: 'Edit Citation', buttons: [
+    var opts = {width: 630, title: 'Add/Edit Reference', buttons: [
       { text: 'Save', 
         click: function(){
           jQuery.save_citation()

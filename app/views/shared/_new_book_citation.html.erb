@@ -34,10 +34,10 @@
 
     </tr>
     <tr>
-          <td >Figure #:</td><td>Year:</td><td class="book_inputs">Edition:</td><td class="book_inputs">City:</td><td class="other_inputs">Volume:</td>
+          <td class="primary_only">Figure #:</td><td>Year:</td><td class="book_inputs">Edition:</td><td class="book_inputs">City:</td><td class="other_inputs">Volume:</td>
     </tr>
     <tr>
-      <td >
+      <td class="primary_only" >
         <input type="text" size="3" id="new_figure" name="figure"/>&nbsp;&nbsp;
       </td>
       <td>
@@ -56,7 +56,10 @@
 
     </tr>
     <tr>
-      <td>Pages:</td><td>Keywords:</td><td>Abstract:</td><td>ISBN/ISSN:</td>
+      <td>Pages:</td>
+      <td>Keywords: <span class="required">(Optional)</span></td>
+      <td>Abstract: <span class="required">(Optional)</span></td>
+      <td>ISBN/ISSN: <span class="required">(Optional)</span></td>
     </tr>
     <tr>
       <td>
@@ -73,7 +76,7 @@
       </td>
     </tr>
     <tr>
-      <td colspan="2">URL:</td><td>DOI:</td>
+      <td colspan="2">URL: <span class="required">(Optional)</span></td><td>DOI: <span class="required">(Optional)</span></td>
     </tr>
     <tr>
       <td colspan="2">
@@ -84,10 +87,10 @@
       </td>
     </tr>
 
-    <tr class="treebase-outlink">
+    <tr class="treebase-outlink primary_only">
        <td colspan="2"><img class="outlink" id="treebase_tree_outlink_img" src="/images/treebase.gif" title="Search TreeBase" />&nbsp;<span id="treebase_tree_id_link">TreeBase Tree ID:</span></td>
      </tr>
-    <tr class="treebase-outlink">
+    <tr class="treebase-outlink primary_only">
       <td colspan="2" class="phylogeny-citation">
         <input class="phlyogeny-citation" type="text" size="25" id="new_treebase_tree_id" name="treebase_tree_id"/>&nbsp;&nbsp;
       </td>

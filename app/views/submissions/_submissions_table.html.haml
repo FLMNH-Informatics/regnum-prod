@@ -10,7 +10,7 @@
         %tr{:class => cycle('odd-row','even-row'), :id => sub.id, :title => "click to open submission"  }
           %td= sub.name
           %td= sub.status.status
-          %td{ :style => 'width:180px'}= sub.user.last_name + ', ' + sub.user.first_name
+          %td{ :style => 'width:180px'}= sub.user.nil? ? "" : sub.user.last_name + ', ' + sub.user.first_name
           %td{ :style => 'width:40px'}
             =form_for sub, :url => submission_path(sub.id), :html => {:method => :get } do |s|
               %input.submit_button{:type => 'submit', :value => 'review'} 
