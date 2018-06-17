@@ -50,12 +50,12 @@
                 = @sub.citations['preexisting']['0']['title']
               %div
                 %table
-                  -['citation_type','title','citation_authors'].each do |c|
+                  -['citation_type','title','citation_authors'].each do |cit|
                     %tr
                       %td
                         %span
                           %span{:style => 'font-weight:bold;'}= c.humanize + ': '
-                          = format_output(c,@sub.citations['preexisting']['0'].delete(c))
+                          = format_output(cit,@sub.citations['preexisting']['0'].delete(cit))
                   -attachment_prepare(@sub.citations['preexisting']['0']).each do |key,val|
                     -if !val.blank?
                       %tr
@@ -130,12 +130,12 @@
                 = (@sub.citations['description']['0'].has_key?('title') ? @sub.citations['description']['0']['title'] : @sub.citations['description']['0']['article_title'])
               %div
                 %table{:style => 'max-width:500px'}
-                  -['citation_type','title','citation_authors'].each do |c|
+                  -['citation_type','title','citation_authors'].each do |cit|
                     %tr
                       %td
                         %span
-                          %span{:style => 'font-weight:bold;'}= c.humanize + ': '
-                          = format_output(c,@sub.citations['description']['0'].delete(c))
+                          %span{:style => 'font-weight:bold;'}= cit.humanize + ': '
+                          = format_output(cit,@sub.citations['description']['0'].delete(cit))
                   -attachment_prepare(@sub.citations['description']['0']).each do |key,val|
                     -if !val.blank?
                       %tr
@@ -146,7 +146,7 @@
       -if @sub.citations.has_key?('primary-phylogeny')
         %tr
           %td.name
-            Primary Phylogeny Reference:
+            Primary Reference Phylogeny:
         %tr
           %td
             -if @sub.citations['primary-phylogeny']['0'].is_a?  Hash
@@ -171,10 +171,10 @@
                               = format_output(key,val)
       %tr
         %td.name
-          Additional Phylogeny References:
+          Additional Reference Phylogenies:
       %tr
         %td
-          -if @sub.citations['phylogeny'].first.is_a? Hash
+          -if @sub.citations['phylogeny']['0'].is_a? Hash
             .accordion
               -@sub.citations['phylogeny'].each do |ind,phy|
                 %h3
@@ -182,12 +182,12 @@
                   = phy['title']
                 %div
                   %table{:style => 'max-width:500px'}
-                    -['citation_type','title','citation_authors'].each do |c|
+                    -['citation_type','title','citation_authors'].each do |cit|
                       %tr
                         %td
                           %span
-                            %span{:style => 'font-weight:bold;'}= c.humanize + ': '
-                            = format_output(c,phy.delete(c))
+                            %span{:style => 'font-weight:bold;'}= cit.humanize + ': '
+                            = format_output(cit,phy.delete(cit))
                     -attachment_prepare(phy).each do |key,val|
                       -if !val.blank?
                         %tr
