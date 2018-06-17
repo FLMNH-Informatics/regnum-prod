@@ -5,9 +5,20 @@ class Concept < ActiveRecord::Base
   has_many :differentiae_compositions, :class_name => "Differentia" , :foreign_key => "property_id"
 # has_many :ontology_compositions, :class_name => "OntologyComposition" , :foreign_key => "genus_id"
 
+###
+#OLD pre rails update
+#
+#  has_many :relationships, :foreign_key => "from_concept_id", :inverse_of => :from_concept
+#
+#  belongs_to :ontology, :inverse_of => :concepts
+#  has_one :term, ->{ where preferred: true }
+#  has_many :terms, ->{ order 'term.term'}, :inverse_of => :concept#, ->{ order :term }
+#           #:dependent => :destroy#, :include => [:relationship_term, :to_concept_term]
+###END OLD
+
   belongs_to :ontology, :inverse_of => :concepts
 
-  has_many :terms, :inverse_of => :concept, :order => "term"#, :dependent => :delete_all
+  has_many :terms, :inverse_of => :concept #, :order => '`term'#, :dependent => :delete_all
   has_one :term, :conditions => "preferred"
 
   has_many :relationships, :foreign_key => "from_concept_id", :inverse_of => :from_concept
