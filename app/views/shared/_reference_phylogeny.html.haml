@@ -1,0 +1,21 @@
+- unless phy['figure'].blank?
+  %h4.figure_num
+    Figure Number
+    %span.figure_num= phy['figure']
+%dl.inline
+  - if phy['citation_type'] == 'journal'
+    %dt Citation type
+    %dd journal
+    - ['citation_authors','year','journal','volumes','volume','pages'].each do |property|
+      -unless phy[property].blank?
+        %dt= property.humanize
+        %dd= format_output property, phy[property]
+  - else
+    - ['citation_type','citation_authors','year','journal','volumes','volume','pages'].each do |property|
+      -unless phy[property].blank?
+        %dt= property.humanize
+        %dd= format_output property, phy[property]
+  - attachment_prepare(phy)
+  -unless phy['attachment'].blank?
+    %dt Attachment
+    %dd= format_output 'attachment', phy['attachment']
