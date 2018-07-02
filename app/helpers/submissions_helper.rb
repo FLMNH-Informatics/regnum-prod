@@ -12,5 +12,14 @@ module SubmissionsHelper
     }
     raw abv
   end
+
+  def verbatim_definition
+    definition = @sub.definition
+    @sub.specifiers
+        .values
+        .map{|sv| sv[:specifier_name] }
+        .each{ |spec_name| definition.gsub!( /#{spec_name}/i, '<em>\0</em>') }
+    raw definition
+  end
   
 end
