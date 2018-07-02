@@ -742,4 +742,18 @@ span.required{
 }
 .flickr_pagination .next_page {
   margin-left: 1em; 
-} 
+}
+
+dl.inline dt{
+    float: left;
+    width: 9rem;
+    overflow: hidden;
+    clear: left;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 700;
+}
+dl.inline dd{
+    margin-left: 10rem;
+}

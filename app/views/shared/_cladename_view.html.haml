@@ -54,7 +54,7 @@
                     %tr
                       %td
                         %span
-                          %span{:style => 'font-weight:bold;'}= c.humanize + ': '
+                          %span{:style => 'font-weight:bold;'}= cit.humanize + ': '
                           = format_output(cit,@sub.citations['preexisting']['0'].delete(cit))
                   -attachment_prepare(@sub.citations['preexisting']['0']).each do |key,val|
                     -if !val.blank?
@@ -155,12 +155,12 @@
                   = (@sub.citations['primary-phylogeny']['0'].has_key?('title') ? @sub.citations['primary-phylogeny']['0']['title'] : @sub.citations['primary-phylogeny']['0']['article_title'])
                 %div
                   %table{:style => 'max-width:500px'}
-                    -['citation_type','title','citation_authors'].each do |c|
+                    -['citation_type','title','citation_authors'].each do |cit|
                       %tr
                         %td
                           %span
-                            %span{:style => 'font-weight:bold;'}= c.humanize + ': '
-                            = format_output(c,@sub.citations['primary-phylogeny']['0'].delete(c))
+                            %span{:style => 'font-weight:bold;'}= cit.humanize + ': '
+                            = format_output(cit, @sub.citations['primary-phylogeny']['0'].delete(cit))
                     -attachment_prepare(@sub.citations['primary-phylogeny']['0']).each do |key,val|
                       -if !val.blank?
                         %tr
@@ -179,20 +179,36 @@
                 %h3
                   &nbsp;  
                   = phy['title']
-                %div
-                  %table{:style => 'max-width:500px'}
-                    -['citation_type','title','citation_authors'].each do |cit|
-                      %tr
-                        %td
-                          %span
-                            %span{:style => 'font-weight:bold;'}= cit.humanize + ': '
-                            = format_output(cit,phy.delete(cit))
-                    -attachment_prepare(phy).each do |key,val|
-                      -if !val.blank?
-                        %tr
-                          %td
-                            %span
-                              %span{:style => 'font-weight:bold;'}= key.humanize + ': '
-                              = format_output(key,val)
+                .additional_reference
+                  - if phy['citation_type'] == 'journal'
+                    %dl.inline
+                      %dt Citation type
+                      %dd journal
+                      - ['figure','citation_authors','year','journal','volumes','volume','pages'].each do |property|
+                        -unless phy[property].blank?
+                          %dt= property.humanize
+                          %dd= format_output property, phy[property]
+                  - else
+                    %dl.inline
+                      - ['citation_type','figure','citation_authors','year','journal','volumes','volume','pages'].each do |property|
+                        -unless phy[property].blank?
+                          %dt= property.humanize
+                          %dd= format_output property, phy[property]
+                  -#= render partial: "shared/reference_phylogeny_book", locals: {phy: phy}
+                  -#%table{:style => 'max-width:500px'}
+                  -#  -['citation_type','title','citation_authors'].each do |cit|
+                  -#    %tr
+                  -#      %td
+                  -#        - byebug
+                  -#        %span
+                  -#          %span{:style => 'font-weight:bold;'}= cit.humanize + ': '
+                  -#          = format_output(cit,phy.delete(cit))
+                  -#  -attachment_prepare(phy).each do |key,val|
+                  -#    -if !val.blank?
+                  -#      %tr
+                  -#        %td
+                  -#          %span
+                  -#            %span{:style => 'font-weight:bold;'}= key.humanize + ': '
+                  -#            = format_output(key,val)
 
 
