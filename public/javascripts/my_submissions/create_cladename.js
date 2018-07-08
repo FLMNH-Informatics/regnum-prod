@@ -111,6 +111,7 @@ function Phyloregnum(){
 
 
     this.emptyAttachmentFile = '<form id="remote-attachment-form"  enctype="multipart/form-data" action="/my_submission/add_attachment" method="post"><input type="file" id="new_remote_attachment" name="file" /></form>'
+
     //define button actions
     this.ba = {
         addSpecifier: function(){
