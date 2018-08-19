@@ -37,3 +37,11 @@
 .status-change-div .ui-accordion-header{
 	background-color:#BDEEFF;
 }
+
+#definition_type_definitions{
+	min-height: 40px;
+}
+
+#definition_type_definitions>p{
+	font-style: italic;
+}

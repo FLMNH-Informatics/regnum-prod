@@ -10,7 +10,7 @@ function Phyloregnum(){
         //json response loading map for ko.mapping
         mapping:  {
             'specifiers': {
-                create: function(options){ 
+                create: function(options){
                     var specs = [];
                     jQuery.each(options.data, function(item,obj){
                         if(typeof obj=='object'){
@@ -22,22 +22,22 @@ function Phyloregnum(){
                         if(item.kind){
                             item.specifier_kind=item.kind;
                         }
-                        if(typeof(item) != 'undefined' && typeof(item['specifier_type']) != 'undefined' && typeof(item['specifier_type_kind']) != 'undefined'){  
+                        if(typeof(item) != 'undefined' && typeof(item['specifier_type']) != 'undefined' && typeof(item['specifier_type_kind']) != 'undefined'){
                             if(typeof(item['specifier_kind'])=='undefined' || item['specifier_kind']==null ){
                                 item['specifier_kind']='';
                             }else if(typeof(item['specifier_kind_type'])=='undefined' || item['specifier_kind_type']==null ){
                                 item['specifier_kind_type']='';
                             }
-                                           
+
                         }
-                        specs.push(item) 
+                        specs.push(item)
                     });
-                   
+
                     return ko.observableArray(self.ko.objToArray(specs)).extend({paging: 5});
                 }
             },
             'citations': {
-                create: function(options){ 
+                create: function(options){
                     //initalize citations
                     //existing ones will overwrite these
                     var cits = {
@@ -48,22 +48,22 @@ function Phyloregnum(){
                     }
                     //now load existing ones from response into cits hash
                     jQuery.each(options.data, function(ind,val){
-                        if(val[0] != undefined && val['0'] != undefined){ 
+                        if(val[0] != undefined && val['0'] != undefined){
                             if(typeof(val[0].citation_type) != 'undefined' && typeof(val['0'].citation_type) != 'undefined'){
-                                if(ind === 'phylogeny'){                      
+                                if(ind === 'phylogeny'){
                                     cits[ind] = ko.observableArray(self.ko.objToArray(val)).extend({paging: 5})
                                 }else{
                                     cits[ind] = ko.observableArray(self.ko.objToArray(val))
                                 }
                             }
                         }
-                    })                 
+                    })
                     return cits
                 }
             },
             'abbreviation': {
                 create: function(options){
-                    return ko.computed(function(){                   
+                    return ko.computed(function(){
                         return self.makeDefinition()
                     }, self)
                 }
@@ -71,7 +71,7 @@ function Phyloregnum(){
             'name_string': {
                 create: function(options){
                     return ko.computed(function(){
-                        var t = self.makeReference(options)  
+                        var t = self.makeReference(options)
                         return t
                     }, self)
                 }
@@ -88,13 +88,13 @@ function Phyloregnum(){
         //trick to forcing update of items on screen 
         //with knockout.js without observing values of each item
         replaceObservedArrayItem: function(id, oa, item){
-           var pushBack = oa().splice(id, oa().length - id)
-           pushBack.shift()
-           oa.push(item)
-           jQuery.each(pushBack, function(ind,val){
+            var pushBack = oa().splice(id, oa().length - id)
+            pushBack.shift()
+            oa.push(item)
+            jQuery.each(pushBack, function(ind,val){
                 oa.push(val)
-           })
-        } 
+            })
+        }
     }
     //
     this.templates = {}
@@ -149,10 +149,10 @@ function Phyloregnum(){
         var external = []
         var apomorph = []
         //
-       
+
         jQuery.each(this.submissionModel.specifiers(), function(ind,obj){
             if(obj.specifier_type === 'apomorphy'){
-               apomorph.push(obj.specifier_character_name+'(' + obj.specifier_name + ')' )
+                apomorph.push(obj.specifier_character_name+'(' + obj.specifier_name + ')' )
             }else{
                 var kind = obj.specifier_kind === undefined ? obj.kind : obj.specifier_kind
                 switch(kind){
@@ -174,8 +174,8 @@ function Phyloregnum(){
 
 
         var gt = '&gt;&nbsp;'
-          , lt = '&lt;&nbsp;'
-          , nabla = '&nabla;';
+            , lt = '&lt;&nbsp;'
+            , nabla = '&nabla;';
 
         switch(this.submissionModel.type()){
             // <  = &lt;    > = &gt;
@@ -204,18 +204,18 @@ function Phyloregnum(){
                 str = gt//'>'
                 break
         }//
-     
+
         apostr += apomorph.join(' &amp; ')
         intstr += internal.join(' &amp; ')
         extstr += external.join(' V ')
-     
+
         str += apostr + (apostr == '' || intstr == '' ? '' : ' & ') + intstr + (extstr == '' ? '' : ' ~ ' + extstr)
         return str
     }
 
     //make cladename citation reference
     this.makeReference = function(options){
-    
+
         var isUndefined = function(val){
             if(typeof(val) == 'undefined' || val == ''){
                 return ''
@@ -232,18 +232,18 @@ function Phyloregnum(){
         }
         var obj = options.parent
         var str = obj.name()  + ' '
-        var cit = obj.citations 
+        var cit = obj.citations
         if(typeof(cit.preexisting()[0]) == 'object'){
             str += obj.preexisting_authors() + ' '
             str += (isUndefined(cit.preexisting()[0]['year']) == '' ? '' : cit.preexisting()[0]['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '  
-            str += (isUndefined(cit.preexisting()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.preexisting()[0]['volume'] + ')' + ': ') ) 
+            str += (isUndefined(cit.preexisting()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.preexisting()[0]['volume'] + ')' + ': ') )
             str += (isUndefined(cit.preexisting()[0]['pages']) == '' ? '' : cit.preexisting()[0]['pages'])
             str += ' [' + obj.authors() + ']'
-            str += ', converted clade name' 
+            str += ', converted clade name'
         }else{
             //var d = new Date()
 
-            str += obj.authors() + ' ' 
+            str += obj.authors() + ' '
             if(typeof(cit.description()[0]) == 'object'){
                 str += (isUndefined(cit.description()[0]['year']) == '' ? '' : cit.description()[0]['year'] + ': ' )//isUndefined(cit.description['year']) + ': ' 
                 str += (isUndefined(cit.description()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.description()[0]['volume'] + ')' + ': ') ) //formatVolume(cit.description['volume']) + isUndefined(cit.description['pages'])
@@ -257,7 +257,7 @@ function Phyloregnum(){
 
     this.save_submission = function(action){
         jQuery('#spinner').show()
-     
+
         switch(action){
             case 'Save':
                 self.submissionModel.subaction = 'save'
@@ -297,16 +297,16 @@ function Phyloregnum(){
             ///ko key mapping
             pr.submissionModel = ko.mapping.fromJS(submission,pr.ko.mapping)
             jQuery.each(pr.submissionModel, function(k,v){
-                
+
                 if((typeof(v)=='function'&&v()=='null')||v==null){
                     pr.submissionModel[k]('');
                 }
             })
-            
+
             ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'))
 
             jQuery('.temp-id').html(parseInt(id).pad(10));
-           
+
             jQuery.loadWidgets('#contents')
             jQuery('#modal-message-window').dialog('destroy')
         })
@@ -326,7 +326,7 @@ var pr = new Phyloregnum()
 jQuery.outlinkBuilder = function(ofor,oid){
     var link = ''
     if(ofor !== '' && oid !== ''){
-       
+
         switch(ofor){
             case 'treebase':                        // FIXME - proper link
                 link = '<a class="outlink-link" href="http://purl.org/phylo/treebase/phylows/tree/TB2:'+oid+'">TreeBASE ID: <img class="outlink-arrow" src="/images/outlink-arrow.gif" /></a>'
@@ -341,7 +341,7 @@ jQuery.outlinkBuilder = function(ofor,oid){
                 link = '<a class="outlink-link" href="http://purl.org/phylo/treebase/phylows/tree/TB2:'+oid+'">TreeBASE Tree ID: <img class="outlink-arrow" src="/images/outlink-arrow.gif" /></a>'
                 break;
             default:
-                link = 'unknown' 
+                link = 'unknown'
                 break;
         }
     }else{
@@ -360,36 +360,73 @@ jQuery.citationType = function(type){
 *
 */
 jQuery.showSpecifier = function(sfor,callback){
-    //template    
-    var temp = pr.templates['species_specifier']
+
+
+    var type_val = jQuery('#new_type').val(),
+        exclude_apomorphy = [
+            'minimum-clade_standard',
+            'minimum-clade_directly_specified_ancestor',
+            'maximum-clade_standard',
+            'maximum-crown-clade',
+            'minimum-crown-clade',
+            'maximum-crown-clade',
+            'maximum-total-clade',
+            'crown-based_total_clade'],
+        apomorphy_only = [
+            'apomorphy-based_standard',
+            'apomorphy-modified_crown_clade'
+        ];
+
+    function getTemplate(type){
+        var template = pr.templates['species_specifier'];
+        if (apomorphy_only.includes(type)){
+            template = pr.templates['apomorphy_specifier'];
+        }
+
+        return template;
+    }
+
+    var template = getTemplate(type_val);
+    // if (exclude_apomorphy.includes(type_val)){
+    //     $type.children('#apomorphy-option').attr('disabled','disabled');
+    // }
+    // if (apomorphy_only.includes(type_val)){
+    //     $type.children('#species-option').remove();
+    //     $type.children('#specimen-option').remove();
+    //     $type.trigger('change');
+    // }
+
+
+
+    //template
     if(sfor !== 'new'){
         var ty = sfor.specifier_type
-        temp = pr.templates[ty +'_specifier']  
+        temp = pr.templates[ty +'_specifier']
     }
     var opts = {
         width: 550,
-        title: 'Edit Specifier',
+        title: 'Add Specifier',
         buttons: [
-          { text: 'Save',
-            click: function(){
-              jQuery.save_specifier()
-              jQuery.closeFloatWindow()
-            }
-          }]
+            { text: 'Save',
+                click: function(){
+                    jQuery.save_specifier()
+                    jQuery.closeFloatWindow()
+                }
+            }]
     }
     //callback to setup observers
     var cback = function(){
-        jQuery('#window-for-text').html((sfor == 'new' ? 'New' : 'Edit') + ' Specifier/Qualifier')       
+        jQuery('#window-for-text').html((sfor == 'new' ? 'New' : 'Edit') + ' Specifier/Qualifier')
         var temp = ''
         if(sfor == 'new'){
-           temp = pr.templates['species_specifier']           
+            temp = getTemplate(jQuery('#new_type').val());
         }else{
-            var ind = pr.submissionModel.specifiers.indexOf(sfor)           
+            var ind = pr.submissionModel.specifiers.indexOf(sfor)
             //jQuery.specifierType(data[parseInt(sfor)].type)
             jQuery('#specifier_table_entry_id').val(ind)
             jQuery.each(sfor,function(ind,obj){
                 jQuery('#new_'+ind).val(obj)
-            })  
+            })
             if(pr.submissionModel.specifiers()[ind]['attachment_path'] !== undefined ){
                 var id = pr.submissionModel.specifiers()[ind]['attachment_id']
                 jQuery('#specifier-attachment-cell').html('<a href="'+pr.submissionModel.specifiers()[ind]['attachment_path']+'">View</a>&nbsp;|&nbsp;<a class="specifier" href="/my_submission/remove_attachment/'+id+'">Remove</a>')
@@ -397,10 +434,19 @@ jQuery.showSpecifier = function(sfor,callback){
                 jQuery('#specifier-attachment-cell').html(pr.emptyAttachmentFile)
             }
         }
+
+        var $type = jQuery('#new_specifier_type')
+        if (exclude_apomorphy.includes(type_val)){
+            $type.children('#apomorphy-option').attr('disabled','disabled');
+        }
+        if (apomorphy_only.includes(type_val)){
+            $type.children('#species-option').remove();
+            $type.children('#specimen-option').remove();
+        }
     }
     //
- 
-    jQuery.openFloatWindow(temp, opts, cback)//.show().sizeWindow()
+
+    jQuery.openFloatWindow(template, opts, cback)//.show().sizeWindow()
     //
     if(callback != undefined){
         callback()
@@ -411,16 +457,16 @@ jQuery.showCitation = function(cobj,cfor,callback){
     if(typeof(cobj) == 'undefined'){
         cobj = pr.emptyCitationObj
     }
-    var cback = function(){       
+    var cback = function(){
         jQuery('#new_citation_for').val(cfor)
-        
+
         jQuery.loadFloatWindowForm(cobj)
         if(cfor === 'phylogeny'){
             if(cobj === 'new'){
-              jQuery('#phylogeny_table_citation_id').val('new')
+                jQuery('#phylogeny_table_citation_id').val('new')
             }else{
-             
-              jQuery('#phylogeny_table_citation_id').val(pr.submissionModel.citations.phylogeny.indexOf(cobj).toString())
+
+                jQuery('#phylogeny_table_citation_id').val(pr.submissionModel.citations.phylogeny.indexOf(cobj).toString())
             }
         }
         if(cobj['attachment_path'] !== undefined ){
@@ -436,14 +482,14 @@ jQuery.showCitation = function(cobj,cfor,callback){
     }
     ///
     var opts = {width: 630, title: 'Add/Edit Reference', buttons: [
-      { text: 'Save', 
-        click: function(){
-          jQuery.save_citation()
-          jQuery.closeFloatWindow() 
-        }
-      }
-    ]}
-    ///  
+            { text: 'Save',
+                click: function(){
+                    jQuery.save_citation()
+                    jQuery.closeFloatWindow()
+                }
+            }
+        ]}
+    ///
     var type = cobj.citation_type
     jQuery.openFloatWindow(pr.templates[jQuery.citationType(type)],opts,cback)//.show()//.sizeWindow()
     //execute callback if provided
@@ -469,11 +515,11 @@ jQuery.showCitation = function(cobj,cfor,callback){
 ////////////////////////////////////////////////////////////////////////////////////
 //MAIN WATCHES   - In order of appearance on new submission
 jQuery(document).ready(function(){
-     
+
     jQuery('#modal-message-window').dialog({modal: true, width: 300, height: 200})
-    
+
     jQuery.each(pr.templatesToLoad,function(key){
-      
+
         jQuery.get('/templates/load?template='+pr.templatesToLoad[key],function(response){
             pr.templates[pr.templatesToLoad[key]] = response
         })
@@ -485,7 +531,7 @@ jQuery(document).ready(function(){
     var id = pathArray[pathArray.length-1]
     //load submission if id given in url(restful url)
     if(!isNaN(id)){
-      pr.loadSubmission(id)
+        pr.loadSubmission(id)
     }
 
 //////////////////////////////setup jquery observers////////////////////////////////
@@ -498,7 +544,7 @@ jQuery(document).ready(function(){
         jQuery('#'+target.target.id + '-div').css({'display':'block'});
         jQuery('#'+target.target.id).css({'background-color': '#FFFAE1', 'border-bottom': '1px solid #FFFAE1'});
         //build reference string on tab click
-       // jQuery.makeReference()
+        // jQuery.makeReference()
         pr.save_submission()
     })
     //action for save and submit buttons
@@ -570,6 +616,12 @@ jQuery(document).ready(function(){
 
 
     /*CLADE TYPE & SPECIFIERS TAB*/
+    jQuery('#new_type').on('change', function(){
+        var type = this.value;
+        jQuery('#definition_type_definitions').children('p').hide();
+        jQuery('#' + type + '_def').show();
+    })
+
     //on citation save button
 
     /*DEFINITION TAB*/
@@ -588,8 +640,8 @@ jQuery(document).ready(function(){
             var link = jQuery.outlinkBuilder(res,value)
             jQuery('#'+res+'_id_link').html(link)
         }
-        if(event.target.classList.contains('expander')){          
-           jQuery(event.target).parents('tr').next('tr').toggle()
+        if(event.target.classList.contains('expander')){
+            jQuery(event.target).parents('tr').next('tr').toggle()
         }
     })
     //
