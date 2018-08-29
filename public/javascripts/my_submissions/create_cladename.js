@@ -5,7 +5,7 @@ function Phyloregnum(){
     var self = this
     //object for holding json data
     this.submissionModel = { }//
-    this.emptyCitationObj = {'citation_type': 'book', 'citation_authors': ' ', 'title': ' '}
+    this.emptyCitationObj = {'citation_type': 'book', 'citation_authors': [], 'title': ' '}
     this.ko = {
         //json response loading map for ko.mapping
         mapping:  {
@@ -137,6 +137,9 @@ function Phyloregnum(){
             }
         }
     }//
+
+
+
     //build abbreviated symbolic clade definition
     this.makeDefinition = function(){
 
@@ -269,7 +272,7 @@ function Phyloregnum(){
         var subid = jQuery('#submission_id').val()
         //return the asynch object so any calls to save can
         //be chained with other deferred methods
-
+debugger;
         return jQuery.post('/save', ko.mapping.toJS(self.submissionModel), function(response){
             if(subid==='new'){
                 document.location.href = '/my_submission/'+ response.submission_id
@@ -312,6 +315,63 @@ function Phyloregnum(){
         })
         return false
     }
+
+
+    /*******************************
+     * Author functions
+     */
+
+
+
+    this.author = {
+        addAuthor: function($author){
+            if (this.isValidAuthor($author)){
+                var clone = $author.clone(true,true);
+                clone.find('input').each( function(index, element){ element.value = ""; } );
+                clone.find(".author-validation-message").html("");
+                $author.after(clone);
+                this.markAllValid($author);
+            }else{
+                $author.find(".author-validation-message").html("Please enter a first name and last name before adding an additional author.");
+            }
+        },
+        removeAuthor: function($author){
+            var me = this,
+                $all_authors = $author.parent().children('.author'),
+                invalid_remove = $all_authors.toArray().every(function (el){
+                    if (el === $author[0]){
+                        return true;
+                    }
+                    return !me.isValidAuthor(jQuery(el));
+                });
+
+            if (invalid_remove){
+                $author.find(".author-validation-message").html("You must leave one remaining valid author. (First and last name required)");
+            }else{
+                $author.remove();
+                this.markAllValid($author);
+            }
+        },
+        isValidAuthor: function ($author) {
+            var $author_inputs = $author.find('input');
+            return $author_inputs.toArray().every(function (el) {
+                var nameType = el.dataset.nameType;
+                return !((nameType === 'first' || nameType === 'last') && el.value.trim() === '')
+            })
+        },
+        markAllValid: function ($author) {
+            var me = this;
+            $author.parent().children('.author').each(function(i, el){ me.markValid(jQuery(el)); })
+        },
+        markValid: function ($author){ $author.find('.author-validation-message').html(""); },
+        validateAuthor: function ($author) {
+            if (this.isValidAuthor($author)){
+                this.markValid($author);
+            }
+        }
+    }
+
+
 }
 //initialize Phyloregnum object
 //with pr shortcut
@@ -454,6 +514,7 @@ jQuery.showSpecifier = function(sfor,callback){
 }
 //
 jQuery.showCitation = function(cobj,cfor,callback){
+    debugger;
     if(typeof(cobj) == 'undefined'){
         cobj = pr.emptyCitationObj
     }
@@ -491,6 +552,8 @@ jQuery.showCitation = function(cobj,cfor,callback){
         ]}
     ///
     var type = cobj.citation_type
+
+
     jQuery.openFloatWindow(pr.templates[jQuery.citationType(type)],opts,cback)//.show()//.sizeWindow()
     //execute callback if provided
     if(callback != undefined){
@@ -519,7 +582,6 @@ jQuery(document).ready(function(){
     jQuery('#modal-message-window').dialog({modal: true, width: 300, height: 200})
 
     jQuery.each(pr.templatesToLoad,function(key){
-
         jQuery.get('/templates/load?template='+pr.templatesToLoad[key],function(response){
             pr.templates[pr.templatesToLoad[key]] = response
         })
@@ -535,6 +597,32 @@ jQuery(document).ready(function(){
     }
 
 //////////////////////////////setup jquery observers////////////////////////////////
+
+    //Author controls clicks
+
+    jQuery('.author-controls a').click(function(event){
+        event.preventDefault();
+        var target = event.target,
+            $author = jQuery(target).parents('.author');
+
+        switch (event.target.className){
+            case "add-another-author":
+                pr.author.addAuthor($author);
+                break;
+            case "remove-author":
+                pr.author.removeAuthor($author);
+                break;
+        }
+    })
+
+    //Author textbox changes
+    jQuery('.author-first-name, .author-last-name').on('keyup change', function(){
+        pr.author.validateAuthor(jQuery(this).parents('.author'));
+    })
+
+
+
+
     //new cladename tabs click
     jQuery('#new-cladename-tabs>li.tab').click(function(target){
         //make all tabs active and hide all divs

@@ -4,15 +4,24 @@
 <form id="new-citation-form-entry" action="#">
   <table>
     <tr>
-      <td >Type:</td><td colspan="2">Author(s):</td><td></td> <td style="text-align:right;"><input type="button" id="citation_save_button" value="Save" /></td>
+      <td >Type:</td>
+      <td colspan="2">Author(s)sss:</td>
+      <td></td>
+      <td style="text-align:right;"><input type="button" id="citation_save_button" value="Save" /></td>
     </tr>
     <tr>
-      <td><select id="new_citation_type" name="citation_type">
-        <option value="book">Book</option>
-        <option value="journal">Journal</option>
-        <option value="book_section">Book Section</option>
-      </select></td>
-      <td colspan="2"><input type="text" size="25" id="new_citation_authors" name="citation_authors"/></td>
+      <td>
+        <select id="new_citation_type" name="citation_type">
+          <option value="book">Book</option>
+          <option value="journal">Journal</option>
+          <option value="book_section">Book Section</option>
+        </select>
+      </td>
+      <td colspan="2">
+        <input type="text" size="25" id="new_citation_authors" name="citation_authorsxxx"/>
+        <%= render :partial => 'shared/add_author' %>
+        <%= render :partial => 'shared/add_author' %>
+      </td>
     </tr>
     <tr class="book_inputs">
       <td colspan="2" >Title:</td> <td colspan="2" >Publisher:</td>

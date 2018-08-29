@@ -45,3 +45,49 @@
 #definition_type_definitions>p{
 	font-style: italic;
 }
+
+/*******************
+Add author partial
+******************/
+
+.add-author-container{
+	margin-left: 1rem;
+}
+
+.add-author-container .author{
+	margin-bottom: 0.5rem;
+}
+
+.add-author-container .author label,
+.add-author-container .author .author-controls a,
+.add-author-container .author .author-controls .author-valid-message
+{
+	font-weight: normal;
+	font-size: 85%;
+}
+
+.add-author-container .author label input{
+	width: 100px;
+}
+
+.add-author-container .author .author-controls{
+	margin-left: 0.5rem;
+}
+
+.add-author-container .author .author-controls .author-validation-message{
+	font-style: italic;
+	color: darkred;
+}
+
+.add-author-container .author .author-controls a{
+	margin-left: 0.5rem;
+	color: rgb(0, 102, 204);
+}
+
+.add-author-container .author:not(:last-of-type) .author-controls a.add-another-author{
+	display: none;
+}
+
+.add-author-container .author:first-of-type .author-controls a.remove-author{
+	/*display: none;*/
+}
