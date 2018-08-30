@@ -6,7 +6,9 @@ function Phyloregnum(){
     //object for holding json data
     this.submissionModel = {
     }//
-    this.emptyCitationObj = {'citation_type': 'book', 'citation_authors': [], 'title': ' '}
+
+    this.emptyAuthorObj = {'first_name': '', 'middle_name': '', 'last_name': ''}
+    this.emptyCitationObj = {'citation_type': 'book', 'citation_authors':ko.observableArray([ this.emptyAuthorObj ]), 'title': ' '}
     this.ko = {
         //json response loading map for ko.mapping
         mapping:  {
@@ -35,7 +37,7 @@ function Phyloregnum(){
                             if(typeof(item['specifier_kind'])=='undefined' || item['specifier_kind']==null ){
                                 item['specifier_kind']='';
                             }else if(typeof(item['specifier_kind_type'])=='undefined' || item['specifier_kind_type']==null ){
-                                item['specifier_kind_type']='';
+                                itadd_aem['specifier_kind_type']='';
                             }
 
                         }
@@ -48,12 +50,13 @@ function Phyloregnum(){
             'citations': {
                 create: function(options){
                     //initalize citations
+                    debugger;
                     //existing ones will overwrite these
                     var cits = {
                         'phylogeny': ko.observableArray([]).extend({paging: 5}),
                         'primary-phylogeny': ko.observableArray([self.emptyCitationObj]),
                         'description': ko.observableArray([self.emptyCitationObj]),
-                        'preexisting': ko.observableArray([])
+                        'preexisting': ko.observableArray([{'authors': ko.observableArray([ this.emptyAuthorObj ])}])
                     }
                     //now load existing ones from response into cits hash
                     jQuery.each(options.data, function(ind,val){
@@ -64,6 +67,13 @@ function Phyloregnum(){
                                 }else{
                                     cits[ind] = ko.observableArray(self.ko.objToArray(val))
                                 }
+
+                                /todo: check for Array.isArray(val);
+                                val.forEach( function(citation, index){
+                                    if (citation.hasOwnProperty('authors')){
+                                        cits[ind]()[index].authors = self.ko.objToArray(citation.authors);
+                                    }
+                                })
                             }
                         }
                     })
@@ -122,29 +132,29 @@ function Phyloregnum(){
     this.emptyAttachmentFile = '<form id="remote-attachment-form"  enctype="multipart/form-data" action="/my_submission/add_attachment" method="post"><input type="file" id="new_remote_attachment" name="file" /></form>'
 
     //define button actions
-    this.ba = {
-        addSpecifier: function(){
-            jQuery.showSpecifier('new')
-        },
-        editSpecifier: function(obj){
-            jQuery.showSpecifier(obj)
-        },
-        deleteSpecifier: function(obj){
-            if(confirm("Delete this specifier/qualifier?")){
-                self.submissionModel.specifiers.remove(obj)
+        this.ba = {
+            addSpecifier: function(){
+                jQuery.showSpecifier('new')
+            },
+            editSpecifier: function(obj){
+                jQuery.showSpecifier(obj)
+            },
+            deleteSpecifier: function(obj){
+                if(confirm("Delete this specifier/qualifier?")){
+                    self.submissionModel.specifiers.remove(obj)
+                }
+            },
+            addCitation: function(cfor,obj,event){
+                jQuery.showCitation('new',cfor)
+            },
+            editCitation: function(cfor,obj,event){
+                jQuery.showCitation(obj,cfor)
+            },
+            deleteCitation: function(cfor,obj,event){
+                if(confirm("Delete this citation?")){
+                    self.submissionModel.citations[cfor].remove(obj)
+                }
             }
-        },
-        addCitation: function(cfor,obj,event){
-            jQuery.showCitation('new',cfor)
-        },
-        editCitation: function(cfor,obj,event){
-            jQuery.showCitation(obj,cfor)
-        },
-        deleteCitation: function(cfor,obj,event){
-            if(confirm("Delete this citation?")){
-                self.submissionModel.citations[cfor].remove(obj)
-            }
-        }
     }//
 
 
@@ -304,7 +314,7 @@ function Phyloregnum(){
         jQuery.getJSON('/my_submission/'+id,function(response){
             var submission = response.submission ? response.submission : response;
 
-            submission.submission_id = id
+            submission.submsion_id = id
             //set save action
             submission.subaction = ''
             ///ko key mapping
@@ -335,6 +345,7 @@ function Phyloregnum(){
 
     this.author = {
         addAuthor: function($author, event){
+            debugger;
             var invalid_msg = "Please enter a first name and last name before adding an additional author.";
             if ($author.hasOwnProperty('first_name')){
                 if (pr.author.isValidAuthor($author)){
@@ -576,8 +587,10 @@ jQuery.showCitation = function(cobj,cfor,callback){
         if(cfor !== "primary-phylogeny"){
             jQuery(".primary_only").remove();
         }
+// debugger;
+        ko.applyBindings(pr.submissionModel.citations[cfor]()[0], document.getElementById('float-window-content-holder'))
     }
-    ///
+    ///{
     var opts = {width: 630, title: 'Add/Edit Reference', buttons: [
             { text: 'Save',
                 click: function(){
@@ -637,6 +650,7 @@ jQuery(document).ready(function(){
     //Author controls clicks
 
     jQuery('.author-controls a').click(function(event){
+        debugger;
         event.preventDefault();
         var target = event.target,
             $author = jQuery(target).parents('.author');

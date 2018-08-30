@@ -20,7 +20,6 @@
     //
     jQuery.fn.loadFormData = function(dataHash, idPrefix){
     //very likely to prefix inputs
-        debugger;
         var data = dataHash  //should be a hash
         if(idPrefix == 'undefined'){
             idPrefix = ''
