@@ -4,11 +4,20 @@ function Phyloregnum(){
     //define phylo knockout properties
     var self = this
     //object for holding json data
-    this.submissionModel = { }//
+    this.submissionModel = {
+    }//
     this.emptyCitationObj = {'citation_type': 'book', 'citation_authors': [], 'title': ' '}
     this.ko = {
         //json response loading map for ko.mapping
         mapping:  {
+            'authors': {
+                create: function(options){
+                    if (options.data){
+                        return ko.observableArray(self.ko.objToArray(options.data));
+                    }
+                    return ko.observableArray([{'first_name': '', 'middle_name': '', 'last_name': ''}])
+                }
+            },
             'specifiers': {
                 create: function(options){
                     var specs = [];
@@ -180,7 +189,7 @@ function Phyloregnum(){
             , lt = '&lt;&nbsp;'
             , nabla = '&nabla;';
 
-        switch(this.submissionModel.type()){
+        switch(this.submissionModel.clade_type()){
             // <  = &lt;    > = &gt;
             case 'node-based_standard':
                 str = lt//'<'
@@ -241,7 +250,7 @@ function Phyloregnum(){
             str += (isUndefined(cit.preexisting()[0]['year']) == '' ? '' : cit.preexisting()[0]['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '  
             str += (isUndefined(cit.preexisting()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.preexisting()[0]['volume'] + ')' + ': ') )
             str += (isUndefined(cit.preexisting()[0]['pages']) == '' ? '' : cit.preexisting()[0]['pages'])
-            str += ' [' + obj.authors() + ']'
+            // todo: str += ' [' + obj.authors() + ']'
             str += ', converted clade name'
         }else{
             //var d = new Date()
@@ -272,7 +281,8 @@ function Phyloregnum(){
         var subid = jQuery('#submission_id').val()
         //return the asynch object so any calls to save can
         //be chained with other deferred methods
-debugger;
+
+
         return jQuery.post('/save', ko.mapping.toJS(self.submissionModel), function(response){
             if(subid==='new'){
                 document.location.href = '/my_submission/'+ response.submission_id
@@ -298,6 +308,7 @@ debugger;
             //set save action
             submission.subaction = ''
             ///ko key mapping
+
             pr.submissionModel = ko.mapping.fromJS(submission,pr.ko.mapping)
             jQuery.each(pr.submissionModel, function(k,v){
 
@@ -307,7 +318,6 @@ debugger;
             })
 
             ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'))
-
             jQuery('.temp-id').html(parseInt(id).pad(10));
 
             jQuery.loadWidgets('#contents')
@@ -324,35 +334,62 @@ debugger;
 
 
     this.author = {
-        addAuthor: function($author){
-            if (this.isValidAuthor($author)){
-                var clone = $author.clone(true,true);
-                clone.find('input').each( function(index, element){ element.value = ""; } );
-                clone.find(".author-validation-message").html("");
-                $author.after(clone);
-                this.markAllValid($author);
+        addAuthor: function($author, event){
+            var invalid_msg = "Please enter a first name and last name before adding an additional author.";
+            if ($author.hasOwnProperty('first_name')){
+                if (pr.author.isValidAuthor($author)){
+                    pr.submissionModel.authors.push({first_name: '', middle_name: '', last_name: ''});
+                    pr.author.markAllValid(jQuery(event.target).parents('.author'));
+                }else{
+                    event.target.nextElementSibling.nextElementSibling.innerHTML = invalid_msg;
+                }
             }else{
-                $author.find(".author-validation-message").html("Please enter a first name and last name before adding an additional author.");
+                if (this.isValidAuthor($author)){
+                    var clone = $author.clone(true,true);
+                    clone.find('input').each( function(index, element){ element.value = ""; } );
+                    clone.find(".author-validation-message").html("");
+                    $author.after(clone);
+                    this.markAllValid($author);
+                }else{
+                    $author.find(".author-validation-message").html(invalid_msg);
+                }
             }
         },
-        removeAuthor: function($author){
-            var me = this,
-                $all_authors = $author.parent().children('.author'),
-                invalid_remove = $all_authors.toArray().every(function (el){
-                    if (el === $author[0]){
-                        return true;
-                    }
-                    return !me.isValidAuthor(jQuery(el));
-                });
-
-            if (invalid_remove){
-                $author.find(".author-validation-message").html("You must leave one remaining valid author. (First and last name required)");
+        removeAuthor: function($author, event){
+            var invalid_msg = "You must leave one remaining valid author. (First and last name required)";
+            if ($author.hasOwnProperty('first_name')){
+                var invalid_remove = pr.submissionModel.authors().every(function(auth){
+                    if (auth === $author){ return true; }
+                    return (auth.first_name.trim() === "" || auth.last_name.trim() === "");
+                })
+                if (invalid_remove){
+                    event.target.nextElementSibling.innerHTML = invalid_msg;
+                }else{
+                    pr.author.markAllValid(jQuery(event.target).parents('.author'));
+                    pr.submissionModel.authors.remove($author);
+                }
             }else{
-                $author.remove();
-                this.markAllValid($author);
+                var me = this,
+                    $all_authors = $author.parent().children('.author'),
+                    invalid_remove = $all_authors.toArray().every(function (el){
+                        if (el === $author[0]){
+                            return true;
+                        }
+                        return !me.isValidAuthor(jQuery(el));
+                    });
+
+                if (invalid_remove){
+                    $author.find(".author-validation-message").html(invalid_msg);
+                }else{
+                    $author.remove();
+                    this.markAllValid($author);
+                }
             }
         },
         isValidAuthor: function ($author) {
+            if ($author.hasOwnProperty('first_name')){
+                return !($author.first_name.trim() === "" || $author.last_name.trim() === "")
+            }
             var $author_inputs = $author.find('input');
             return $author_inputs.toArray().every(function (el) {
                 var nameType = el.dataset.nameType;
@@ -514,7 +551,6 @@ jQuery.showSpecifier = function(sfor,callback){
 }
 //
 jQuery.showCitation = function(cobj,cfor,callback){
-    debugger;
     if(typeof(cobj) == 'undefined'){
         cobj = pr.emptyCitationObj
     }

@@ -6,6 +6,39 @@ class MySubmissionController < ApplicationController
   before_filter lambda{ check_requester(params[:submission_id]) unless params[:submission_id] == 'new'} , :only => [:save, :add_attachment]
   # need filter for remove attachement to check user cred
 
+  #
+  #
+  ##
+  def index
+    params[:term] ||= ''
+    params[:page] ||= '1'
+    params[:order] ||= 'name'
+    params[:dir] ||= 'up'
+    dir = params[:dir] == 'up' ? 'ASC' : 'DESC'
+    stats = current_user ? "status_id IN (4,3,2)" : "status_id = 4"
+    @subs = Submission.where(["submitted_by = ? AND name LIKE ?",  current_user.id, params[:term]+ '%'])
+                .order("#{params[:order]} #{dir}")
+                .paginate(:page => params[:page], :per_page => 12)
+    if request.xhr?
+      render :partial => 'my_submissions_table', :layout => false
+    else
+      render 'index'
+    end
+  end
+  #
+  #
+  ##
+  def show
+    #redirect_to create_submission
+    @sub = Submission.find(params[:id])
+    @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
+    respond_to do |format|
+      format.html {render 'cladename/new'}
+      format.json {render :json => @sub }
+    end
+  end
+
+
   def new
     @deftypeid = GenericName.new
     @clad =  @deftypeid
@@ -34,12 +67,11 @@ class MySubmissionController < ApplicationController
       sub = Submission.find(id)
       sub.citations = params[:citations] if params.has_key?(:citations)
       sub.specifiers = params[:specifiers] if params.has_key?(:specifiers)
-     
       sub.preexisting = params[:preexisting] == 'null' ? false : params[:preexisting]
       sub.comments = params[:comments]
       sub.preexisting_authors = params[:preexisting_authors]
       sub.preexisting_code = params[:preexisting_code]
-      sub.type = params[:type]
+      sub.clade_type = params[:clade_type]
       sub.definition = params[:definition]
       sub.name = params[:name]
       sub.authors = params[:authors]
@@ -111,37 +143,7 @@ class MySubmissionController < ApplicationController
       head 500
     end
   end
-  #
-  #
-  ##
-  def index
-    params[:term] ||= ''
-    params[:page] ||= '1'
-    params[:order] ||= 'name'
-    params[:dir] ||= 'up'
-    dir = params[:dir] == 'up' ? 'ASC' : 'DESC'
-    stats = current_user ? "status_id IN (4,3,2)" : "status_id = 4"
-    @subs = Submission.where(["submitted_by = ? AND name LIKE ?",  current_user.id, params[:term]+ '%'])
-             .order("#{params[:order]} #{dir}")
-               .paginate(:page => params[:page], :per_page => 12)
-    if request.xhr?
-        render :partial => 'my_submissions_table', :layout => false
-    else
-        render 'index'
-    end
-  end
-  #
-  #
-  ##
-  def show
-     #redirect_to create_submission
-    @sub = Submission.find(params[:id])
-    @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
-    respond_to do |format|
-      format.html {render 'cladename/new'}
-      format.json {render :json => @sub }
-    end
-  end
+
   
   private
   #

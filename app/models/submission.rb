@@ -3,7 +3,7 @@ class Submission < ActiveRecord::Base
   self.table_name = "submissions"
   self.inheritance_column = false
 
-  attr_accessible :name, :authors, :comments, :establish, :preexisting, :type, :specifiers, :citations
+  attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations
   attr_accessor :status_comments #editors comments for status changes
 
   has_many :submission_citation_attachments
@@ -25,8 +25,9 @@ class Submission < ActiveRecord::Base
   #citation
   before_update lambda{ self.updated_at = @current_time }
   before_update :check_status_change
-  #citations and specifiers are stored as hashes
-  #also conveniently makes all the fields searchable on a single column
+  # authors, citations and specifiers are stored as hashes
+  # this conveniently makes all the fields searchable on a single column
+  serialize :authors, Hash
   serialize :citations, Hash
   serialize :specifiers, Hash
   
@@ -60,17 +61,27 @@ class Submission < ActiveRecord::Base
   # sets empty serialized fields
   def check_serialized
     ####remember you can assign numerics as keys in ruby a hash
-    cits = {'preexisting' => {0=>{}}, 'description' => {0=>{}}, 'phylogeny' => {0=>{}}, 'primary-phylogeny' => {0=>{}}}
-    specs = {0=>{}}
+    #
+    # Authors
+    auths = [];
+    if (self.authors.nil? or self.authors.is_a? String)
+      self.authors = {0=>{}};
+    end
+
     ####
+    # Citations
+    cits = {'preexisting' => {0=>{}}, 'description' => {0=>{}}, 'phylogeny' => {0=>{}}, 'primary-phylogeny' => {0=>{}}}
+
     if self.citations == nil
       self.citations = cits
     else
       cits.each{|k,v| self.citations[k]=v unless self.citations.has_key?(k)}
     end
+
     ####
+    # Specifiers
     if self.specifiers == nil
-      self.specifiers = specs
+      self.specifiers = {0=>{}}
     end
   end
 
