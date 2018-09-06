@@ -68,7 +68,7 @@ function Phyloregnum(){
                                     cits[ind] = ko.observableArray(self.ko.objToArray(val))
                                 }
 
-                                /todo: check for Array.isArray(val);
+                                //todo: check for Array.isArray(val);
                                 val.forEach( function(citation, index){
                                     if (citation.hasOwnProperty('authors')){
                                         cits[ind]()[index].authors = self.ko.objToArray(citation.authors);
