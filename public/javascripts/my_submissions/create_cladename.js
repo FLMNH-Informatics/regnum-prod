@@ -6,7 +6,7 @@ function Phyloregnum(){
     //object for holding json data
     this.submissionModel = {
     }//
-
+    this.objIsEmpty = function(obj){ return Object.keys(obj).length === 0 && obj.constructor === Object }
     this.emptyAuthorObj = {'first_name': '', 'middle_name': '', 'last_name': ''}
     this.emptyCitationObj = {'citation_type': 'book', 'citation_authors':ko.observableArray([ this.emptyAuthorObj ]), 'title': ' '}
     this.ko = {
@@ -14,10 +14,10 @@ function Phyloregnum(){
         mapping:  {
             'authors': {
                 create: function(options){
-                    if (options.data){
+                    if ( options.data && !self.objIsEmpty(options.data) ){
                         return ko.observableArray(self.ko.objToArray(options.data));
                     }
-                    return ko.observableArray([{'first_name': '', 'middle_name': '', 'last_name': ''}])
+                    return ko.observableArray([ self.emptyAuthorObj ])
                 }
             },
             'specifiers': {
@@ -314,7 +314,7 @@ function Phyloregnum(){
         jQuery.getJSON('/my_submission/'+id,function(response){
             var submission = response.submission ? response.submission : response;
 
-            submission.submsion_id = id
+            submission.submission_id = id
             //set save action
             submission.subaction = ''
             ///ko key mapping
