@@ -67,6 +67,7 @@ GEM
     htmlentities (4.3.4)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
+    json (2.1.0)
     loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -122,7 +123,8 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    recaptcha (0.3.6)
+    recaptcha (4.12.0)
+      json
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
@@ -190,7 +192,7 @@ DEPENDENCIES
   paperclip
   protected_attributes
   rails (~> 4.2)
-  recaptcha (~> 0.3.4)
+  recaptcha
   rspec
   rspec-rails
   rufus-scheduler
