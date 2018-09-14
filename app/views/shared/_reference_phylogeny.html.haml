@@ -6,12 +6,12 @@
   - if phy['citation_type'] == 'journal'
     %dt Citation type
     %dd journal
-    - ['citation_authors','year','journal','volumes','volume','pages'].each do |property|
+    - ['authors','year','journal','volumes','volume','pages'].each do |property|
       -unless phy[property].blank?
         %dt= property.humanize
         %dd= format_output property, phy[property]
   - else
-    - ['citation_type','citation_authors','year','journal','volumes','volume','pages'].each do |property|
+    - ['citation_type','authors','year','journal','volumes','volume','pages'].each do |property|
       -unless phy[property].blank?
         %dt= property.humanize
         %dd= format_output property, phy[property]

@@ -50,7 +50,7 @@
                 = @sub.citations['preexisting']['0']['title']
               %div
                 %table
-                  -['citation_type','title','citation_authors'].each do |cit|
+                  -['citation_type','title','authors'].each do |cit|
                     %tr
                       %td
                         %span
@@ -120,7 +120,7 @@
     -#      &nbsp;
     -#      = (@sub.citations['description']['0'].has_key?('title') ? @sub.citations['description']['0']['title'] : @sub.citations['description']['0']['article_title'])
     -#    %dl.inline.clade_citation
-    -#      -['citation_type','title','citation_authors'].each do |cit|
+    -#      -['citation_type','title','authors'].each do |cit|
     -#        %dt= cit.humanize
     -#        %dd= format_output(cit,@sub.citations['description']['0'].delete(cit))
     -#        -attachment_prepare(@sub.citations['description']['0']).each do |key,val|
