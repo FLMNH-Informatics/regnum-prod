@@ -1,5 +1,5 @@
 <div class="add-author-container">
-    <div class="author" data-bind="foreach: authors">
+    <div class="author" data-bind="foreach: <%= author_type.pluralize %>">
       <label>First: <input  data-bind="value: $data.first_name" type="text" data-name-type="first_name" class="author-first-name" /></label>
       <label>Middle: <input data-bind="value: $data.middle_name" type="text" data-name-type="middle_name" /></label>
       <label>Last: <input   data-bind="value: $data.last_name" type="text" data-name-type="last_name"  class="author-last-name"/></label>

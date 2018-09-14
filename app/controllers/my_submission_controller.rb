@@ -51,7 +51,6 @@ class MySubmissionController < ApplicationController
   #
   ##
   def save
-    byebug
     id = params.delete(:submission_id) || 'new'
     if id == 'new'
       sub = Submission.new

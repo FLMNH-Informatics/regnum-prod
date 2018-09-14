@@ -32,11 +32,7 @@
         </tr>
         <tr>
           <td>
-            <% if @sub.authors.empty? %>
-              <%= render 'shared/add_author', { :databind => true, :name_prefix => "cladename" } %>
-            <% else %>
-                <%= render 'shared/add_author', { :authors => @sub.authors, :databind => true, :name_prefix => "cladename" } %>
-            <% end %>
+              <%= render 'shared/add_author', { author_type: 'author' } %>
           </td>
         </tr>
         <tr>

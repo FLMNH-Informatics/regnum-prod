@@ -54,11 +54,7 @@ function Phyloregnum(){
             'authors': {
                 create: function(options){
                     if ( options.data && !self.objIsEmpty(options.data) ){
-                        debugger;
                         return options.data;
-                        return ko.observableArray(self.ko.objToArray(options.data).map(function(auth){
-                            return auth;
-                        }));
                     }
                     return self.getEmptyAuthor()
                 },
@@ -317,9 +313,9 @@ return "def here";
         //todo: fix this
         if(submission.preexisting){
             str += pr.author.displayAuthors(citations.preexisting) + ' '
-            str += (isUndefined(citations.preexisting['year']) == '' ? '' : cit.preexisting()[0]['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '
-            str += (isUndefined(citations.preexisting['volume']) == '' ? '' : ('(Vol. ' + cit.preexisting()[0]['volume'] + ')' + ': ') )
-            str += (isUndefined(citations.preexisting['pages']) == '' ? '' : cit.preexisting()[0]['pages'])
+            str += (isUndefined(citations.preexisting['year']) == '' ? '' : citations.preexisting['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '
+            str += (isUndefined(citations.preexisting['volume']) == '' ? '' : ('(Vol. ' + citations.preexisting['volume'] + ')' + ': ') )
+            str += (isUndefined(citations.preexisting['pages']) == '' ? '' : citations.preexisting['pages'])
             // todo: str += ' [' + submission.authors() + ']'
             str += ', converted clade name'
         }else{
