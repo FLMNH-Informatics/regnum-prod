@@ -58,16 +58,7 @@ function Phyloregnum(){
                         return options.data;
                     }
                     return self.getEmptyAuthor()
-                },
-                addNew: function(options){
-                    debugger;
-                    'hi';
-                },
-                areValid: function(){
-                    debugger;
-                    return true;
-                },
-                display: displayAuthors.bind(this)
+                }
             },
             'specifiers': {
                 create: function(options){
@@ -365,6 +356,10 @@ return "def here";
             if (action === 'Submit')
                 document.location.href = '/my_submission'
             jQuery('#spinner').hide()
+            // var ko_node = document.getElementById('new-cladename-content');
+            // ko.cleanNode(ko_node)
+            // debugger;
+            // ko.applyBindings(pr.submissionModel, ko_node);
         });
     }
 
@@ -388,7 +383,7 @@ return "def here";
                     pr.submissionModel[k]('');
                 }
             })
-
+// debugger;
             ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'))
             jQuery('.temp-id').html(parseInt(id).pad(10));
 
@@ -619,6 +614,8 @@ jQuery.showCitation = function(citation,cfor,callback){
         if(cfor === 'phylogeny'){
             if(citation === 'new'){
                 jQuery('#phylogeny_table_citation_id').val('new')
+                citation = pr.getEmptyCitation();
+                pr.submissionModel.citations[cfor]().push(citation);
             }else{
                 jQuery('#phylogeny_table_citation_id').val(pr.submissionModel.citations.phylogeny.indexOf(citation).toString())
             }
@@ -697,7 +694,6 @@ jQuery(document).ready(function(){
     //Author controls clicks
 
     jQuery('.author-controls a').click(function(event){
-        debugger;
         event.preventDefault();
         var target = event.target,
             $author = jQuery(target).parents('.author');

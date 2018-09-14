@@ -92,3 +92,12 @@ Add author partial
 .add-author-container .author:first-of-type .author-controls a.remove-author{
 	/*display: none;*/
 }
+
+.table-controls{
+	margin-top: 0.5rem;
+}
+
+.table-controls button{
+	float: right;
+	margin-right: 0.5rem;
+}

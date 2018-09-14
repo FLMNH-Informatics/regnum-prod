@@ -248,14 +248,15 @@
                 <td style="max-width:200px" data-bind="text: citations['primary_phylogeny'].title"></td>
                 <td style="max-width:200px" data-bind="text: pr.author.displayAuthors(citations['primary_phylogeny'].authors())"></td>
                 <td>
-                  <input data-bind="click: function(d,e){pr.ba.editCitation('primary_phylogeny',d,e)}" type="button" class="submit_button" value="add/edit"/>
+                  <button class="submit_button"
+                         data-bind="click: function(d,e){pr.ba.editCitation('primary_phylogeny',d,e)},
+                                    text: 'update'" />
                 </td>
               </tr>
               </tbody>
             </table>
           </div>
-          <p>Additional Reference Phylogenies: &nbsp;&nbsp;<input data-bind="click: function(d,e){pr.ba.addCitation('phylogeny',d,e)}" type="button" value="add" class="submit_button"/>
-          </p>
+          <p>Additional Reference Phylogenies:</p>
           <div id="phylo-citations" class="citations-table">
             <table class="sortable-table">
               <thead>
@@ -266,27 +267,30 @@
                 <th style="width:100px;">actions</th>
               </tr>
               </thead>
-              <tbody data-bind="foreach: citations.phylogeny.currentPageData">
-              <tr class="odd-row">
-                <td data-bind="text: citation_type"></td>
-                <td style="max-width:200px" data-bind="text: title"></td>
-                <td style="max-width:200px" data-bind="text: pr.author.displayAuthors($data.authors())"></td>
-                <td>
-                  <input data-bind="click: function(d,e){pr.ba.editCitation('phylogeny',d,e)}" type="button" class="submit_button" value="edit"/>&nbsp;
-                  <input data-bind="click: function(d,e){pr.ba.deleteCitation('phylogeny',d,e)}" type="button" class="submit_button" value="delete"/>
-                </td>
-              </tr>
+              <tbody>
+              <!-- ko foreach: citations.phylogeny.currentPageData -->
+                <tr class="odd-row">
+                  <td data-bind="text: $data.citation_type"></td>
+                  <td style="max-width:200px" data-bind="text: $data.title"></td>
+                  <td style="max-width:200px" data-bind="text: pr.author.displayAuthors($data.authors())"></td>
+                  <td>
+                    <input data-bind="click: function(d,e){pr.ba.editCitation('phylogeny',d,e)}" type="button" class="submit_button" value="edit"/>&nbsp;
+                    <input data-bind="click: function(d,e){pr.ba.deleteCitation('phylogeny',d,e)}" type="button" class="submit_button" value="delete"/>
+                  </td>
+                </tr>
+              <!-- /ko -->
               </tbody>
             </table>
-            <span class="table-controls">
+            <div class="table-controls">
               <a href="#" data-bind="click: citations.phylogeny.moveFirst">First</a>
               <a href="#" data-bind="click: citations.phylogeny.movePrevious">Previous</a>
               <a href="#" data-bind="click: citations.phylogeny.moveNext">Next</a>
               <a href="#" data-bind="click: citations.phylogeny.moveLast">Last</a>
-              Page    
+              <span class="page-info">Page
               <span data-bind="text: citations.phylogeny.currentPage" min="1"></span>
-               of <span data-bind="text: citations.phylogeny.pageCount"></span>
-            </span>
+                of <span data-bind="text: citations.phylogeny.pageCount"></span></span>
+              <button data-bind="text: 'add', click: function(d,e){pr.ba.addCitation('phylogeny',d,e)}" class="submit_button"/>
+            </div>
           </div>
         </div>
       </div><!-- end tab4-div -->
