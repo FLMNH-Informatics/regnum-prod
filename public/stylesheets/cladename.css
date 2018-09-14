@@ -75,6 +75,7 @@ Add author partial
 }
 
 .add-author-container .author .author-controls .author-validation-message{
+	display: block;
 	font-style: italic;
 	color: darkred;
 }

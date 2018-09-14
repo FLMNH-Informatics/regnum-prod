@@ -31,8 +31,8 @@
       <td colspan="2" >Title:</td> <td colspan="2" >Publisher:</td>
     </tr>
     <tr class="book_inputs">
-      <td colspan="2"><input class="book_inputs" type="text" size="25" id="new_title" name="title"/></td>
-      <td colspan="2" ><input class="book_inputs" type="text" size="25" id="new_publisher" name="publisher"/>&nbsp;&nbsp;  </td>
+      <td colspan="2"><input data-bind="value: title"  class="book_inputs" type="text" size="25" id="new_title" name="title"/></td>
+      <td colspan="2" ><input data-bind="value: publisher"  class="book_inputs" type="text" size="25" id="new_publisher" name="publisher"/>&nbsp;&nbsp;  </td>
     </tr>
 
     <tr class="book_inputs">
@@ -50,20 +50,20 @@
     </tr>
     <tr>
       <td class="primary_only" >
-        <input type="text" size="3" id="new_figure" name="figure"/>&nbsp;&nbsp;
+        <input data-bind="value: figure"  type="text" size="3" id="new_figure" name="figure"/>&nbsp;&nbsp;
       </td>
       <td>
-        <input type="text" size="10" id="new_year" name="year" />&nbsp;&nbsp;
+        <input data-bind="value: year"  type="text" size="10" id="new_year" name="year" />&nbsp;&nbsp;
       </td>
       <td class="book_inputs">
-        <input class="book_inputs" type="text" size="10" id="new_edition" name="edition"/>&nbsp;&nbsp;
+        <input data-bind="value: edition"  class="book_inputs" type="text" size="10" id="new_edition" name="edition"/>&nbsp;&nbsp;
       </td>
 
       <td class="book_inputs">
-        <input class="book_inputs" type="text" size="10" id="new_city" name="city"/>&nbsp;&nbsp;
+        <input data-bind="value: city"  class="book_inputs" type="text" size="10" id="new_city" name="city"/>&nbsp;&nbsp;
       </td>
       <td class="other_inputs">
-        <input class="other_inputs" type="text" size="10" id="new_volume" name="volume"/>&nbsp;&nbsp;
+        <input data-bind="value: volume"  class="other_inputs" type="text" size="10" id="new_volume" name="volume"/>&nbsp;&nbsp;
       </td>
 
     </tr>
@@ -75,16 +75,16 @@
     </tr>
     <tr>
       <td>
-        <input type="text" size="10" id="new_pages" name="pages"/>&nbsp;&nbsp;
+        <input data-bind="value: pages"  type="text" size="10" id="new_pages" name="pages"/>&nbsp;&nbsp;
       </td>
       <td>
-        <input type="text" size="10" id="new_keywords" name="keywords"/>&nbsp;&nbsp;
+        <input data-bind="value: keywords"  type="text" size="10" id="new_keywords" name="keywords"/>&nbsp;&nbsp;
       </td>
       <td>
-        <input type="text" size="10" id="new_abstract" name="abstract"/>&nbsp;&nbsp;
+        <input data-bind="value: abstract"  type="text" size="10" id="new_abstract" name="abstract"/>&nbsp;&nbsp;
       </td>
       <td>
-        <input type="text" size="10" id="new_isbn" name="isbn"/>&nbsp;&nbsp;
+        <input data-bind="value: isbn"  type="text" size="10" id="new_isbn" name="isbn"/>&nbsp;&nbsp;
       </td>
     </tr>
     <tr>
@@ -92,10 +92,10 @@
     </tr>
     <tr>
       <td colspan="2">
-        <input type="text" size="25" id="new_url" name="url"/>&nbsp;&nbsp;
+        <input data-bind="value: url"  type="text" size="25" id="new_url" name="url"/>&nbsp;&nbsp;
       </td>
       <td colspan="2">
-        <input type="text" size="25" id="new_doi" name="doi"/>&nbsp;&nbsp;
+        <input data-bind="value: doi"  type="text" size="25" id="new_doi" name="doi"/>&nbsp;&nbsp;
       </td>
     </tr>
 
@@ -104,7 +104,7 @@
      </tr>
     <tr class="treebase-outlink primary_only">
       <td colspan="2" class="phylogeny-citation">
-        <input class="phlyogeny-citation" type="text" size="25" id="new_treebase_tree_id" name="treebase_tree_id"/>&nbsp;&nbsp;
+        <input data-bind="value: treebase_tree_id"  class="phlyogeny-citation" type="text" size="25" id="new_treebase_tree_id" name="treebase_tree_id"/>&nbsp;&nbsp;
       </td>
     </tr>
 

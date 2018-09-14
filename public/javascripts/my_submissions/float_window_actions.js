@@ -1,4 +1,5 @@
 jQuery.save_citation = function(){
+    debugger;
         //var inputs = cit
         //inputs.push(jQuery('#new-citation-form-entry input[type="file"]')[0])
         var cit = jQuery.merge(jQuery('#float-window-content-holder #new-citation-form-entry input[type="text"]'),jQuery('#float-window-content-holder #new-citation-form-entry select'))

@@ -28,7 +28,7 @@
         //would like to have this load values
         //based on tag name attribute instead
         //TODO: fix this so it only searches with in window for inputs
-        debugger;
+        // debugger;
         jQuery.each(data, function(key,val){
             // jQuery('#float-window-content-holder #'+idPrefix+key).val(val)
         })
