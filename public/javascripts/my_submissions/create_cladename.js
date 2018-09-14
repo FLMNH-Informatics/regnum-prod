@@ -350,7 +350,7 @@ return "def here";
         //be chained with other deferred methods
 
         var data = ko.mapping.toJSON(self.submissionModel);
-debugger;
+
         return jQuery.ajax({
             type: 'POST',
             url: '/save',
@@ -360,20 +360,12 @@ debugger;
             success: function(response) {
                 if (subid === 'new') { document.location.href = '/my_submission/' + response.submission_id }
                 else { jQuery('#submission_id').val(response.submission_id) }
-            }})
-
-        return jQuery.post('/save', data, function(response){
-            if(subid==='new'){
-                document.location.href = '/my_submission/'+ response.submission_id
-            }else{
-                jQuery('#submission_id').val(response.submission_id)
             }
-        },'application/json').done(function(){
-            if(action === 'Submit'){
+        }).done(function(){
+            if (action === 'Submit')
                 document.location.href = '/my_submission'
-            }
             jQuery('#spinner').hide()
-        })
+        });
     }
 
     //load submission data for complete page loads
@@ -619,17 +611,19 @@ jQuery.showCitation = function(citation,cfor,callback){
         citation = pr.getEmptyCitation()
     }
     var cback = function(){
+        var bindingElement = document.getElementById('float-window-content-holder');
         jQuery('#new_citation_for').val(cfor)
 
         jQuery.loadFloatWindowForm(citation)
+
         if(cfor === 'phylogeny'){
             if(citation === 'new'){
                 jQuery('#phylogeny_table_citation_id').val('new')
             }else{
-
                 jQuery('#phylogeny_table_citation_id').val(pr.submissionModel.citations.phylogeny.indexOf(citation).toString())
             }
         }
+
         if(citation['attachment_path'] !== undefined ){
             var id = citation['attachment_id']
             jQuery('#citation-attachment-cell').html('<a href="'+citation['attachment_path']+'">View</a>&nbsp;|&nbsp;<a class="citation" href="/my_submission/remove_attachment/'+id+'">Remove</a>')
@@ -640,7 +634,8 @@ jQuery.showCitation = function(citation,cfor,callback){
         if(cfor !== "primary_phylogeny"){
             jQuery(".primary_only").remove();
         }
-        ko.applyBindings(citation, document.getElementById('float-window-content-holder'))
+        ko.cleanNode(bindingElement);
+        ko.applyBindings(citation, bindingElement)
     }
     ///{
     var opts = {width: 630, title: 'Add/Edit Reference', buttons: [
