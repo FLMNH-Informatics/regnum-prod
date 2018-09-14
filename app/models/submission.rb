@@ -27,7 +27,7 @@ class Submission < ActiveRecord::Base
   before_update :check_status_change
   # authors, citations and specifiers are stored as hashes
   # this conveniently makes all the fields searchable on a single column
-  serialize :authors, Hash
+  serialize :authors, Array
   serialize :citations, Hash
   serialize :specifiers, Hash
   
@@ -63,20 +63,27 @@ class Submission < ActiveRecord::Base
     ####remember you can assign numerics as keys in ruby a hash
     #
     # Authors
-    auths = [];
-    if (self.authors.nil? or self.authors.is_a? String)
-      self.authors = {0=>{}};
-    end
+    # auths = [];
+    # if (self.authors.nil? or self.authors.is_a? String)
+    #   self.authors = {0=>{}};
+    # end
 
     ####
     # Citations
-    cits = {'preexisting' => {0=>{}}, 'description' => {0=>{}}, 'phylogeny' => {0=>{}}, 'primary-phylogeny' => {0=>{}}}
-
-    if self.citations == nil
-      self.citations = cits
-    else
-      cits.each{|k,v| self.citations[k]=v unless self.citations.has_key?(k)}
-    end
+#     cits = {
+#         #only one citation
+#         primary_phylogeny:  {},
+#         preexisting:        {},
+#         #many citations
+#         description:  { 0=>{} },
+#         phylogeny:    { 0=>{} }
+#     }
+# byebug
+#     if self.citations == nil
+#       # self.citations = cits
+#     else
+#       cits.each{|k,v| self.citations[k]=v unless self.citations.has_key?(k)}
+#     end
 
     ####
     # Specifiers

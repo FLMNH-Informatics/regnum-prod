@@ -72,7 +72,7 @@
                     <td>
                       <span id="preexist-ref-holder">
                         <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting',d.citations.preexisting,e); },
-                                      text: citations['preexisting'].authors().length < 1 ? 'Add Reference' : 'Edit Reference'"
+                                      text: citations['preexisting'].authors() && citations['preexisting'].authors().length < 1 ? 'Add Reference' : 'Edit Reference'"
                            href="#"
                            id="new-preexisting-reference-add"></a></span>
                     </td>
@@ -233,7 +233,7 @@
           <!--</div>-->
           <p>Reference for Phylogenetic Definition: </p>
           <div id="primary-phylo-citation" class="citations-table">
-            <table class="sortable-table" id="primary-phylogeny">
+            <table class="sortable-table" id="primary_phylogeny">
               <thead>
               <tr style="background-color:white;">
                 <th style="width:100px;">Type</th>
@@ -242,13 +242,13 @@
                 <th colspan="2">actions</th>
               </tr>
               </thead>
-              <tbody data-bind="foreach: citations['primary-phylogeny']">
+              <tbody>
               <tr class="odd-row">
-                <td data-bind="text: citation_type"></td>
-                <td style="max-width:200px" data-bind="text: title"></td>
-                <td style="max-width:200px" data-bind="text: pr.author.displayAuthors($data.authors())"></td>
+                <td data-bind="text: citations['primary_phylogeny'].citation_type"></td>
+                <td style="max-width:200px" data-bind="text: citations['primary_phylogeny'].title"></td>
+                <td style="max-width:200px" data-bind="text: pr.author.displayAuthors(citations['primary_phylogeny'].authors())"></td>
                 <td>
-                  <input data-bind="click: function(d,e){pr.ba.editCitation('primary-phylogeny',d,e)}" type="button" class="submit_button" value="add/edit"/>
+                  <input data-bind="click: function(d,e){pr.ba.editCitation('primary_phylogeny',d,e)}" type="button" class="submit_button" value="add/edit"/>
                 </td>
               </tr>
               </tbody>

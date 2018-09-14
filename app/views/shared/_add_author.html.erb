@@ -1,39 +1,8 @@
 <div class="add-author-container">
-    <%# if local_assigns[:databind] %>
-<!--    <h1>Local databind</h1>-->
-      <%# if local_assigns[:authors] && !local_assigns[:authors].empty? %>
-<!--      <h2>Local authors</h2>-->
-<!--      <!-- ko foreach: authors -->
-<!--      <div class="author">-->
-<!--        <label>First: <input  data-bind="value: $data.first_name" type="text" data-name-type="first_name"  name="<%#= local_assigns[:name_prefix].nil? ? "authors" : local_assigns[:name_prefix] + "[authors]" %>[first_name][]" class="author-first-name" /></label>-->
-<!--        <label>Middle: <input data-bind="value: $data.middle_name" type="text" data-name-type="middle_name" name="<%#= local_assigns[:name_prefix].nil? ? "authors" : local_assigns[:name_prefix] + "[authors]" %>[middle_name][]"  /></label>-->
-<!--        <label>Last: <input   data-bind="value: $data.last_name" type="text" data-name-type="last_name"   name="<%# puts local_assigns[:name_prefix].nil? ? "authors" : local_assigns[:name_prefix] + "[authors]" %>[last_name][]" class="author-last-name"/></label>-->
-<!--        <div class="author-controls">-->
-<!--          <a href data-bind="click: pr.author.addAuthor.bind($parent)" class="add-another-author">[add another]</a>-->
-<!--          <a href data-bind="click: pr.author.removeAuthor.bind($parent)" class="remove-author">[remove]</a>-->
-<!--          <span class="author-validation-message"></span>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--        <!-- /ko -->
-      <%# else %>
-<!--      <h2>No local authors</h2>-->
-<!--      <div class="author">-->
-<!--        <label>First: <input  data-bind="value: authors()[0].first_name" type="text" data-name-type="first_name"  name="<%#= local_assigns[:name_prefix].nil? ? "authors" : local_assigns[:name_prefix] + "[authors]" %>[first_name][]" class="author-first-name" value="<%#= local_assigns[:author] ? local_assigns[:author][:first_name] : "" %>"  /></label>-->
-<!--        <label>Middle: <input data-bind="value: authors()[0].middle_name" type="text" data-name-type="middle_name" name="<%#= local_assigns[:name_prefix].nil? ? "authors" : local_assigns[:name_prefix] + "[authors]" %>[middle_name][]"  value="<%#= local_assigns[:author] ? local_assigns[:author][:middle_name] : "" %>"/></label>-->
-<!--        <label>Last: <input   data-bind="value: authors()[0].last_name" type="text" data-name-type="last_name"   name="<%#= local_assigns[:name_prefix].nil? ? "authors" : local_assigns[:name_prefix] + "[authors]" %>[last_name][]" class="author-last-name"  value="<%#= local_assigns[:author] ? local_assigns[:author][:last_name] : "" %>"/></label>-->
-<!--        <div class="author-controls">-->
-<!--          <a href class="add-another-author">[add another]</a>-->
-<!--          <a href class="remove-author">[remove]</a>-->
-<!--          <span class="author-validation-message"></span>-->
-<!--        </div>-->
-<!--      </div>-->
-      <%# end %>
-    <%# else %>
-<!--    <h1>Else no local databind</h1>-->
     <div class="author" data-bind="foreach: authors">
-      <label>First: <input  data-bind="value: $data.first_name" type="text" data-name-type="first_name"  name="<%= local_assigns[:name_prefix].nil? ? "authors" : local_assigns[:name_prefix] + "[authors]" %>[first_name][]" class="author-first-name" /></label>
-      <label>Middle: <input data-bind="value: $data.middle_name" type="text" data-name-type="middle_name" name="<%= local_assigns[:name_prefix].nil? ? "authors" : local_assigns[:name_prefix] + "[authors]" %>[middle_name][]"/></label>
-      <label>Last: <input   data-bind="value: $data.last_name" type="text" data-name-type="last_name"   name="<% puts local_assigns[:name_prefix].nil? ? "authors" : local_assigns[:name_prefix] + "[authors]" %>[last_name][]" class="author-last-name"/></label>
+      <label>First: <input  data-bind="value: $data.first_name" type="text" data-name-type="first_name" class="author-first-name" /></label>
+      <label>Middle: <input data-bind="value: $data.middle_name" type="text" data-name-type="middle_name" /></label>
+      <label>Last: <input   data-bind="value: $data.last_name" type="text" data-name-type="last_name"  class="author-last-name"/></label>
       <div class="author-controls">
         <a href data-bind="click: pr.author.addAuthor.bind($parent)" class="add-another-author">[add another]</a>
         <a href data-bind="click: pr.author.removeAuthor.bind($parent)" class="remove-author">[remove]</a>

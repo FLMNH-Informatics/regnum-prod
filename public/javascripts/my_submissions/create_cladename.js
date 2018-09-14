@@ -10,7 +10,6 @@ function Phyloregnum(){
     var displayAuthors = function(){
         return 'todo: display authors correctly';
     }
-    this.submissionModel = {}//
     this.objIsEmpty = function(obj){ return Object.keys(obj).length === 0 && obj.constructor === Object }
 
     this.getEmptyAuthor = function() {
@@ -43,6 +42,9 @@ function Phyloregnum(){
             'treebase_tree_id': ''
         }
     }
+    this.submissionModel = {
+        'authors': ko.observableArray([ self.getEmptyAuthor() ])
+    }//
     this.ko = {
         //json response loading map for ko.mapping
         mapping:  {
@@ -52,12 +54,13 @@ function Phyloregnum(){
             'authors': {
                 create: function(options){
                     if ( options.data && !self.objIsEmpty(options.data) ){
+                        debugger;
+                        return options.data;
                         return ko.observableArray(self.ko.objToArray(options.data).map(function(auth){
-                            // auth.isValid = isValidAuthor.bind(auth);
                             return auth;
                         }));
                     }
-                    return ko.observableArray([ self.getEmptyAuthor() ])
+                    return self.getEmptyAuthor()
                 },
                 addNew: function(options){
                     debugger;
@@ -100,41 +103,39 @@ function Phyloregnum(){
                 create: function(options){
                     //initalize citations
                     //existing ones will overwrite these
-                    var cits = {
+                    var citationsViewModel = {
+                        //can have multpile citations
                         'phylogeny': ko.observableArray( [ self.getEmptyCitation() ] ).extend({paging: 5}),
-                        'primary-phylogeny': ko.observableArray([ self.getEmptyCitation() ]),
                         'description': ko.observableArray([ self.getEmptyCitation() ]),
-                        // 'preexisting': ko.observableArray([{'authors': ko.observableArray([ self.getEmptyAuthor() ])}])
+                        //have only one citation
+                        'primary_phylogeny': self.getEmptyCitation(),
                         'preexisting': self.getEmptyCitation()
                     }
-                    //now load existing ones from response into cits hash
-                    jQuery.each(options.data, function(key,val){
-                        if ( val[0] != undefined && !self.objIsEmpty(val[0]) ) {
-                            // var citations = Array.isArray(val) ? val : self.ko.objToArray(val);
-                            var citations = val;
-                            if (key != 'preexisting'){
-                                citations = Array.isArray(val) ? val : self.ko.objToArray(val);
-                                cits[key] = (key === 'phylogeny') ? ko.observableArray(citations).extend({paging: 5}) : ko.observableArray(citations);
-                            }
-                            if (Array.isArray(citations)) {
-                                citations.forEach(function (citation, index) {
-                                    if (citation.hasOwnProperty('authors')) {
-                                        cits[key]()[index].authors = ko.observableArray(self.ko.objToArray(citation.authors));
-                                    }
-                                    if (citation.hasOwnProperty('authors')) {
-                                        cits[key]()[index].authors = ko.observableArray(self.ko.objToArray(citation.authors));
-                                    }
-                                })
-                            }else{
-                                var citation = citations[0]
-                                if (citation.hasOwnProperty('authors')) {
-                                    cits[key] = citation
-                                    cits[key].authors = ko.observableArray(self.ko.objToArray(citation.authors));
-                                }
+                    //now load existing ones from response into citationsViewModel hash
+                    jQuery.each(options.data, function(key,val) {
+                        if (val != undefined) {
+                            switch (key) {
+                                case 'phylogeny':
+                                case 'description':
+                                    //these can have multiple citations
+                                    var citations = Array.isArray(val) ? val : self.ko.objToArray(val);
+                                    citationsViewModel[key] = (key === 'phylogeny') ?
+                                        ko.observableArray(citations).extend({paging: 5}) : ko.observableArray(citations);
+                                    citations.forEach(function (citation, i) {
+                                        citationsViewModel[key]()[i].authors = ko.observableArray(citation.authors)
+                                    });
+                                    break;
+                                case 'primary_phylogeny':
+                                case 'preexisting':
+                                    //these only have one citation
+                                    citationsViewModel[key] = val;
+                                    citationsViewModel[key].authors = ko.observableArray(val.authors);
+                                    break;
                             }
                         }
                     })
-                    return cits
+
+                    return citationsViewModel;
                 }
             },
             'abbreviation': {
@@ -228,7 +229,7 @@ function Phyloregnum(){
         var external = []
         var apomorph = []
         //
-
+return "def here";
         jQuery.each(this.submissionModel.specifiers(), function(ind,obj){
             if(obj.specifier_type === 'apomorphy'){
                 apomorph.push(obj.specifier_character_name+'(' + obj.specifier_name + ')' )
@@ -309,26 +310,24 @@ function Phyloregnum(){
                 return '(Vol. ' + val + ')' + ': '
             }
         }
-        var obj = options.parent
-        var str = obj.name()  + ' '
-        var cit = obj.citations
+        var submission = options.parent
+        var str = submission.name()  + ' '
+        var citations = submission.citations
         // debugger;
         //todo: fix this
-        if(false){//} && typeof(cit.preexisting()[0]) == 'object'){
-            str += obj.preexisting_authors() + ' '
-            str += (isUndefined(cit.preexisting()[0]['year']) == '' ? '' : cit.preexisting()[0]['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '  
-            str += (isUndefined(cit.preexisting()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.preexisting()[0]['volume'] + ')' + ': ') )
-            str += (isUndefined(cit.preexisting()[0]['pages']) == '' ? '' : cit.preexisting()[0]['pages'])
-            // todo: str += ' [' + obj.authors() + ']'
+        if(submission.preexisting){
+            str += pr.author.displayAuthors(citations.preexisting) + ' '
+            str += (isUndefined(citations.preexisting['year']) == '' ? '' : cit.preexisting()[0]['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '
+            str += (isUndefined(citations.preexisting['volume']) == '' ? '' : ('(Vol. ' + cit.preexisting()[0]['volume'] + ')' + ': ') )
+            str += (isUndefined(citations.preexisting['pages']) == '' ? '' : cit.preexisting()[0]['pages'])
+            // todo: str += ' [' + submission.authors() + ']'
             str += ', converted clade name'
         }else{
-            //var d = new Date()
-
-            str += obj.authors() + ' '
-            if(typeof(cit.description()[0]) == 'object'){
-                str += (isUndefined(cit.description()[0]['year']) == '' ? '' : cit.description()[0]['year'] + ': ' )//isUndefined(cit.description['year']) + ': ' 
-                str += (isUndefined(cit.description()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.description()[0]['volume'] + ')' + ': ') ) //formatVolume(cit.description['volume']) + isUndefined(cit.description['pages'])
-                str += (isUndefined(cit.description()[0]['pages']) == '' ? '' : cit.description()[0]['pages'])
+            str += pr.author.displayAuthors(authors()) + ' '
+            if(typeof(citations.description()[0]) == 'object'){
+                str += (isUndefined(citations.description()[0]['year']) == '' ? '' : cit.description()[0]['year'] + ': ' )//isUndefined(cit.description['year']) + ': '
+                str += (isUndefined(citations.description()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.description()[0]['volume'] + ')' + ': ') ) //formatVolume(cit.description['volume']) + isUndefined(cit.description['pages'])
+                str += (isUndefined(citations.description()[0]['pages']) == '' ? '' : cit.description()[0]['pages'])
             }
             str += ', new clade name'
         }
@@ -351,14 +350,26 @@ function Phyloregnum(){
         //return the asynch object so any calls to save can
         //be chained with other deferred methods
 
+        var data = ko.mapping.toJSON(self.submissionModel);
+debugger;
+        return jQuery.ajax({
+            type: 'POST',
+            url: '/save',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: data,
+            success: function(response) {
+                if (subid === 'new') { document.location.href = '/my_submission/' + response.submission_id }
+                else { jQuery('#submission_id').val(response.submission_id) }
+            }})
 
-        return jQuery.post('/save', ko.mapping.toJS(self.submissionModel), function(response){
+        return jQuery.post('/save', data, function(response){
             if(subid==='new'){
                 document.location.href = '/my_submission/'+ response.submission_id
             }else{
                 jQuery('#submission_id').val(response.submission_id)
             }
-        },'json').done(function(){
+        },'application/json').done(function(){
             if(action === 'Submit'){
                 document.location.href = '/my_submission'
             }
@@ -378,7 +389,8 @@ function Phyloregnum(){
             submission.subaction = ''
             ///ko key mapping
 
-            pr.submissionModel = ko.mapping.fromJS(submission, pr.ko.mapping)
+            if (submission.authors.length == 0) submission.authors = ko.observableArray([ {} ]);
+            pr.submissionModel = ko.mapping.fromJS(submission, pr.ko.mapping);
 
             jQuery.each(pr.submissionModel, function(k,v){
                 if((typeof(v)=='function' && v()=='null')||v==null){
@@ -404,6 +416,9 @@ function Phyloregnum(){
 
     this.author = {
         displayAuthors: function(authors){
+            if (typeof authors === 'undefined') {
+                return 'authors is undefined';
+            }
             if (authors.length === 0) return "";
             return "TODO: display author string here (create_cladename.js line ~372"
         },
@@ -646,7 +661,7 @@ jQuery.showCitation = function(citation,cfor,callback){
             jQuery('#citation-attachment-cell').html(pr.emptyAttachmentFile)
         }
 
-        if(cfor !== "primary-phylogeny"){
+        if(cfor !== "primary_phylogeny"){
             jQuery(".primary_only").remove();
         }
         ko.applyBindings(citation, document.getElementById('float-window-content-holder'))
