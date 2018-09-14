@@ -26,6 +26,7 @@ function Phyloregnum(){
         return {
             'citation_type': 'book',
             'authors': ko.observableArray([self.getEmptyAuthor()]),
+            'editors': ko.observableArray([self.getEmptyAuthor()]),
             'title': '',
             'publisher': '',
             'figure': '',
@@ -119,6 +120,7 @@ function Phyloregnum(){
                                         ko.observableArray(citations).extend({paging: 5}) : ko.observableArray(citations);
                                     citations.forEach(function (citation, i) {
                                         citationsViewModel[key]()[i].authors = ko.observableArray(citation.authors)
+                                        citationsViewModel[key]()[i].editors = ko.observableArray(citation.editors)
                                     });
                                     break;
                                 case 'primary_phylogeny':
@@ -126,6 +128,7 @@ function Phyloregnum(){
                                     //these only have one citation
                                     citationsViewModel[key] = val;
                                     citationsViewModel[key].authors = ko.observableArray(val.authors);
+                                    citationsViewModel[key].editors = ko.observableArray(val.editors);
                                     break;
                             }
                         }
@@ -419,29 +422,18 @@ debugger;
             return "TODO: display author string here (create_cladename.js line ~372"
         },
         addAuthor: function($author, event){
-            var invalid_msg = "Please enter a first name and last name before adding an additional author.";
-            if ($author.hasOwnProperty('first_name')){
-                if (pr.author.isValidAuthor($author)){
-                    this.authors.push({first_name: '', middle_name: '', last_name: ''});
-                    pr.author.markAllValid(jQuery(event.target).parents('.author'));
-                }else{
-                    event.target.nextElementSibling.nextElementSibling.innerHTML = invalid_msg;
-                }
+            var author_type = event.target.parentElement.dataset.authorType;
+            var invalid_msg = "Please enter a first name and last name before adding an additional " + event.target.parentElement.dataset.authorType + ".";
+            if (pr.author.isValidAuthor($author)){
+                this[author_type + "s"].push({first_name: '', middle_name: '', last_name: ''});
+                pr.author.markAllValid(jQuery(event.target).parents('.author'));
             }else{
-                if (this.isValidAuthor($author)){
-                    var clone = $author.clone(true,true);
-                    clone.find('input').each( function(index, element){ element.value = ""; } );
-                    clone.find(".author-validation-message").html("");
-                    $author.after(clone);
-                    this.markAllValid($author);
-                }else{
-                    $author.find(".author-validation-message").html(invalid_msg);
-                }
+                event.target.nextElementSibling.nextElementSibling.innerHTML = invalid_msg;
             }
         },
         removeAuthor: function($author, event){
-            var invalid_msg = "You must leave one remaining valid author. (First and last name required)";
-            if ($author.hasOwnProperty('first_name')){
+            if (event.target.parentElement.dataset.authorType == "author"){
+                var invalid_msg = "You must leave one remaining valid author. (First and last name required)";
                 var invalid_remove = pr.submissionModel.authors().every(function(auth){
                     if (auth === $author){ return true; }
                     return (auth.first_name.trim() === "" || auth.last_name.trim() === "");
@@ -453,22 +445,10 @@ debugger;
                     this.authors.remove($author);
                 }
             }else{
-                var me = this,
-                    $all_authors = $author.parent().children('.author'),
-                    invalid_remove = $all_authors.toArray().every(function (el){
-                        if (el === $author[0]){
-                            return true;
-                        }
-                        return !me.isValidAuthor(jQuery(el));
-                    });
-
-                if (invalid_remove){
-                    $author.find(".author-validation-message").html(invalid_msg);
-                }else{
-                    $author.remove();
-                    this.markAllValid($author);
-                }
+                this.editors.remove($author);
+                this.editors.push(self.getEmptyAuthor());
             }
+
         },
         isValidAuthor: function ($author) {
             if ($author.hasOwnProperty('first_name')){

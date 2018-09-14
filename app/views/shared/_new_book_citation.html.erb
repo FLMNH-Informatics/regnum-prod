@@ -39,9 +39,10 @@
       <td colspan="2">Book Editors:</td>
     </tr>
     <tr class="book_inputs">
-
-      <td colspan="2">
-        <input class="book_inputs" type="text" size="25" id="new_book_editors" name="book_editors"/>&nbsp;&nbsp;
+      <td colspan="5">
+        <div id="citation-editor-container">
+          <%= render 'shared/add_author', { author_type: 'editor' } %>
+        </div>
       </td>
 
     </tr>

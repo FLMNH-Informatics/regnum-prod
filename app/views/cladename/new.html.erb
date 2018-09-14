@@ -38,8 +38,12 @@
         <tr>
           <td colspan="2">
             <div id="new-preexisting-box">
-              <input data-bind="checked: preexisting" type="checkbox" id="new_preexisting" class="value-input" name="cladename[preexisting]"/>
-              <b><%= label_tag ' Pre-existing Name' %></b>
+              <strong>
+                <label>
+                  <input data-bind="checked: preexisting" type="checkbox" id="new_preexisting" class="value-input" name="cladename[preexisting]"/>
+                  &nbsp; Pre-existing Name
+                </label>
+              </strong>
               <div id="new-preexisting-table" data-bind="visible: preexisting">
                 <table>
                   <tr>
