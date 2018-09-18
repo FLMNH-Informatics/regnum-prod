@@ -4,8 +4,8 @@
       <label>Middle: <input data-bind="value: $data.middle_name" type="text" data-name-type="middle_name" /></label>
       <label>Last: <input   data-bind="value: $data.last_name" type="text" data-name-type="last_name"  class="author-last-name"/></label>
       <div class="author-controls" data-author-type="<%= author_type %>">
-        <a href data-bind="click: pr.author.addAuthor.bind($parent)" class="add-another-author">[add another]</a>
-        <a href data-bind="click: pr.author.removeAuthor.bind($parent)" class="remove-author">[remove]</a>
+        <a href data-bind="click: pr.author.addAuthor.bind($parent, '<%= author_type.pluralize %>')" class="add-another-author">[add another]</a>
+        <a href data-bind="click: pr.author.removeAuthor.bind($parent, '<%= author_type.pluralize %>')" class="remove-author">[remove]</a>
         <span class="author-validation-message"></span>
       </div>
     </div>

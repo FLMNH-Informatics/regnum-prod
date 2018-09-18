@@ -43,24 +43,26 @@ jQuery.save_citation = function(){
     //     }
 
         //CITATION/REFERENCE Attachments
-        if(jQuery('#new_remote_attachment').val() !== ''){
+        if( jQuery('#new_remote_attachment').val() && jQuery('#new_remote_attachment').val() !== ''){
             //first save whole submission to ensure
             //a submission path for the attachment
             //add deferred callback for attachments
             var sid = jQuery('#submission_id').val()
+            var type = jQuery('#new_citation_for').val()
             var d = {submission_id: sid, type: type, authenticity_token: encodeURIComponent( AUTH_TOKEN )}
           
             jQuery('#remote-attachment-form').ajaxSubmit({
                 data: d ,
                 dataType: 'json',
                 success: function(response){
+                    debugger;
                     if(type === 'phylogeny'){                      
                       //var id = parseInt(jQuery('#phylogeny_table_citation_id').val())
                       pr.submissionModel.citations.phylogeny()[parseInt(id)]['attachment_path'] = response.path
                       pr.submissionModel.citations.phylogeny()[parseInt(id)]['attachment_id'] = response.id
                     }else{                        
-                      pr.submissionModel.citations[type]()['0']['attachment_path'] = response.path
-                      pr.submissionModel.citations[type]()['0']['attachment_id'] = response.id
+                      pr.submissionModel.citations[type]['0']['attachment_path'] = response.path
+                      pr.submissionModel.citations[type]['0']['attachment_id'] = response.id
                     }
                     //must save here if attachment to ensure asynch object completes before save
                     pr.save_submission('Save')
