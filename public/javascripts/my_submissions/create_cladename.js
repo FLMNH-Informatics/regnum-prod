@@ -606,7 +606,9 @@ jQuery.showSpecifier = function(sfor,callback){
 }
 //
 jQuery.showCitation = function(citation,cfor,callback){
+    var modal_title = 'Update reference';
     if(typeof(citation) == 'undefined'){
+        modal_title = 'Add reference'
         citation = pr.getEmptyCitation()
     }
     var cback = function(){
@@ -638,8 +640,15 @@ jQuery.showCitation = function(citation,cfor,callback){
         ko.cleanNode(bindingElement);
         ko.applyBindings(citation, bindingElement)
     }
-    ///{
-    var opts = {width: 630, title: 'Add/Edit Reference', buttons: [
+
+    switch (cfor){
+        case 'phylogeny': modal_title += ' for additional reference phylogeny'; break;
+        case 'description': modal_title += ' for description'; break;
+        case 'primary_phylogeny': modal_title += ' for primary phylogeny'; break;
+        case 'preexisting': modal_title += ' for pre-existing name'; break;
+    }
+
+    var opts = {width: 630, title: modal_title, buttons: [
             { text: 'Save',
                 click: function(){
                     jQuery.save_citation()
