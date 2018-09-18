@@ -39,11 +39,9 @@ function Phyloregnum(){
             'volume': '',
             'pages': '',
             'keywords': '',
-            'abstract': '',
             'isbn': '',
             'doi': '',
-            'url': '',
-            'treebase_tree_id': ''
+            'url': ''
         }
     }
     this.submissionModel = {

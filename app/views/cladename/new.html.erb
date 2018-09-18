@@ -70,11 +70,11 @@
                   </tr>
                   <tr>
                     <td>
-                      <span id="preexist-ref-holder">
+                      <div id="preexist-ref-holder">
                         <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting',d.citations.preexisting,e); },
-                                      text: citations['preexisting'].authors() && citations['preexisting'].authors().length < 1 ? 'Add Reference' : 'Edit Reference'"
+                                      text: citations['preexisting'].authors() && citations['preexisting'].authors().length < 1 ? '[add rReference]' : '[edit reference]'"
                            href="#"
-                           id="new-preexisting-reference-add"></a></span>
+                           id="new-preexisting-reference-add"></a></div>
                     </td>
                   </tr>
                 </table>

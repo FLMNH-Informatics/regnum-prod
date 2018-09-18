@@ -37,45 +37,34 @@
     / /ko
     / ko if: citation_type() != 'journal'
     .row{ data: { bind: "if: citation_type() != 'journal'" } }
-      .form-group.col-sm-12
+      .form-group.col-sm-9
         %label{ for: "publisher" } Publisher
         %input#publisher{ type: "text", class: "form-control", data: { bind: "value: publisher" } }
     / /ko
-    / ko if: citation_type() == 'journal'
-    .row{ data: { bind: "if: citation_type() == 'journal'" } }
-      .form-group.col-sm-4{ data: { bind: "if: citation_type() == 'journal'" } }
-        %label{ for: "figure" } Figure
-        %input#figure{ type: "text", class: "form-control", data: { bind: "value: figure" } }
-    / /ko
     .row
-      .form-group.col-sm-4
+      .form-group.col-sm-3
         %label{ for: "year" } Year
         %input#year{ type: "text", class: "form-control", data: { bind: "value: year" } }
-      .form-group.col-sm-4
-        %label{ for: "edition" } Edition
-        %input#edition{ type: "text", class: "form-control", data: { bind: "value: edition" } }
-      / ko if: citation_type() == 'journal'
-      .form-group.col-sm-4{ data: { bind: "if: citation_type() == 'journal'" } }
-        %label{ for: "number" } Number
-        %input#number{ type: "text", data: { bind: "value: number" } }
-      / /ko
       / ko if: citation_type() != 'journal'
       .form-group.col-sm-4{ data: { bind: "if: citation_type() != 'journal'" } }
         %label{ for: "city" } City
         %input#city{ type: "text", class: "form-control", data: { bind: "value: city" } }
       / /ko
-      .form-group.col-sm-4
-        %label{ for: "volume" } Volume
+      .form-group.col-sm-3
+        %label{ for: "edition" } Edition
+        %input#edition{ type: "text", class: "form-control", data: { bind: "value: edition" } }
+      .form-group.col-sm-3
+        %label{ for: "volume", data: { bind: "text: citation_type() == 'journal' ? 'Volume #' : 'Volume'" } } Volume
         %input#volume{ type: "text", class: "form-control", data: { bind: "value: volume" } }
-      .form-group.col-sm-4
+      .form-group.col-sm-2
         %label{ for: "pages" } Pages
         %input#pages{ type: "text", class: "form-control", data: { bind: "value: pages" } }
-    .row
-      / ko: if: citation_type() == 'journal'
-      .form-group.col-sm-12
-        %label{ for: "abstract" } Abstract
-        %textarea#abstract{ class: "form-control", data: { bind: "value: abstract" } }
+      / ko if: citation_type() == 'journal'
+      .form-group.col-sm-3{ data: { bind: "if: citation_type() == 'journal'" } }
+        %label{ for: "figure" } Figure
+        %input#figure{ type: "text", class: "form-control", data: { bind: "value: figure" } }
       / /ko
+    .row
       .form-group.col-sm-6
         %label{ for: "keywords" } Keywords
         %input#keywords{ type: "text", class: "form-control", data: { bind: "value: volume" } }
@@ -90,12 +79,13 @@
       .form-group.col-sm-6
         %label{ for: "doi" } DOI
         %input#doi{ type: "text", class: "form-control", data: { bind: "value: doi" } }
-    .row
-      .form-group.col-sm-4
-        %label{ for: "treebase_tree_id" }
-          %img.outlink{ src: "/images/treebase.gif", title: "TreeBase Icon" }
-          TreeBase Tree ID
-        %input#treebase_tree_id{ type: "text", class: "form-control", size: 25, data: { bind: "value: treebase_tree_id" } }
+-# not needed per nico
+-# .row
+-#   .form-group.col-sm-4
+-#     %label{ for: "treebase_tree_id" }
+-#       %img.outlink{ src: "/images/treebase.gif", title: "TreeBase Icon" }
+-#       TreeBase Tree ID
+-#     %input#treebase_tree_id{ type: "text", class: "form-control", size: 25, data: { bind: "value: treebase_tree_id" } }
 -#%form#remote-attachment-form{ enctype: "multipart/form-data", action: "/my_submission/add_attachment", method: "post" }
 -#  .container-fluid
 -#    .row
