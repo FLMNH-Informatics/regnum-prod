@@ -1,0 +1,4 @@
+Recaptcha.configure do |config|
+  config.site_key  = 'YOUR_SITE_KEY_HERE'
+  config.secret_key = 'YOUR_SECRET_KEY_HERE'
+end

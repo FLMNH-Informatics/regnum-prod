@@ -1,33 +1,46 @@
 jQuery.save_citation = function(){
-        //var inputs = cit
-        //inputs.push(jQuery('#new-citation-form-entry input[type="file"]')[0])
-        var cit = jQuery.merge(jQuery('#float-window-content-holder #new-citation-form-entry input[type="text"]'),jQuery('#float-window-content-holder #new-citation-form-entry select'))
-                       
-        var type = jQuery('#new_citation_for').val()
-        var id = jQuery('#phylogeny_table_citation_id').val()  //name type for citation
-        var citation = {}
-        cit.each(function(obj,val){
-            citation[val.attributes.name.value] = val.value
-        })
-        switch(type){
-      
-            case 'phylogeny':
-                
-                if(id != 'new' ){
-                    pr.ko.replaceObservedArrayItem(parseInt(id), pr.submissionModel.citations.phylogeny, citation)  
-                    id = parseInt(id)                
-                }else{
-                
-                    pr.submissionModel.citations.phylogeny.push(citation) 
-                    id = pr.submissionModel.citations.phylogeny().length - 1   
-                }
-                break
-            default:
-                //all other citation type has only one
-                pr.submissionModel.citations[type].removeAll()
-                pr.submissionModel.citations[type].push(citation)    
-                break
-        }
+    // debugger;
+    //     //var inputs = cit
+    //     //inputs.push(jQuery('#new-citation-form-entry input[type="file"]')[0])
+    //     var cit = jQuery.merge(jQuery('#float-window-content-holder #new-citation-form-entry input[type="text"]'),jQuery('#float-window-content-holder #new-citation-form-entry select'))
+    //
+    //     var type = jQuery('#new_citation_for').val()
+    //     var id = jQuery('#phylogeny_table_citation_id').val()  //name type for citation
+    //     var authors = jQuery('#float-window-content-holder #new-citation-form-entry .add-author-container')
+    //     var citation = {
+    //         authors: []
+    //     }
+    //
+    //     authors.each(function(i, val){
+    //         var auth = {};
+    //         jQuery(val).find('input[type="text"]').each(function(index, name_element){
+    //            auth[name_element.dataset.nameType] = name_element.value;
+    //         });
+    //         citation.authors.push(auth);
+    //     });
+    //     cit.each(function(i, val){
+    //         if (val.attributes.name.value.indexOf('author') !== 0){
+    //             citation[val.attributes.name.value] = val.value
+    //         }
+    //     });
+    //     switch(type){
+    //
+    //         case 'phylogeny':
+    //             if(id != 'new' ){
+    //                 // pr.ko.replaceObservedArrayItem(parseInt(id), pr.submissionModel.citations.phylogeny, citation)
+    //                 // id = parseInt(id)
+    //             }else{
+    //
+    //                 pr.submissionModel.citations.phylogeny.push(citation)
+    //                 id = pr.submissionModel.citations.phylogeny().length - 1
+    //             }
+    //             break
+    //         default:
+    //             //all other citation type has only one
+    //             // pr.submissionModel.citations[type].removeAll()
+    //             // pr.submissionModel.citations[type].push(citation)
+    //             break
+    //     }
 
         //CITATION/REFERENCE Attachments
         if(jQuery('#new_remote_attachment').val() !== ''){

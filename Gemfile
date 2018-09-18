@@ -22,7 +22,7 @@ gem 'rspec'
 gem 'haml'
 gem 'sass'
 gem 'uuidtools'
-gem "recaptcha", '~>0.3.4', :require => "recaptcha/rails"
+gem "recaptcha", :require => "recaptcha/rails"
 gem 'rufus-scheduler'
 #gem 'meta_where'  RAILS 3.1.12 doesn't support
 gem 'activerecord-import'#, '~>0.2.0'

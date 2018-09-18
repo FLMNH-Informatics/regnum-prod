@@ -316,6 +316,7 @@ span.required{
     -webkit-border-radius:2px;
     background-color:#e5e5e5;
     color:blue;
+    padding-top: 0.25rem;
 }
 .submit_button:hover{
   cursor:pointer;

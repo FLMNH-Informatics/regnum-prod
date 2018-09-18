@@ -20,21 +20,30 @@
       <table style="margin:10px 0px;">
         <tr>
           <td style="font-weight:bold">Clade Name:</td>
-          <td style="font-weight:bold">Definitional Author(s):</td>
         </tr>
         <tr>
           <td>
             <input data-bind="value: name" type="text" id="new_name" name="cladename[name]" value="" class="value-input"/>
             &nbsp;&nbsp;<span id="status"></span></td>
+        </tr>
+
+        <tr>
+          <td style="font-weight:bold">Definitional Author(s):</td>
+        </tr>
+        <tr>
           <td>
-            <input data-bind="value: authors" type="text" id="new_authors" name="cladename[authors]" value="" class="value-input" size="22"/>
+              <%= render 'shared/add_author', { author_type: 'author' } %>
           </td>
         </tr>
         <tr>
           <td colspan="2">
             <div id="new-preexisting-box">
-              <input data-bind="checked: preexisting" type="checkbox" id="new_preexisting" class="value-input" name="cladename[preexisting]"/>
-              <b><%= label_tag ' Pre-existing Name' %></b>
+              <strong>
+                <label>
+                  <input data-bind="checked: preexisting" type="checkbox" id="new_preexisting" class="value-input" name="cladename[preexisting]"/>
+                  &nbsp; Pre-existing Name
+                </label>
+              </strong>
               <div id="new-preexisting-table" data-bind="visible: preexisting">
                 <table>
                   <tr>
@@ -51,16 +60,21 @@
                     </td>
                   </tr>
                   <tr>
-                    <td style="font-weight:bold">Nominal Author(s):&nbsp;&nbsp;<span class="required">(Do not include date)</span></td>
+                    <td style="font-weight:bold">Nominal Author(s):&nbsp;</td>
                   </tr>
                   <tr>
                     <td>
-                      <input data-bind="value: preexisting_authors" type="text" name="cladename[preexisting_authors]" id="new_preexisting_authors" size="20" class="value-input"/>
+<!--                      <input data-bind="value: preexisting_authors" type="text" name="cladename[preexisting_authors]" id="new_preexisting_authors" size="20" class="value-input"/>-->
+                      <span data-bind="text: pr.author.displayAuthors(citations['preexisting'].authors())"></span>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <span id="preexist-ref-holder"><a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting',d.citations.preexisting()[0],e)}" href="#" id="new-preexisting-reference-add">Add/Edit Reference</a></span>
+                      <span id="preexist-ref-holder">
+                        <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting',d.citations.preexisting,e); },
+                                      text: citations['preexisting'].authors() && citations['preexisting'].authors().length < 1 ? 'Add Reference' : 'Edit Reference'"
+                           href="#"
+                           id="new-preexisting-reference-add"></a></span>
                     </td>
                   </tr>
                 </table>
@@ -94,7 +108,7 @@
 
       <div style="float:left;margin-right:20px;">
         <p><b>Definition Type:</b></p>
-          <select data-bind="value: type" name="cladename[type]" id="new_type" class="value-input">
+          <select data-bind="value: clade_type" name="cladename[clade_type]" id="new_type" class="value-input">
             <option value="minimum-clade_standard">Minimum Clade - Standard</option>
             <option value="minimum-clade_directly_specified_ancestor">Minimum Clade - Directly Specified Ancestor <span class="required">(Rare)</span></option>
             <option value="maximum-clade_standard">Maximum Clade - Standard</option>
@@ -206,7 +220,7 @@
               <!--</thead>-->
               <!--<tbody data-bind="foreach: citations.description">-->
               <!--<tr id="clade-citation" class="odd-row">-->
-                <!--<td style="max-width:200px" data-bind="text: citation_authors"></td>-->
+                <!--<td style="max-width:200px" data-bind="text: authors"></td>-->
                 <!--<td data-bind="text: year"></td>-->
                 <!--<td data-bind="text: citation_type"></td>-->
                 <!--<td style="max-width:200px" data-bind="text: title"></td>-->
@@ -219,7 +233,7 @@
           <!--</div>-->
           <p>Reference for Phylogenetic Definition: </p>
           <div id="primary-phylo-citation" class="citations-table">
-            <table class="sortable-table" id="primary-phylogeny">
+            <table class="sortable-table" id="primary_phylogeny">
               <thead>
               <tr style="background-color:white;">
                 <th style="width:100px;">Type</th>
@@ -228,20 +242,21 @@
                 <th colspan="2">actions</th>
               </tr>
               </thead>
-              <tbody data-bind="foreach: citations['primary-phylogeny']">
+              <tbody>
               <tr class="odd-row">
-                <td data-bind="text: citation_type"></td>
-                <td style="max-width:200px" data-bind="text: title"></td>
-                <td style="max-width:200px" data-bind="text: citation_authors"></td>
+                <td data-bind="text: citations['primary_phylogeny'].citation_type"></td>
+                <td style="max-width:200px" data-bind="text: citations['primary_phylogeny'].title"></td>
+                <td style="max-width:200px" data-bind="text: pr.author.displayAuthors(citations['primary_phylogeny'].authors())"></td>
                 <td>
-                  <input data-bind="click: function(d,e){pr.ba.editCitation('primary-phylogeny',d,e)}" type="button" class="submit_button" value="add/edit"/>
+                  <button class="submit_button"
+                         data-bind="click: function(d,e){pr.ba.editCitation('primary_phylogeny',d,e)},
+                                    text: 'update'" />
                 </td>
               </tr>
               </tbody>
             </table>
           </div>
-          <p>Additional Reference Phylogenies: &nbsp;&nbsp;<input data-bind="click: function(d,e){pr.ba.addCitation('phylogeny',d,e)}" type="button" value="add" class="submit_button"/>
-          </p>
+          <p>Additional Reference Phylogenies:</p>
           <div id="phylo-citations" class="citations-table">
             <table class="sortable-table">
               <thead>
@@ -252,27 +267,30 @@
                 <th style="width:100px;">actions</th>
               </tr>
               </thead>
-              <tbody data-bind="foreach: citations.phylogeny.currentPageData">
-              <tr class="odd-row">
-                <td data-bind="text: citation_type"></td>
-                <td style="max-width:200px" data-bind="text: title"></td>
-                <td style="max-width:200px" data-bind="text: citation_authors"></td>
-                <td>
-                  <input data-bind="click: function(d,e){pr.ba.editCitation('phylogeny',d,e)}" type="button" class="submit_button" value="edit"/>&nbsp;
-                  <input data-bind="click: function(d,e){pr.ba.deleteCitation('phylogeny',d,e)}" type="button" class="submit_button" value="delete"/>
-                </td>
-              </tr>
+              <tbody>
+              <!-- ko foreach: citations.phylogeny.currentPageData -->
+                <tr class="odd-row">
+                  <td data-bind="text: $data.citation_type"></td>
+                  <td style="max-width:200px" data-bind="text: $data.title"></td>
+                  <td style="max-width:200px" data-bind="text: pr.author.displayAuthors($data.authors())"></td>
+                  <td>
+                    <input data-bind="click: function(d,e){pr.ba.editCitation('phylogeny',d,e)}" type="button" class="submit_button" value="edit"/>&nbsp;
+                    <input data-bind="click: function(d,e){pr.ba.deleteCitation('phylogeny',d,e)}" type="button" class="submit_button" value="delete"/>
+                  </td>
+                </tr>
+              <!-- /ko -->
               </tbody>
             </table>
-            <span class="table-controls">
+            <div class="table-controls">
               <a href="#" data-bind="click: citations.phylogeny.moveFirst">First</a>
               <a href="#" data-bind="click: citations.phylogeny.movePrevious">Previous</a>
               <a href="#" data-bind="click: citations.phylogeny.moveNext">Next</a>
               <a href="#" data-bind="click: citations.phylogeny.moveLast">Last</a>
-              Page    
+              <span class="page-info">Page
               <span data-bind="text: citations.phylogeny.currentPage" min="1"></span>
-               of <span data-bind="text: citations.phylogeny.pageCount"></span>
-            </span>
+                of <span data-bind="text: citations.phylogeny.pageCount"></span></span>
+              <button data-bind="text: 'add', click: function(d,e){pr.ba.addCitation('phylogeny',d,e)}" class="submit_button"/>
+            </div>
           </div>
         </div>
       </div><!-- end tab4-div -->

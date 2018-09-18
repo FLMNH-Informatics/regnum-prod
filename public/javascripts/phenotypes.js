@@ -2,8 +2,10 @@
       //move this to a global file
 jQuery(document).ajaxSend(function(event, request, settings) {
     if ( settings.type != 'GET' ) {
-        settings.data = (settings.data ? settings.data + "&" : "")
-            + "authenticity_token=" + encodeURIComponent( AUTH_TOKEN );
+        if (typeof settings.data === "string")
+            settings.data = (settings.data ? settings.data + "&" : "") + "authenticity_token=" + encodeURIComponent( AUTH_TOKEN );
+        else
+            settings.data = JSON.stringify( Object.assign( JSON.stringify(settings.data), { "authenticity_token": AUTH_TOKEN } ) );
     }
 });
 

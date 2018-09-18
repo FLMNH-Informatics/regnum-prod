@@ -50,7 +50,7 @@
                 = @sub.citations['preexisting']['0']['title']
               %div
                 %table
-                  -['citation_type','title','citation_authors'].each do |cit|
+                  -['citation_type','title','authors'].each do |cit|
                     %tr
                       %td
                         %span
@@ -73,7 +73,7 @@
       %tr
         %td.name Definition Type:
       %tr
-        %td= @sub.type.try(:humanize)
+        %td= @sub.clade_type.try(:humanize)
       %tr
         %td.name
           Specifiers:
@@ -120,20 +120,20 @@
     -#      &nbsp;
     -#      = (@sub.citations['description']['0'].has_key?('title') ? @sub.citations['description']['0']['title'] : @sub.citations['description']['0']['article_title'])
     -#    %dl.inline.clade_citation
-    -#      -['citation_type','title','citation_authors'].each do |cit|
+    -#      -['citation_type','title','authors'].each do |cit|
     -#        %dt= cit.humanize
     -#        %dd= format_output(cit,@sub.citations['description']['0'].delete(cit))
     -#        -attachment_prepare(@sub.citations['description']['0']).each do |key,val|
     -#          -if !val.blank?
     -#            %dt= key.humanize + ': '
     -#            %dd= format_output(key,val)
-    -if @sub.citations.has_key?('primary-phylogeny')
+    -if @sub.citations.has_key?('primary_phylogeny')
       %h2.name Primary Reference Phylogeny:
-      -if @sub.citations['primary-phylogeny']['0'].is_a?  Hash
+      -if @sub.citations['primary_phylogeny']['0'].is_a?  Hash
         .accordion
-          %h3{title: output_citation(@sub.citations['primary-phylogeny']['0'])}= citation_title(@sub.citations['primary-phylogeny']['0'])
+          %h3{title: output_citation(@sub.citations['primary_phylogeny']['0'])}= citation_title(@sub.citations['primary_phylogeny']['0'])
           .primary_phylogeny
-            %p.citation= output_citation(@sub.citations['primary-phylogeny']['0'])
+            %p.citation= output_citation(@sub.citations['primary_phylogeny']['0'])
     %h2.name Additional Reference Phylogenies:
     -if @sub.citations['phylogeny']['0'].is_a? Hash
       .accordion

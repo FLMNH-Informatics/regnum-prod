@@ -10,7 +10,7 @@ module CitationsHelper
   end
 
   def citation_blank?(citation)
-    props = %W(citation_authors title publisher journal book_editors series_editors figure year edition volumes city volume number pages keywords abstract isbn url doi treebase_tree_id)
+    props = %W(authors title publisher journal book_editors series_editors figure year edition volumes city volume number pages keywords abstract isbn url doi treebase_tree_id)
   end
 
   def output_citation(reference_phylogeny)
@@ -21,12 +21,12 @@ module CitationsHelper
       out += "Figure number #{reference_phylogeny['figure']} in "
     end
     properties = is_journal ?
-                     ['citation_authors','year','journal','volumes','volume','pages'] :
-                     ['citation_authors','year','title','volumes','volume','pages']
+                     ['authors','year','journal','volumes','volume','pages'] :
+                     ['authors','year','title','volumes','volume','pages']
     if is_journal
-      properties = ['citation_authors','year', 'title', 'journal','volumes','volume','pages', 'doi', 'url']
+      properties = ['authors','year', 'title', 'journal','volumes','volume','pages', 'doi', 'url']
     else
-      properties = ['citation_authors','year','title','editor','publisher', 'volumes','volume','pages']
+      properties = ['authors','year','title','editor','publisher', 'volumes','volume','pages']
     end
     properties.each do |prop|
       if prop == 'year' && reference_phylogeny.has_key?(prop) && reference_phylogeny[prop].blank?
