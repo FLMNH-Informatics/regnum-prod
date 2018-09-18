@@ -37,7 +37,7 @@
         </tr>
         <tr>
           <td colspan="2">
-            <div id="new-preexisting-box">
+            <div id="new-preexisting-box" class="">
               <strong>
                 <label>
                   <input data-bind="checked: preexisting" type="checkbox" id="new_preexisting" class="value-input" name="cladename[preexisting]"/>
@@ -45,39 +45,27 @@
                 </label>
               </strong>
               <div id="new-preexisting-table" data-bind="visible: preexisting">
-                <table>
-                  <tr>
-                    <td style="font-weight:bold;">Code:</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <select data-bind="value: preexisting_code" name="cladename[preexisting_code]" id="new_preexisting_code" class="value-input">
-                        <option value="ICBN">ICN - the botanical code</option>
-                        <option value="ICZN">ICZN - the zoological code</option>
-                        <option value="ICNB">ICNB - the bacterial code</option>
-                        <option value="ICTV">ICTV - the virus code</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="font-weight:bold">Nominal Author(s):&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>
-<!--                      <input data-bind="value: preexisting_authors" type="text" name="cladename[preexisting_authors]" id="new_preexisting_authors" size="20" class="value-input"/>-->
-                      <span data-bind="text: pr.author.displayAuthors(citations['preexisting'].authors())"></span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span id="preexist-ref-holder">
-                        <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting',d.citations.preexisting,e); },
-                                      text: citations['preexisting'].authors() && citations['preexisting'].authors().length < 1 ? 'Add Reference' : 'Edit Reference'"
-                           href="#"
-                           id="new-preexisting-reference-add"></a></span>
-                    </td>
-                  </tr>
-                </table>
+                <div class="row">
+                  <div class="form-group col-sm-12">
+                    <label for="new_preexisting_code">Code:</label>
+                    <select data-bind="value: preexisting_code" name="cladename[preexisting_code]" id="new_preexisting_code" class="value-input form-control">
+                      <option value="ICBN">ICN - the botanical code</option>
+                      <option value="ICZN">ICZN - the zoological code</option>
+                      <option value="ICNB">ICNB - the bacterial code</option>
+                      <option value="ICTV">ICTV - the virus code</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-sm-12">
+                    <label>Nominal Author(s):</label>
+                    <p class="form-control-static" data-bind="text: citations['preexisting'].displayAuths"></p>
+                    <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting',d.citations.preexisting,e); },
+                                      text: citations['preexisting'].authors() && citations['preexisting'].authors().length < 1 ? '[add reference]' : '[edit reference]'"
+                       href="#"
+                       id="new-preexisting-reference-add"></a></div>
+                </div>
+                <div style="clear: both;"></div>
               </div>
             </div>
           </td>

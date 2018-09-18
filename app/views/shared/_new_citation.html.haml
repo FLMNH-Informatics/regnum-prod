@@ -1,0 +1,94 @@
+%input#new_citation_for{ type: "hidden", name: "citation_for" }
+%input#phylogeny_table_citation_id{ type: "hidden", value: "new" }
+%form#new-citation-form-entry{ action: "#" }
+  .container-fluid
+    .row
+      .form-group.col-sm-4
+        %label{ for: "citation_type" } Type:
+        %select#citation_type{ class: "form-control", data: { bind: "value: citation_type" } }
+          %option{ value: "book" } Book
+          %option{ value: "journal" } Journal
+          %option{ value: "book_section" } Book Section
+    .row
+      .form-group.col-sm-12
+        %label{ for: "title", data: { bind: "text: citation_type() == 'journal' ? 'Article Title' : 'Title' " } }
+        %input#title{ type: "text", class: "form-control", data: { bind: "value: title" } }
+    .row{ data: { bind: "if: citation_type() == 'journal'" } }
+      .form-group.col-sm-12
+        %label{ for: "journal" } Journal
+        %input#journal{ type: "text", class: "form-control", data: { bind: "value: journal" } }
+    .row
+      .form-group.col-sm-12
+        %label Author(s):
+        #citation-author-container
+          = render 'shared/add_author', { author_type: "author" }
+    .row
+      / ko if: citation_type() != 'journal'
+      .form-group.col-sm-12{ data: { bind: "if: citation_type() != 'journal'" } }
+        %label Book Editor(s):
+        = render 'shared/add_author', { author_type: "editor" }
+      / /ko
+
+    / ko if: citation_type() == 'book_section'
+    .row{ data: {bind: "if: citation_type() == 'book_section'" } }
+      .form-group.col-sm-12
+        %label Series Editor(s):
+        = render 'shared/add_author', { author_type: "series_editor" }
+    / /ko
+    / ko if: citation_type() != 'journal'
+    .row{ data: { bind: "if: citation_type() != 'journal'" } }
+      .form-group.col-sm-9
+        %label{ for: "publisher" } Publisher
+        %input#publisher{ type: "text", class: "form-control", data: { bind: "value: publisher" } }
+    / /ko
+    .row
+      .form-group.col-sm-3
+        %label{ for: "year" } Year
+        %input#year{ type: "text", class: "form-control", data: { bind: "value: year" } }
+      / ko if: citation_type() != 'journal'
+      .form-group.col-sm-4{ data: { bind: "if: citation_type() != 'journal'" } }
+        %label{ for: "city" } City
+        %input#city{ type: "text", class: "form-control", data: { bind: "value: city" } }
+      / /ko
+      .form-group.col-sm-3
+        %label{ for: "edition" } Edition
+        %input#edition{ type: "text", class: "form-control", data: { bind: "value: edition" } }
+      .form-group.col-sm-3
+        %label{ for: "volume", data: { bind: "text: citation_type() == 'journal' ? 'Volume #' : 'Volume'" } } Volume
+        %input#volume{ type: "text", class: "form-control", data: { bind: "value: volume" } }
+      .form-group.col-sm-2
+        %label{ for: "pages" } Pages
+        %input#pages{ type: "text", class: "form-control", data: { bind: "value: pages" } }
+      / ko if: citation_type() == 'journal'
+      .form-group.col-sm-3{ data: { bind: "if: citation_type() == 'journal'" } }
+        %label{ for: "figure" } Figure
+        %input#figure{ type: "text", class: "form-control", data: { bind: "value: figure" } }
+      / /ko
+    .row
+      .form-group.col-sm-6
+        %label{ for: "keywords" } Keywords
+        %input#keywords{ type: "text", class: "form-control", data: { bind: "value: volume" } }
+      / ko if: citation_type() == 'journal'
+      .form-group.col-sm-6{ data: { bind: "if: citation_type() == 'journal'" } }
+        %label{ for: "isbn" } ISBN/ISSN
+        %input#isbn{ type: "text", class: "form-control", data: { bind: "value: isbn" } }
+      / /ko
+      .form-group.col-sm-6
+        %label{ for: "url" } URL
+        %input#url{ type: "url", class: "form-control", data: { bind: "value: url" } }
+      .form-group.col-sm-6
+        %label{ for: "doi" } DOI
+        %input#doi{ type: "text", class: "form-control", data: { bind: "value: doi" } }
+-# not needed per nico
+-# .row
+-#   .form-group.col-sm-4
+-#     %label{ for: "treebase_tree_id" }
+-#       %img.outlink{ src: "/images/treebase.gif", title: "TreeBase Icon" }
+-#       TreeBase Tree ID
+-#     %input#treebase_tree_id{ type: "text", class: "form-control", size: 25, data: { bind: "value: treebase_tree_id" } }
+-#%form#remote-attachment-form{ enctype: "multipart/form-data", action: "/my_submission/add_attachment", method: "post" }
+-#  .container-fluid
+-#    .row
+-#      .form-group.col-sm-12
+-#        %label{ for: 'new_remote_attachment' } Attachment
+-#           %input#new_remote_attachment{ type: "file", name: "file" }

@@ -24,23 +24,25 @@ function Phyloregnum(){
     // this.emptyCitationObj = {'citation_type': 'book', 'authors':ko.observableArray([ this.getEmptyAuthor() ]), 'title': ' '}
     this.getEmptyCitation = function(){
         return {
-            'citation_type': 'book',
+            'citation_type': ko.observable('book'),
             'authors': ko.observableArray([self.getEmptyAuthor()]),
             'editors': ko.observableArray([self.getEmptyAuthor()]),
+            'series_editors': ko.observableArray([self.getEmptyAuthor()]),
             'title': '',
             'publisher': '',
             'figure': '',
             'year': '',
             'edition': '',
+            'number': '',
+            'journal': '',
             'city': '',
             'volume': '',
             'pages': '',
             'keywords': '',
-            'abstract': '',
             'isbn': '',
             'doi': '',
             'url': '',
-            'treebase_tree_id': ''
+            'displayAuthorNames': 'hi'//ko.pureComputed(pr.authors.displayAuthorNames)
         }
     }
     this.submissionModel = {
@@ -122,9 +124,27 @@ function Phyloregnum(){
                                     citationsViewModel[key].editors = ko.observableArray(val.editors);
                                     break;
                             }
+                            citationsViewModel[key].citation_type = ko.observable(val.citation_type || '');
+                            citationsViewModel[key].displayAuths = ko.pureComputed(function(){
+                                var auths = this.authors();
+                                switch (auths.length){
+                                    case 0:     return "";                                              break;
+                                    case 1:     return pr.author.initialize(auths[0]);                    break;
+                                    case 2:     return auths.map(pr.author.initialize).join(" & ");    break;
+                                }
+                                if (auths.length <= 7){
+                                    return auths
+                                        .slice(0, auths.length - 1)
+                                        .map(pr.author.initialize)
+                                        .join(', ') + " & " + pr.author.initialize(auths[auths.length - 1]);
+                                }
+                                return auths
+                                    .slice(0, 6)
+                                    .map(pr.author.initailize)
+                                    .join(', ') + "... " + pr.author.initialize(auths[auths.length - 1]);
+                            }, citationsViewModel[key]);
                         }
                     })
-
                     return citationsViewModel;
                 }
             },
@@ -166,6 +186,7 @@ function Phyloregnum(){
     //
     this.templates = {}
     this.templatesToLoad = [
+        'citation',
         'book_citation',
         'book_section_citation',
         'journal_citation',
@@ -401,39 +422,54 @@ return "def here";
 
 
     this.author = {
-        displayAuthors: function(authors){
+        displayAuthors: function(citation){
+            return 'fix this, use citation.displayAuths'
             if (typeof authors === 'undefined') {
                 return 'authors is undefined';
             }
-            if (authors.length === 0) return "";
-            return "TODO: display author string here (create_cladename.js line ~372"
+            var authors = citation.authors();
+            switch (auths.length){
+                case 0:     return "";                                              break;
+                case 1:     return pr.author.initialize(auths[0]);                    break;
+                case 2:     return auths.map(pr.author.initalize).join(" & ");    break;
+            }
+            if (auths.length <= 7){
+                return auths
+                    .slice(0, auths.length - 1)
+                    .map(pr.author.initialize)
+                    .join(', ') + " & " + pr.author.initialize(auths[auths.length - 1]);
+            }
+            return auths
+                .slice(0, 6)
+                .map(pr.author.initailize)
+                .join(', ') + "... " + pr.author.initialize(auths[auths.length - 1]);
         },
-        addAuthor: function($author, event){
-            var author_type = event.target.parentElement.dataset.authorType;
-            var invalid_msg = "Please enter a first name and last name before adding an additional " + event.target.parentElement.dataset.authorType + ".";
-            if (pr.author.isValidAuthor($author)){
-                this[author_type + "s"].push({first_name: '', middle_name: '', last_name: ''});
+        addAuthor: function(author_type, author, event){
+            var invalid_msg = "Please enter a first name and last name before adding an additional.";
+            if (pr.author.isValidAuthor(author)){
+                this[author_type].push({first_name: '', middle_name: '', last_name: ''});
                 pr.author.markAllValid(jQuery(event.target).parents('.author'));
             }else{
                 event.target.nextElementSibling.nextElementSibling.innerHTML = invalid_msg;
             }
         },
-        removeAuthor: function($author, event){
-            if (event.target.parentElement.dataset.authorType == "author"){
+        removeAuthor: function(author_type, author, event){
+            if (author_type == "author"){
                 var invalid_msg = "You must leave one remaining valid author. (First and last name required)";
-                var invalid_remove = pr.submissionModel.authors().every(function(auth){
-                    if (auth === $author){ return true; }
-                    return (auth.first_name.trim() === "" || auth.last_name.trim() === "");
+                var invalid_remove = pr.submissionModel.authors().every(function(existing_author){
+                    if (existing_author === author){ return true; }
+                    return (existing_author.first_name.trim() === "" || existing_author.last_name.trim() === "");
                 })
                 if (invalid_remove){
                     event.target.nextElementSibling.innerHTML = invalid_msg;
                 }else{
                     pr.author.markAllValid(jQuery(event.target).parents('.author'));
-                    this.authors.remove($author);
+                    this.authors.remove(author);
                 }
             }else{
-                this.editors.remove($author);
-                this.editors.push(self.getEmptyAuthor());
+                this[author_type].remove(author);
+                if (this[author_type]().length === 0)
+                    this[author_type].push(self.getEmptyAuthor());
             }
 
         },
@@ -456,6 +492,12 @@ return "def here";
             if (this.isValidAuthor($author)){
                 this.markValid($author);
             }
+        },
+        initialize: function(author){
+            var out = author.last_name.trim() + ", " + author.first_name.trim()[0] + ".";
+            if (author.middle_name && author.middle_name.trim().length > 0)
+                out += " " + author.middle_name.trim()[0];
+            return out;
         }
     }
 
@@ -602,7 +644,9 @@ jQuery.showSpecifier = function(sfor,callback){
 }
 //
 jQuery.showCitation = function(citation,cfor,callback){
+    var modal_title = 'Update reference';
     if(typeof(citation) == 'undefined'){
+        modal_title = 'Add reference'
         citation = pr.getEmptyCitation()
     }
     var cback = function(){
@@ -634,8 +678,15 @@ jQuery.showCitation = function(citation,cfor,callback){
         ko.cleanNode(bindingElement);
         ko.applyBindings(citation, bindingElement)
     }
-    ///{
-    var opts = {width: 630, title: 'Add/Edit Reference', buttons: [
+
+    switch (cfor){
+        case 'phylogeny': modal_title += ' for additional reference phylogeny'; break;
+        case 'description': modal_title += ' for description'; break;
+        case 'primary_phylogeny': modal_title += ' for primary phylogeny'; break;
+        case 'preexisting': modal_title += ' for pre-existing name'; break;
+    }
+
+    var opts = {width: 630, title: modal_title, buttons: [
             { text: 'Save',
                 click: function(){
                     jQuery.save_citation()
@@ -647,7 +698,8 @@ jQuery.showCitation = function(citation,cfor,callback){
     var type = citation.citation_type
 
 
-    jQuery.openFloatWindow(pr.templates[jQuery.citationType(type)],opts,cback)//.show()//.sizeWindow()
+    // jQuery.openFloatWindow(pr.templates[jQuery.citationType(type)],opts,cback)//.show()//.sizeWindow()
+    jQuery.openFloatWindow(pr.templates['citation'],opts,cback)//.show()//.sizeWindow()
     //execute callback if provided
     if(callback != undefined){
         callback()
