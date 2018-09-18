@@ -41,7 +41,8 @@ function Phyloregnum(){
             'keywords': '',
             'isbn': '',
             'doi': '',
-            'url': ''
+            'url': '',
+            'displayAuthorNames': 'hi'//ko.pureComputed(pr.authors.displayAuthorNames)
         }
     }
     this.submissionModel = {
@@ -124,6 +125,24 @@ function Phyloregnum(){
                                     break;
                             }
                             citationsViewModel[key].citation_type = ko.observable(val.citation_type || '');
+                            citationsViewModel[key].displayAuths = ko.pureComputed(function(){
+                                var auths = this.authors();
+                                switch (auths.length){
+                                    case 0:     return "";                                              break;
+                                    case 1:     return pr.author.initialize(auths[0]);                    break;
+                                    case 2:     return auths.map(pr.author.initialize).join(" & ");    break;
+                                }
+                                if (auths.length <= 7){
+                                    return auths
+                                        .slice(0, auths.length - 1)
+                                        .map(pr.author.initialize)
+                                        .join(', ') + " & " + pr.author.initialize(auths[auths.length - 1]);
+                                }
+                                return auths
+                                    .slice(0, 6)
+                                    .map(pr.author.initailize)
+                                    .join(', ') + "... " + pr.author.initialize(auths[auths.length - 1]);
+                            }, citationsViewModel[key]);
                         }
                     })
                     return citationsViewModel;
@@ -403,12 +422,27 @@ return "def here";
 
 
     this.author = {
-        displayAuthors: function(authors){
+        displayAuthors: function(citation){
+            return 'fix this, use citation.displayAuths'
             if (typeof authors === 'undefined') {
                 return 'authors is undefined';
             }
-            if (authors.length === 0) return "";
-            return "TODO: display author string here (create_cladename.js line ~372"
+            var authors = citation.authors();
+            switch (auths.length){
+                case 0:     return "";                                              break;
+                case 1:     return pr.author.initialize(auths[0]);                    break;
+                case 2:     return auths.map(pr.author.initalize).join(" & ");    break;
+            }
+            if (auths.length <= 7){
+                return auths
+                    .slice(0, auths.length - 1)
+                    .map(pr.author.initialize)
+                    .join(', ') + " & " + pr.author.initialize(auths[auths.length - 1]);
+            }
+            return auths
+                .slice(0, 6)
+                .map(pr.author.initailize)
+                .join(', ') + "... " + pr.author.initialize(auths[auths.length - 1]);
         },
         addAuthor: function(author_type, author, event){
             var invalid_msg = "Please enter a first name and last name before adding an additional.";
@@ -458,6 +492,12 @@ return "def here";
             if (this.isValidAuthor($author)){
                 this.markValid($author);
             }
+        },
+        initialize: function(author){
+            var out = author.last_name.trim() + ", " + author.first_name.trim()[0] + ".";
+            if (author.middle_name && author.middle_name.trim().length > 0)
+                out += " " + author.middle_name.trim()[0];
+            return out;
         }
     }
 
