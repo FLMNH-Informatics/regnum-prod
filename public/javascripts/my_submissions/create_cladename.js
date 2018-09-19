@@ -668,7 +668,6 @@ jQuery.showSpecifier = function(sfor,callback){
 }
 //
 jQuery.showCitation = function(citation,cfor,callback){
-    debugger;
     var modal_title = 'Update reference';
     if(typeof(citation) == 'undefined'){
         modal_title = 'Add reference'
