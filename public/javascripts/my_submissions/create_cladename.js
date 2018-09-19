@@ -32,19 +32,19 @@ function Phyloregnum(){
             'title': citation.title || '',
             'publisher': citation.publisher || '',
             'figure': citation.figure || '',
-            'year': citation.year || '',
+            'year': ko.observable(citation.year || ''),
             'edition': citation.edition || '',
             'number': citation.number || '',
             'journal': citation.journal || '',
             'city': citation.city || '',
-            'volume': citation.volume || '',
-            'pages': citation.pages || '',
+            'volume': ko.observable(citation.volume || ''),
+            'pages': ko.observable(citation.pages || ''),
             'keywords': citation.keywords || '',
             'isbn': citation.isbn || '',
             'doi': citation.doi || '',
             'url': citation.url || ''
         }
-        ko_cit.displayAuth = ko.pureComputed(self.displayAuthors, ko_cit);
+        ko_cit.displayAuths = ko.pureComputed(self.displayAuthors, ko_cit);
         return ko_cit;
     };
 
@@ -146,13 +146,14 @@ function Phyloregnum(){
                 create: function(options){
                     //initalize citations
                     //existing ones will overwrite these
+                    var citations = options.data;
                     var citationsViewModel = {
                         //can have multpile citations
-                        'phylogeny': self.makeCitations(options.phylogeny).extend({paging: 5}),
-                        'description': self.makeCitations(options.description),
+                        'phylogeny': self.makeCitations(citations.phylogeny).extend({paging: 5}),
+                        'description': self.makeCitations(citations.description),
                         //have only one citation
-                        'primary_phylogeny': self.makeCitation(options.primary_phylogeny),
-                        'preexisting': self.makeCitation(options.preexisting)
+                        'primary_phylogeny': self.makeCitation(citations.primary_phylogeny),
+                        'preexisting': self.makeCitation(citations.preexisting)
                     }
                     //now load existing ones from response into citationsViewModel hash
                     // jQuery.each(options.data, function(key,val) {
@@ -362,18 +363,18 @@ return "def here";
         var str = submission.name()  + ' '
         var citations = submission.citations
         if(submission.preexisting()){
-            str += citations.preexisting.displayAuths() + ' '
-            str += (isUndefined(citations.preexisting['year']) == '' ? '' : citations.preexisting['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '
-            str += (isUndefined(citations.preexisting['volume']) == '' ? '' : ('(Vol. ' + citations.preexisting['volume'] + ')' + ': ') )
-            str += (isUndefined(citations.preexisting['pages']) == '' ? '' : citations.preexisting['pages'])
+            str += citations.preexisting.displayAuths()
+            if (citations.preexisting.year().trim().length > 0)     str += ' ' + citations.preexisting.year() //(isUndefined(citations.preexisting['year']) == '' ? '' : citations.preexisting['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '
+            if (citations.preexisting.volume().trim().length > 0)   str += ' ' + citations.preexisting.volume()//(isUndefined(citations.preexisting['volume']) == '' ? '' : ('(Vol. ' + citations.preexisting['volume'] + ')' + ': ') )
+            if (citations.preexisting.pages().trim().length > 0)    str += ' ' + citations.preexisting.pages()//(isUndefined(citations.preexisting['pages']) == '' ? '' : citations.preexisting['pages'])
             // todo: str += ' [' + submission.authors() + ']'
             str += ', converted clade name'
         }else{
-            str += submission.displayAuths() + ' '
+            str += submission.displayAuths()
             if(typeof(citations.description()[0]) == 'object'){
-                str += (isUndefined(citations.description()[0]['year']) == '' ? '' : cit.description()[0]['year'] + ': ' )//isUndefined(cit.description['year']) + ': '
-                str += (isUndefined(citations.description()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.description()[0]['volume'] + ')' + ': ') ) //formatVolume(cit.description['volume']) + isUndefined(cit.description['pages'])
-                str += (isUndefined(citations.description()[0]['pages']) == '' ? '' : cit.description()[0]['pages'])
+                if (citations.phylogeny.year().trim().length > 0)   str += ' ' + citations.phylogeny.year()//(isUndefined(citations.description()[0]['year']) == '' ? '' : cit.description()[0]['year'] + ': ' )//isUndefined(cit.description['year']) + ': '
+                if (citations.phylogeny.volume().trim().length > 0) str += ' ' + citations.phylogeny.volume()//(isUndefined(citations.description()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.description()[0]['volume'] + ')' + ': ') ) //formatVolume(cit.description['volume']) + isUndefined(cit.description['pages'])
+                if (citations.phylogeny.pages().trim().length > 0)  str += ' ' + citations.phylogeny.pages()//(isUndefined(citations.description()[0]['pages']) == '' ? '' : cit.description()[0]['pages'])
             }
             str += ', new clade name'
         }
