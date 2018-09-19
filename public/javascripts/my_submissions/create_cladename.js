@@ -29,7 +29,7 @@ function Phyloregnum(){
             'authors': pr.makeAuthors(citation.authors),
             'editors': pr.makeAuthors(citation.editors),
             'series_editors': pr.makeAuthors(citation.series_editors),
-            'title': citation.title || '',
+            'title': ko.observable(citation.title || ''),
             'publisher': citation.publisher || '',
             'figure': citation.figure || '',
             'year': ko.observable(citation.year || ''),
@@ -668,6 +668,7 @@ jQuery.showSpecifier = function(sfor,callback){
 }
 //
 jQuery.showCitation = function(citation,cfor,callback){
+    debugger;
     var modal_title = 'Update reference';
     if(typeof(citation) == 'undefined'){
         modal_title = 'Add reference'

@@ -615,13 +615,23 @@ span.required{
     padding:2px;
 }
 
-#search_table tr td, .sortable-table tr td{
+#search_table tr td,
+.sortable-table tr td{
     border-left:1px solid #ccc;
     border-top:1px solid #ccc;
     border-bottom:1px solid #bbb;
     border-right:1px solid #bbb;
     padding:5px;
 }
+
+
+
+.sortable-table tr td.action-cell{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+
 #spinner{
     border:none;
     background:none;
