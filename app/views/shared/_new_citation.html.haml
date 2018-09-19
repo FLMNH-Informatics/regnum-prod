@@ -67,7 +67,7 @@
     .row
       .form-group.col-sm-6
         %label{ for: "keywords" } Keywords
-        %input#keywords{ type: "text", class: "form-control", data: { bind: "value: volume" } }
+        %input#keywords{ type: "text", class: "form-control", data: { bind: "value: keywords" } }
       / ko if: citation_type() == 'journal'
       .form-group.col-sm-6{ data: { bind: "if: citation_type() == 'journal'" } }
         %label{ for: "isbn" } ISBN/ISSN
