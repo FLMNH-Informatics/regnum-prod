@@ -14,11 +14,22 @@ function Phyloregnum(){
 
     this.getEmptyAuthor = function() {
         return {
-            'first_name': '',
-            'middle_name': '',
-            'last_name': '',
-            // isValid: isValidAuthor.bind(this),
+            'first_name': ko.observable(''),
+            'middle_name': ko.observable(''),
+            'last_name': ko.observable(''),
         }
+    }
+    this.makeAuthor = function(author){
+        if (!author) return this.getEmptyAuthor();
+        return {
+            'first_name': ko.observable(author.first_name),
+            'middle_name': ko.observable(author.middle_name),
+            'last_name': ko.observable(author.last_name)
+        }
+    }
+    this.makeAuthors = function(authors){
+        var observableAuthors = authors.map(this.makeAuthor);
+        return ko.observableArray(observableAuthors);
     }
     // this.emptyAuthorObj = {'first_name': '', 'middle_name': '', 'last_name': ''}
     // this.emptyCitationObj = {'citation_type': 'book', 'authors':ko.observableArray([ this.getEmptyAuthor() ]), 'title': ' '}
@@ -57,7 +68,7 @@ function Phyloregnum(){
             'authors': {
                 create: function(options){
                     if ( options.data && !self.objIsEmpty(options.data) ){
-                        return options.data;
+                        return pr.makeAuthors([options.data]);
                     }
                     return self.getEmptyAuthor()
                 }
@@ -112,24 +123,26 @@ function Phyloregnum(){
                                     citationsViewModel[key] = (key === 'phylogeny') ?
                                         ko.observableArray(citations).extend({paging: 5}) : ko.observableArray(citations);
                                     citations.forEach(function (citation, i) {
-                                        citationsViewModel[key]()[i].authors = ko.observableArray(citation.authors)
-                                        citationsViewModel[key]()[i].editors = ko.observableArray(citation.editors)
+                                        citationsViewModel[key]()[i].authors = pr.makeAuthors(citation.authors)
+                                        citationsViewModel[key]()[i].editors = pr.makeAuthors(citation.editors)
+                                        citationsViewModel[key]()[i].series_editors = pr.makeAuthors(citation.series_editors)
                                     });
                                     break;
                                 case 'primary_phylogeny':
                                 case 'preexisting':
                                     //these only have one citation
                                     citationsViewModel[key] = val;
-                                    citationsViewModel[key].authors = ko.observableArray(val.authors);
-                                    citationsViewModel[key].editors = ko.observableArray(val.editors);
+                                    citationsViewModel[key].authors = pr.makeAuthors(val.authors); //ko.observableArray(val.authors);
+                                    citationsViewModel[key].editors = pr.makeAuthors(val.editors); //ko.observableArray(val.editors);
+                                    citationsViewModel[key].series_editors = pr.makeAuthors(val.series_editors); //ko.observableArray(val.editors);
                                     break;
                             }
                             citationsViewModel[key].citation_type = ko.observable(val.citation_type || '');
                             citationsViewModel[key].displayAuths = ko.pureComputed(function(){
                                 var auths = this.authors();
                                 switch (auths.length){
-                                    case 0:     return "";                                              break;
-                                    case 1:     return pr.author.initialize(auths[0]);                    break;
+                                    case 0:     return "";                                             break;
+                                    case 1:     return pr.author.initialize(auths[0]);                 break;
                                     case 2:     return auths.map(pr.author.initialize).join(" & ");    break;
                                 }
                                 if (auths.length <= 7){
@@ -324,17 +337,16 @@ return "def here";
         var submission = options.parent
         var str = submission.name()  + ' '
         var citations = submission.citations
-        // debugger;
         //todo: fix this
-        if(submission.preexisting){
-            str += pr.author.displayAuthors(citations.preexisting) + ' '
+        if(submission.preexisting()){
+            str += citations.preexisting.displayAuths() + ' '
             str += (isUndefined(citations.preexisting['year']) == '' ? '' : citations.preexisting['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '
             str += (isUndefined(citations.preexisting['volume']) == '' ? '' : ('(Vol. ' + citations.preexisting['volume'] + ')' + ': ') )
             str += (isUndefined(citations.preexisting['pages']) == '' ? '' : citations.preexisting['pages'])
             // todo: str += ' [' + submission.authors() + ']'
             str += ', converted clade name'
         }else{
-            str += pr.author.displayAuthors(authors()) + ' '
+            str += submission.authors + ' '
             if(typeof(citations.description()[0]) == 'object'){
                 str += (isUndefined(citations.description()[0]['year']) == '' ? '' : cit.description()[0]['year'] + ': ' )//isUndefined(cit.description['year']) + ': '
                 str += (isUndefined(citations.description()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.description()[0]['volume'] + ')' + ': ') ) //formatVolume(cit.description['volume']) + isUndefined(cit.description['pages'])
@@ -379,7 +391,6 @@ return "def here";
             jQuery('#spinner').hide()
             // var ko_node = document.getElementById('new-cladename-content');
             // ko.cleanNode(ko_node)
-            // debugger;
             // ko.applyBindings(pr.submissionModel, ko_node);
         });
     }
@@ -404,7 +415,6 @@ return "def here";
                     pr.submissionModel[k]('');
                 }
             })
-// debugger;
             ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'))
             jQuery('.temp-id').html(parseInt(id).pad(10));
 
@@ -422,28 +432,6 @@ return "def here";
 
 
     this.author = {
-        displayAuthors: function(citation){
-            return 'fix this, use citation.displayAuths'
-            if (typeof authors === 'undefined') {
-                return 'authors is undefined';
-            }
-            var authors = citation.authors();
-            switch (auths.length){
-                case 0:     return "";                                              break;
-                case 1:     return pr.author.initialize(auths[0]);                    break;
-                case 2:     return auths.map(pr.author.initalize).join(" & ");    break;
-            }
-            if (auths.length <= 7){
-                return auths
-                    .slice(0, auths.length - 1)
-                    .map(pr.author.initialize)
-                    .join(', ') + " & " + pr.author.initialize(auths[auths.length - 1]);
-            }
-            return auths
-                .slice(0, 6)
-                .map(pr.author.initailize)
-                .join(', ') + "... " + pr.author.initialize(auths[auths.length - 1]);
-        },
         addAuthor: function(author_type, author, event){
             var invalid_msg = "Please enter a first name and last name before adding an additional.";
             if (pr.author.isValidAuthor(author)){
@@ -475,7 +463,7 @@ return "def here";
         },
         isValidAuthor: function ($author) {
             if ($author.hasOwnProperty('first_name')){
-                return !($author.first_name.trim() === "" || $author.last_name.trim() === "")
+                return !($author.first_name().trim() === "" || $author.last_name().trim() === "")
             }
             var $author_inputs = $author.find('input');
             return $author_inputs.toArray().every(function (el) {
@@ -494,9 +482,9 @@ return "def here";
             }
         },
         initialize: function(author){
-            var out = author.last_name.trim() + ", " + author.first_name.trim()[0] + ".";
-            if (author.middle_name && author.middle_name.trim().length > 0)
-                out += " " + author.middle_name.trim()[0];
+            var out = author.last_name().trim() + ", " + author.first_name().trim()[0] + ".";
+            if (author.middle_name() && author.middle_name().trim().length > 0)
+                out += " " + author.middle_name().trim()[0] + ".";
             return out;
         }
     }
