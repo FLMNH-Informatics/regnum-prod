@@ -22,8 +22,43 @@ function Phyloregnum(){
         return observableArray;
     }
 
+    this.makeCitation = function(citation){
+        citation = citation || {};
+        var ko_cit = {
+            'citation_type': ko.observable(citation.citation_type || 'book'),
+            'authors': pr.makeAuthors(citation.authors),
+            'editors': pr.makeAuthors(citation.editors),
+            'series_editors': pr.makeAuthors(citation.series_editors),
+            'title': citation.title || '',
+            'publisher': citation.publisher || '',
+            'figure': citation.figure || '',
+            'year': citation.year || '',
+            'edition': citation.edition || '',
+            'number': citation.number || '',
+            'journal': citation.journal || '',
+            'city': citation.city || '',
+            'volume': citation.volume || '',
+            'pages': citation.pages || '',
+            'keywords': citation.keywords || '',
+            'isbn': citation.isbn || '',
+            'doi': citation.doi || '',
+            'url': citation.url || ''
+        }
+        ko_cit.displayAuth = ko.pureComputed(self.displayAuthors, ko_cit);
+        return ko_cit;
+    };
+
+    this.makeCitations = function(citations){
+        if (!citations) console.log('citations is false/empty')
+        citations = citations || [{}]
+        var observableCitations = citations.map(this.makeCitation);
+        var observableArray = ko.observableArray(observableCitations);
+        return observableArray;
+    }
+
     this.displayAuthors = function(){
         var auths = this.authors();
+
         switch (auths.length){
             case 0:     return "";                                             break;
             case 1:     return pr.author.initialize(auths[0]);                 break;
@@ -75,9 +110,9 @@ function Phyloregnum(){
             'authors': {
                 create: function(options){
                     if ( options.data && !self.objIsEmpty(options.data) ){
-                        return pr.makeAuthors([options.data]);
+                        return pr.makeAuthor(options.data);
                     }
-                    return ko.observableArray([self.makeAuthor()])
+                    return self.makeAuthor()
                 }
             },
             'specifiers': {
@@ -113,41 +148,41 @@ function Phyloregnum(){
                     //existing ones will overwrite these
                     var citationsViewModel = {
                         //can have multpile citations
-                        'phylogeny': ko.observableArray( [ self.getEmptyCitation() ] ).extend({paging: 5}),
-                        'description': ko.observableArray([ self.getEmptyCitation() ]),
+                        'phylogeny': self.makeCitations(options.phylogeny).extend({paging: 5}),
+                        'description': self.makeCitations(options.description),
                         //have only one citation
-                        'primary_phylogeny': self.getEmptyCitation(),
-                        'preexisting': self.getEmptyCitation()
+                        'primary_phylogeny': self.makeCitation(options.primary_phylogeny),
+                        'preexisting': self.makeCitation(options.preexisting)
                     }
                     //now load existing ones from response into citationsViewModel hash
-                    jQuery.each(options.data, function(key,val) {
-                        if (val != undefined) {
-                            switch (key) {
-                                case 'phylogeny':
-                                case 'description':
-                                    //these can have multiple citations
-                                    var citations = Array.isArray(val) ? val : self.ko.objToArray(val);
-                                    citationsViewModel[key] = (key === 'phylogeny') ?
-                                        ko.observableArray(citations).extend({paging: 5}) : ko.observableArray(citations);
-                                    citations.forEach(function (citation, i) {
-                                        citationsViewModel[key]()[i].authors = pr.makeAuthors(citation.authors)
-                                        citationsViewModel[key]()[i].editors = pr.makeAuthors(citation.editors)
-                                        citationsViewModel[key]()[i].series_editors = pr.makeAuthors(citation.series_editors)
-                                    });
-                                    break;
-                                case 'primary_phylogeny':
-                                case 'preexisting':
-                                    //these only have one citation
-                                    citationsViewModel[key] = val;
-                                    citationsViewModel[key].authors = pr.makeAuthors(val.authors); //ko.observableArray(val.authors);
-                                    citationsViewModel[key].editors = pr.makeAuthors(val.editors); //ko.observableArray(val.editors);
-                                    citationsViewModel[key].series_editors = pr.makeAuthors(val.series_editors); //ko.observableArray(val.editors);
-                                    break;
-                            }
-                            citationsViewModel[key].citation_type = ko.observable(val.citation_type || '');
-                            citationsViewModel[key].displayAuths = ko.pureComputed(self.displayAuthors, citationsViewModel[key]);
-                        }
-                    })
+                    // jQuery.each(options.data, function(key,val) {
+                    //     if (val != undefined) {
+                    //         switch (key) {
+                    //             case 'phylogeny':
+                    //             case 'description':
+                    //                 //these can have multiple citations
+                    //                 var citations = Array.isArray(val) ? val : self.ko.objToArray(val);
+                    //                 citationsViewModel[key] = (key === 'phylogeny') ?
+                    //                     ko.observableArray(citations).extend({paging: 5}) : ko.observableArray(citations);
+                    //                 citations.forEach(function (citation, i) {
+                    //                     citationsViewModel[key]()[i].authors = pr.makeAuthors(citation.authors)
+                    //                     citationsViewModel[key]()[i].editors = pr.makeAuthors(citation.editors)
+                    //                     citationsViewModel[key]()[i].series_editors = pr.makeAuthors(citation.series_editors)
+                    //                 });
+                    //                 break;
+                    //             case 'primary_phylogeny':
+                    //             case 'preexisting':
+                    //                 //these only have one citation
+                    //                 citationsViewModel[key] = val;
+                    //                 citationsViewModel[key].authors = pr.makeAuthors(val.authors); //ko.observableArray(val.authors);
+                    //                 citationsViewModel[key].editors = pr.makeAuthors(val.editors); //ko.observableArray(val.editors);
+                    //                 citationsViewModel[key].series_editors = pr.makeAuthors(val.series_editors); //ko.observableArray(val.editors);
+                    //                 break;
+                    //         }
+                    //         citationsViewModel[key].citation_type = ko.observable(val.citation_type || '');
+                    //         citationsViewModel[key].displayAuths = ko.pureComputed(self.displayAuthors, citationsViewModel[key]);
+                    //     }
+                    // })
                     return citationsViewModel;
                 }
             },
@@ -161,7 +196,8 @@ function Phyloregnum(){
             'name_string': {
                 create: function(options){
                     return ko.computed(function(){
-                        return self.makeReference(options)
+                        var t = self.makeReference(options)
+                        return t
                     }, self)
                 }
             }
@@ -330,7 +366,7 @@ return "def here";
             str += (isUndefined(citations.preexisting['year']) == '' ? '' : citations.preexisting['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '
             str += (isUndefined(citations.preexisting['volume']) == '' ? '' : ('(Vol. ' + citations.preexisting['volume'] + ')' + ': ') )
             str += (isUndefined(citations.preexisting['pages']) == '' ? '' : citations.preexisting['pages'])
-            str += ' [' + submission.displayAuths() + ']'
+            // todo: str += ' [' + submission.authors() + ']'
             str += ', converted clade name'
         }else{
             str += submission.displayAuths() + ' '
@@ -395,11 +431,10 @@ return "def here";
             ///ko key mapping
             pr.submissionModel.displayAuths = ko.pureComputed(self.displayAuthors, pr.submissionModel);
             pr.submissionModel = ko.mapping.fromJS(submission, pr.ko.mapping, pr.submissionModel);
-            if (pr.submissionModel.authors.length === 0) pr.submissionModel.authors.push(self.makeAuthor());
+            if (pr.submissionModel.authors().length === 0) pr.submissionModel.authors.push(self.makeAuthor());
 
             jQuery.each(pr.submissionModel, function(k,v){
                 if((typeof(v)=='function' && v()=='null')||v==null){
-                    debugger;
                     pr.submissionModel[k]('');
                 }
             })
@@ -424,7 +459,7 @@ return "def here";
         addAuthor: function(author_type, author, event){
             var invalid_msg = "Please enter a first name and last name before adding an additional.";
             if (pr.author.isValidAuthor(author)){
-                this[author_type].push({first_name: '', middle_name: '', last_name: ''});
+                this[author_type].push(self.makeAuthor());
                 pr.author.markAllValid(jQuery(event.target).parents('.author'));
             }else{
                 event.target.nextElementSibling.nextElementSibling.innerHTML = invalid_msg;
@@ -473,12 +508,12 @@ return "def here";
         initialize: function(author){
             var out = "";
             if (author.last_name().trim().length === 0){
-                out += "Please enter a last name for author. ";
+                out += "Please update to include last name for author. ";
             }else{
                 out += author.last_name().trim() + ", ";
             }
             if (author.first_name().trim().length === 0){
-                out += "Please enter a first name for author. "
+                out += "Please update to include first name for author. "
                 return out;
             }else{
                 out += author.first_name().trim()[0] + ".";
