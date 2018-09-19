@@ -1,44 +1,52 @@
 //define phyloregnum object/namespace
 // 
 function Phyloregnum(){
-    //define phylo knockout properties
     var self = this
-    //object for holding json data
-    var isValidAuthor = function(){
-        return !(this.first_name.trim() === "" || this.last_name.trim() === "")
-    }
-    var displayAuthors = function(){
-        return 'todo: display authors correctly';
-    }
+
     this.objIsEmpty = function(obj){ return Object.keys(obj).length === 0 && obj.constructor === Object }
 
-    this.getEmptyAuthor = function() {
-        return {
-            'first_name': ko.observable(''),
-            'middle_name': ko.observable(''),
-            'last_name': ko.observable(''),
-        }
-    }
     this.makeAuthor = function(author){
-        if (!author) return this.getEmptyAuthor();
+        author = author || {};
         return {
-            'first_name': ko.observable(author.first_name),
-            'middle_name': ko.observable(author.middle_name),
-            'last_name': ko.observable(author.last_name)
+            'first_name': ko.observable(author.first_name || ''),
+            'middle_name': ko.observable(author.middle_name || ''),
+            'last_name': ko.observable(author.last_name || '')
         }
     }
+
     this.makeAuthors = function(authors){
+        if (!authors) console.log('authors is false: create_cladename.js line 18')
+        authors = authors || [{}];
         var observableAuthors = authors.map(this.makeAuthor);
-        return ko.observableArray(observableAuthors);
+        var observableArray = ko.observableArray(observableAuthors);
+        return observableArray;
     }
-    // this.emptyAuthorObj = {'first_name': '', 'middle_name': '', 'last_name': ''}
-    // this.emptyCitationObj = {'citation_type': 'book', 'authors':ko.observableArray([ this.getEmptyAuthor() ]), 'title': ' '}
+
+    this.displayAuthors = function(){
+        var auths = this.authors();
+        switch (auths.length){
+            case 0:     return "";                                             break;
+            case 1:     return pr.author.initialize(auths[0]);                 break;
+            case 2:     return auths.map(pr.author.initialize).join(" & ");    break;
+        }
+        if (auths.length <= 7){
+            return auths
+                .slice(0, auths.length - 1)
+                .map(pr.author.initialize)
+                .join(', ') + " & " + pr.author.initialize(auths[auths.length - 1]);
+        }
+        return auths
+            .slice(0, 6)
+            .map(pr.author.initailize)
+            .join(', ') + "... " + pr.author.initialize(auths[auths.length - 1]);
+    }
+
     this.getEmptyCitation = function(){
         return {
             'citation_type': ko.observable('book'),
-            'authors': ko.observableArray([self.getEmptyAuthor()]),
-            'editors': ko.observableArray([self.getEmptyAuthor()]),
-            'series_editors': ko.observableArray([self.getEmptyAuthor()]),
+            'authors': ko.observableArray([self.makeAuthor()]),
+            'editors': ko.observableArray([self.makeAuthor()]),
+            'series_editors': ko.observableArray([self.makeAuthor()]),
             'title': '',
             'publisher': '',
             'figure': '',
@@ -52,25 +60,24 @@ function Phyloregnum(){
             'keywords': '',
             'isbn': '',
             'doi': '',
-            'url': '',
-            'displayAuthorNames': 'hi'//ko.pureComputed(pr.authors.displayAuthorNames)
+            'url': ''
         }
     }
+
     this.submissionModel = {
-        'authors': ko.observableArray([ self.getEmptyAuthor() ])
-    }//
+        // 'authors': self.makeAuthors([{}]),
+        displayAuths: ko.pureComputed(self.displayAuthors, this)
+    }
+
     this.ko = {
         //json response loading map for ko.mapping
         mapping:  {
-            displayAuthors: function(authors){
-                return 'todo;';
-            },
             'authors': {
                 create: function(options){
                     if ( options.data && !self.objIsEmpty(options.data) ){
                         return pr.makeAuthors([options.data]);
                     }
-                    return self.getEmptyAuthor()
+                    return ko.observableArray([self.makeAuthor()])
                 }
             },
             'specifiers': {
@@ -138,24 +145,7 @@ function Phyloregnum(){
                                     break;
                             }
                             citationsViewModel[key].citation_type = ko.observable(val.citation_type || '');
-                            citationsViewModel[key].displayAuths = ko.pureComputed(function(){
-                                var auths = this.authors();
-                                switch (auths.length){
-                                    case 0:     return "";                                             break;
-                                    case 1:     return pr.author.initialize(auths[0]);                 break;
-                                    case 2:     return auths.map(pr.author.initialize).join(" & ");    break;
-                                }
-                                if (auths.length <= 7){
-                                    return auths
-                                        .slice(0, auths.length - 1)
-                                        .map(pr.author.initialize)
-                                        .join(', ') + " & " + pr.author.initialize(auths[auths.length - 1]);
-                                }
-                                return auths
-                                    .slice(0, 6)
-                                    .map(pr.author.initailize)
-                                    .join(', ') + "... " + pr.author.initialize(auths[auths.length - 1]);
-                            }, citationsViewModel[key]);
+                            citationsViewModel[key].displayAuths = ko.pureComputed(self.displayAuthors, citationsViewModel[key]);
                         }
                     })
                     return citationsViewModel;
@@ -171,8 +161,7 @@ function Phyloregnum(){
             'name_string': {
                 create: function(options){
                     return ko.computed(function(){
-                        var t = self.makeReference(options)
-                        return t
+                        return self.makeReference(options)
                     }, self)
                 }
             }
@@ -319,7 +308,6 @@ return "def here";
 
     //make cladename citation reference
     this.makeReference = function(options){
-
         var isUndefined = function(val){
             if(typeof(val) == 'undefined' || val == ''){
                 return ''
@@ -337,16 +325,15 @@ return "def here";
         var submission = options.parent
         var str = submission.name()  + ' '
         var citations = submission.citations
-        //todo: fix this
         if(submission.preexisting()){
             str += citations.preexisting.displayAuths() + ' '
             str += (isUndefined(citations.preexisting['year']) == '' ? '' : citations.preexisting['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '
             str += (isUndefined(citations.preexisting['volume']) == '' ? '' : ('(Vol. ' + citations.preexisting['volume'] + ')' + ': ') )
             str += (isUndefined(citations.preexisting['pages']) == '' ? '' : citations.preexisting['pages'])
-            // todo: str += ' [' + submission.authors() + ']'
+            str += ' [' + submission.displayAuths() + ']'
             str += ', converted clade name'
         }else{
-            str += submission.authors + ' '
+            str += submission.displayAuths() + ' '
             if(typeof(citations.description()[0]) == 'object'){
                 str += (isUndefined(citations.description()[0]['year']) == '' ? '' : cit.description()[0]['year'] + ': ' )//isUndefined(cit.description['year']) + ': '
                 str += (isUndefined(citations.description()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.description()[0]['volume'] + ')' + ': ') ) //formatVolume(cit.description['volume']) + isUndefined(cit.description['pages'])
@@ -406,15 +393,17 @@ return "def here";
             //set save action
             submission.subaction = ''
             ///ko key mapping
-
-            if (submission.authors.length == 0) submission.authors = ko.observableArray([ {} ]);
-            pr.submissionModel = ko.mapping.fromJS(submission, pr.ko.mapping);
+            pr.submissionModel.displayAuths = ko.pureComputed(self.displayAuthors, pr.submissionModel);
+            pr.submissionModel = ko.mapping.fromJS(submission, pr.ko.mapping, pr.submissionModel);
+            if (pr.submissionModel.authors.length === 0) pr.submissionModel.authors.push(self.makeAuthor());
 
             jQuery.each(pr.submissionModel, function(k,v){
                 if((typeof(v)=='function' && v()=='null')||v==null){
+                    debugger;
                     pr.submissionModel[k]('');
                 }
             })
+
             ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'))
             jQuery('.temp-id').html(parseInt(id).pad(10));
 
@@ -457,7 +446,7 @@ return "def here";
             }else{
                 this[author_type].remove(author);
                 if (this[author_type]().length === 0)
-                    this[author_type].push(self.getEmptyAuthor());
+                    this[author_type].push(self.makeAuthor());
             }
 
         },
@@ -482,7 +471,18 @@ return "def here";
             }
         },
         initialize: function(author){
-            var out = author.last_name().trim() + ", " + author.first_name().trim()[0] + ".";
+            var out = "";
+            if (author.last_name().trim().length === 0){
+                out += "Please enter a last name for author. ";
+            }else{
+                out += author.last_name().trim() + ", ";
+            }
+            if (author.first_name().trim().length === 0){
+                out += "Please enter a first name for author. "
+                return out;
+            }else{
+                out += author.first_name().trim()[0] + ".";
+            }
             if (author.middle_name() && author.middle_name().trim().length > 0)
                 out += " " + author.middle_name().trim()[0] + ".";
             return out;
@@ -765,7 +765,6 @@ jQuery(document).ready(function(){
         jQuery('#'+target.target.id + '-div').css({'display':'block'});
         jQuery('#'+target.target.id).css({'background-color': '#FFFAE1', 'border-bottom': '1px solid #FFFAE1'});
         //build reference string on tab click
-        // jQuery.makeReference()
         pr.save_submission()
     })
     //action for save and submit buttons
@@ -773,11 +772,9 @@ jQuery(document).ready(function(){
         if(target.target.value === 'Submit'){
             if(confirm('You will no longer be able to edit this submission once\n it is submitted. Are you sure you want to submit?')){
                 pr.save_submission(target.target.value)
-                //jQuery.makeReference()
             }
         }else{
             pr.save_submission(target.target.value)
-            //jQuery.makeReference()
         }
     })
 
