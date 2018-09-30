@@ -29,7 +29,7 @@ class Submission < ActiveRecord::Base
   # this conveniently makes all the fields searchable on a single column
   serialize :authors, Array
   serialize :citations, Hash
-  serialize :specifiers, Hash
+  serialize :specifiers, Array
   
   # scope :opt_in, where(:establish => true)
   scope :opt_in, -> { where(establish: true) }
@@ -87,9 +87,9 @@ class Submission < ActiveRecord::Base
 
     ####
     # Specifiers
-    if self.specifiers == nil
-      self.specifiers = {0=>{}}
-    end
+    # if self.specifiers == nil
+    #   self.specifiers = {0=>{}}
+    # end
   end
 
   # create new status change record on status change

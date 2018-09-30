@@ -15,7 +15,7 @@ function Phyloregnum(){
     }
 
     this.makeAuthors = function(authors){
-        if (!authors) console.log('authors is false: create_cladename.js line 18')
+        // if (!authors) console.log('authors is false: create_cladename.js line 18');
         authors = authors || [{}];
         var observableAuthors = authors.map(this.makeAuthor);
         var observableArray = ko.observableArray(observableAuthors);
@@ -117,6 +117,7 @@ function Phyloregnum(){
             },
             'specifiers': {
                 create: function(options){
+                    debugger;
                     var specs = [];
                     jQuery.each(options.data, function(item,obj){
                         if(typeof obj=='object'){
@@ -433,6 +434,7 @@ return "def here";
             pr.submissionModel.displayAuths = ko.pureComputed(self.displayAuthors, pr.submissionModel);
             pr.submissionModel = ko.mapping.fromJS(submission, pr.ko.mapping, pr.submissionModel);
             if (pr.submissionModel.authors().length === 0) pr.submissionModel.authors.push(self.makeAuthor());
+            debugger;
 
             jQuery.each(pr.submissionModel, function(k,v){
                 if((typeof(v)=='function' && v()=='null')||v==null){
