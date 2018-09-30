@@ -611,7 +611,7 @@ jQuery.showSpecifier = function(sfor,callback){
     }
     var opts = {
         width: 550,
-        title: 'Edit Specifier',
+        title: modalTitle,
         buttons: [
             { text: 'Save',
                 click: function(){
