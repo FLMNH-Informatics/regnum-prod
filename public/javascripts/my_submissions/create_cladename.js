@@ -601,25 +601,17 @@ jQuery.showSpecifier = function(sfor,callback){
     }
 
     var template = getTemplate(type_val);
-    // if (exclude_apomorphy.includes(type_val)){
-    //     $type.children('#apomorphy-option').attr('disabled','disabled');
-    // }
-    // if (apomorphy_only.includes(type_val)){
-    //     $type.children('#species-option').remove();
-    //     $type.children('#specimen-option').remove();
-    //     $type.trigger('change');
-    // }
-
-
+    var modalTitle = "Add specifier";
 
     //template
     if(sfor !== 'new'){
         var ty = sfor.specifier_type
         temp = pr.templates[ty +'_specifier']
+        modalTitle = "Edit specifier";
     }
     var opts = {
         width: 550,
-        title: 'Add Specifier',
+        title: 'Edit Specifier',
         buttons: [
             { text: 'Save',
                 click: function(){
