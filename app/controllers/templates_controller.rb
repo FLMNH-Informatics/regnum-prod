@@ -20,7 +20,7 @@ class TemplatesController < ApplicationController
     }
   end
   
-  def load    
+  def load
     to_load = params[:template]
     render :partial => @templates[to_load] , :layout => false
   end

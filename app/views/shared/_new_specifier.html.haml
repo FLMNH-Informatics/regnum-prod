@@ -1,0 +1,79 @@
+%input#specifier_table_entry_id{ type: "hidden", value: "new" }
+%form#new-specifier-form{ action: "#" }
+.container-fluid
+  .row
+    .form-group.col-sm-12
+      %label{ for: "new_specifier_type" } Type:
+      %select#new_specifier_type.form-control{ class: "form-control", data: { bind: "value: specifier_type" } }
+        %option#species-option{   value: "species"   } Species
+        %option#specimen-option{  value: "specimen"  } Specimen
+        %option#apomorphy-option{ value: "apomorphy" } Apomorphy
+    .form-group.col-sm-12
+      %label{ for: "new_specifier_kind" } Kind:
+      / ko if: specifier_type() != 'apomorphy'
+      %select#new_specifier_kind.form-control{ name: "specifier_kind", class: "other_specifier", data: { bind: "value: specifier_kind" } }
+        %option.internal-spec{ value: "internal extant"  } Internal - Extant
+        %option.internal-spec{ value: "internal extinct" } Internal - Extinct
+        %option.external-spec{ value: "external extant"  } External - Extant
+        %option.external-spec{ value: "external extinct" } External - Extinct
+      / /ko
+      / ko if: specifier_type() != 'species'
+      %select#new_specifier_kind_type.form-control{ name: "specifier_kind_type", class: "other_specifier", data: { bind: "value: specifier_kind_type" } }
+        %option.internal-spec{ value: "specifier"  } Specifier
+        %option.internal-spec{ value: "qualifier" } Qualifier
+      / /ko
+    / ko if: specifier_type() == 'apomorphy'
+    .form-group.col-sm-12
+      %label{ for: "new_specifier_character_name" } Character name:
+      %input#new_specifier_character_name.form-control{ type: "text", name: "specifier_character_name", data: { bind: "value: specifier_character_name" } }
+    / /ko
+  .row
+    / ko if: specifier_type() == 'apomorphy'
+    .col-sm-12
+      %h2 (As exhibited in)
+    / /ko
+    .form-group.col-sm-12
+      %label{ for: "new_specifier_name" } Taxon name:
+      %input#new_specifier_name.form-control{ type: "text", name: "specifier_name", data: { bind: "value: specifier_name" } }
+    .form-group.col-sm-12
+      %label Author(s):
+      #specifier-author-container
+        = render 'shared/add_author', { author_type: "author" }
+    .form-group.col-sm-3.col-xs-6
+      %label Year:
+      %input#new_specifier_year.form-control{ type: "text", name: "specifier_year", data: { bind: "value: specifier_year" } }
+  .row
+    / ko if: specifier_type() == 'species'
+    .form-group.col-sm-12
+      %label{ for: "new_specifier_code" } Code:
+      %select#new_specifier_code.form-control{ name: "specifier_code", data: { bind: "value: specifier_code"} }
+        %option{ value: "ICBN" } ICN - the botanical code
+        %option{ value: "ICZN" } ICZN - the zoological code
+        %option{ value: "ICNB" } ICNB - the bacterial code
+        %option{ value: "ICTV" } ICTV - the virus code
+    / /ko
+    / ko if: specifier_type() == 'specimen'
+    .form-group.col-sm-12
+      %label{ for: 'collection_number' } Collection #
+      %input.form-control#collection_number{ type: 'text', name: 'collection_number', data: { bind: "value: collection_number" } }
+    .form-group.col-sm-12
+      %label Collectors
+      #specifier-collector-container
+        = render 'shared/add_author', { author_type: 'collector' }
+    / /ko
+    / ko if: specifier_type() == 'apomorphy'
+    .form-group.col-sm-12
+      %label{ for: "new_specifier_description" } Description
+      %textarea#new_specifier_description.form-control{ name: "specifier_description", rows: "5", cols: 50, data: { bind: "value: specifier_description" } }
+
+    / /ko
+  .row
+    .form-group.col-sm-4
+      %label{ for: "new_ubio_id" } UBIO ID:
+      %input#new_ubio_id.form-control{ type: "text", data: { bind: "value: ubio_id" } }
+    .form-group.col-sm-4
+      %label{ for: "new_ncbi_id" } NCBI ID:
+      %input#new_ncbi_id.form-control{ type: "text", data: { bind: "value: ncbi_id" } }
+    .form-group.col-sm-4
+      %label{ for: "new_treebase_id" } Treebase ID:
+      %input#new_treebase_id.form-control{ type: "text", data: { bind: "value: treebase_id" } }

@@ -15,11 +15,39 @@ function Phyloregnum(){
     }
 
     this.makeAuthors = function(authors){
-        if (!authors) console.log('authors is false: create_cladename.js line 18')
+        // if (!authors) console.log('authors is false: create_cladename.js line 18');
         authors = authors || [{}];
         var observableAuthors = authors.map(this.makeAuthor);
         var observableArray = ko.observableArray(observableAuthors);
         return observableArray;
+    }
+
+    this.makeSpecifier = function (specifier){
+        specifier = specifier || {};
+        var ko_spec = {
+            'specifier_type': ko.observable(specifier.specifier_type || 'species'),
+            'authors': pr.makeAuthors(specifier.authors),
+            'specifier_kind': specifier.specifier_kind || '',
+            'specifier_kind_type': specifier.specifer_kind_type || '',
+            'specifier_character_name': specifier.specifier_character_name || '',
+            'specifier_name': specifier.specifier_name || '',
+            'specifier_year': specifier.specifier_year || '',
+            'specifier_code': specifier.specifier_code || '',
+            'specifier_description': specifier.specifier_description || '',
+            'collection_number': specifier.collection_number || '',
+            'collectors': pr.makeAuthors(specifier.collectors),
+            'ubio_id': specifier.ubio_id || '',
+            'ncbi_id': specifier.ncbi_id || '',
+            'treebase_id': specifier.treebase_id || ''
+        }
+        ko_spec.displayAuths = ko.pureComputed(self.displayAuthors, ko_spec);
+        return ko_spec;
+    }
+
+    this.makeSpecifiers = function (specifiers) {
+        if (!specifiers) console.log('specifiers is false/empty');
+        specifiers = specifiers || [{}];
+        return ko.observableArray(specifiers.map(this.makeSpecifiers));
     }
 
     this.makeCitation = function(citation){
@@ -100,7 +128,6 @@ function Phyloregnum(){
     }
 
     this.submissionModel = {
-        // 'authors': self.makeAuthors([{}]),
         displayAuths: ko.pureComputed(self.displayAuthors, this)
     }
 
@@ -117,29 +144,32 @@ function Phyloregnum(){
             },
             'specifiers': {
                 create: function(options){
-                    var specs = [];
-                    jQuery.each(options.data, function(item,obj){
-                        if(typeof obj=='object'){
-                            item=obj;
-                        }
-                        if(item.kind_type){
-                            item.specifier_kind_type=item.kind_type;
-                        }
-                        if(item.kind){
-                            item.specifier_kind=item.kind;
-                        }
-                        if(typeof(item) != 'undefined' && typeof(item['specifier_type']) != 'undefined' && typeof(item['specifier_type_kind']) != 'undefined'){
-                            if(typeof(item['specifier_kind'])=='undefined' || item['specifier_kind']==null ){
-                                item['specifier_kind']='';
-                            }else if(typeof(item['specifier_kind_type'])=='undefined' || item['specifier_kind_type']==null ){
-                                item['specifier_kind_type']='';
-                            }
-
-                        }
-                        specs.push(item)
-                    });
-
-                    return ko.observableArray(self.ko.objToArray(specs)).extend({paging: 5});
+                    if ( options.data && !self.objIsEmpty(options.data) ){
+                        return pr.makeSpecifier(options.data);
+                    }
+                    return self.makeSpecifier();
+                    // jQuery.each(options.data, function(item,obj){
+                    //     if(typeof obj=='object'){
+                    //         item=obj;
+                    //     }
+                    //     if(item.kind_type){
+                    //         item.specifier_kind_type=item.kind_type;
+                    //     }
+                    //     if(item.kind){
+                    //         item.specifier_kind=item.kind;
+                    //     }
+                    //     if(typeof(item) != 'undefined' && typeof(item['specifier_type']) != 'undefined' && typeof(item['specifier_type_kind']) != 'undefined'){
+                    //         if(typeof(item['specifier_kind'])=='undefined' || item['specifier_kind']==null ){
+                    //             item['specifier_kind']='';
+                    //         }else if(typeof(item['specifier_kind_type'])=='undefined' || item['specifier_kind_type']==null ){
+                    //             item['specifier_kind_type']='';
+                    //         }
+                    //
+                    //     }
+                    //     specs.push(item)
+                    // });
+                    //
+                    // return ko.observableArray(self.ko.objToArray(specs)).extend({paging: 5});
                 }
             },
             'citations': {
@@ -155,35 +185,7 @@ function Phyloregnum(){
                         'primary_phylogeny': self.makeCitation(citations.primary_phylogeny),
                         'preexisting': self.makeCitation(citations.preexisting)
                     }
-                    //now load existing ones from response into citationsViewModel hash
-                    // jQuery.each(options.data, function(key,val) {
-                    //     if (val != undefined) {
-                    //         switch (key) {
-                    //             case 'phylogeny':
-                    //             case 'description':
-                    //                 //these can have multiple citations
-                    //                 var citations = Array.isArray(val) ? val : self.ko.objToArray(val);
-                    //                 citationsViewModel[key] = (key === 'phylogeny') ?
-                    //                     ko.observableArray(citations).extend({paging: 5}) : ko.observableArray(citations);
-                    //                 citations.forEach(function (citation, i) {
-                    //                     citationsViewModel[key]()[i].authors = pr.makeAuthors(citation.authors)
-                    //                     citationsViewModel[key]()[i].editors = pr.makeAuthors(citation.editors)
-                    //                     citationsViewModel[key]()[i].series_editors = pr.makeAuthors(citation.series_editors)
-                    //                 });
-                    //                 break;
-                    //             case 'primary_phylogeny':
-                    //             case 'preexisting':
-                    //                 //these only have one citation
-                    //                 citationsViewModel[key] = val;
-                    //                 citationsViewModel[key].authors = pr.makeAuthors(val.authors); //ko.observableArray(val.authors);
-                    //                 citationsViewModel[key].editors = pr.makeAuthors(val.editors); //ko.observableArray(val.editors);
-                    //                 citationsViewModel[key].series_editors = pr.makeAuthors(val.series_editors); //ko.observableArray(val.editors);
-                    //                 break;
-                    //         }
-                    //         citationsViewModel[key].citation_type = ko.observable(val.citation_type || '');
-                    //         citationsViewModel[key].displayAuths = ko.pureComputed(self.displayAuthors, citationsViewModel[key]);
-                    //     }
-                    // })
+
                     return citationsViewModel;
                 }
             },
@@ -229,9 +231,7 @@ function Phyloregnum(){
         'book_citation',
         'book_section_citation',
         'journal_citation',
-        'species_specifier',
-        'specimen_specifier',
-        'apomorphy_specifier',
+        'specifier',
         'synonyms',
         'special_characters'
     ]
@@ -244,12 +244,13 @@ function Phyloregnum(){
             addSpecifier: function(){
                 jQuery.showSpecifier('new')
             },
-            editSpecifier: function(obj){
-                jQuery.showSpecifier(obj)
+            editSpecifier: function(specifier){
+                jQuery.showSpecifier(specifier)
             },
-            deleteSpecifier: function(obj){
+            deleteSpecifier: function(specifier){
                 if(confirm("Delete this specifier/qualifier?")){
-                    self.submissionModel.specifiers.remove(obj)
+                    self.submissionModel.specifiers.remove(specifier)
+                    self.save_submission();
                 }
             },
             addCitation: function(cfor,obj,event){
@@ -261,6 +262,7 @@ function Phyloregnum(){
             deleteCitation: function(cfor,obj,event){
                 if(confirm("Delete this citation?")){
                     self.submissionModel.citations[cfor].remove(obj)
+                    self.save_submission();
                 }
             }
     }//
@@ -396,9 +398,7 @@ return "def here";
         var subid = jQuery('#submission_id').val()
         //return the asynch object so any calls to save can
         //be chained with other deferred methods
-
         var data = ko.mapping.toJSON(self.submissionModel);
-
         return jQuery.ajax({
             type: 'POST',
             url: '/save',
@@ -425,7 +425,6 @@ return "def here";
         jQuery('#submission_id').val(id)
         jQuery.getJSON('/my_submission/'+id,function(response){
             var submission = response.submission ? response.submission : response;
-
             submission.submission_id = id
             //set save action
             submission.subaction = ''
@@ -433,16 +432,13 @@ return "def here";
             pr.submissionModel.displayAuths = ko.pureComputed(self.displayAuthors, pr.submissionModel);
             pr.submissionModel = ko.mapping.fromJS(submission, pr.ko.mapping, pr.submissionModel);
             if (pr.submissionModel.authors().length === 0) pr.submissionModel.authors.push(self.makeAuthor());
-
             jQuery.each(pr.submissionModel, function(k,v){
                 if((typeof(v)=='function' && v()=='null')||v==null){
                     pr.submissionModel[k]('');
                 }
             })
-
             ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'))
             jQuery('.temp-id').html(parseInt(id).pad(10));
-
             jQuery.loadWidgets('#contents')
             jQuery('#modal-message-window').dialog('destroy')
         })
@@ -573,10 +569,9 @@ jQuery.citationType = function(type){
 *
 *
 */
-jQuery.showSpecifier = function(sfor,callback){
-
-
-    var type_val = jQuery('#new_type').val(),
+jQuery.showSpecifier = function(sfor, callback){
+    var modalTitle = 'Edit specifier',
+        type_val = jQuery('#new_type').val(),
         exclude_apomorphy = [
             'minimum-clade_standard',
             'minimum-clade_directly_specified_ancestor',
@@ -589,66 +584,40 @@ jQuery.showSpecifier = function(sfor,callback){
         apomorphy_only = [
             'apomorphy-based_standard',
             'apomorphy-modified_crown_clade'
-        ];
+        ],
+        specifier;
 
-    function getTemplate(type){
-        var template = pr.templates['species_specifier'];
-        if (apomorphy_only.includes(type)){
-            template = pr.templates['apomorphy_specifier'];
-        }
-
-        return template;
+    if (typeof(sfor) != 'object'){
+        modalTitle = "Add specifier";
+        specifier = pr.makeSpecifier();
+    }else{
+        specifier = sfor;
     }
 
-    var template = getTemplate(type_val);
-    // if (exclude_apomorphy.includes(type_val)){
-    //     $type.children('#apomorphy-option').attr('disabled','disabled');
-    // }
-    // if (apomorphy_only.includes(type_val)){
-    //     $type.children('#species-option').remove();
-    //     $type.children('#specimen-option').remove();
-    //     $type.trigger('change');
-    // }
-
-
-
-    //template
-    if(sfor !== 'new'){
-        var ty = sfor.specifier_type
-        temp = pr.templates[ty +'_specifier']
-    }
-    var opts = {
-        width: 550,
-        title: 'Add Specifier',
-        buttons: [
-            { text: 'Save',
-                click: function(){
-                    jQuery.save_specifier()
-                    jQuery.closeFloatWindow()
-                }
-            }]
-    }
     //callback to setup observers
     var cback = function(){
+        var bindingElement = document.getElementById('float-window-content-holder');
+
         jQuery('#window-for-text').html((sfor == 'new' ? 'New' : 'Edit') + ' Specifier/Qualifier')
-        var temp = ''
-        if(sfor == 'new'){
-            temp = getTemplate(jQuery('#new_type').val());
-        }else{
-            var ind = pr.submissionModel.specifiers.indexOf(sfor)
+
+        if(sfor != 'new'){
+            var ind = pr.submissionModel.specifiers.indexOf(specifier)
             //jQuery.specifierType(data[parseInt(sfor)].type)
             jQuery('#specifier_table_entry_id').val(ind)
-            jQuery.each(sfor,function(ind,obj){
-                jQuery('#new_'+ind).val(obj)
-            })
-            if(pr.submissionModel.specifiers()[ind]['attachment_path'] !== undefined ){
-                var id = pr.submissionModel.specifiers()[ind]['attachment_id']
-                jQuery('#specifier-attachment-cell').html('<a href="'+pr.submissionModel.specifiers()[ind]['attachment_path']+'">View</a>&nbsp;|&nbsp;<a class="specifier" href="/my_submission/remove_attachment/'+id+'">Remove</a>')
-            }else{
-                jQuery('#specifier-attachment-cell').html(pr.emptyAttachmentFile)
-            }
+            // jQuery.each(sfor,function(ind,obj){
+            //     jQuery('#new_'+ind).val(obj)
+            // })
+            //todo: fix attachments
+            // if(pr.submissionModel.specifiers()[ind]['attachment_path'] !== undefined ){
+            //     var id = pr.submissionModel.specifiers()[ind]['attachment_id']
+            //     jQuery('#specifier-attachment-cell').html('<a href="'+pr.submissionModel.specifiers()[ind]['attachment_path']+'">View</a>&nbsp;|&nbsp;<a class="specifier" href="/my_submission/remove_attachment/'+id+'">Remove</a>')
+            // }else{
+            //     jQuery('#specifier-attachment-cell').html(pr.emptyAttachmentFile)
+            // }
         }
 
+        //exclude the apomorophy option depending on type
+        //todo: this should be handled via knockout
         var $type = jQuery('#new_specifier_type')
         if (exclude_apomorphy.includes(type_val)){
             $type.children('#apomorphy-option').attr('disabled','disabled');
@@ -657,10 +626,24 @@ jQuery.showSpecifier = function(sfor,callback){
             $type.children('#species-option').remove();
             $type.children('#specimen-option').remove();
         }
+        ko.cleanNode(bindingElement);
+        ko.applyBindings(specifier, bindingElement);
+        if (sfor == 'new') pr.submissionModel.specifiers().push(specifier);
     }
-    //
 
-    jQuery.openFloatWindow(template, opts, cback)//.show().sizeWindow()
+    var opts = {
+        width: 550,
+        title: modalTitle,
+        buttons: [
+            { text: 'Save',
+                click: function(){
+                    jQuery.save_specifier()
+                    jQuery.closeFloatWindow()
+                }
+            }]
+    }
+
+    jQuery.openFloatWindow(pr.templates['specifier'], opts, cback)//.show().sizeWindow()
     //
     if(callback != undefined){
         callback()
