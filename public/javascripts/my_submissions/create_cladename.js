@@ -100,7 +100,7 @@ function Phyloregnum(){
         }
         return auths
             .slice(0, 6)
-            .map(pr.author.initailize)
+            .map(pr.author.initialize)
             .join(', ') + "... " + pr.author.initialize(auths[auths.length - 1]);
     }
 
