@@ -82,34 +82,34 @@ jQuery.save_citation = function(){
 
 
 jQuery.save_specifier = function(){
-    var table = jQuery('#new-cladename-specifier')          
-    var inputs = jQuery.merge(jQuery('#float-window-content-holder #new-specifier-form input[type!="button"]'), jQuery('#float-window-content-holder #new-specifier-form select'))
-    var specifier = {}
-    inputs.each(function(ind,obj){
-       //if(obj.name != ''){
-
-         specifier[obj.name]  = obj.value
-       //}
-    })
-     
-    if(typeof specifier['specifier_kind'] == 'undefined'){
-        specifier['specifier_kind']='';
-    }
-    if(typeof specifier['specifier_kind_type'] == 'undefined'){
-        specifier['specifier_kind_type']='';
-    }
-    var id = jQuery('#specifier_table_entry_id').val()
-    if(id == 'new'){
-
-       pr.submissionModel.specifiers.push(specifier)
-
-       id = pr.submissionModel.specifiers().length - 1
-    }else{
-       id = parseInt(id)
-       pr.ko.replaceObservedArrayItem(parseInt(id), pr.submissionModel.specifiers, specifier)
-    }
-
-    if(jQuery('#new_remote_attachment').val() !== ''){
+    // var table = jQuery('#new-cladename-specifier')
+    // var inputs = jQuery.merge(jQuery('#float-window-content-holder #new-specifier-form input[type!="button"]'), jQuery('#float-window-content-holder #new-specifier-form select'))
+    // var specifier = {}
+    // inputs.each(function(ind,obj){
+    //    //if(obj.name != ''){
+    //
+    //      specifier[obj.name]  = obj.value
+    //    //}
+    // })
+    //
+    // if(typeof specifier['specifier_kind'] == 'undefined'){
+    //     specifier['specifier_kind']='';
+    // }save_specifier
+    // if(typeof specifier['specifier_kind_type'] == 'undefined'){
+    //     specifier['specifier_kind_type']='';
+    // }
+    // var id = jQuery('#specifier_table_entry_id').val()
+    // if(id == 'new'){
+    //
+    //    pr.submissionModel.specifiers.push(specifier)
+    //
+    //    id = pr.submissionModel.specifiers().length - 1
+    // }else{
+    //    id = parseInt(id)
+    //    pr.ko.replaceObservedArrayItem(parseInt(id), pr.submissionModel.specifiers, specifier)
+    // }
+    //
+    if(jQuery('#new_remote_attachment').val() && jQuery('#new_remote_attachment').val() !== ''){
         //first save whole submission to ensure
         //a submission path for the attachment
         //add deferred callback for attachments
@@ -119,12 +119,12 @@ jQuery.save_specifier = function(){
         jQuery('#remote-attachment-form').ajaxSubmit({
             data: d ,
             dataType: 'json',
-            success: function(response){                   
+            success: function(response){
                 pr.submissionModel.specifiers()[parseInt(id)]['attachment_path'] = response.path
                 pr.submissionModel.specifiers()[parseInt(id)]['attachment_id'] = response.id
                 pr.save_submission('Save')
             }
-        })         
+        })
     }else{
         pr.save_submission('Save')
     }

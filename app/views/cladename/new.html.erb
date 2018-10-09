@@ -69,7 +69,7 @@
     <div style="display:none" id="tab2-div"></div><!-- end tab2-div -->
 
     <div id="tab3-div" style="display:none;margin-left:5px;">
-      <div class="container-fluid" style="float:left;margin-right:20px;">
+      <div class="container-fluid">
         <div class="row">
           <div class="form-group col-sm-12">
             <label for="new_type">Definition Type:</label>
@@ -123,14 +123,13 @@
                 <th>Publication Year</th>
                 <th style="width:70px;">actions</th>
               </thead>
-
-              <tbody data-bind="foreach: specifiers.currentPageData">
-                <tr class="odd-row">
+              <tbody data-bind="foreach: specifiers()">
+                <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
                   <td data-bind="text: specifier_type"></td>
                   <td><span data-bind="text: specifier_kind"></span>&nbsp;<span data-bind="text: specifier_kind_type"></span>
                   </td>
                   <td data-bind="text: specifier_name"></td>
-                  <td data-bind="text: specifier_authors"></td>
+                  <td data-bind="text: displayAuths, attr: { title: displayAuths }"></td>
                   <td data-bind="text: specifier_year"></td>
                   <td>
                     <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="edit"/>&nbsp;
@@ -138,17 +137,16 @@
                   </td>
                 </tr>
               </tbody>
-
             </table>
-            <span class="table-controls">
-              <a href="#" data-bind="click: specifiers.moveFirst">First</a>
-              <a href="#" data-bind="click: specifiers.movePrevious">Previous</a>
-              <a href="#" data-bind="click: specifiers.moveNext">Next</a>
-              <a href="#" data-bind="click: specifiers.moveLast">Last</a>
-              Page
-              <span data-bind="text: specifiers.currentPage" min="1"></span>
-               of <span data-bind="text: specifiers.pageCount"></span>
-            </span>
+<!--            <span class="table-controls">-->
+<!--              <a href="#" data-bind="click: specifiers.moveFirst">First</a>-->
+<!--              <a href="#" data-bind="click: specifiers.movePrevious">Previous</a>-->
+<!--              <a href="#" data-bind="click: specifiers.moveNext">Next</a>-->
+<!--              <a href="#" data-bind="click: specifiers.moveLast">Last</a>-->
+<!--              Page-->
+<!--              <span data-bind="text: specifiers().currentPage" min="1"></span>-->
+<!--               of <span data-bind="text: specifiers().pageCount"></span>-->
+<!--            </span>-->
           </div>
         </div>
       </div>

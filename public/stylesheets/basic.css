@@ -282,8 +282,14 @@ span.required{
     text-overflow:ellipsis;
     white-space: nowrap;
     overflow:hidden;
-    /*max-width:250px;*/
 }
+
+@media only screen and (min-width: 768px){
+    .sortable-table td{
+        max-width: 400px;
+    }
+}
+
 .sortable-table-div{
     padding:5px;
     background-color:#FFF7CD;
