@@ -23,21 +23,17 @@
         </div>
       <div class="form-group col-sm-12">
         <label>Definitional Citation</label>
-        <a data-bind="click: function(d,e){ pr.ba.editCitation('definitional', d.citations.definitional, e); },
-                      text: citations['definitional'] && citations['definitional'].authors() && citations['definitional'].authors().length < 1 ? '[add reference]' : '[edit reference]'"
-           href="#"
-           id="new-definitional-reference-add"></a>
-        <!-- ko ifnot: citations.definitional -->
-          <p class="form-contol-static help-block">Please add a reference</p>
+        <!-- ko ifnot: citations['definitional'] -->
+          <p class="form-contol-static help-block">
+            <em>Please add a reference</em>
+            <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('definitional', d.citations.definitional, e) }">Add reference</button>
+          </p>
         <!-- /ko -->
-        <!-- ko if: citations.definitional -->
-          <!-- ko if: citations.definitional.title() != '' -->
-            <p class="form-control-static" data-bind="text: citations['definitional'].citation_type "></p>
-          <!-- /ko -->
-          <!-- ko if: citations.definitional.title() != '' -->
-            <p class="form-control-static" data-bind="text: citations['definitional'].title "></p>
-          <!-- /ko -->
-        <p class="form-control-static" data-bind="text: citations['definitional'].displayAuths "></p>
+        <!-- ko if: citations['definitional'] -->
+        <a data-bind="click: function(d,e){ pr.ba.editCitation('definitional', d.citations.definitional, e); }"
+           href="#"
+           id="new-definitional-reference-add">[Edit reference]</a>
+          <%= render 'shared/citation_table', { citation: "citations.definitional", citation_for: "definitional", include_actions: false, is_single: true } %>
         <!-- /ko -->
       </div >
       <div class="form-group col-sm-12">
@@ -63,11 +59,20 @@
             <div class="row">
               <div class="form-group col-sm-12">
                 <label>Nominal Author(s):</label>
-                <p class="form-control-static" data-bind="text: citations['preexisting'].displayAuths"></p>
-                <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting',d.citations.preexisting,e); },
-                                      text: citations['preexisting'].authors() && citations['preexisting'].authors().length < 1 ? '[add reference]' : '[edit reference]'"
-                   href="#"
-                   id="new-preexisting-reference-add"></a></div>
+                <!-- ko ifnot: citations['preexisting'] -->
+                  <p class="form-contol-static help-block">
+                    <em>Please add a reference</em>
+                    <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('preexisting', d.citations.preexisting, e) }">Add reference</button>
+                  </p>
+                <!-- /ko -->
+                <!-- ko if: citations['preexisting'] -->
+                  <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting', d.citations.preexisting, e); }"
+                     href="#"
+                     id="new-primary-phylogeny-reference-add">[Edit reference]</a>
+
+                  <p class="form-control-static" data-bind="text: citations['preexisting'].displayAuths"></p>
+                <!-- /ko -->
+              </div>
             </div>
             <div style="clear: both;"></div>
           </div>
@@ -183,68 +188,39 @@
         <div class="row">
           <div class="form-group col-sm-12">
             <label>Reference for Phylogenetic Definition:</label>
-
-            <div id="primary-phylo-citation" class="citations-table">
-              <table class="sortable-table" id="primary_phylogeny">
-                <thead>
-                <tr style="background-color:white;">
-                  <th style="width:100px;">Type</th>
-                  <th style="width:200px;">Title</th>
-                  <th style="width:200px;">Author(s)</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td class="odd-row" data-bind="text: citations['primary_phylogeny'].citation_type"></td>
-                  <td class="odd-row" style="max-width:200px" data-bind="text: citations['primary_phylogeny'].title"></td>
-                  <td class="odd-row" style="max-width:200px" data-bind="text: citations['primary_phylogeny'].displayAuths"></td>
-                  <td class="action-cell">
-                    <button class="submit_button"
-                            data-bind="click: function(d,e){pr.ba.editCitation('primary_phylogeny',d.citations.primary_phylogeny,e)},
-                                    text: 'update'" />
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
+            <!-- ko ifnot: citations['primary_phylogeny'] -->
+              <p class="form-contol-static help-block">
+                <em>Please add a reference</em>
+                <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('primary_phylogeny', d.citations.primary_phylogeny, e) }">Add reference</button>
+              </p>
+            <!-- /ko -->
+            <!-- ko if: citations['primary_phylogeny'] -->
+              <a data-bind="click: function(d,e){ pr.ba.editCitation('primary_phylogeny', d.citations.primary_phylogeny, e); }"
+                 href="#"
+                 id="new-primary-phylogeny-reference-add">[Edit reference]</a>
+              <%= render 'shared/citation_table', { citation: "citations.primary_phylogeny", citation_for: "primary_phylogeny", include_actions: false, is_single: true } %>
+            <!-- /ko -->
           </div>
         </div>
         <div class="row">
           <div class="form-group col-sm-12">
             <label>Additional Reference Phylogenies:</label>
             <div id="phylo-citations" class="citations-table">
-              <table class="sortable-table">
-                <thead>
-                <tr style="background-color:white;">
-                  <th style="width:100px;">Type</th>
-                  <th style="width:200px">Title</th>
-                  <th style="width:200px;">Authors</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- ko foreach: citations.phylogeny.currentPageData -->
-                <tr>
-                  <td class="odd-row" data-bind="text: $data.citation_type"></td>
-                  <td class="odd-row" style="max-width:200px" data-bind="text: $data.title"></td>
-                  <td class="odd-row" style="max-width:200px" data-bind="text: $data.displayAuths"></td>
-                  <td class="action-cell">
-                    <input data-bind="click: function(d,e){pr.ba.editCitation('phylogeny',$data,e)}" type="button" class="submit_button" value="edit"/>&nbsp;
-                    <input data-bind="click: function(d,e){pr.ba.deleteCitation('phylogeny',$data,e)}" type="button" class="submit_button" value="delete"/>
-                  </td>
-                </tr>
-                <!-- /ko -->
-                </tbody>
-              </table>
-              <div class="table-controls">
-                <a href="#" data-bind="click: citations.phylogeny.moveFirst">First</a>
-                <a href="#" data-bind="click: citations.phylogeny.movePrevious">Previous</a>
-                <a href="#" data-bind="click: citations.phylogeny.moveNext">Next</a>
-                <a href="#" data-bind="click: citations.phylogeny.moveLast">Last</a>
-                <span class="page-info">Page
-              <span data-bind="text: citations.phylogeny.currentPage" min="1"></span>
-                of <span data-bind="text: citations.phylogeny.pageCount"></span></span>
-                <button data-bind="text: 'add', click: function(d,e){pr.ba.addCitation('phylogeny',d.citations.phylogeny,e)}" class="submit_button"/>
-              </div>
+              <!-- ko if: citations.phylogeny().length > 0 -->
+              <%= render 'shared/citation_table', {
+                    is_single: false,
+                    include_actions: true,
+                    citation_for: "phylogeny",
+                    citation: "citations.phylogeny.currentPageData",
+                    include_pagination: true } %>
+              <!-- /ko -->
+              <!-- ko ifnot: citations.phylogeny().length > 0 -->
+              <p class="help-block form-control-static">
+                <em>No additional reference phylogenies</em>
+                <button class="submit_button" data-bind="click: function(d,e){ pr.ba.addCitation('phylogeny', d.citations.phylogeny, e); }">Add reference</button>
+              </p>
+
+              <!-- /ko -->
             </div>
           </div>
         </div>
