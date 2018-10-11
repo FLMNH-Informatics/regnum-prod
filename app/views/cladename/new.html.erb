@@ -22,11 +22,24 @@
           &nbsp;&nbsp;<span id="status"></span></td>
         </div>
       <div class="form-group col-sm-12">
-        <label>Definitional Author(s)</label>
-        <div>
-          <%= render 'shared/add_author', { author_type: 'author' } %>
-        </div>
-      </div>
+        <label>Definitional Citation</label>
+        <a data-bind="click: function(d,e){ pr.ba.editCitation('definitional', d.citations.definitional, e); },
+                      text: citations['definitional'] && citations['definitional'].authors() && citations['definitional'].authors().length < 1 ? '[add reference]' : '[edit reference]'"
+           href="#"
+           id="new-definitional-reference-add"></a>
+        <!-- ko ifnot: citations.definitional -->
+          <p class="form-contol-static help-block">Please add a reference</p>
+        <!-- /ko -->
+        <!-- ko if: citations.definitional -->
+          <!-- ko if: citations.definitional.title() != '' -->
+            <p class="form-control-static" data-bind="text: citations['definitional'].citation_type "></p>
+          <!-- /ko -->
+          <!-- ko if: citations.definitional.title() != '' -->
+            <p class="form-control-static" data-bind="text: citations['definitional'].title "></p>
+          <!-- /ko -->
+        <p class="form-control-static" data-bind="text: citations['definitional'].displayAuths "></p>
+        <!-- /ko -->
+      </div >
       <div class="form-group col-sm-12">
         <div id="new-preexisting-box" class="">
           <strong>

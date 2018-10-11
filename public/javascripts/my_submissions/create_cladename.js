@@ -50,11 +50,11 @@ function Phyloregnum(){
         return ko.observableArray(specifiers.map(this.makeSpecifiers));
     }
 
-    this.makeCitation = function(citation){
+    this.makeCitation = function(citation, parent_with_authors){
         citation = citation || {};
         var ko_cit = {
             'citation_type': ko.observable(citation.citation_type || 'book'),
-            'authors': pr.makeAuthors(citation.authors),
+            'authors': parent_with_authors ? ko.observableArray(parent_with_authors.authors()) : pr.makeAuthors(citation.authors),
             'editors': pr.makeAuthors(citation.editors),
             'series_editors': pr.makeAuthors(citation.series_editors),
             'title': ko.observable(citation.title || ''),
@@ -166,7 +166,8 @@ function Phyloregnum(){
                     //         }
                     //
                     //     }
-                    //     specs.push(item)
+                    //     specs.push(item)// debugger;
+
                     // });
                     //
                     // return ko.observableArray(self.ko.objToArray(specs)).extend({paging: 5});
@@ -183,9 +184,10 @@ function Phyloregnum(){
                         'description': self.makeCitations(citations.description),
                         //have only one citation
                         'primary_phylogeny': self.makeCitation(citations.primary_phylogeny),
-                        'preexisting': self.makeCitation(citations.preexisting)
-                    }
-
+                        'preexisting': self.makeCitation(citations.preexisting),
+                        'definitional': citations.definitional ?
+                            self.makeCitation(citations.definitional) : self.makeCitation(citations.definitional, options.parent)
+                    };
                     return citationsViewModel;
                 }
             },
@@ -691,6 +693,7 @@ jQuery.showCitation = function(citation,cfor,callback){
         case 'description': modal_title += ' for description'; break;
         case 'primary_phylogeny': modal_title += ' for primary phylogeny'; break;
         case 'preexisting': modal_title += ' for pre-existing name'; break;
+        case 'definitional': modal_title += ' for definition'; break;
     }
 
     var opts = {width: 630, title: modal_title, buttons: [
