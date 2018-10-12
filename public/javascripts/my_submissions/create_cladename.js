@@ -381,23 +381,23 @@ return "def here";
         }
         if (preexisting){
             str += preexisting.displayAuths()
-            if (preexisting.year().trim().length > 0)     str += ' ' + preexisting.year() //(isUndefined(citations.preexisting['year']) == '' ? '' : citations.preexisting['year'] + ': ') //isUndefined(cit.preexisting['year']) + ': '
-            if (preexisting.volume().trim().length > 0)   str += ' ' + preexisting.volume()//(isUndefined(citations.preexisting['volume']) == '' ? '' : ('(Vol. ' + citations.preexisting['volume'] + ')' + ': ') )
-            if (preexisting.pages().trim().length > 0)    str += ' ' + preexisting.pages()//(isUndefined(citations.preexisting['pages']) == '' ? '' : citations.preexisting['pages'])
-            // todo: str += ' [' + submission.authors() + ']'
+            if (preexisting.year().trim().length > 0)     str += ' ' + preexisting.year()
+            if (preexisting.volume().trim().length > 0)   str += ' ' + preexisting.volume()
+            if (preexisting.pages().trim().length > 0)    str += ' ' + preexisting.pages()
+            str += " [" + submission.displayAuths() + "]";
             str += ', converted clade name'
         }else{
-            str += submission.displayAuths()
+            str += " [" + submission.displayAuths() + "]";
             var primary_phylogeny;
             if (typeof(citations.primary_phylogeny) === 'function') {
-                preexisting = citations.primary_phylogeny();
+                primary_phylogeny = citations.primary_phylogeny();
             } else if (typeof(citations.primary_phylogeny) === 'object'){
-                preexisting = citations.primary_phylogeny;
+                primary_phylogeny = citations.primary_phylogeny;
             }
             if(typeof(primary_phylogeny) === 'object'){
-                if (primary_phylogeny.year().trim().length > 0)   str += ' ' + primary_phylogeny.year()//(isUndefined(citations.description()[0]['year']) == '' ? '' : cit.description()[0]['year'] + ': ' )//isUndefined(cit.description['year']) + ': '
-                if (primary_phylogeny.volume().trim().length > 0) str += ' ' + primary_phylogeny.volume()//(isUndefined(citations.description()[0]['volume']) == '' ? '' : ('(Vol. ' + cit.description()[0]['volume'] + ')' + ': ') ) //formatVolume(cit.description['volume']) + isUndefined(cit.description['pages'])
-                if (primary_phylogeny.pages().trim().length > 0)  str += ' ' + primary_phylogeny.pages()//(isUndefined(citations.description()[0]['pages']) == '' ? '' : cit.description()[0]['pages'])
+                if (primary_phylogeny.year().trim().length > 0)   str += ' ' + primary_phylogeny.year()
+                if (primary_phylogeny.volume().trim().length > 0) str += ' ' + primary_phylogeny.volume()
+                if (primary_phylogeny.pages().trim().length > 0)  str += ' ' + primary_phylogeny.pages()
             }
             str += ', new clade name'
         }
@@ -525,19 +525,20 @@ return "def here";
         },
         initialize: function(author){
             var out = "";
-            if (author.last_name().trim().length === 0){
-                out += "Please update to include last name for author. ";
-            }else{
-                out += author.last_name().trim() + ", ";
-            }
             if (author.first_name().trim().length === 0){
                 out += "Please update to include first name for author. "
-                return out;
             }else{
-                out += author.first_name().trim()[0] + ".";
+                out += author.first_name().trim()[0] + ". ";
             }
             if (author.middle_name() && author.middle_name().trim().length > 0)
-                out += " " + author.middle_name().trim()[0] + ".";
+                out += author.middle_name().trim()[0] + ". ";
+            if (author.last_name().trim().length === 0){
+                out += "Please update to include last name for author. ";
+                return out;
+            }else{
+                out += author.last_name().trim();
+            }
+
             return out;
         }
     }
