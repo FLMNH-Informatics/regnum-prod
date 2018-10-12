@@ -355,19 +355,10 @@ return "def here";
 
     //make cladename citation reference
     this.makeReference = function(options){
-        var isUndefined = function(val){
-            if(typeof(val) == 'undefined' || val == ''){
-                return ''
-            }else{
-                return val
-            }
-        },
-        formatVolume = function(val) {
-            if (isUndefined(val) === '') {
-                return ''
-            } else {
-                return '(Vol. ' + val + ')' + ': '
-            }
+        var displayProp = function(val, prepend){
+            prepend = prepend || ' ';
+            if (val.trim().length > 0) return prepend + val;
+            return '';
         },
             submission = options.parent,
             str = submission.name()  + ' ',
@@ -381,11 +372,10 @@ return "def here";
         }
         if (preexisting){
             str += preexisting.displayAuths()
-            if (preexisting.year().trim().length > 0)     str += ' ' + preexisting.year()
-            if (preexisting.volume().trim().length > 0)   str += ' ' + preexisting.volume()
-            if (preexisting.pages().trim().length > 0)    str += ' ' + preexisting.pages()
+            str += displayProp(preexisting.year())
+            str += displayProp(preexisting.pages())
             str += " [" + submission.displayAuths() + "]";
-            str += ', converted clade name'
+            str += ', converted clade name.'
         }else{
             str += " [" + submission.displayAuths() + "]";
             var primary_phylogeny;
@@ -395,11 +385,10 @@ return "def here";
                 primary_phylogeny = citations.primary_phylogeny;
             }
             if(typeof(primary_phylogeny) === 'object'){
-                if (primary_phylogeny.year().trim().length > 0)   str += ' ' + primary_phylogeny.year()
-                if (primary_phylogeny.volume().trim().length > 0) str += ' ' + primary_phylogeny.volume()
-                if (primary_phylogeny.pages().trim().length > 0)  str += ' ' + primary_phylogeny.pages()
+                str += displayProp(primary_phylogeny.year())
+                str += displayProp(primary_phylogeny.pages())
             }
-            str += ', new clade name'
+            str += ', new clade name.'
         }
 
         return str
