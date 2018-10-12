@@ -22,6 +22,12 @@
           &nbsp;&nbsp;<span id="status"></span></td>
         </div>
       <div class="form-group col-sm-12">
+        <label>Definitional Author(s)</label>
+        <div>
+          <%= render 'shared/add_author', { author_type: 'author' } %>
+        </div>
+      </div>
+      <div class="form-group col-sm-12">
         <label>Definitional Citation</label>
         <!-- ko ifnot: citations['definitional'] -->
           <p class="form-contol-static help-block">
@@ -69,7 +75,6 @@
                   <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting', d.citations.preexisting, e); }"
                      href="#"
                      id="new-primary-phylogeny-reference-add">[Edit reference]</a>
-
                   <p class="form-control-static" data-bind="text: citations['preexisting'].displayAuths"></p>
                 <!-- /ko -->
               </div>

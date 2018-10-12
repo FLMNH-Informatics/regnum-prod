@@ -124,7 +124,9 @@ function Phyloregnum(){
         }
     }
 
-    this.submissionModel = {}
+    this.submissionModel = {
+        displayAuths: ko.pureComputed(self.displayAuthors, this)
+    }
 
     this.ko = {
         //json response loading map for ko.mapping
@@ -177,18 +179,9 @@ function Phyloregnum(){
                             'description': self.makeCitations(citations.description),
                             //have only one citation
                             'preexisting': citations.preexisting ? self.makeCitation(citations.preexisting) : ko.observable(),
-                            'primary_phylogeny': citations.primary_phylogeny ? self.makeCitation(citations.primary_phylogeny) : ko.observable()
-                        }
-
-                    //primary_phylogeny is inheriting a data change from authors(), it has only one citation,
-                    //and this code will inherit the authors() from parent.authors() if applicable
-                    //eventually this will no longer be needed as the parent will no longer have authors
-                    if (citations.definitional) {
-                        citationsViewModel.definitional = options.parent.authors().length > 0 ?
-                            self.makeCitation(citations.definitional, options.parent) : self.makeCitation(citations.definitional);
-                    } else {
-                        citationsViewModel.definitional = ko.observable()
-                    }
+                            'primary_phylogeny': citations.primary_phylogeny ? self.makeCitation(citations.primary_phylogeny) : ko.observable(),
+                            'definitional': citations.definitional ? self.makeCitation(citations.definitional) : ko.observable()
+                        };
 
                     return citationsViewModel;
                 }
@@ -459,6 +452,7 @@ return "def here";
             ///ko key mapping
             pr.submissionModel.displayAuths = ko.pureComputed(self.displayAuthors, pr.submissionModel);
             pr.submissionModel = ko.mapping.fromJS(submission, pr.ko.mapping, pr.submissionModel);
+            if (pr.submissionModel.authors().length === 0) pr.submissionModel.authors.push(self.makeAuthor());
             jQuery.each(pr.submissionModel, function(k,v){
                 if((typeof(v)=='function' && v()=='null')||v==null){
                     pr.submissionModel[k]('');
