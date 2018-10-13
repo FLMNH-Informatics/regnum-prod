@@ -280,34 +280,29 @@ function Phyloregnum(){
     //build abbreviated symbolic clade definition
     this.makeDefinition = function(){
 
-        var str = '' //final output
-        var extstr = ''
-        var intstr = ''
-        var apostr = ''
-        //specifiers
-        var internal = [] //not including apomorphs (they are always internal)
-        var external = []
-        var apomorph = []
-        //
-return "TODO: finalize definition";
+        var str = '',
+            extstr = '',
+            intstr = '',
+            apostr = '',
+            specifiers,
+            internal = [], //not including apomorphs (they are always internal)
+            external = [],
+            apomorph = [];
+
         jQuery.each(this.submissionModel.specifiers(), function(ind,obj){
-            if(obj.specifier_type === 'apomorphy'){
-                apomorph.push(obj.specifier_character_name+'(' + obj.specifier_name + ')' )
+            if(obj.specifier_type() === 'apomorphy'){
+                apomorph.push(obj.specifier_character_name() +'(' + obj.specifier_name() + ')' )
             }else{
-                var kind = obj.specifier_kind === undefined ? obj.kind : obj.specifier_kind
+                var kind = obj.specifier_kind() === undefined ? obj.kind() : obj.specifier_kind()
                 switch(kind){
                     case 'internal extinct':
-                        internal.push(obj.specifier_name)
-                        break
                     case 'internal extant':
-                        internal.push(obj.specifier_name)
-                        break
+                        internal.push(obj.specifier_name());
+                        break;
                     case 'external extinct':
-                        external.push(obj.specifier_name)
-                        break
                     case 'external extant':
-                        external.push(obj.specifier_name)
-                        break
+                        external.push(obj.specifier_name())
+                        break;
                 }
             }
         })//
@@ -350,6 +345,7 @@ return "TODO: finalize definition";
         extstr += external.join(' V ')
 
         str += apostr + (apostr == '' || intstr == '' ? '' : ' & ') + intstr + (extstr == '' ? '' : ' ~ ' + extstr)
+        str += "  TODO: finalize definition"
         return str
     }
 
