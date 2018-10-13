@@ -27,11 +27,11 @@ function Phyloregnum(){
         var ko_spec = {
             'specifier_type': ko.observable(specifier.specifier_type || 'species'),
             'authors': pr.makeAuthors(specifier.authors),
-            'specifier_kind': specifier.specifier_kind || '',
-            'specifier_kind_type': specifier.specifer_kind_type || '',
+            'specifier_kind': ko.observable(specifier.specifier_kind || ''),
+            'specifier_kind_type': ko.observable(specifier.specifer_kind_type || ''),
             'specifier_character_name': specifier.specifier_character_name || '',
-            'specifier_name': specifier.specifier_name || '',
-            'specifier_year': specifier.specifier_year || '',
+            'specifier_name': ko.observable(specifier.specifier_name || ''),
+            'specifier_year': ko.observable(specifier.specifier_year || ''),
             'specifier_code': specifier.specifier_code || '',
             'specifier_description': specifier.specifier_description || '',
             'collection_number': specifier.collection_number || '',
@@ -45,32 +45,32 @@ function Phyloregnum(){
     }
 
     this.makeSpecifiers = function (specifiers) {
-        if (!specifiers) console.log('specifiers is false/empty');
-        specifiers = specifiers || [{}];
+        debugger;
+        if (!specifiers) return ko.observableArray([])
         return ko.observableArray(specifiers.map(this.makeSpecifiers));
     }
 
-    this.makeCitation = function(citation, parent_with_authors){
+    this.makeCitation = function(citation){
         citation = citation || {};
         var ko_cit = {
-            'citation_type': ko.observable(citation.citation_type || 'book'),
-            'authors': parent_with_authors ? ko.observableArray(parent_with_authors.authors()) : pr.makeAuthors(citation.authors),
-            'editors': pr.makeAuthors(citation.editors),
-            'series_editors': pr.makeAuthors(citation.series_editors),
-            'title': ko.observable(citation.title || ''),
-            'publisher': citation.publisher || '',
-            'figure': citation.figure || '',
-            'year': ko.observable(citation.year || ''),
-            'edition': citation.edition || '',
-            'number': citation.number || '',
-            'journal': citation.journal || '',
-            'city': citation.city || '',
-            'volume': ko.observable(citation.volume || ''),
-            'pages': ko.observable(citation.pages || ''),
-            'keywords': citation.keywords || '',
-            'isbn': citation.isbn || '',
-            'doi': citation.doi || '',
-            'url': citation.url || ''
+            'citation_type':    ko.observable(citation.citation_type || 'book'),
+            'authors':          pr.makeAuthors(citation.authors),
+            'editors':          pr.makeAuthors(citation.editors),
+            'series_editors':   pr.makeAuthors(citation.series_editors),
+            'title':            ko.observable(citation.title || ''),
+            'publisher':        citation.publisher || '',
+            'figure':           citation.figure || '',
+            'year':             ko.observable(citation.year || ''),
+            'edition':          citation.edition || '',
+            'number':           citation.number || '',
+            'journal':          citation.journal || '',
+            'city':             citation.city || '',
+            'volume':           ko.observable(citation.volume || ''),
+            'pages':            ko.observable(citation.pages || ''),
+            'keywords':         citation.keywords || '',
+            'isbn':             citation.isbn || '',
+            'doi':              citation.doi || '',
+            'url':              citation.url || ''
         }
         ko_cit.displayAuths = ko.pureComputed(self.displayAuthors, ko_cit);
         return ko_cit;
@@ -600,6 +600,7 @@ jQuery.showSpecifier = function(sfor, callback){
     if (typeof(sfor) != 'object'){
         modalTitle = "Add specifier";
         specifier = pr.makeSpecifier();
+        pr.submissionModel.specifiers.push(specifier);
     }else{
         specifier = sfor;
     }
@@ -638,7 +639,6 @@ jQuery.showSpecifier = function(sfor, callback){
         }
         ko.cleanNode(bindingElement);
         ko.applyBindings(specifier, bindingElement);
-        if (sfor == 'new') pr.submissionModel.specifiers().push(specifier);
     }
 
     var opts = {

@@ -36,10 +36,11 @@
           </p>
         <!-- /ko -->
         <!-- ko if: citations['definitional'] -->
-        <a data-bind="click: function(d,e){ pr.ba.editCitation('definitional', d.citations.definitional, e); }"
-           href="#"
-           id="new-definitional-reference-add">[Edit reference]</a>
-          <%= render 'shared/citation_table', { citation: "citations.definitional", citation_for: "definitional", include_actions: false, is_single: true } %>
+          <%= render 'shared/citation_table', {
+              citation: "citations.definitional",
+              citation_for: "definitional",
+              include_actions: true,
+              is_single: true } %>
         <!-- /ko -->
       </div >
       <div class="form-group col-sm-12">
@@ -135,41 +136,55 @@
         </div>
         <div class="row">
           <div class="form-group col-sm-12" id="specifiers-table-holder">
-            <label>Clade Specifiers</label><input data-bind="click: pr.ba.addSpecifier" type="button" value="add" class="submit_button"/>
-            </p>
-            <table id="specifiers-table" class="specifiers-table sortable-table">
-              <thead>
+            <label>Clade Specifiers</label>
+            <!-- ko if: specifiers().length > 0 -->
+              <table id="specifiers-table" class="specifiers-table sortable-table form-control-static">
+                <thead>
                 <th style="width:100px">Type</th>
                 <th style="width:200px">Kind</th>
                 <th style="width:200px">Name</th>
                 <th style="width:200px">Author(s)</th>
                 <th>Publication Year</th>
-                <th style="width:70px;">actions</th>
-              </thead>
-              <tbody data-bind="foreach: specifiers()">
+                </thead>
+                <tbody data-bind="foreach: specifiers()">
                 <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
                   <td data-bind="text: specifier_type"></td>
-                  <td><span data-bind="text: specifier_kind"></span>&nbsp;<span data-bind="text: specifier_kind_type"></span>
+                  <td>
+                    <span data-bind="text: specifier_kind"></span>
+                    <!-- ko if: specifier_type() == 'specimen' -->
+                      &nbsp;<span data-bind="text: specifier_kind_type"></span>
+                    <!-- /ko -->
                   </td>
                   <td data-bind="text: specifier_name"></td>
                   <td data-bind="text: displayAuths, attr: { title: displayAuths }"></td>
                   <td data-bind="text: specifier_year"></td>
-                  <td>
-                    <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="edit"/>&nbsp;
-                    <input class="submit_button" data-bind="click: pr.ba.deleteSpecifier" type="button" value="delete"/>
+                  <td class="action-cell">
+                    <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="Edit"/>&nbsp;
+                    <input class="submit_button" data-bind="click: pr.ba.deleteSpecifier" type="button" value="Delete"/>
                   </td>
                 </tr>
-              </tbody>
-            </table>
-<!--            <span class="table-controls">-->
-<!--              <a href="#" data-bind="click: specifiers.moveFirst">First</a>-->
-<!--              <a href="#" data-bind="click: specifiers.movePrevious">Previous</a>-->
-<!--              <a href="#" data-bind="click: specifiers.moveNext">Next</a>-->
-<!--              <a href="#" data-bind="click: specifiers.moveLast">Last</a>-->
-<!--              Page-->
-<!--              <span data-bind="text: specifiers().currentPage" min="1"></span>-->
-<!--               of <span data-bind="text: specifiers().pageCount"></span>-->
-<!--            </span>-->
+                </tbody>
+              </table>
+              <!--            <span class="table-controls">-->
+              <!--              <a href="#" data-bind="click: specifiers.moveFirst">First</a>-->
+              <!--              <a href="#" data-bind="click: specifiers.movePrevious">Previous</a>-->
+              <!--              <a href="#" data-bind="click: specifiers.moveNext">Next</a>-->
+              <!--              <a href="#" data-bind="click: specifiers.moveLast">Last</a>-->
+              <!--              Page-->
+              <!--              <span data-bind="text: specifiers().currentPage" min="1"></span>-->
+              <!--               of <span data-bind="text: specifiers().pageCount"></span>-->
+              <!--            </span>-->
+              <div class="table-controls">
+                <button data-bind="click: pr.ba.addSpecifier" type="button" class="submit_button mw-25">Add specifier</button>
+              </div>
+            <!-- /ko -->
+            <!-- ko ifnot: specifiers().length > 0 -->
+              <p class="help-block form-control-static">
+                <em>Please add a specifier</em>
+                <button data-bind="click: pr.ba.addSpecifier" type="button" class="submit_button mw-25">Add specifier</button>
+              </p>
+            <!-- /ko -->
+
           </div>
         </div>
       </div>
@@ -200,10 +215,11 @@
               </p>
             <!-- /ko -->
             <!-- ko if: citations['primary_phylogeny'] -->
-              <a data-bind="click: function(d,e){ pr.ba.editCitation('primary_phylogeny', d.citations.primary_phylogeny, e); }"
-                 href="#"
-                 id="new-primary-phylogeny-reference-add">[Edit reference]</a>
-              <%= render 'shared/citation_table', { citation: "citations.primary_phylogeny", citation_for: "primary_phylogeny", include_actions: false, is_single: true } %>
+              <%= render 'shared/citation_table', {
+                  citation: "citations.primary_phylogeny",
+                  citation_for: "primary_phylogeny",
+                  include_actions: true,
+                  is_single: true } %>
             <!-- /ko -->
           </div>
         </div>
