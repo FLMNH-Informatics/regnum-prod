@@ -117,7 +117,7 @@
               <p id="maximum-clade_standard_def" style="display: none;" >A maximum-clade associates a name with the largest clade
                 that contains one or more internal specifiers but does not contain one or more
                 external specifiers.</p>
-              <p id="apomorphy-based_standard_def" style="display: none;" >“An apomorphy-based definition associates a name with a
+              <p id="apomorphy-based_standard_def" style="display: none;" >An apomorphy-based definition associates a name with a
                 clade originating in the first ancestor to evolve a specified apomorphy that was
                 inherited by one or more internal specifiers.</p>
               <p id="minimum-crown-clade_def" style="display: none;" >A minimum crown clade definition is a minimum clade
@@ -187,7 +187,7 @@
         <div class="row">
           <div class="form-group col-sm-12">
             <label for="new_definition">Verbatim Definition:</label>
-            <textarea data-bind="value: definition" placeholder="Enter definition exactly as stated in the publication. (Do not include a statement of the definition type or an abbreviated definition)" name="cladename[definition]" id="new_definition" rows="16" cols="60" class="value-input form-control"></textarea>
+            <textarea data-bind="value: definition" placeholder="Enter definition exactly as stated in the publication. (Do not include a statement of the definition type or an abbreviated definition)" name="cladename[definition]" id="new_definition" rows="8" class="value-input form-control"></textarea>
           </div>
         </div>
         <div class="row">
@@ -209,24 +209,29 @@
         </div>
         <div class="row">
           <div class="form-group col-sm-12">
-            <label>Additional Reference Phylogenies:</label>
+            <label>Additional Reference Phylogenies</label>
             <div id="phylo-citations" class="citations-table">
               <!-- ko if: citations.phylogeny().length > 0 -->
-              <%= render 'shared/citation_table', {
-                    is_single: false,
-                    include_actions: true,
-                    citation_for: "phylogeny",
-                    citation: "citations.phylogeny.currentPageData",
-                    include_pagination: true } %>
+                <%= render 'shared/citation_table', {
+                      is_single: false,
+                      include_actions: true,
+                      citation_for: "phylogeny",
+                      citation: "citations.phylogeny.currentPageData",
+                      include_pagination: true } %>
               <!-- /ko -->
               <!-- ko ifnot: citations.phylogeny().length > 0 -->
-              <p class="help-block form-control-static">
-                <em>No additional reference phylogenies</em>
-                <button class="submit_button" data-bind="click: function(d,e){ pr.ba.addCitation('phylogeny', d.citations.phylogeny, e); }">Add reference</button>
-              </p>
-
+                <p class="help-block form-control-static">
+                  <em>No additional reference phylogenies</em>
+                  <button class="submit_button" data-bind="click: function(d,e){ pr.ba.addCitation('phylogeny', d.citations.phylogeny, e); }">Add reference</button>
+                </p>
               <!-- /ko -->
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-12">
+            <label for="qualifying_clause_input">Qualifying Clause</label>
+            <textarea class="form-control" id="qualifying_clause_input" rows="3" data-bind="value: qualifying_clause" name="cladename[qualifying_clause]"></textarea>
           </div>
         </div>
       </div>

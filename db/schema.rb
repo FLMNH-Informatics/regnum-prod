@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180830043312) do
+ActiveRecord::Schema.define(version: 20181013003545) do
 
   create_table "apomorphies", force: :cascade do |t|
     t.string  "description",    limit: 255
@@ -519,6 +519,7 @@ ActiveRecord::Schema.define(version: 20180830043312) do
     t.string   "name_string",         limit: 255
     t.string   "abbreviation",        limit: 255
     t.string   "guid",                limit: 255
+    t.text     "qualifying_clause",   limit: 65535
   end
 
   create_table "users", force: :cascade do |t|

@@ -407,6 +407,7 @@ return "TODO: finalize definition";
         //return the asynch object so any calls to save can
         //be chained with other deferred methods
         var data = ko.mapping.toJSON(self.submissionModel);
+
         return jQuery.ajax({
             type: 'POST',
             url: '/save',
