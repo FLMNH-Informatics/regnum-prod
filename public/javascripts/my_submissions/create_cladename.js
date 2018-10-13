@@ -370,9 +370,14 @@ return "TODO: finalize definition";
         } else if (typeof(citations.preexisting) === 'object'){
             preexisting = citations.preexisting;
         }
-        if (preexisting){
-            str += preexisting.displayAuths()
-            str += displayProp(preexisting.year())
+
+        if (submission.preexisting()){
+            if (preexisting){
+                str += preexisting.displayAuths()
+                str += displayProp(preexisting.year())
+            }else{
+                str += ' **please add a preexisting citation** ';
+            }
             str += " [" + submission.displayAuths() + "]";
             str += ', converted clade name.'
         }else{
