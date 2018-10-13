@@ -81,6 +81,29 @@ function Phyloregnum(){
         return ko.observableArray(citations.map(this.makeCitation));
     }
 
+    // this.getEmptyCitation = function(){
+    //     return {
+    //         'citation_type': ko.observable('book'),
+    //         'authors': ko.observableArray([self.makeAuthor()]),
+    //         'editors': ko.observableArray([self.makeAuthor()]),
+    //         'series_editors': ko.observableArray([self.makeAuthor()]),
+    //         'title': '',
+    //         'publisher': '',
+    //         'figure': '',
+    //         'year': '',
+    //         'edition': '',
+    //         'number': '',
+    //         'journal': '',
+    //         'city': '',
+    //         'volume': '',
+    //         'pages': '',
+    //         'keywords': '',
+    //         'isbn': '',
+    //         'doi': '',
+    //         'url': ''
+    //     }
+    // }
+
     this.displayAuthors = function(){
         var auths = this.authors();
 
@@ -99,29 +122,6 @@ function Phyloregnum(){
             .slice(0, 6)
             .map(pr.author.initialize)
             .join(', ') + "... " + pr.author.initialize(auths[auths.length - 1]);
-    }
-
-    this.getEmptyCitation = function(){
-        return {
-            'citation_type': ko.observable('book'),
-            'authors': ko.observableArray([self.makeAuthor()]),
-            'editors': ko.observableArray([self.makeAuthor()]),
-            'series_editors': ko.observableArray([self.makeAuthor()]),
-            'title': '',
-            'publisher': '',
-            'figure': '',
-            'year': '',
-            'edition': '',
-            'number': '',
-            'journal': '',
-            'city': '',
-            'volume': '',
-            'pages': '',
-            'keywords': '',
-            'isbn': '',
-            'doi': '',
-            'url': ''
-        }
     }
 
     this.submissionModel = {
@@ -196,7 +196,7 @@ function Phyloregnum(){
             'name_string': {
                 create: function(options){
                     return ko.computed(function(){
-                        var t = self.makeReference(options)
+                        var t = self.makeNameString(options)
                         return t
                     }, self)
                 }
@@ -289,7 +289,7 @@ function Phyloregnum(){
         var external = []
         var apomorph = []
         //
-return "def here";
+return "TODO: finalize definition";
         jQuery.each(this.submissionModel.specifiers(), function(ind,obj){
             if(obj.specifier_type === 'apomorphy'){
                 apomorph.push(obj.specifier_character_name+'(' + obj.specifier_name + ')' )
@@ -354,7 +354,7 @@ return "def here";
     }
 
     //make cladename citation reference
-    this.makeReference = function(options){
+    this.makeNameString = function(options){
         var displayProp = function(val, prepend){
             prepend = prepend || ' ';
             if (val.trim().length > 0) return prepend + val;
@@ -373,7 +373,6 @@ return "def here";
         if (preexisting){
             str += preexisting.displayAuths()
             str += displayProp(preexisting.year())
-            str += displayProp(preexisting.pages())
             str += " [" + submission.displayAuths() + "]";
             str += ', converted clade name.'
         }else{
@@ -386,7 +385,6 @@ return "def here";
             }
             if(typeof(primary_phylogeny) === 'object'){
                 str += displayProp(primary_phylogeny.year())
-                str += displayProp(primary_phylogeny.pages())
             }
             str += ', new clade name.'
         }
