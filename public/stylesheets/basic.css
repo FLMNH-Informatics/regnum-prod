@@ -436,16 +436,17 @@ span.required{
 #my-submissions-table{
     text-align:left;
 }
-.odd-row{
+.odd-row td{
     background-color:#ddd;
     font-weight:normal;
 }
-.even-row{
+.even-row td{
     background-color:#eee;
     font-weight:normal;
 }
 
-.odd-row:hover, .even-row:hover{
+.odd-row:hover td:not(.action-cell),
+.even-row:hover td:not(.action-cell){
     background-color:#add8e6;
     /*cursor:pointer;*/
 }
@@ -594,8 +595,8 @@ span.required{
     -moz-border-radius: 3px;
     background-color:#BDEEFF;
     padding: 2px 4px;
-    max-width:700px;
-    min-width:400px;
+    /*max-width:700px;*/
+    /*min-width:400px;*/
     border:1px solid #aaa;
 }
 #search_table_div{
@@ -631,7 +632,7 @@ span.required{
 }
 
 
-
+tr td.action-cell,
 .sortable-table tr td.action-cell{
     background-color: transparent;
     border-color: transparent;
@@ -1750,6 +1751,7 @@ fieldset[disabled] .checkbox label {
     padding-bottom: 7px;
     margin-bottom: 0;
     min-height: 34px;
+    box-sizing: border-box;
 }
 .form-control-static.input-lg,
 .form-control-static.input-sm {

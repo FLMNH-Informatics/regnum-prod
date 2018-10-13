@@ -1,5 +1,4 @@
 %input#new_citation_for{ type: "hidden", name: "citation_for" }
-%input#phylogeny_table_citation_id{ type: "hidden", value: "new" }
 %form#new-citation-form-entry{ action: "#" }
   .container-fluid
     .row
@@ -7,7 +6,7 @@
         %label{ for: "citation_type" } Type:
         %select#citation_type{ class: "form-control", data: { bind: "value: citation_type" } }
           %option{ value: "book" } Book
-          %option{ value: "journal" } Journal
+          %option{ value: "journal" } Journal Article
           %option{ value: "book_section" } Book Section
     .row
       .form-group.col-sm-12
@@ -57,7 +56,7 @@
         %label{ for: "volume", data: { bind: "text: citation_type() == 'journal' ? 'Volume #' : 'Volume'" } } Volume
         %input#volume{ type: "text", class: "form-control", data: { bind: "value: volume" } }
       .form-group.col-sm-2
-        %label{ for: "pages" } Pages
+        %label{ for: "pages" } Page(s)
         %input#pages{ type: "text", class: "form-control", data: { bind: "value: pages" } }
       / ko if: citation_type() == 'journal'
       .form-group.col-sm-3{ data: { bind: "if: citation_type() == 'journal'" } }

@@ -1,0 +1,50 @@
+<table class="sortable-table" id="<%= citation_for %>>">
+  <thead>
+  <tr style="background-color:white;">
+    <th style="width:100px;">Type</th>
+    <th style="width:200px;">Title</th>
+    <th style="width:200px;">Author(s)</th>
+  </tr>
+  </thead>
+    <tbody>
+      <% if is_single %>
+        <tr class="odd-row" data-bind="with: <%= citation %>">
+      <% else %>
+        <!-- ko foreach: { data: <%= citation %>, as: 'citation' } -->
+          <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
+      <% end %>
+            <td class="odd-row" data-bind="text: citation_type"></td>
+            <td class="odd-row" style="max-width:200px" data-bind="text: title"></td>
+            <td class="odd-row" style="max-width:200px" data-bind="text: displayAuths"></td>
+            <td class="action-cell" data-bind="if: <%= include_actions %>">
+              <button class="submit_button"
+                      data-bind="click: function(citation, e){pr.ba.editCitation('<%= citation_for %>', citation, e)},
+                                 text: 'Update'"></button>
+              <% unless is_single %>
+                <button class="submit_button"
+                        data-bind="click: function(d,e){pr.ba.deleteCitation('<%= citation_for %>', citation, e)},
+                                     text: 'Delete'"></button>
+              <% end %>
+            </td>
+          </tr>
+      <% unless is_single %>
+        <!-- /ko -->
+      <% end %>
+    </tbody>
+</table>
+<% if !is_single && include_pagination %>
+  <div class="table-controls">
+    <!-- ko if: citations.<%= citation_for %>.pageCount > 1 -->
+      <a href="#" class="pagination_control" data-bind="click: citations.<%= citation_for %>.moveFirst">First</a>
+      <a href="#" class="pagination_control" data-bind="click: citations.<%= citation_for %>.movePrevious">Previous</a>
+      <a href="#" class="pagination_control" data-bind="click: citations.<%= citation_for %>.moveNext">Next</a>
+      <a href="#" class="pagination_control" data-bind="click: citations.<%= citation_for %>.moveLast">Last</a>
+    <!-- /ko -->
+      <span class="page-info">Page
+                <span data-bind="text: citations.<%= citation_for %>.currentPage" min="1"></span>
+                  of <span data-bind="text: citations.<%= citation_for %>.pageCount"></span></span>
+    <button data-bind="text: 'Add',
+                       click: function(d,e){pr.ba.addCitation('<%= citation_for %>',d.citations.<%= citation_for %>,e)}"
+            class="submit_button"></button>
+  </div>
+<% end %>

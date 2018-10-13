@@ -76,6 +76,7 @@ class MySubmissionController < ApplicationController
       sub.name = params[:name]
       sub.authors = params[:authors]
       sub.name_string = params[:name_string]
+      sub.qualifying_clause = params[:qualifying_clause]
       sub.abbreviation = HTMLEntities.new.decode(params[:abbreviation])
       sub.status_id = Status.find_by_status('submitted').id if params[:subaction] == 'submit'
       #sub.submitted_by = current_user.id

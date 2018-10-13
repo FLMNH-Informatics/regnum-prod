@@ -72,6 +72,7 @@
     //
     //
     jQuery.fn.showCitation = function(dataHash){
+        debugger;
         this.find('form').loadFormData(dataHash, 'new_')
         this.show()
     }
