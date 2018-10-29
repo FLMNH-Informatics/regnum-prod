@@ -43,6 +43,10 @@ class Submission < ActiveRecord::Base
     "#{self.id.to_s.rjust(10,'0')}"
   end
 
+  def registration_number
+    temp_id
+  end
+
   def current_status_comments
     stat = StatusChange.find_by_submission_id_and_status_id_and_changed_at(self.id, self.status_id, self.updated_at)
     if stat == nil

@@ -60,7 +60,11 @@ Regnum::Application.routes.draw do
 
   match '/ontologies/auto_complete_terms' => 'ontologies#auto_complete_terms', via: :get
   resources :accounts
-  resources :submissions
+  resources :submissions do
+    collection do
+      get :export
+    end
+  end
 
   #match '/:controller(/:action(/:id))'
 end

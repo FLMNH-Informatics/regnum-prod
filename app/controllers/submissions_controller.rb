@@ -46,6 +46,18 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  def export
+    require 'csv'
+    csv_string = CSV.generate do |csv|
+      csv << ["registration number", "clade name"]
+      Submission.all.each { |submission| csv << [submission.registration_number, submission.name] }
+    end
+    send_data(csv_string,
+              :type => 'text/csv; charset=utf-8; header=present',
+              :disposition => "attachment",
+              :filename => "regnum_cladenames_with_registration_number.csv")
+  end
+
   private
   #gets right set of subs depending of type of editor/admin
   def submissions_for_editor(params)
