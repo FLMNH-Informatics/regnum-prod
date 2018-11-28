@@ -68,7 +68,7 @@ GEM
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     json (2.1.0)
-    loofah (2.2.2)
+    loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.0)
@@ -81,7 +81,7 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     mysql2 (0.3.21)
-    nokogiri (1.8.4)
+    nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
     paperclip (6.0.0)
       activemodel (>= 4.2.0)
@@ -92,7 +92,7 @@ GEM
     protected_attributes (1.1.4)
       activemodel (>= 4.0.1, < 5.0)
     raabro (1.1.6)
-    rack (1.6.10)
+    rack (1.6.11)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.10)
@@ -187,10 +187,12 @@ DEPENDENCIES
   factory_girl_rails
   haml
   htmlentities
+  loofah (>= 2.2.3)
   mysql2 (~> 0.3.18)
   nokogiri
   paperclip
   protected_attributes
+  rack (>= 1.6.11)
   rails (~> 4.2)
   recaptcha
   rspec

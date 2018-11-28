@@ -38,7 +38,7 @@ gem 'activerecord-import'#, '~>0.2.0'
 #gem 'rmagick', '2.12.0'
 
 gem "loofah", ">= 2.2.3"
-
+gem "rack", ">= 1.6.11"
 
 
 
