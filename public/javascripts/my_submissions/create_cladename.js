@@ -28,7 +28,7 @@ function Phyloregnum(){
             'specifier_type': ko.observable(specifier.specifier_type || 'species'),
             'authors': pr.makeAuthors(specifier.authors),
             'specifier_kind': ko.observable(specifier.specifier_kind || ''),
-            'specifier_character_name': specifier.specifier_character_name || '',
+            'specifier_character_name': ko.observable(specifier.specifier_character_name || ''),
             'specifier_name': ko.observable(specifier.specifier_name || ''),
             'specifier_year': ko.observable(specifier.specifier_year || ''),
             'specifier_code': specifier.specifier_code || '',
