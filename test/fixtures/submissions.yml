@@ -18,7 +18,7 @@ campanulaceae:
   type:                node_based_crown_clade_branch-modified
   definition:          some plant on or near the greek isles that nico likes to study
   citations:           <%= {:preexisting => [{:citation_type => 'journal'}], :description =>  [{}], :phylogeny => [{}], :'primary-phylogeny' => [{}] }.to_yaml.inspect  %>
-  specifiers:          <%= [{:specifier_type => 'specimen', :specifier_kind => 'internal_extant', :specifier_kind_type => 'specifier', :specifier_name => 'intextspec' }].to_yaml.inspect %>
+  specifiers:          <%= [{:specifier_type => 'specimen', :specifier_kind => 'internal_extant', :specifier_name => 'intextspec' }].to_yaml.inspect %>
   name_string:         <%= "campanulaceae cellinese, 2001 (vol. 1)" %>
   abbreviation:        <%= "∇ some specifer ~ and another" %>
 
@@ -35,7 +35,7 @@ ahnfeltiophycidae:
   type:                <%= "node_based_crown_clade_branch-modified" %>
   definition:          <%= "The most inclusive crown clade that contains Ahnfeltia plicata (Hudson) Fries 1836 but not Chondrus crispus Stackhouse 1797 or Corallina officinalis Linnaeus 1758 or Hildenbrandia rubra (Sommerfelt) Meneghini 1841 or Palmaria palmata (Linnaeus) Kuntze 1891. This definition is branch-modified node-based and designates a crown clade." %>
   citations:           <%= {:preexisting => [{:citation_type => 'journal'}], :description =>  [{}], :phylogeny => [{}], :'primary-phylogeny' => [{:citation_type => 'journal', :title => "Morphology, reproduction, and the 18S rRNA gene sequence of Pihiella liagoraciphila gen. et sp. nov. (Rhodophyta), the so-called ‘monosporangial discs’ associated with members of the Liagoraceae (Rhodophyta) and proposal of the Pihiellales ord. nov." , :citation_authors => "Huisman, J.M., A.R. Sherwood, and I. A. Abbott"}] }.to_yaml.inspect  %>
-  specifiers:          <%= [{:specifier_type => 'specimen', :specifier_kind => 'internal_extant', :specifier_kind_type => 'specifier', :specifier_name => 'intextspec' }].to_yaml.inspect %>
+  specifiers:          <%= [{:specifier_type => 'specimen', :specifier_kind => 'internal_extant', :specifier_name => 'intextspec' }].to_yaml.inspect %>
   name_string:         <%= "Ahnfeltiophycidae G.W. Saunders & M.H. Hommersand 2004: (Vol. 91): 1494-1507 [G.W. Saunders], converted clade name".to_yaml.inspect %>
   abbreviation:        <%= ">∇Ahnfeltia plicata ~ Chondrus crispus V Corallina officinalis V Hildenbrandia rubra V Palmaria palmata".to_yaml.inspect  %>
 

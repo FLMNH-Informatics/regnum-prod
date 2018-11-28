@@ -42,11 +42,6 @@ namespace :hash_fix do
           sub.specifiers[ind]['specifier_kind'] = v
         end
         ##
-        if spec.has_key?('kind_type')
-          v = sub.specifiers[ind].delete('kind_type')
-          sub.specifiers[ind]['specifier_kind_type'] = v
-        end
-        ##
       end
       sub.save
     end

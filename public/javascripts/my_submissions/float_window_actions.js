@@ -92,12 +92,6 @@ jQuery.save_specifier = function(){
     //    //}
     // })
     //
-    // if(typeof specifier['specifier_kind'] == 'undefined'){
-    //     specifier['specifier_kind']='';
-    // }save_specifier
-    // if(typeof specifier['specifier_kind_type'] == 'undefined'){
-    //     specifier['specifier_kind_type']='';
-    // }
     // var id = jQuery('#specifier_table_entry_id').val()
     // if(id == 'new'){
     //

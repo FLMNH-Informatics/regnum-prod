@@ -17,11 +17,6 @@
         %option.external-spec{ value: "external extant"  } External - Extant
         %option.external-spec{ value: "external extinct" } External - Extinct
       / /ko
-      / ko if: specifier_type() != 'species'
-      %select#new_specifier_kind_type.form-control{ name: "specifier_kind_type", class: "other_specifier", data: { bind: "value: specifier_kind_type" } }
-        %option.internal-spec{ value: "specifier"  } Specifier
-        %option.internal-spec{ value: "qualifier" } Qualifier
-      / /ko
     / ko if: specifier_type() == 'apomorphy'
     .form-group.col-sm-12
       %label{ for: "new_specifier_character_name" } Character name:

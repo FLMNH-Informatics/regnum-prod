@@ -87,7 +87,7 @@
                   &nbsp;
                   %em= val['specifier_name']
                   = ' : '
-                  = (val['kind'] || val['specifier_kind'])+ ' ' + (val['kind_type'] || val['specifier_kind_type'])                               
+                  = (val['kind'] || val['specifier_kind'])
                 %div
                   %table               
                     %tr
@@ -99,7 +99,7 @@
                       %td
                         %span
                           %span{:style => 'font-weight:bold;'}= 'Specifier kind: '
-                          = format_output('specifier_kind',val.delete('specifier_kind')) + ' ' + format_output('specifier_kind_type',val.delete('specifier_kind_type'))
+                          = format_output('specifier_kind',val.delete('specifier_kind'))
                     -val.each do |k,v|
                       -if !v.blank?
                         %tr
