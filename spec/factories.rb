@@ -12,7 +12,7 @@ FactoryGirl.define do
 		type  "node_based_crown_clade_branch-modified"
     definition  "some plant on or near the greek isles that nico likes to study"
     citations    [{ preexisting: [{ citation_type: 'journal'}], description:  [{}], phylogeny: [{}], :'primary-phylogeny' => [{}] }].to_yaml
-    specifiers   [{ specifier_type: 'specimen', specifier_kind: 'internal_extant', specifier_kind_type: 'specifier', specifier_name: 'intextspec' }].to_yaml
+    specifiers   [{ specifier_type: 'specimen', specifier_kind: 'internal_extant', specifier_name: 'intextspec' }].to_yaml
     name_string  "campanulaceae cellinese, 2001 (vol. 1)"
     abbreviation   "∇ some specifer ~ and another"
   end

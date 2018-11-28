@@ -9,24 +9,18 @@
         %option#specimen-option{  value: "specimen"  } Specimen
         %option#apomorphy-option{ value: "apomorphy" } Apomorphy
     .form-group.col-sm-12
-      %label{ for: "new_specifier_kind" } Kind:
       / ko if: specifier_type() != 'apomorphy'
+      %label{ for: "new_specifier_kind" } Kind:
       %select#new_specifier_kind.form-control{ name: "specifier_kind", class: "other_specifier", data: { bind: "value: specifier_kind" } }
         %option.internal-spec{ value: "internal extant"  } Internal - Extant
         %option.internal-spec{ value: "internal extinct" } Internal - Extinct
         %option.external-spec{ value: "external extant"  } External - Extant
         %option.external-spec{ value: "external extinct" } External - Extinct
       / /ko
-      / ko if: specifier_type() != 'species'
-      %select#new_specifier_kind_type.form-control{ name: "specifier_kind_type", class: "other_specifier", data: { bind: "value: specifier_kind_type" } }
-        %option.internal-spec{ value: "specifier"  } Specifier
-        %option.internal-spec{ value: "qualifier" } Qualifier
-      / /ko
-    / ko if: specifier_type() == 'apomorphy'
-    .form-group.col-sm-12
+      / ko if: specifier_type() == 'apomorphy'
       %label{ for: "new_specifier_character_name" } Character name:
       %input#new_specifier_character_name.form-control{ type: "text", name: "specifier_character_name", data: { bind: "value: specifier_character_name" } }
-    / /ko
+      / /ko
   .row
     / ko if: specifier_type() == 'apomorphy'
     .col-sm-12

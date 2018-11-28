@@ -16,19 +16,8 @@ function Phyloregnum(){
                         if(typeof obj=='object'){
                             item=obj;
                         }
-                        if(item.kind_type){
-                            item.specifier_kind_type=item.kind_type;
-                        }
                         if(item.kind){
                             item.specifier_kind=item.kind;
-                        }
-                        if(typeof(item) != 'undefined' && typeof(item['specifier_type']) != 'undefined' && typeof(item['specifier_type_kind']) != 'undefined'){  
-                            if(typeof(item['specifier_kind'])=='undefined' || item['specifier_kind']==null ){
-                                item['specifier_kind']='';
-                            }else if(typeof(item['specifier_kind_type'])=='undefined' || item['specifier_kind_type']==null ){
-                                item['specifier_kind_type']='';
-                            }
-                                           
                         }
                         specs.push(item) 
                     });
