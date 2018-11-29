@@ -1951,8 +1951,12 @@ select[multiple].input-lg {
     border-color: #a94442;
     background-color: #f2dede;
 }
-.has-error .form-control-feedback {
+.has-error .form-control-feedback,
+.has-error.message{
     color: #a94442;
+}
+table .has-error.message{
+    margin-right: 2rem;
 }
 .has-feedback label ~ .form-control-feedback {
     top: 25px;

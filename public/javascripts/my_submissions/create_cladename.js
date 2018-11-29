@@ -103,6 +103,16 @@ function Phyloregnum(){
     //     }
     // }
 
+    this.onCladeTypeClick = function(obj,event){
+        debugger;
+        'hi'
+    }
+
+    this.onCladeTypeChange = function(obj, event, three, four){
+        debugger;
+        'hi';
+    }
+
     this.displayAuthors = function(){
         var auths = this.authors();
 
@@ -125,6 +135,10 @@ function Phyloregnum(){
 
     this.submissionModel = {
         displayAuths: ko.pureComputed(self.displayAuthors, this)
+    }
+
+    this.isApomorphy = function(){
+        return [ 'apomorphy-based_standard', 'apomorphy-modified_crown_clade' ].includes( self.submissionModel.clade_type() )
     }
 
     this.ko = {

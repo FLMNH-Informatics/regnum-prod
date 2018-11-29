@@ -5,11 +5,15 @@
     .form-group.col-sm-12
       %label{ for: "new_specifier_type" } Type:
       %select#new_specifier_type.form-control{ class: "form-control", data: { bind: "value: specifier_type" } }
+        / ko if: pr.isApomorphy()
         %option#species-option{   value: "species"   } Species
         %option#specimen-option{  value: "specimen"  } Specimen
+        / /ko
+        / ko if: pr.isApomorphy()
         %option#apomorphy-option{ value: "apomorphy" } Apomorphy
+        / /ko
     .form-group.col-sm-12
-      / ko if: specifier_type() != 'apomorphy'
+      / ko if: !pr.isApomorphy()
       %label{ for: "new_specifier_kind" } Kind:
       %select#new_specifier_kind.form-control{ name: "specifier_kind", class: "other_specifier", data: { bind: "value: specifier_kind" } }
         %option.internal-spec{ value: "internal extant"  } Internal - Extant
@@ -17,12 +21,12 @@
         %option.external-spec{ value: "external extant"  } External - Extant
         %option.external-spec{ value: "external extinct" } External - Extinct
       / /ko
-      / ko if: specifier_type() == 'apomorphy'
+      / ko if: pr.isApomorphy()
       %label{ for: "new_specifier_character_name" } Character name:
       %input#new_specifier_character_name.form-control{ type: "text", name: "specifier_character_name", data: { bind: "value: specifier_character_name" } }
       / /ko
   .row
-    / ko if: specifier_type() == 'apomorphy'
+    / ko if: pr.isApomorphy()
     .col-sm-12
       %h2 (As exhibited in)
     / /ko
@@ -55,7 +59,7 @@
       #specifier-collector-container
         = render 'shared/add_author', { author_type: 'collector' }
     / /ko
-    / ko if: specifier_type() == 'apomorphy'
+    / ko if: pr.isApomorphy()
     .form-group.col-sm-12
       %label{ for: "new_specifier_description" } Description
       %textarea#new_specifier_description.form-control{ name: "specifier_description", rows: "5", cols: 50, data: { bind: "value: specifier_description" } }

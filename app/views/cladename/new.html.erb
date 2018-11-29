@@ -97,7 +97,7 @@
         <div class="row">
           <div class="form-group col-sm-12">
             <label for="new_type">Definition Type:</label>
-            <select data-bind="value: clade_type" name="cladename[clade_type]" id="new_type" class="value-input form-control">
+            <select data-bind="value: clade_type, event: { change: pr.onCladeTypeChange }" name="cladename[clade_type]" id="new_type" class="value-input form-control">
               <option value="minimum-clade_standard">Minimum Clade - Standard</option>
               <option value="minimum-clade_directly_specified_ancestor">Minimum Clade - Directly Specified Ancestor <span class="required">(Rare)</span></option>
               <option value="maximum-clade_standard">Maximum Clade - Standard</option>
@@ -139,38 +139,44 @@
             <label>Clade Specifiers</label>
             <!-- ko if: specifiers().length > 0 -->
               <table id="specifiers-table" class="specifiers-table sortable-table form-control-static">
-                <thead>
-                <th style="width:100px">Type</th>
-                <th style="width:200px">Kind</th>
-                <th style="width:200px">Name</th>
-                <th style="width:200px">Author(s)</th>
-                <th>Publication Year</th>
+                <thead data-bind="ifnot: pr.isApomorphy()">
+                  <th style="width:100px">Type</th>
+                  <th style="width:200px">Kind</th>
+                  <th style="width:200px">Name</th>
+                  <th style="width:200px">Author(s)</th>
+                  <th>Publication Year</th>
                 </thead>
-                <tbody data-bind="foreach: specifiers()">
-                <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
-                  <td data-bind="text: specifier_type"></td>
-                  <td>
-                    <span data-bind="text: specifier_kind"></span>
-                  </td>
-                  <td data-bind="text: specifier_name"></td>
-                  <td data-bind="text: displayAuths, attr: { title: displayAuths }"></td>
-                  <td data-bind="text: specifier_year"></td>
-                  <td class="action-cell">
-                    <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="Edit"/>&nbsp;
-                    <input class="submit_button" data-bind="click: pr.ba.deleteSpecifier" type="button" value="Delete"/>
-                  </td>
-                </tr>
-                </tbody>
+                <thead data-bind="if: pr.isApomorphy()">
+                  <th>Type</th>
+                  <th>Author(s)</th>
+                  <th>Publication Year</th>
+                </thead>
+                 <tbody data-bind="foreach: specifiers()">
+                   <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
+                     <!-- ko ifnot: pr.isApomorphy() -->
+                       <td data-bind="text: specifier_type"></td>
+                       <td>
+                         <span data-bind="text: specifier_kind"></span>
+                       </td>
+                       <td data-bind="text: specifier_name"></td>
+                     <!-- /ko -->
+                     <!-- ko if: pr.isApomorphy() -->
+                       <td>
+                         <span data-bind="ifnot: specifier_character_name, css: {'has-error message': specifier_character_name() == ''}">Please enter a character name</span>
+                         <span data-bind="text: specifier_character_name"></span> <span data-bind="if: specifier_character_name && specifier_name">as displayed in</span> <i data-bind="text: specifier_name"></i>
+                         <span data-bind="ifnot: specifier_name, css: {'has-error message': specifier_name() == ''}">Please enter a Taxon name</span>
+                       </td>
+                     <!-- /ko -->
+                     <td data-bind="text: displayAuths, attr: { title: displayAuths }"></td>
+                     <td data-bind="text: specifier_year"></td>
+                     <td class="action-cell">
+                       <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="Edit"/>&nbsp;
+                       <input class="submit_button" data-bind="click: pr.ba.deleteSpecifier" type="button" value="Delete"/>
+                     </td>
+                   </tr>
+                 </tbody>
+                  <!-- /ko -->
               </table>
-              <!--            <span class="table-controls">-->
-              <!--              <a href="#" data-bind="click: specifiers.moveFirst">First</a>-->
-              <!--              <a href="#" data-bind="click: specifiers.movePrevious">Previous</a>-->
-              <!--              <a href="#" data-bind="click: specifiers.moveNext">Next</a>-->
-              <!--              <a href="#" data-bind="click: specifiers.moveLast">Last</a>-->
-              <!--              Page-->
-              <!--              <span data-bind="text: specifiers().currentPage" min="1"></span>-->
-              <!--               of <span data-bind="text: specifiers().pageCount"></span>-->
-              <!--            </span>-->
               <div class="table-controls">
                 <button data-bind="click: pr.ba.addSpecifier" type="button" class="submit_button mw-25">Add specifier</button>
               </div>
