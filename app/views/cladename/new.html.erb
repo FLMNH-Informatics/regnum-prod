@@ -154,11 +154,18 @@
                  <tbody data-bind="foreach: specifiers()">
                    <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
                      <!-- ko ifnot: pr.isApomorphy() -->
-                       <td data-bind="text: specifier_type"></td>
+                       <td>
+                         <span data-bind="text: specifier_type"></span>
+                         <span data-bind="ifnot: specifier_type, css: { 'has-error message': specifier_type() == '' }">Please edit to make a selection.</span>
+                       </td>
                        <td>
                          <span data-bind="text: specifier_kind"></span>
+                         <span data-bind="ifnot: specifier_kind, css: { 'has-error message': specifier_kind() == '' }">Please edit to make a selection.</span>
                        </td>
-                       <td data-bind="text: specifier_name"></td>
+                       <td>
+                         <span data-bind="text: specifier_name"></span>
+                         <span data-bind="ifnot: specifier_name, css: { 'has-error message': specifier_name() == '' }">Please enter a specifier name.</span>
+                       </td>
                      <!-- /ko -->
                      <!-- ko if: pr.isApomorphy() -->
                        <td>
@@ -167,8 +174,13 @@
                          <span data-bind="ifnot: specifier_name, css: {'has-error message': specifier_name() == ''}">Please enter a Taxon name</span>
                        </td>
                      <!-- /ko -->
-                     <td data-bind="text: displayAuths, attr: { title: displayAuths }"></td>
-                     <td data-bind="text: specifier_year"></td>
+                     <td data-bind="attr: { title: displayAuths }">
+                       <span data-bind="text: displayAuths, css: { 'has-error message': displayAuths().includes('Please update') }"></span>
+                     </td>
+                     <td>
+                       <span data-bind="text: specifier_year"></span>
+                       <span data-bind="ifnot: specifier_year, css: { 'has-error message': specifier_year() == '' }">Please enter a publication year.</span>
+                     </td>
                      <td class="action-cell">
                        <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="Edit"/>&nbsp;
                        <input class="submit_button" data-bind="click: pr.ba.deleteSpecifier" type="button" value="Delete"/>

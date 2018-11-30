@@ -5,7 +5,7 @@
     .form-group.col-sm-12
       %label{ for: "new_specifier_type" } Type:
       %select#new_specifier_type.form-control{ class: "form-control", data: { bind: "value: specifier_type" } }
-        / ko if: pr.isApomorphy()
+        / ko ifnot: pr.isApomorphy()
         %option#species-option{   value: "species"   } Species
         %option#specimen-option{  value: "specimen"  } Specimen
         / /ko

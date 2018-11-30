@@ -103,6 +103,11 @@ function Phyloregnum(){
     //     }
     // }
 
+    this.invalidAuthors = function(a,b){
+        debugger;
+        return true;
+    }
+
     this.onCladeTypeClick = function(obj,event){
         debugger;
         'hi'
