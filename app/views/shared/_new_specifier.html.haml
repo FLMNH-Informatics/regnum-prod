@@ -24,6 +24,8 @@
       / ko if: pr.isApomorphy()
       %label{ for: "new_specifier_character_name" } Character name:
       %input#new_specifier_character_name.form-control{ type: "text", name: "specifier_character_name", data: { bind: "value: specifier_character_name" } }
+      %label{ for: "new_specifier_character_definition" } Character defintion:
+      %textarea#new_specifier_character_definition.form-control{ rows: 3, name: "specifier_character_defintion", data: { bind: "value: specifier_character_definition" } }
       / /ko
   .row
     / ko if: pr.isApomorphy()

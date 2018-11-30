@@ -29,6 +29,7 @@ function Phyloregnum(){
             'authors': pr.makeAuthors(specifier.authors),
             'specifier_kind': ko.observable(specifier.specifier_kind || ''),
             'specifier_character_name': ko.observable(specifier.specifier_character_name || ''),
+            'specifier_character_definition': ko.observable(specifier.specifier_character_definition || ''),
             'specifier_name': ko.observable(specifier.specifier_name || ''),
             'specifier_year': ko.observable(specifier.specifier_year || ''),
             'specifier_code': specifier.specifier_code || '',
@@ -44,7 +45,6 @@ function Phyloregnum(){
     }
 
     this.makeSpecifiers = function (specifiers) {
-        debugger;
         if (!specifiers) return ko.observableArray([])
         return ko.observableArray(specifiers.map(this.makeSpecifiers));
     }
@@ -79,29 +79,6 @@ function Phyloregnum(){
         if (!citations) return ko.observableArray([]);
         return ko.observableArray(citations.map(this.makeCitation));
     }
-
-    // this.getEmptyCitation = function(){
-    //     return {
-    //         'citation_type': ko.observable('book'),
-    //         'authors': ko.observableArray([self.makeAuthor()]),
-    //         'editors': ko.observableArray([self.makeAuthor()]),
-    //         'series_editors': ko.observableArray([self.makeAuthor()]),
-    //         'title': '',
-    //         'publisher': '',
-    //         'figure': '',
-    //         'year': '',
-    //         'edition': '',
-    //         'number': '',
-    //         'journal': '',
-    //         'city': '',
-    //         'volume': '',
-    //         'pages': '',
-    //         'keywords': '',
-    //         'isbn': '',
-    //         'doi': '',
-    //         'url': ''
-    //     }
-    // }
 
     this.invalidAuthors = function(a,b){
         debugger;
