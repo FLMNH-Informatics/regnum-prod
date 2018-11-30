@@ -227,6 +227,12 @@
         </div>
         <div class="row">
           <div class="form-group col-sm-12">
+            <label for="qualifying_clause_input">Qualifying Clause</label>
+            <textarea class="form-control" id="qualifying_clause_input" rows="3" data-bind="value: qualifying_clause" name="cladename[qualifying_clause]"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-12">
             <label>Primary Reference Phylogeny</label>
             <!-- ko ifnot: citations['primary_phylogeny'] -->
               <p class="form-contol-static help-block">
@@ -262,12 +268,6 @@
                 </p>
               <!-- /ko -->
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-12">
-            <label for="qualifying_clause_input">Qualifying Clause</label>
-            <textarea class="form-control" id="qualifying_clause_input" rows="3" data-bind="value: qualifying_clause" name="cladename[qualifying_clause]"></textarea>
           </div>
         </div>
       </div>
