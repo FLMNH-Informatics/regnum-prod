@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 #source 'https://github.com/mislav/will_paginate.git'
 
 gem 'rails', '~>4.2'#'4.1.16' #'4.0.13'#'4.0'#'3.2.21'#'3.1.12'#'3.0.3'
-gem 'bcrypt-ruby', :require => "bcrypt"
+gem 'bcrypt'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'htmlentities'
