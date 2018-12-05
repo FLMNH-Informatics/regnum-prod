@@ -26,6 +26,7 @@ gem "recaptcha", :require => "recaptcha/rails"
 gem 'rufus-scheduler'
 #gem 'meta_where'  RAILS 3.1.12 doesn't support
 gem 'activerecord-import'#, '~>0.2.0'
+gem 'activejob', '>= 4.2.11'
 # group :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
