@@ -436,7 +436,7 @@ function Phyloregnum(){
 
     this.author = {
         addAuthor: function(author_type, author, event){
-            var invalid_msg = "Please enter a first name and last name before adding an additional.";
+            var invalid_msg = "Please enter a last name before adding additional " + author_type + ".";
             if (pr.author.isValidAuthor(author)){
                 this[author_type].push(self.makeAuthor());
                 pr.author.markAllValid(jQuery(event.target).parents('.author'));
@@ -446,7 +446,7 @@ function Phyloregnum(){
         },
         removeAuthor: function(author_type, author, event){
             if (author_type == "author"){
-                var invalid_msg = "You must leave one remaining valid author. (First and last name required)";
+                var invalid_msg = "You must leave one remaining valid author. (Last name required)";
                 var invalid_remove = pr.submissionModel.authors().every(function(existing_author){
                     if (existing_author === author){ return true; }
                     return (existing_author.first_name.trim() === "" || existing_author.last_name.trim() === "");
@@ -464,14 +464,14 @@ function Phyloregnum(){
             }
 
         },
-        isValidAuthor: function ($author) {
-            if ($author.hasOwnProperty('first_name')){
-                return !($author.first_name().trim() === "" || $author.last_name().trim() === "")
-            }
+        isValidAuthor: function(author){
+            return author.last_name().trim() !== ''; },
+        isValidAuthorInput: function ($author) {
+            debugger;
             var $author_inputs = $author.find('input');
             return $author_inputs.toArray().every(function (el) {
                 var nameType = el.dataset.nameType;
-                return !((nameType === 'first' || nameType === 'last') && el.value.trim() === '')
+                return !(nameType === 'last' && el.value.trim() === '')
             })
         },
         markAllValid: function ($author) {
@@ -480,15 +480,13 @@ function Phyloregnum(){
         },
         markValid: function ($author){ $author.find('.author-validation-message').html(""); },
         validateAuthor: function ($author) {
-            if (this.isValidAuthor($author)){
+            if (this.isValidAuthorInput($author)){
                 this.markValid($author);
             }
         },
         initialize: function(author){
             var out = "";
-            if (author.first_name().trim().length === 0){
-                out += "Please update to include first name for author. "
-            }else{
+            if (author.first_name().trim().length !== 0){
                 out += author.first_name().trim()[0] + ". ";
             }
             if (author.middle_name() && author.middle_name().trim().length > 0)

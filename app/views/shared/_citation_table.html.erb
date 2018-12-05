@@ -14,8 +14,13 @@
           <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
       <% end %>
             <td class="odd-row" data-bind="text: citation_type"></td>
-            <td class="odd-row" style="max-width:200px" data-bind="text: title"></td>
-            <td class="odd-row" style="max-width:200px" data-bind="text: displayAuths"></td>
+            <td class="odd-row" style="max-width:200px" data-bind="attr: { title: title }">
+              <span data-bind="text: title"></span>
+              <span data-bind="ifnot: title, css: { 'has-error message': title().trim() === '' }" class="has-error message">Please update to include title.</span>
+            </td>
+            <td class="odd-row" style="max-width:200px" data-bind="attr: { title: displayAuths }">
+              <span data-bind="text: displayAuths, css: { 'has-error message': !authors().every(pr.author.isValidAuthor) }"></span>
+            </td>
             <td class="action-cell" data-bind="if: <%= include_actions %>">
               <button class="submit_button"
                       data-bind="click: function(citation, e){pr.ba.editCitation('<%= citation_for %>', citation, e)},
