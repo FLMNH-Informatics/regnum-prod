@@ -50,6 +50,10 @@ class MySubmissionController < ApplicationController
   #
   #
   ##
+  def check_name
+    render :json => Submission.includes(:user).where(:name => params[:name]), :include => { :user => { :only => [:first_name, :last_name, :email] } }
+  end
+
   def save
     id = params.delete(:submission_id) || 'new'
     if id == 'new'

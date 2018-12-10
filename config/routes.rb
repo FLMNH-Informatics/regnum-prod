@@ -27,6 +27,7 @@ Regnum::Application.routes.draw do
 
   match '/my_submission' => 'my_submission#index', :as => :my_submission, via: :get
   match '/my_submission/new' => 'my_submission#new', :as => :new, via: :get
+  match '/my_submission/check_name' => 'my_submission#check_name', :as => :check_name, via: :get
   match '/my_submission/template' => 'my_submission#template', :as => :template, via: :get
   match '/my_submission/add_attachment' => 'my_submission#add_attachment', :as => :add_attachment, via: :post
   match '/my_submission/view_attachment/:id' => 'my_submission#view_attachment', :as => :view_attachment, via: :get
