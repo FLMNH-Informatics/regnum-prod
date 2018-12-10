@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>  <%= controller.controller_name%> : <%= controller.action_name %></title>
+    <title>RegNum | <%= controller.controller_name.titleize %> : <%= controller.action_name.titleize %></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <%= stylesheet_link_tag 'tabs', 'basic', 'shared', 'display', 'jquery-ui-humanity', 'cladename', 'autocomplete','characters' %>
     <!-- include customized style sheets for each controller if they exist -->
@@ -25,7 +25,7 @@
     <% if FileTest.exists?("public/javascripts/#{controller.controller_name}.js") %>
       <%= javascript_include_tag controller.controller_name %>
     <% end %>
-
+    <script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
     <%= csrf_meta_tag %>
     <%= javascript_tag "var AUTH_TOKEN = '#{form_authenticity_token}';" if protect_against_forgery? %>
   </head>
