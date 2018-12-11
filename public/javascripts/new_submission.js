@@ -21,6 +21,14 @@ jQuery(document).ready(function () {
             reason: ko.observable(""),
         };
 
+        self.optOutValid = function(){
+            return !(self.new_submission['opt-out']()) || (self.new_submission.reason().trim().length > 0);
+        };
+
+        self.isValid = ko.computed(function() {
+            return (self.optOutValid() && self.new_submission.name().trim().length > 0);
+        }, this);
+
         self.checkSubmission = function(){
             debugger;
             jQuery.getJSON("my_submission/check_name", self.new_submission)
@@ -31,6 +39,7 @@ jQuery(document).ready(function () {
                         self.existing_submissions(existing_submissions);
                         return;
                     }
+                    self.existing_submissions([]);
                     self.submitNewSubmission();
                 });
         };
