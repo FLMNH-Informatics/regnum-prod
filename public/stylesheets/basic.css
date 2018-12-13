@@ -401,8 +401,9 @@ span.required{
     border-radius:4px;
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
-    margin:5% auto;
-    width:340px;
+    margin: 5% 10%;
+    float: left;
+    width:600px;
 }
 #clade_content{
     margin:10px;
@@ -810,7 +811,8 @@ input[type="submit"] {
 }
 button[disabled],
 html input[disabled] {
-    cursor: default;
+    /*cursor: default;*/
+    cursor: not-allowed;
 }
 button::-moz-focus-inner,
 input::-moz-focus-inner {
@@ -1643,7 +1645,8 @@ fieldset[disabled] .form-control {
     opacity: 1;
 }
 .form-control[disabled],
-fieldset[disabled] .form-control {
+fieldset[disabled] .form-control,
+input[type="button"][disabled]{
     cursor: not-allowed;
 }
 textarea.form-control {
@@ -1925,6 +1928,7 @@ select[multiple].input-lg {
     color: #8a6d3b;
 }
 .has-error .help-block,
+.has-error.help-block,
 .has-error .control-label,
 .has-error .radio,
 .has-error .checkbox,
@@ -2063,6 +2067,33 @@ table .has-error.message{
 Bootstrap override
  */
 
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
 .form-control {
     height: 24px;
     padding-top: 5px;
@@ -2076,4 +2107,13 @@ Bootstrap override
 
 label{
     margin-bottom: 1px;
+}
+.container:before, .row:before {
+    display: table;
+    content: " ";
+    box-sizing: border-box;
+}
+.row:after, .container:before{
+    clear: both;
+    box-sizing: border-box;
 }

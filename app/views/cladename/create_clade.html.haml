@@ -24,7 +24,26 @@
   / /ko
   / ko if: existing_submissions().length > 0
   .col-sm-12.form-group
-    More than one
+    %p.help-block.text-warning
+      %b Warning:
+      The name you're creating already exists in RegNum, with the submitter information:
+    %table
+      %thead
+        %th Name
+        %th Submitter
+        %th Submitter email
+      %tbody{ data: { bind: 'foreach: existing_submissions' } }
+        %td{ data: { bind: 'text: name' } }
+        %td{ data: { bind: 'text: submitter.fullname' } }
+        %td
+          %a{ data: { bind: 'text: submitter.email, attr: { href: "mailto: " + submitter.email }' } }
+  .col-sm-12.form-group
+    %label
+      %input{ type: 'checkbox', name: 'acceptDuplicate', data: { bind: 'checked: acceptDuplicate' } }
+      I understand, proceed with name as entered.
+    / ko ifnot: duplicateValid()
+    .help-block.has-error Please acknowledge a submission with the same name already exists.
+    / /ko
   / /ko
   .col-sm-12.form-group
     %input#create_button.btn.btn-default.submit_button.col-md-6{ value: 'create', type: 'submit', data: { bind: 'enable: isValid' } }
