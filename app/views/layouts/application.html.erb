@@ -3,7 +3,7 @@
   <head>
     <title>RegNum | <%= controller.controller_name.titleize %> : <%= controller.action_name.titleize %></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <%= stylesheet_link_tag 'tabs', 'basic', 'shared', 'display', 'jquery-ui-humanity', 'cladename', 'autocomplete','characters' %>
+    <%= stylesheet_link_tag 'tabs', 'basic', 'shared', 'display', 'cladename', 'autocomplete','characters' %>
     <!-- include customized style sheets for each controller if they exist -->
     <% if FileTest.exists?("public/stylesheets/#{controller.controller_name}.css") %>
       <%= stylesheet_link_tag controller.controller_name %>

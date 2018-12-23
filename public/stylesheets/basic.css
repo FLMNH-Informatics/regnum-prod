@@ -2117,3 +2117,16 @@ label{
     clear: both;
     box-sizing: border-box;
 }
+
+#existing_submissions th{
+    text-align: left;
+}
+
+#existing_submissions td,
+#existing_submissions th{
+    min-width: 75px;
+}
+
+.red{ color: darkred; }
+.green{ color: green; }
+.mtformicon{ margin-top: 15px; }

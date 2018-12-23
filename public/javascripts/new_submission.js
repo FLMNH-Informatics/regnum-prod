@@ -15,11 +15,32 @@ jQuery(document).ready(function () {
         var self = this;
         self.existing_submissions = ko.observableArray([]);
         self.acceptDuplicate = ko.observable(false);
+        self.checkingName = ko.observable(false);
+        self.nameUnique = ko.observable(true);
         self.new_submission = {
-            name:           ko.observable(""),
-            'opt-out':        ko.observable(false),
-            reason: ko.observable(""),
+            name:       ko.observable(""),
+            'opt-out':  ko.observable(false),
+            reason:     ko.observable(""),
         };
+
+
+        self.new_submission.name.subscribe(function(newValue){
+            self.checkingName(true);
+            jQuery.getJSON("my_submission/check_name", { 'name': newValue })
+                .done( function(data){
+                    if (data.length !== 0){
+                        var existing_submissions = jQuery.map(data, function(submission){ return new Submission(submission) });
+                        self.existing_submissions(existing_submissions);
+                        self.nameUnique(false);
+                        self.checkingName(false);
+                        return;
+                    }
+                    self.existing_submissions([]);
+                    self.acceptDuplicate(false);
+                    self.nameUnique(true);
+                    self.checkingName(false);
+                })
+        });
 
         self.optOutValid = function(){
             return !(self.new_submission['opt-out']()) || (self.new_submission.reason().trim().length > 0);
@@ -38,19 +59,6 @@ jQuery(document).ready(function () {
                 && self.nameValid()
                 && self.duplicateValid();
         }, this);
-
-        self.checkSubmission = function(){
-            jQuery.getJSON("my_submission/check_name", self.new_submission)
-                .done(function(data){
-                    if (data.length !== 0){
-                        var existing_submissions = jQuery.map(data, function(submission){ return new Submission(submission) });
-                        self.existing_submissions(existing_submissions);
-                        return;
-                    }
-                    self.existing_submissions([]);
-                    self.submitNewSubmission();
-                });
-        };
 
         self.submitNewSubmission = function(){
             jQuery.post('/save', self.new_submission)
