@@ -2131,6 +2131,11 @@ label{
     min-width: 75px;
 }
 
+#existing_submissions td>span,
+#existing_submissions th>span{
+    margin-right: 0.5em;
+}
+
 .red{ color: darkred; }
 .green{ color: green; }
 .mtformicon{ margin-top: 15px; }

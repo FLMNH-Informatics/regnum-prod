@@ -31,7 +31,8 @@
       %tbody{ data: { bind: 'foreach: existing_submissions' } }
         %td
           %em{ data: { bind: 'text: name' } }
-        %td{ data: { bind: 'text: submitter.fullname' } }
+        %td
+          %span{ data: { bind: 'text: submitter.fullname' } }
         %td
           %a{ data: { bind: 'text: submitter.email, attr: { href: "mailto: " + submitter.email }' } }
   .col-sm-12.form-group
