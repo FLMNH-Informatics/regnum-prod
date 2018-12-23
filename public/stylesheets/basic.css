@@ -2118,6 +2118,10 @@ label{
     box-sizing: border-box;
 }
 
+#existing_submissions{
+    margin-left: 5em;
+}
+
 #existing_submissions th{
     text-align: left;
 }
