@@ -8,7 +8,8 @@
       -@subs.each do |sub|
         -id = (sub.status.returned? || sub.status.unsubmitted?) ? sub.id.to_s : sub.id.to_s + '_locked'
         %tr{:class => cycle('odd-row','even-row'), :id => id, }
-          %td= sub.name
+          %td
+            %em= sub.name
           %td= sub.status.status    
           %td{ :style => 'width:40px'}
             =form_for sub, :url => '/search/'+ sub.id.to_s, :method => :get do |s|
