@@ -1,10 +1,10 @@
 //add some useful phunkshuns to jq namespace
 jQuery(document).ajaxSend(function(event, request, settings) {
     if ( settings.type != 'GET' && settings.url != '/my_submission/add_attachment') {
-        if (settings.contentType === "application/json" && settings.dataType === 'json')
+        if (settings.contentType === "application/json")
             settings.data = JSON.stringify( Object.assign( JSON.parse(settings.data), { "authenticity_token": AUTH_TOKEN } ) );
         else
-            settings.data = (settings.data ? settings.data + "&" : "") + "authenticity_token=" + encodeURIComponent( AUTH_TOKEN );
+			settings.data = (settings.data ? settings.data + "&" : "") + "authenticity_token=" + encodeURIComponent( AUTH_TOKEN );
     }
 });
 //extend number class to make temp id function
