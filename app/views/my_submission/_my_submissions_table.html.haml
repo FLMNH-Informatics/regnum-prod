@@ -23,6 +23,6 @@
               =form_for sub, :method => :delete, :url => '/my_submission/delete/'+ sub.id.to_s do |s|
                 %input.submit_button{:type => 'submit', :value => 'delete', :title => 'click to delete'}
       %tr
-        %td{:colspan => 5, :style => 'text-align:center;border:none'}= will_paginate(@subs, :renderer => RemoteLinkRenderer, :container => false,          :params => {:controller => :my_submission, :action => nil}) 
+        %td{:colspan => 5, :style => 'text-align:center;border:none'}= will_paginate(@subs, :renderer => RemoteLinkRenderer, :container => false, :params => {:controller => :my_submission, :action => nil})
       %tr
         %td{:colspan => 5, :style => 'text-align:center;border:none'}= page_entries_info @subs, {:model => 'clade names'}
