@@ -38,12 +38,12 @@ class Submission < ActiveRecord::Base
   #scope :approved, where(:status_id => Status.where(:status => 'approved').first.id)
   
   def temp_id
-    #registration number for users
-    #number is based on table primary key just with padding up to 9 numbers
-    "#{self.id.to_s.rjust(10,'0')}"
+    #reverting to just plain id, see issue #89
+    self.id
   end
 
   def registration_number
+    #reverting to just plain id, see issue #89
     temp_id
   end
 

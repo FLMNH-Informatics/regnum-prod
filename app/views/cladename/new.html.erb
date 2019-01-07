@@ -16,11 +16,11 @@
   <div id="new-cladename-content">
 
     <div id="tab1-div" class="container-fluid">
-        <div class="form-group col-sm-12">
-          <label for="new_name">Clade Name:</label>
-          <input data-bind="value: name" type="text" id="new_name" name="cladename[name]" value="" class="value-input form-control"/>
-          &nbsp;&nbsp;<span id="status"></span></td>
-        </div>
+      <div class="form-group col-sm-12">
+        <label for="new_name">Clade Name:</label>
+        <input data-bind="value: name" type="text" id="new_name" name="cladename[name]" value="" class="value-input form-control"/>
+        &nbsp;&nbsp;<span id="status"></span></td>
+      </div>
       <div class="form-group col-sm-12">
         <label>Definitional Author(s)</label>
         <div>
@@ -30,19 +30,21 @@
       <div class="form-group col-sm-12">
         <label>Definitional Citation</label>
         <!-- ko ifnot: citations['definitional'] -->
-          <p class="form-contol-static help-block">
-            <em>Please add a reference</em>
-            <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('definitional', d.citations.definitional, e) }">Add reference</button>
-          </p>
+        <p class="form-contol-static help-block">
+          <em>Please add a reference</em>
+          <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('definitional', d.citations.definitional, e) }">Add
+            reference
+          </button>
+        </p>
         <!-- /ko -->
         <!-- ko if: citations['definitional'] -->
-          <%= render 'shared/citation_table', {
-              citation: "citations.definitional",
-              citation_for: "definitional",
-              include_actions: true,
-              is_single: true } %>
+        <%= render 'shared/citation_table', {
+            citation:        "citations.definitional",
+            citation_for:    "definitional",
+            include_actions: true,
+            is_single:       true } %>
         <!-- /ko -->
-      </div >
+      </div>
       <div class="form-group col-sm-12">
         <div id="new-preexisting-box" class="">
           <strong>
@@ -67,16 +69,18 @@
               <div class="form-group col-sm-12">
                 <label>Nominal Author(s):</label>
                 <!-- ko ifnot: citations['preexisting'] -->
-                  <p class="form-contol-static help-block">
-                    <em>Please add a reference</em>
-                    <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('preexisting', d.citations.preexisting, e) }">Add reference</button>
-                  </p>
+                <p class="form-contol-static help-block">
+                  <em>Please add a reference</em>
+                  <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('preexisting', d.citations.preexisting, e) }">Add
+                    reference
+                  </button>
+                </p>
                 <!-- /ko -->
                 <!-- ko if: citations['preexisting'] -->
-                  <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting', d.citations.preexisting, e); }"
-                     href="#"
-                     id="new-primary-phylogeny-reference-add">[Edit reference]</a>
-                  <p class="form-control-static" data-bind="text: citations['preexisting'].displayAuths"></p>
+                <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting', d.citations.preexisting, e); }"
+                   href="#"
+                   id="new-primary-phylogeny-reference-add">[Edit reference]</a>
+                <p class="form-control-static" data-bind="text: citations['preexisting'].displayAuths"></p>
                 <!-- /ko -->
               </div>
             </div>
@@ -99,7 +103,8 @@
             <label for="new_type">Definition Type:</label>
             <select data-bind="value: clade_type, event: { change: pr.onCladeTypeChange }" name="cladename[clade_type]" id="new_type" class="value-input form-control">
               <option value="minimum-clade_standard">Minimum Clade - Standard</option>
-              <option value="minimum-clade_directly_specified_ancestor">Minimum Clade - Directly Specified Ancestor <span class="required">(Rare)</span></option>
+              <option value="minimum-clade_directly_specified_ancestor">Minimum Clade - Directly Specified Ancestor
+                <span class="required">(Rare)</span></option>
               <option value="maximum-clade_standard">Maximum Clade - Standard</option>
               <option value="apomorphy-based_standard">Apomorphy Based - Standard</option>
               <option value="minimum-crown-clade">Minimum Crown Clade</option>
@@ -109,27 +114,33 @@
               <option value="crown-based_total_clade">Crown Based - Total Clade</option>
             </select>
             <div id="definition_type_definitions" class="help-block" style="">
-              <p id="minimum-clade_standard_def" style="" >A minimum-clade definition associates a name
+              <p id="minimum-clade_standard_def" style="">A minimum-clade definition associates a name
                 with the smallest clade that contains two or more internal specifiers. Specifiers can
                 be species or specimens.</p>
-              <p id="minimum-clade_directly_specified_ancestor_def" style="display: none;" >A directly-specified-ancestor definition is a special case of
+              <p id="minimum-clade_directly_specified_ancestor_def" style="display: none;">A directly-specified-ancestor
+                definition is a special case of
                 the minimum-clade definition in which the ancestor in which the clade originated is
                 specified directly rather than indirectly through its descendants.</p>
-              <p id="maximum-clade_standard_def" style="display: none;" >A maximum-clade associates a name with the largest clade
+              <p id="maximum-clade_standard_def" style="display: none;">A maximum-clade associates a name with the
+                largest clade
                 that contains one or more internal specifiers but does not contain one or more
                 external specifiers.</p>
-              <p id="apomorphy-based_standard_def" style="display: none;" >An apomorphy-based definition associates a name with a
+              <p id="apomorphy-based_standard_def" style="display: none;">An apomorphy-based definition associates a
+                name with a
                 clade originating in the first ancestor to evolve a specified apomorphy that was
                 inherited by one or more internal specifiers.</p>
-              <p id="minimum-crown-clade_def" style="display: none;" >A minimum crown clade definition is a minimum clade
+              <p id="minimum-crown-clade_def" style="display: none;">A minimum crown clade definition is a minimum clade
                 where all of the internal specifiers are extant.</p>
-              <p id="maximum-crown-clade_def" style="display: none;" >A maximum crown clade definition is a maximum clade
+              <p id="maximum-crown-clade_def" style="display: none;">A maximum crown clade definition is a maximum clade
                 where at least one of the internal specifiers are extant.</p>
-              <p id="apomorphy-modified_crown_clade_def" style="display: none;" >An apomorphy-modified-crown clade is a minimum-clade
+              <p id="apomorphy-modified_crown_clade_def" style="display: none;">An apomorphy-modified-crown clade is a
+                minimum-clade
                 modified by the use of an apomorphy to define the name of a crown clade.</p>
-              <p id="maximum-total-clade_def" style="display: none;" >A maximum total-clade definition is maximum clade where
+              <p id="maximum-total-clade_def" style="display: none;">A maximum total-clade definition is maximum clade
+                where
                 least one of the internal specifiers and all of the external specifiers are extant.</p>
-              <p id="crown-based_total_clade_def" style="display: none;" >A crown based total clade is the total clade of a crown
+              <p id="crown-based_total_clade_def" style="display: none;">A crown based total clade is the total clade of
+                a crown
                 clade</p>
             </div>
           </div>
@@ -138,71 +149,75 @@
           <div class="form-group col-sm-12" id="specifiers-table-holder">
             <label>Clade Specifiers</label>
             <!-- ko if: specifiers().length > 0 -->
-              <table id="specifiers-table" class="specifiers-table sortable-table form-control-static">
-                <thead data-bind="ifnot: pr.isApomorphy()">
-                  <th style="width:100px">Type</th>
-                  <th style="width:200px">Kind</th>
-                  <th style="width:200px">Name</th>
-                  <th style="width:200px">Author(s)</th>
-                  <th>Publication Year</th>
-                </thead>
-                <thead data-bind="if: pr.isApomorphy()">
-                  <th>Apomorphy Character</th>
-                  <th>Character definition</th>
-                  <th>Author(s)</th>
-                  <th>Publication Year</th>
-                </thead>
-                <tbody data-bind="foreach: specifiers()">
-                  <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
-                    <!-- ko ifnot: pr.isApomorphy() -->
-                      <td>
-                        <span data-bind="text: specifier_type"></span>
-                        <span data-bind="ifnot: specifier_type, css: { 'has-error message': specifier_type() == '' }">Please edit to make a selection.</span>
-                      </td>
-                      <td>
-                        <span data-bind="text: specifier_kind"></span>
-                        <span data-bind="ifnot: specifier_kind, css: { 'has-error message': specifier_kind() == '' }">Please edit to make a selection.</span>
-                      </td>
-                      <td>
-                        <span data-bind="text: specifier_name"></span>
-                        <span data-bind="ifnot: specifier_name, css: { 'has-error message': specifier_name() == '' }">Please enter a specifier name.</span>
-                      </td>
-                    <!-- /ko -->
-                    <!-- ko if: pr.isApomorphy() -->
-                      <td>
-                        <span data-bind="ifnot: specifier_character_name, css: {'has-error message': specifier_character_name() == ''}">Please enter a character name</span>
-                        <span data-bind="text: specifier_character_name"></span> <span data-bind="if: specifier_character_name && specifier_name">as displayed in</span> <i data-bind="text: specifier_name"></i>
-                        <span data-bind="ifnot: specifier_name, css: {'has-error message': specifier_name() == ''}">Please enter a Taxon name</span>
-                      </td>
-                      <td data-bind="attr: { title: specifier_character_definition }">
-                        <span data-bind="text: specifier_character_definition"></span>
-                        <span data-bind="ifnot: specifier_character_definition, css: { 'has-error message': specifier_character_definition() == '' }">Please enter a character definition</span>
-                      </td>
-                    <!-- /ko -->
-                   <td data-bind="attr: { title: displayAuths }">
-                     <span data-bind="text: displayAuths, css: { 'has-error message': displayAuths().includes('Please update') }"></span>
-                   </td>
-                   <td>
-                     <span data-bind="text: specifier_year"></span>
-                     <span data-bind="ifnot: specifier_year, css: { 'has-error message': specifier_year() == '' }">Please enter a publication year.</span>
-                   </td>
-                   <td class="action-cell">
-                     <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="Edit"/>&nbsp;
-                     <input class="submit_button" data-bind="click: pr.ba.deleteSpecifier" type="button" value="Delete"/>
-                   </td>
-                 </tr>
-                </tbody>
+            <table id="specifiers-table" class="specifiers-table sortable-table form-control-static">
+              <thead data-bind="ifnot: pr.isApomorphy()">
+              <th style="width:100px">Type</th>
+              <th style="width:200px">Kind</th>
+              <th style="width:200px">Name</th>
+              <th style="width:200px">Author(s)</th>
+              <th>Publication Year</th>
+              </thead>
+              <thead data-bind="if: pr.isApomorphy()">
+              <th>Apomorphy Character</th>
+              <th>Character definition</th>
+              <th>Author(s)</th>
+              <th>Publication Year</th>
+              </thead>
+              <tbody data-bind="foreach: specifiers()">
+              <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
+                <!-- ko ifnot: pr.isApomorphy() -->
+                <td>
+                  <span data-bind="text: specifier_type"></span>
+                  <span data-bind="ifnot: specifier_type, css: { 'has-error message': specifier_type() == '' }">Please edit to make a selection.</span>
+                </td>
+                <td>
+                  <span data-bind="text: specifier_kind"></span>
+                  <span data-bind="ifnot: specifier_kind, css: { 'has-error message': specifier_kind() == '' }">Please edit to make a selection.</span>
+                </td>
+                <td>
+                  <span data-bind="text: specifier_name"></span>
+                  <span data-bind="ifnot: specifier_name, css: { 'has-error message': specifier_name() == '' }">Please enter a specifier name.</span>
+                </td>
+                <!-- /ko -->
+                <!-- ko if: pr.isApomorphy() -->
+                <td>
+                  <span data-bind="ifnot: specifier_character_name, css: {'has-error message': specifier_character_name() == ''}">Please enter a character name</span>
+                  <span data-bind="text: specifier_character_name"></span>
+                  <span data-bind="if: specifier_character_name && specifier_name">as displayed in</span>
+                  <i data-bind="text: specifier_name"></i>
+                  <span data-bind="ifnot: specifier_name, css: {'has-error message': specifier_name() == ''}">Please enter a Taxon name</span>
+                </td>
+                <td data-bind="attr: { title: specifier_character_definition }">
+                  <span data-bind="text: specifier_character_definition"></span>
+                  <span data-bind="ifnot: specifier_character_definition, css: { 'has-error message': specifier_character_definition() == '' }">Please enter a character definition</span>
+                </td>
+                <!-- /ko -->
+                <td data-bind="attr: { title: displayAuths }">
+                  <span data-bind="text: displayAuths, css: { 'has-error message': displayAuths().includes('Please update') }"></span>
+                </td>
+                <td>
+                  <span data-bind="text: specifier_year"></span>
+                  <span data-bind="ifnot: specifier_year, css: { 'has-error message': specifier_year() == '' }">Please enter a publication year.</span>
+                </td>
+                <td class="action-cell">
+                  <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="Edit"/>&nbsp;
+                  <input class="submit_button" data-bind="click: pr.ba.deleteSpecifier" type="button" value="Delete"/>
+                </td>
+              </tr>
+              </tbody>
               <!-- /ko -->
-              </table>
-              <div class="table-controls">
-                <button data-bind="click: pr.ba.addSpecifier" type="button" class="submit_button mw-25">Add specifier</button>
-              </div>
+            </table>
+            <div class="table-controls">
+              <button data-bind="click: pr.ba.addSpecifier" type="button" class="submit_button mw-25">Add specifier
+              </button>
+            </div>
             <!-- /ko -->
             <!-- ko ifnot: specifiers().length > 0 -->
-              <p class="help-block form-control-static">
-                <em>Please add a specifier</em>
-                <button data-bind="click: pr.ba.addSpecifier" type="button" class="submit_button mw-25">Add specifier</button>
-              </p>
+            <p class="help-block form-control-static">
+              <em>Please add a specifier</em>
+              <button data-bind="click: pr.ba.addSpecifier" type="button" class="submit_button mw-25">Add specifier
+              </button>
+            </p>
             <!-- /ko -->
 
           </div>
@@ -235,17 +250,19 @@
           <div class="form-group col-sm-12">
             <label>Primary Reference Phylogeny</label>
             <!-- ko ifnot: citations['primary_phylogeny'] -->
-              <p class="form-contol-static help-block">
-                <em>Please add a reference</em>
-                <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('primary_phylogeny', d.citations.primary_phylogeny, e) }">Add reference</button>
-              </p>
+            <p class="form-contol-static help-block">
+              <em>Please add a reference</em>
+              <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('primary_phylogeny', d.citations.primary_phylogeny, e) }">Add
+                reference
+              </button>
+            </p>
             <!-- /ko -->
             <!-- ko if: citations['primary_phylogeny'] -->
-              <%= render 'shared/citation_table', {
-                  citation: "citations.primary_phylogeny",
-                  citation_for: "primary_phylogeny",
-                  include_actions: true,
-                  is_single: true } %>
+            <%= render 'shared/citation_table', {
+                citation:        "citations.primary_phylogeny",
+                citation_for:    "primary_phylogeny",
+                include_actions: true,
+                is_single:       true } %>
             <!-- /ko -->
           </div>
         </div>
@@ -254,18 +271,20 @@
             <label>Additional Reference Phylogenies</label>
             <div id="phylo-citations" class="citations-table">
               <!-- ko if: citations.phylogeny().length > 0 -->
-                <%= render 'shared/citation_table', {
-                      is_single: false,
-                      include_actions: true,
-                      citation_for: "phylogeny",
-                      citation: "citations.phylogeny.currentPageData",
-                      include_pagination: true } %>
+              <%= render 'shared/citation_table', {
+                  is_single:          false,
+                  include_actions:    true,
+                  citation_for:       "phylogeny",
+                  citation:           "citations.phylogeny.currentPageData",
+                  include_pagination: true } %>
               <!-- /ko -->
               <!-- ko ifnot: citations.phylogeny().length > 0 -->
-                <p class="help-block form-control-static">
-                  <em>No additional reference phylogenies</em>
-                  <button class="submit_button" data-bind="click: function(d,e){ pr.ba.addCitation('phylogeny', d.citations.phylogeny, e); }">Add reference</button>
-                </p>
+              <p class="help-block form-control-static">
+                <em>No additional reference phylogenies</em>
+                <button class="submit_button" data-bind="click: function(d,e){ pr.ba.addCitation('phylogeny', d.citations.phylogeny, e); }">Add
+                  reference
+                </button>
+              </p>
               <!-- /ko -->
             </div>
           </div>
@@ -273,32 +292,31 @@
       </div>
 
 
-
-          <!--<p>Reference for Phylogenetic Definition Citation:</p>-->
-          <!--<div class="citations-table" id="def-citation">-->
-            <!--<table class="sortable-table" id="description">-->
-              <!--<thead>-->
-              <!--<tr style="background-color:white;">-->
-                <!--<th style="width:200px;">Author(s)</th>-->
-                <!--<th>Year</th>-->
-                <!--<th style="width:200px;">Type</th>-->
-                <!--<th style="width:200px;">Title</th>-->
-                <!--<th colspan="2">actions</th>-->
-              <!--</tr>-->
-              <!--</thead>-->
-              <!--<tbody data-bind="foreach: citations.description">-->
-              <!--<tr id="clade-citation" class="odd-row">-->
-                <!--<td style="max-width:200px" data-bind="text: authors"></td>-->
-                <!--<td data-bind="text: year"></td>-->
-                <!--<td data-bind="text: citation_type"></td>-->
-                <!--<td style="max-width:200px" data-bind="text: title"></td>-->
-                <!--<td>-->
-                  <!--<input data-bind="click: function(d,e){pr.ba.editCitation('description',d,e)}" type="button" class="def-citation submit_button edit" value="edit"/>-->
-                <!--</td>-->
-              <!--</tr>-->
-              <!--</tbody>-->
-            <!--</table>-->
-          <!--</div>-->
+      <!--<p>Reference for Phylogenetic Definition Citation:</p>-->
+      <!--<div class="citations-table" id="def-citation">-->
+      <!--<table class="sortable-table" id="description">-->
+      <!--<thead>-->
+      <!--<tr style="background-color:white;">-->
+      <!--<th style="width:200px;">Author(s)</th>-->
+      <!--<th>Year</th>-->
+      <!--<th style="width:200px;">Type</th>-->
+      <!--<th style="width:200px;">Title</th>-->
+      <!--<th colspan="2">actions</th>-->
+      <!--</tr>-->
+      <!--</thead>-->
+      <!--<tbody data-bind="foreach: citations.description">-->
+      <!--<tr id="clade-citation" class="odd-row">-->
+      <!--<td style="max-width:200px" data-bind="text: authors"></td>-->
+      <!--<td data-bind="text: year"></td>-->
+      <!--<td data-bind="text: citation_type"></td>-->
+      <!--<td style="max-width:200px" data-bind="text: title"></td>-->
+      <!--<td>-->
+      <!--<input data-bind="click: function(d,e){pr.ba.editCitation('description',d,e)}" type="button" class="def-citation submit_button edit" value="edit"/>-->
+      <!--</td>-->
+      <!--</tr>-->
+      <!--</tbody>-->
+      <!--</table>-->
+      <!--</div>-->
     </div><!-- end tab4-div -->
 
     <div id="save-and-reference" class="container-fluid">
@@ -308,8 +326,8 @@
           <p class="form-control-static" data-bind="text: name_string" id="new_name_string"></p>
         </div>
         <div class="form-group col-sm-12">
-          <label>Registration Number :</label>
-          <p class="form-control-static temp-id"></p>
+          <label>Registration Number:</label>
+          <p class="form-control-static" data-bind="text: id"></p>
         </div>
       </div>
     </div>
@@ -331,7 +349,7 @@
 
   </div>
 </div>
-<div  style="margin-left:30px; margin-bottom: 20px; float:left;clear:both;max-width:800px;min-width:600px;" id="new-cladename-save-submit">
+<div style="margin-left:30px; margin-bottom: 20px; float:left;clear:both;max-width:800px;min-width:600px;" id="new-cladename-save-submit">
   <input type="button" value="Save" class="button" style="border:1px solid #999"/>&nbsp;&nbsp;<input style="border:1px solid #999" type="button" value="Submit for review" class="button"/>
 </div>
 <div style="margin-left:30px;float:left;clear:both;max-width:800px;min-width:600px;">

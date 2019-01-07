@@ -419,10 +419,9 @@ function Phyloregnum(){
                     pr.submissionModel[k]('');
                 }
             })
-            ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'))
-            jQuery('.temp-id').html(parseInt(id).pad(10));
-            jQuery.loadWidgets('#contents')
-            jQuery('#modal-message-window').dialog('destroy')
+            ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'));
+            jQuery.loadWidgets('#contents');
+            jQuery('#modal-message-window').dialog('destroy');
         })
         return false
     }
