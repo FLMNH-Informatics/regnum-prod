@@ -3,15 +3,14 @@ class Submission < ActiveRecord::Base
   self.table_name = "submissions"
   self.inheritance_column = false
 
-  attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations
-  attr_accessor :status_comments #editors comments for status changes
-
-  has_many :submission_citation_attachments
-
   belongs_to :status
   has_many :status_changes
   belongs_to :user, :foreign_key => :submitted_by
-  
+  has_many :submission_citation_attachments
+
+  attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by
+  attr_accessor :status_comments #editors comments for status changes
+
   #scope :submitted, where("status_id <> 4")
   #scope :approved, where("status_id = 4")
   @current_time = Time.now
@@ -31,9 +30,7 @@ class Submission < ActiveRecord::Base
   serialize :citations, Hash
   serialize :specifiers, Array
   
-  # scope :opt_in, where(:establish => true)
   scope :opt_in, -> { where(establish: true) }
-  # scope :opt_out, where(:establish => false)
   scope :opt_out, -> { where(establish: false) }
   #scope :approved, where(:status_id => Status.where(:status => 'approved').first.id)
   
@@ -58,6 +55,26 @@ class Submission < ActiveRecord::Base
   
   def submitted_by_user?(current_user_id)
     self.submitted_by == current_user_id
+  end
+
+  def self.handle_save params
+    submission = Submission.find(params[:submission_id])
+    submission.citations           = params[:citations] if params.has_key?(:citations)
+    submission.specifiers          = params[:specifiers] if params.has_key?(:specifiers)
+    submission.preexisting         = params[:preexisting] == 'null' ? false : params[:preexisting]
+    submission.comments            = params[:comments]
+    submission.preexisting_authors = params[:preexisting_authors]
+    submission.preexisting_code    = params[:preexisting_code]
+    submission.clade_type          = params[:clade_type]
+    submission.definition          = params[:definition]
+    submission.name                = params[:name]
+    submission.authors             = params[:authors]
+    submission.name_string         = params[:name_string]
+    submission.qualifying_clause   = params[:qualifying_clause]
+    submission.abbreviation        = HTMLEntities.new.decode(params[:abbreviation])
+    submission.status_id           = Status.find_by_status('submitted').id if params[:subaction] == 'submit'
+    submission.save!
+    submission
   end
 
   private

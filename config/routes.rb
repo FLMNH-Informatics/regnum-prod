@@ -14,7 +14,8 @@ Regnum::Application.routes.draw do
   #don't see this anywhere
   # match '/accepted' => 'my_submission#accepted', :as => :accepted
   match '/cladename' => 'my_submission#cladename', :as => :cladename, via: [:get, :post]
-  match '/save' => 'my_submission#save', :as => :save, via: [:get, :post]
+  match '/save' => 'my_submission#save', :as => :save, via: :post
+  match '/create' => 'my_submission#create', as: 'create', via: :post
   
   match '/faq' => 'application#faq', :as => :faq, via: :get
 
