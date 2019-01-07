@@ -10,8 +10,14 @@
           %option{ value: "book_section" } Book Section
     .row
       .form-group.col-sm-12
-        %label{ for: "title", data: { bind: "text: citation_type() == 'journal' ? 'Article Title' : 'Title' " } }
+        %label{ for: "title", data: { bind: "text: citation_type() == 'journal' ? 'Article Title' : 'Book Title' " } }
         %input#title{ type: "text", class: "form-control", data: { bind: "value: title" } }
+    / ko if: citation_type() == 'book_section'
+    .row
+      .form-group.col-sm-12
+        %label{ for: "section-title" } Section Title
+        %input#section-title{ type: "text", class: "form-control", data: { bind: "value: section_title" } }
+    / /ko
     .row{ data: { bind: "if: citation_type() == 'journal'" } }
       .form-group.col-sm-12
         %label{ for: "journal" } Journal

@@ -57,6 +57,7 @@ function Phyloregnum(){
             'editors':          pr.makeAuthors(citation.editors),
             'series_editors':   pr.makeAuthors(citation.series_editors),
             'title':            ko.observable(citation.title || ''),
+            'section_title':    ko.observable(citation.section_title || ''),
             'publisher':        citation.publisher || '',
             'figure':           citation.figure || '',
             'year':             ko.observable(citation.year || ''),
