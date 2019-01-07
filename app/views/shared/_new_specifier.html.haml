@@ -65,8 +65,10 @@
     .form-group.col-sm-12
       %label{ for: "new_specifier_description" } Description
       %textarea#new_specifier_description.form-control{ name: "specifier_description", rows: "5", cols: 50, data: { bind: "value: specifier_description" } }
-
     / /ko
+    .form-group.col-sm-12
+      %label{ for: 'new_specifier_url' } Specifier URL
+      %input.form-control{ type: 'url', data: { bind: "value: specifier_url" } }
   .row
     .form-group.col-sm-4
       %label{ for: "new_ubio_id" } UBIO ID:
