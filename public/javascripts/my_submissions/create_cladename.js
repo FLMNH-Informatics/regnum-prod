@@ -1,11 +1,23 @@
 //define phyloregnum object/namespace
 // 
 function Phyloregnum(){
-    var self = this
+    var self = this;
 
-    this.objIsEmpty = function(obj){ return Object.keys(obj).length === 0 && obj.constructor === Object }
+    function Submission(submission) {
+        function Submitter(user) {
+            var self = this;
+            self.fullname = user.first_name + ' ' + user.last_name;
+            self.email = user.email;
+        }
 
-    this.makeAuthor = function(author){
+        var self = this;
+        self.name = submission.name
+        self.submitter = new Submitter(submission.user);
+    }
+
+    self.objIsEmpty = function(obj){ return Object.keys(obj).length === 0 && obj.constructor === Object }
+
+    self.makeAuthor = function(author){
         author = author || {};
         return {
             'first_name': ko.observable(author.first_name || ''),
@@ -14,7 +26,7 @@ function Phyloregnum(){
         }
     }
 
-    this.makeAuthors = function(authors){
+    self.makeAuthors = function(authors){
         // if (!authors) console.log('authors is false: create_cladename.js line 18');
         authors = authors || [{}];
         var observableAuthors = authors.map(this.makeAuthor);
@@ -22,7 +34,7 @@ function Phyloregnum(){
         return observableArray;
     }
 
-    this.makeSpecifier = function (specifier){
+    self.makeSpecifier = function (specifier){
         specifier = specifier || {};
         var ko_spec = {
             'specifier_type': ko.observable(specifier.specifier_type || 'species'),
@@ -45,12 +57,12 @@ function Phyloregnum(){
         return ko_spec;
     }
 
-    this.makeSpecifiers = function (specifiers) {
+    self.makeSpecifiers = function (specifiers) {
         if (!specifiers) return ko.observableArray([])
         return ko.observableArray(specifiers.map(this.makeSpecifiers));
     }
 
-    this.makeCitation = function(citation){
+    self.makeCitation = function(citation){
         citation = citation || {};
         var ko_cit = {
             'citation_type':    ko.observable(citation.citation_type || 'book'),
@@ -77,27 +89,13 @@ function Phyloregnum(){
         return ko_cit;
     };
 
-    this.makeCitations = function(citations){
+    self.makeCitations = function(citations){
         if (!citations) return ko.observableArray([]);
         return ko.observableArray(citations.map(this.makeCitation));
     }
 
-    this.invalidAuthors = function(a,b){
-        debugger;
-        return true;
-    }
 
-    this.onCladeTypeClick = function(obj,event){
-        debugger;
-        'hi'
-    }
-
-    this.onCladeTypeChange = function(obj, event, three, four){
-        debugger;
-        'hi';
-    }
-
-    this.displayAuthors = function(){
+    self.displayAuthors = function(){
         var auths = this.authors();
 
         switch (auths.length){
@@ -117,15 +115,38 @@ function Phyloregnum(){
             .join(', ') + "... " + pr.author.initialize(auths[auths.length - 1]);
     }
 
-    this.submissionModel = {
-        displayAuths: ko.pureComputed(self.displayAuthors, this)
+    self.submissionModel = {
+        checkSubmissionModel: {
+            existingSubmissions: ko.observableArray([]),
+            checkingName: ko.observable(false),
+            nameUnique: ko.observable(true),
+            checkName: function (newValue){
+                var checkSubmissionModel = self.submissionModel.checkSubmissionModel;
+                checkSubmissionModel.checkingName(true);
+                jQuery.getJSON("check_name", { 'name': newValue, 'current_id': self.submissionModel.id() })
+                    .done(function (data) {
+                        if (data.length !== 0){
+                            var existingSubmissions = jQuery.map(data, function(submission){
+                                return new Submission(submission);
+                            });
+                            checkSubmissionModel.existingSubmissions(existingSubmissions);
+                            checkSubmissionModel.nameUnique(false);
+                            checkSubmissionModel.checkingName(false);
+                            return;
+                        }
+                        checkSubmissionModel.existingSubmissions([]);
+                        checkSubmissionModel.nameUnique(true);
+                        checkSubmissionModel.checkingName(false);
+                    });
+            }
+        }
     }
 
-    this.isApomorphy = function(){
+    self.isApomorphy = function(){
         return [ 'apomorphy-based_standard', 'apomorphy-modified_crown_clade' ].includes( self.submissionModel.clade_type() )
     }
 
-    this.ko = {
+    self.ko = {
         //json response loading map for ko.mapping
         mapping:  {
             'authors': {
@@ -196,64 +217,60 @@ function Phyloregnum(){
         }
     }
     //
-    this.templates = {}
-    this.templatesToLoad = [
+    self.templates = {}
+    self.templatesToLoad = [
         'citation',
-        'book_citation',
-        'book_section_citation',
-        'journal_citation',
         'specifier',
         'synonyms',
         'special_characters'
     ]
 
 
-    this.emptyAttachmentFile = '<form id="remote-attachment-form"  enctype="multipart/form-data" action="/my_submission/add_attachment" method="post"><input type="file" id="new_remote_attachment" name="file" /></form>'
+    self.emptyAttachmentFile = '<form id="remote-attachment-form"  enctype="multipart/form-data" action="/my_submission/add_attachment" method="post"><input type="file" id="new_remote_attachment" name="file" /></form>'
 
     //define button actions
-        this.ba = {
-            addSpecifier: function(){
-                jQuery.showSpecifier('new')
-            },
-            editSpecifier: function(specifier){
-                jQuery.showSpecifier(specifier)
-            },
-            deleteSpecifier: function(specifier){
-                if(confirm("Delete this specifier/qualifier?")){
-                    self.submissionModel.specifiers.remove(specifier)
-                    self.save_submission();
-                }
-            },
-            addCitation: function(citation_for, obj, event){
-                var citation = pr.makeCitation();
-                switch (citation_for){
-                    case "phylogeny":
-                    case "description":
-                        self.submissionModel.citations[citation_for].push(citation)
-                        jQuery.showCitation(citation, citation_for, true)
-                        break;
-                    default:
-                        self.submissionModel.citations[citation_for](citation);
-                        jQuery.showCitation(self.submissionModel.citations[citation_for]())
-                        break;
-                }
-            },
-            editCitation: function(citation_for, citation, event){
-                jQuery.showCitation(citation, citation_for)
-            },
-            deleteCitation: function(citation_for,obj,event){
-                if(confirm("Delete this citation?")){
-                    self.submissionModel.citations[citation_for].remove(obj)
-                    self.save_submission();
-                }
+    self.ba = {
+        addSpecifier: function(){
+            jQuery.showSpecifier('new')
+        },
+        editSpecifier: function(specifier){
+            jQuery.showSpecifier(specifier)
+        },
+        deleteSpecifier: function(specifier){
+            if(confirm("Delete this specifier/qualifier?")){
+                self.submissionModel.specifiers.remove(specifier)
+                self.save_submission();
             }
-    }//
+        },
+        addCitation: function(citation_for, obj, event){
+            var citation = pr.makeCitation();
+            switch (citation_for){
+                case "phylogeny":
+                case "description":
+                    self.submissionModel.citations[citation_for].push(citation)
+                    jQuery.showCitation(citation, citation_for, true)
+                    break;
+                default:
+                    self.submissionModel.citations[citation_for](citation);
+                    jQuery.showCitation(self.submissionModel.citations[citation_for]())
+                    break;
+            }
+        },
+        editCitation: function(citation_for, citation, event){
+            jQuery.showCitation(citation, citation_for)
+        },
+        deleteCitation: function(citation_for,obj,event){
+            if(confirm("Delete this citation?")){
+                self.submissionModel.citations[citation_for].remove(obj)
+                self.save_submission();
+            }
+        }
+    }
 
 
 
     //build abbreviated symbolic clade definition
-    this.makeDefinition = function(){
-
+    self.makeDefinition = function(){
         var str = '',
             extstr = '',
             intstr = '',
@@ -279,7 +296,7 @@ function Phyloregnum(){
                         break;
                 }
             }
-        })//
+        });
 
 
         var gt = '&gt;&nbsp;'
@@ -324,7 +341,7 @@ function Phyloregnum(){
     }
 
     //make cladename citation reference
-    this.makeNameString = function(options){
+    self.makeNameString = function(options){
         var displayProp = function(val, prepend){
             prepend = prepend || ' ';
             if (val.trim().length > 0) return prepend + val;
@@ -367,7 +384,7 @@ function Phyloregnum(){
         return str
     }
 
-    this.save_submission = function(action){
+    self.save_submission = function(action){
         jQuery('#spinner').show()
 
         switch(action){
@@ -405,7 +422,7 @@ function Phyloregnum(){
 
     //load submission data for complete page loads
     //passing in submission id
-    this.loadSubmission = function(id){
+    self.loadSubmission = function(id){
         jQuery('#submission_id').val(id)
         jQuery.getJSON('/my_submission/'+id,function(response){
             var submission = response.submission ? response.submission : response;
@@ -421,6 +438,7 @@ function Phyloregnum(){
                     pr.submissionModel[k]('');
                 }
             })
+            pr.submissionModel.name.subscribe(pr.submissionModel.checkSubmissionModel.checkName);
             ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'));
             jQuery.loadWidgets('#contents');
             jQuery('#modal-message-window').dialog('destroy');
@@ -435,7 +453,7 @@ function Phyloregnum(){
 
 
 
-    this.author = {
+    self.author = {
         addAuthor: function(author_type, author, event){
             var invalid_msg = "Please enter a last name before adding additional " + author_type + ".";
             if (pr.author.isValidAuthor(author)){
@@ -502,15 +520,11 @@ function Phyloregnum(){
             return out;
         }
     }
-
-
 }
+
 //initialize Phyloregnum object
 //with pr shortcut
 var pr = new Phyloregnum()
-
-
-
 
 //functions for Jquery Namespace
 
@@ -766,42 +780,6 @@ jQuery(document).ready(function(){
         })
     })
     //status change list
-
-    /*CLADE NAME TAB*/
-    //name box synonym search
-    jQuery('#new_name').keyup(function(event){
-        var name = event.target.value //jQuery('#new_name').val()
-        var out = ''
-        if(name.length >= 1 ){
-            jQuery.post('/name/'+name, function(response){
-                if(response.length < 1){
-                    out = '<span style="color:darkgreen">Valid name</span>'
-                    jQuery('#new-establish-box').removeClass('disabled')
-                    jQuery('#new_establish').removeAttr('disabled')
-                }else{
-                    //when name(s) exists
-
-                    out = '<a id="synonyms-link" href="" >View Synonyms</a>'
-                    var text = '<table id="synonyms-table">'
-                    text += '<tr><th>Name</th><th>Authors</th><th>Established?</th></tr>'
-                    jQuery.each(response, function(ind,obj){
-                        text += '<tr><td>'+obj.submission.name+'</td><td>'+obj.submission.authors+'</td><td>'
-                        text += (obj.submission.established === null || obj.submission.established === false ? 'No' : 'Yes') +'</td></tr>'
-                        //only if name is established
-                        if(obj.submission.established === true){
-                            jQuery('#new-establish-box').addClass('disabled')
-                            jQuery('#new_establish').attr('disabled','true').attr('checked', false)
-                        }
-                    })
-                    text += '</table>'
-                    jQuery('#synonyms-window-content').html(text)
-                }
-                jQuery('#status').html(out)
-
-            },'json')
-        }
-
-    })
 
     //view synonyms link
     jQuery('#status').click(function(event){

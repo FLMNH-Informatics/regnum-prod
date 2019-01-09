@@ -96,7 +96,13 @@ class MySubmissionController < ApplicationController
   #
   ##
   def check_name
-    render :json => Submission.includes(:user).where(:name => params[:name]), :include => { :user => { :only => [:first_name, :last_name, :email] } }
+    if params[:current_id]
+      render :json => Submission.includes(:user).where({ name: params[:name] }).where.not(id: params[:current_id]),
+                      :include => { :user => { :only => [:first_name, :last_name, :email] } }
+    else
+      render :json => Submission.includes(:user).where({ name: params[:name] }),
+                    :include => { :user => { :only => [:first_name, :last_name, :email] } }
+    end
   end
 
   #
