@@ -439,6 +439,7 @@ function Phyloregnum(){
                 }
             })
             pr.submissionModel.name.subscribe(pr.submissionModel.checkSubmissionModel.checkName);
+            pr.submissionModel.checkSubmissionModel.checkName(pr.submissionModel.name);
             ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'));
             jQuery.loadWidgets('#contents');
             jQuery('#modal-message-window').dialog('destroy');
