@@ -144,7 +144,6 @@ class MySubmissionController < ApplicationController
   ##this is where admin gets the pass to update a record it did not create
   ## as opposed to just leaving comments like an editor/reviewer
   def check_requester(submission_id)
-    byebug
     if (!Submission.find(submission_id).submitted_by_user?(current_user.id) && !current_user.is_admin?)
       unauthorized_request
     end
