@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181013003545) do
+ActiveRecord::Schema.define(version: 20190114182304) do
 
   create_table "apomorphies", force: :cascade do |t|
     t.string  "description",    limit: 255

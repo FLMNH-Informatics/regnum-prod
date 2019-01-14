@@ -191,7 +191,7 @@
               </thead>
               <thead data-bind="if: pr.isApomorphy()">
               <th>Apomorphy Character</th>
-              <th>Character definition</th>
+              <th>Character description</th>
               <th>Author(s)</th>
               <th>Publication Year</th>
               </thead>
@@ -219,9 +219,9 @@
                   <i data-bind="text: specifier_name"></i>
                   <span data-bind="ifnot: specifier_name, css: {'has-error message': specifier_name() == ''}">Please enter a Taxon name</span>
                 </td>
-                <td data-bind="attr: { title: specifier_character_definition }">
-                  <span data-bind="text: specifier_character_definition"></span>
-                  <span data-bind="ifnot: specifier_character_definition, css: { 'has-error message': specifier_character_definition() == '' }">Please enter a character definition</span>
+                <td data-bind="attr: { title: specifier_character_description }">
+                  <span data-bind="text: specifier_character_description"></span>
+                  <span data-bind="ifnot: specifier_character_description, css: { 'has-error message': specifier_character_description() == '' }">Please enter a character description</span>
                 </td>
                 <!-- /ko -->
                 <td data-bind="attr: { title: displayAuths }">

@@ -41,7 +41,7 @@ function Phyloregnum(){
             'authors': pr.makeAuthors(specifier.authors),
             'specifier_kind': ko.observable(specifier.specifier_kind || ''),
             'specifier_character_name': ko.observable(specifier.specifier_character_name || ''),
-            'specifier_character_definition': ko.observable(specifier.specifier_character_definition || ''),
+            'specifier_character_description': ko.observable(specifier.specifier_character_definition || specifier.specifier_character_description || ''),
             'specifier_name': ko.observable(specifier.specifier_name || ''),
             'specifier_year': ko.observable(specifier.specifier_year || ''),
             'specifier_code': specifier.specifier_code || '',
@@ -150,7 +150,9 @@ function Phyloregnum(){
     self.ko = {
         //json response loading map for ko.mapping
         mapping:  {
+            ignore: ['displayAuths'],
             'authors': {
+                ignore: ['displayAuths'],
                 create: function(options){
                     if ( options.data && !self.objIsEmpty(options.data) ){
                         return pr.makeAuthor(options.data);
@@ -399,7 +401,8 @@ function Phyloregnum(){
         var subid = jQuery('#submission_id').val()
         //return the asynch object so any calls to save can
         //be chained with other deferred methods
-        var data = ko.mapping.toJSON(self.submissionModel);
+        
+        var data = ko.mapping.toJSON(self.submissionModel, self.ko.mapping);
 
         return jQuery.ajax({
             type: 'POST',
