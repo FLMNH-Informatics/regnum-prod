@@ -64,11 +64,6 @@
       #specifier-collector-container
         = render "shared/add_author", { author_type: "collector" }
     / /ko
-    / ko if: pr.isApomorphy()
-    .form-group.col-sm-12
-      %label{ for: 'new_specifier_description' } Description
-      %textarea#new_specifier_description.form-control{ name: "specifier_description", rows: "5", cols: 50, data: { bind: "value: specifier_description" } }
-    / /ko
     .form-group.col-sm-12
       %label{ for: "new_specifier_url" } Specifier URL
       %input.form-control{ type: "url", data: { bind: "value: specifier_url" } }
