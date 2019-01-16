@@ -2,10 +2,10 @@ source 'https://rubygems.org'
 # source 'http://gems.github.com'
 #source 'https://github.com/mislav/will_paginate.git'
 
-gem 'rails', '~>5.0.0'#'~>4.2'#'4.1.16' #'4.0.13'#'4.0'#'3.2.21'#'3.1.12'#'3.0.3'
+gem 'rails', '~>5.2.0'#'~>5.0.0'#'~>4.2'#'4.1.16' #'4.0.13'#'4.0'#'3.2.21'#'3.1.12'#'3.0.3'
 gem 'bcrypt'
 gem 'htmlentities'
-gem 'mysql2', '~> 0.3.18'
+gem 'mysql2', '~> 0.4.4'
 gem 'byebug'
 gem 'nokogiri'
 
