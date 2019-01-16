@@ -1,3 +1,3 @@
-class Role < ApplicationRecord
+class Role < ActiveRecord::Base
   has_many :users
 end

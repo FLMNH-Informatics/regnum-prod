@@ -1,4 +1,4 @@
-class Differentia < ApplicationRecord
+class Differentia < ActiveRecord::Base
   self.table_name = "differentiae"
   self.primary_key = :id
 

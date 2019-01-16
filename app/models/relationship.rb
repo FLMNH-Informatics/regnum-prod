@@ -1,4 +1,4 @@
-class Relationship < ApplicationRecord
+class Relationship < ActiveRecord::Base
   self.table_name = :ontology_relationships
 
   belongs_to :to_concept, :class_name => "Concept"#, :include => :term#, :foreign_key => "to"

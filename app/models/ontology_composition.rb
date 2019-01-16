@@ -1,4 +1,4 @@
-class OntologyComposition < ApplicationRecord
+class OntologyComposition < ActiveRecord::Base
   self.table_name = :ontology_compositions
   self.primary_key = :id
 

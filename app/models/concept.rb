@@ -1,4 +1,4 @@
-class Concept < ApplicationRecord
+class Concept < ActiveRecord::Base
   self.table_name = :ontology_concepts
 
   has_many :relation_compositions, :class_name => "Differentia" , :foreign_key => "value_id"

@@ -59,7 +59,7 @@ function Phyloregnum(){
 
     self.makeSpecifiers = function (specifiers) {
         if (!specifiers) return ko.observableArray([])
-        return ko.observableArray(specifiers.map(this.makeSpecifier));
+        return ko.observableArray(specifiers.map(this.makeSpecifiers));
     }
 
     self.makeCitation = function(citation){
@@ -153,25 +153,23 @@ function Phyloregnum(){
             'authors': {
                 ignore: ['displayAuths'],
                 create: function(options){
-                    options.data = typeof(options.data) === "string" ? JSON.parse(options.data) : options.data;
                     if ( options.data && !self.objIsEmpty(options.data) ){
-                        return pr.makeAuthors(options.data);
+                        return pr.makeAuthor(options.data);
                     }
-                    return self.makeAuthors()
+                    return self.makeAuthor()
                 }
             },
             'specifiers': {
                 create: function(options){
-                    options.data = typeof(options.data) === "string" ? JSON.parse(options.data) : options.data;
                     if ( options.data && !self.objIsEmpty(options.data) ){
-                        return pr.makeSpecifiers(options.data);
+                        return pr.makeSpecifier(options.data);
                     }
-                    return self.makeSpecifiers();
+                    return self.makeSpecifier();
                 }
             },
             'citations': {
                 create: function(options){
-                    var citations = typeof(options.data) === "string" ? JSON.parse(options.data) : options.data,
+                    var citations = options.data,
                         citationsViewModel = {
                             //can have multple citations
                             'phylogeny': self.makeCitations(citations.phylogeny).extend({paging: 5}),

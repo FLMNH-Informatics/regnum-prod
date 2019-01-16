@@ -1,4 +1,4 @@
-class Character < ApplicationRecord
+class Character < ActiveRecord::Base
   self.primary_key = :id
   has_many :states
   select_scope :label, {

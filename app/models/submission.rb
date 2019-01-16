@@ -1,4 +1,4 @@
-class Submission < ApplicationRecord
+class Submission < ActiveRecord::Base
 
   self.table_name = "submissions"
   self.inheritance_column = false
@@ -8,9 +8,7 @@ class Submission < ApplicationRecord
   belongs_to :user, :foreign_key => :submitted_by
   has_many :submission_citation_attachments
 
-  ### not in rails 5
-  #attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by
-
+  attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by
   attr_accessor :status_comments #editors comments for status changes
 
   #scope :submitted, where("status_id <> 4")
@@ -26,13 +24,11 @@ class Submission < ApplicationRecord
   #citation
   before_update lambda{ self.updated_at = @current_time }
   before_update :check_status_change
-
-  #REMOVED IN RAILS 5!
   # authors, citations and specifiers are stored as hashes
   # this conveniently makes all the fields searchable on a single column
-  # serialize :authors, Array
-  # serialize :citations, Hash
-  # serialize :specifiers, Array
+  serialize :authors, Array
+  serialize :citations, Hash
+  serialize :specifiers, Array
   
   scope :opt_in, -> { where(establish: true) }
   scope :opt_out, -> { where(establish: false) }

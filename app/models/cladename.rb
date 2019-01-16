@@ -1,4 +1,4 @@
-class Cladename < ApplicationRecord
+class Cladename < ActiveRecord::Base
   self.table_name = 'submissions'
 
   belongs_to :user , :class_name => "User"

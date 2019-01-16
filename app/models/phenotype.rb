@@ -1,4 +1,4 @@
-class Phenotype < ApplicationRecord
+class Phenotype < ActiveRecord::Base
   self.table_name = :phenotypes
   self.primary_key = :id
 

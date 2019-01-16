@@ -1,4 +1,4 @@
-class GenericName < ApplicationRecord
+class GenericName < ActiveRecord::Base
   self.table_name = "cladenames"
   belongs_to :users
   #belongs_to :preexisting_name , :class_name => "LegacyTaxa"

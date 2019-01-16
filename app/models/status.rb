@@ -1,4 +1,4 @@
-class Status  < ApplicationRecord
+class Status  < ActiveRecord::Base
 
   self.table_name = 'status'
   has_one :submission
