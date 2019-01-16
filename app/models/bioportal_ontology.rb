@@ -1,4 +1,4 @@
-class BioportalOntology < ActiveRecord::Base
+class BioportalOntology < ApplicationRecord
   self.table_name = 'bioportal_ontologies'
   serialize :ontology, Hash
 

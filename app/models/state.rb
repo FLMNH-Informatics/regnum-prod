@@ -1,4 +1,4 @@
-class State < ActiveRecord::Base
+class State < ApplicationRecord
   has_many :phenotypes
 
   select_scope :label, {
