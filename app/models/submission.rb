@@ -26,11 +26,13 @@ class Submission < ApplicationRecord
   #citation
   before_update lambda{ self.updated_at = @current_time }
   before_update :check_status_change
+
+  #REMOVED IN RAILS 5!
   # authors, citations and specifiers are stored as hashes
   # this conveniently makes all the fields searchable on a single column
-  serialize :authors, Array
-  serialize :citations, Hash
-  serialize :specifiers, Array
+  # serialize :authors, Array
+  # serialize :citations, Hash
+  # serialize :specifiers, Array
   
   scope :opt_in, -> { where(establish: true) }
   scope :opt_out, -> { where(establish: false) }
