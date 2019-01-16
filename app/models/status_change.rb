@@ -1,4 +1,4 @@
-class StatusChange < ActiveRecord::Base
+class StatusChange < ApplicationRecord
   self.table_name = 'status_change'
 
   belongs_to :status
