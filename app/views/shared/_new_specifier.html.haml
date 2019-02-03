@@ -55,7 +55,7 @@
     / ko if: specifier_type() == 'specimen'
     .form-group.col-sm-12
       %label{ for: "specimen_description" } Specimen Description:
-      %textarea#specimen_description.form-control{ name: "specimen_description", rows: "5", cols: 50, data: { bind: "value: specifier_description"} }
+      %textarea#specimen_description.form-control{ name: "specimen_description", rows: "5", cols: 50, data: { bind: "value: specimen_description"} }
     .form-group.col-sm-12
       %label{ for: "collection_number" } Collection #
       %input.form-control#collection_number{ type: "text", name: "collection_number", data: { bind: "value: collection_number" } }
