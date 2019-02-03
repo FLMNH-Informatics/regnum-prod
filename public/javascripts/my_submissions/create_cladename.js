@@ -576,20 +576,6 @@ jQuery.citationType = function(type){
 */
 jQuery.showSpecifier = function(sfor, callback){
     var modalTitle = 'Edit specifier',
-        type_val = jQuery('#new_type').val(),
-        exclude_apomorphy = [
-            'minimum-clade_standard',
-            'minimum-clade_directly_specified_ancestor',
-            'maximum-clade_standard',
-            'maximum-crown-clade',
-            'minimum-crown-clade',
-            'maximum-crown-clade',
-            'maximum-total-clade',
-            'crown-based_total_clade'],
-        apomorphy_only = [
-            'apomorphy-based_standard',
-            'apomorphy-modified_crown_clade'
-        ],
         specifier;
 
     if (typeof(sfor) != 'object'){
@@ -622,16 +608,6 @@ jQuery.showSpecifier = function(sfor, callback){
             // }
         }
 
-        //exclude the apomorophy option depending on type
-        //todo: this should be handled via knockout
-        var $type = jQuery('#new_specifier_type')
-        if (exclude_apomorphy.includes(type_val)){
-            $type.children('#apomorphy-option').attr('disabled','disabled');
-        }
-        if (apomorphy_only.includes(type_val)){
-            $type.children('#species-option').remove();
-            $type.children('#specimen-option').remove();
-        }
         ko.cleanNode(bindingElement);
         ko.applyBindings(specifier, bindingElement);
     }
@@ -642,6 +618,8 @@ jQuery.showSpecifier = function(sfor, callback){
         buttons: [
             { text: 'Save',
                 click: function(){
+                    //in float_window_actions.js
+                    //todo: handle attachments via some appropriate mechanism
                     jQuery.save_specifier()
                     jQuery.closeFloatWindow()
                 }

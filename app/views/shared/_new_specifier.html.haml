@@ -5,15 +5,13 @@
     .form-group.col-sm-12
       %label{ for: "new_specifier_type" } Type:
       %select#new_specifier_type.form-control{ class: "form-control", data: { bind: "value: specifier_type" } }
-        / ko ifnot: pr.isApomorphy()
         %option#species-option{   value: "species"   } Species
         %option#specimen-option{  value: "specimen"  } Specimen
-        / /ko
         / ko if: pr.isApomorphy()
         %option#apomorphy-option{ value: "apomorphy" } Apomorphy
         / /ko
     .form-group.col-sm-12
-      / ko if: !pr.isApomorphy()
+      / ko if: specifier_type() == 'species' || specifier_type() == 'specimen'
       %label{ for: "new_specifier_kind" } Kind:
       %select#new_specifier_kind.form-control{ name: "specifier_kind", class: "other_specifier", data: { bind: "value: specifier_kind" } }
         %option.internal-spec{ value: "internal extant"  } Internal - Extant
@@ -21,14 +19,14 @@
         %option.external-spec{ value: "external extant"  } External - Extant
         %option.external-spec{ value: "external extinct" } External - Extinct
       / /ko
-      / ko if: pr.isApomorphy()
+      / ko if: pr.isApomorphy() && specifier_type() == 'apomorphy'
       %label{ for: "new_specifier_character_name" } Character name:
       %input#new_specifier_character_name.form-control{ type: "text", name: "specifier_character_name", data: { bind: "value: specifier_character_name" } }
       %label{ for: "new_specifier_character_definition" } Character description:
       %textarea#new_specifier_character_definition.form-control{ rows: 3, name: "specifier_character_description", data: { bind: "value: specifier_character_description" } }
       / /ko
   .row
-    / ko if: pr.isApomorphy()
+    / ko if: pr.isApomorphy() && specifier_type() == 'apomorphy'
     .col-sm-12
       %h2 (As exhibited in)
     / /ko

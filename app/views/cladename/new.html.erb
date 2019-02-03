@@ -181,64 +181,86 @@
           <div class="form-group col-sm-12" id="specifiers-table-holder">
             <label>Clade Specifiers</label>
             <!-- ko if: specifiers().length > 0 -->
-            <table id="specifiers-table" class="specifiers-table sortable-table form-control-static">
-              <thead data-bind="ifnot: pr.isApomorphy()">
-              <th style="width:100px">Type</th>
-              <th style="width:200px">Kind</th>
-              <th style="width:200px">Name</th>
-              <th style="width:200px">Author(s)</th>
-              <th>Publication Year</th>
-              </thead>
-              <thead data-bind="if: pr.isApomorphy()">
-              <th>Apomorphy Character</th>
-              <th>Character description</th>
-              <th>Author(s)</th>
-              <th>Publication Year</th>
-              </thead>
-              <tbody data-bind="foreach: specifiers()">
-              <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
-                <!-- ko ifnot: pr.isApomorphy() -->
-                <td>
-                  <span data-bind="text: specifier_type"></span>
-                  <span data-bind="ifnot: specifier_type, css: { 'has-error message': specifier_type() == '' }">Please edit to make a selection.</span>
-                </td>
-                <td>
-                  <span data-bind="text: specifier_kind"></span>
-                  <span data-bind="ifnot: specifier_kind, css: { 'has-error message': specifier_kind() == '' }">Please edit to make a selection.</span>
-                </td>
-                <td>
-                  <span data-bind="text: specifier_name"></span>
-                  <span data-bind="ifnot: specifier_name, css: { 'has-error message': specifier_name() == '' }">Please enter a specifier name.</span>
-                </td>
+              <!-- ko if: specifiers().some( function(spec){ return spec.specifier_type() == 'apomorphy' } ) -->
+              <span class="help-block">Apomorphy type:</span>
+              <table id="" class="specifiers-table sortable-table form-control-static">
+                <thead>
+                <th>Apomorphy Character</th>
+                <th>Character description</th>
+                <th>Author(s)</th>
+                <th>Publication Year</th>
+                </thead>
+                <tbody data-bind="foreach: specifiers()">
+                <!-- ko if: specifier_type() == 'apomorphy' -->
+                <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
+                  <td>
+                    <span data-bind="ifnot: specifier_character_name, css: {'has-error message': specifier_character_name() == ''}">Please enter a character name</span>
+                    <span data-bind="text: specifier_character_name"></span>
+                    <span data-bind="if: specifier_character_name && specifier_name">as displayed in</span>
+                    <i data-bind="text: specifier_name"></i>
+                    <span data-bind="ifnot: specifier_name, css: {'has-error message': specifier_name() == ''}">Please enter a Taxon name</span>
+                  </td>
+                  <td data-bind="attr: { title: specifier_character_description }">
+                    <span data-bind="text: specifier_character_description"></span>
+                    <span data-bind="ifnot: specifier_character_description, css: { 'has-error message': specifier_character_description() == '' }">Please enter a character description</span>
+                  </td>
+                  <td data-bind="attr: { title: displayAuths }">
+                    <span data-bind="text: displayAuths, css: { 'has-error message': displayAuths().includes('Please update') }"></span>
+                  </td>
+                  <td>
+                    <span data-bind="text: specifier_year"></span>
+                    <span data-bind="ifnot: specifier_year, css: { 'has-error message': specifier_year() == '' }">Please enter a publication year.</span>
+                  </td>
+                  <td class="action-cell">
+                    <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="Edit"/>&nbsp;
+                    <input class="submit_button" data-bind="click: pr.ba.deleteSpecifier" type="button" value="Delete"/>
+                  </td>
+                </tr>
                 <!-- /ko -->
-                <!-- ko if: pr.isApomorphy() -->
-                <td>
-                  <span data-bind="ifnot: specifier_character_name, css: {'has-error message': specifier_character_name() == ''}">Please enter a character name</span>
-                  <span data-bind="text: specifier_character_name"></span>
-                  <span data-bind="if: specifier_character_name && specifier_name">as displayed in</span>
-                  <i data-bind="text: specifier_name"></i>
-                  <span data-bind="ifnot: specifier_name, css: {'has-error message': specifier_name() == ''}">Please enter a Taxon name</span>
-                </td>
-                <td data-bind="attr: { title: specifier_character_description }">
-                  <span data-bind="text: specifier_character_description"></span>
-                  <span data-bind="ifnot: specifier_character_description, css: { 'has-error message': specifier_character_description() == '' }">Please enter a character description</span>
-                </td>
-                <!-- /ko -->
-                <td data-bind="attr: { title: displayAuths }">
-                  <span data-bind="text: displayAuths, css: { 'has-error message': displayAuths().includes('Please update') }"></span>
-                </td>
-                <td>
-                  <span data-bind="text: specifier_year"></span>
-                  <span data-bind="ifnot: specifier_year, css: { 'has-error message': specifier_year() == '' }">Please enter a publication year.</span>
-                </td>
-                <td class="action-cell">
-                  <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="Edit"/>&nbsp;
-                  <input class="submit_button" data-bind="click: pr.ba.deleteSpecifier" type="button" value="Delete"/>
-                </td>
-              </tr>
-              </tbody>
+                </tbody>
+              </table>
               <!-- /ko -->
-            </table>
+              <!-- ko if: specifiers().some( function(spec){ return spec.specifier_type() != 'apomorphy' } ) -->
+              <span class="help-block">Species and Specimen type:</span>
+              <table id="" class="specifiers-table sortable-table form-control-static">
+                <thead>
+                <th style="width:100px">Type</th>
+                <th style="width:200px">Kind</th>
+                <th style="width:200px">Name</th>
+                <th style="width:200px">Author(s)</th>
+                <th>Publication Year</th>
+                </thead>
+                <tbody data-bind="foreach: specifiers()">
+                <!-- ko if: specifier_type() != 'apomorphy' -->
+                <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
+                  <td>
+                    <span data-bind="text: specifier_type"></span>
+                    <span data-bind="ifnot: specifier_type, css: { 'has-error message': specifier_type() == '' }">Please edit to make a selection.</span>
+                  </td>
+                  <td>
+                    <span data-bind="text: specifier_kind"></span>
+                    <span data-bind="ifnot: specifier_kind, css: { 'has-error message': specifier_kind() == '' }">Please edit to make a selection.</span>
+                  </td>
+                  <td>
+                    <span data-bind="text: specifier_name"></span>
+                    <span data-bind="ifnot: specifier_name, css: { 'has-error message': specifier_name() == '' }">Please enter a specifier name.</span>
+                  </td>
+                  <td data-bind="attr: { title: displayAuths }">
+                    <span data-bind="text: displayAuths, css: { 'has-error message': displayAuths().includes('Please update') }"></span>
+                  </td>
+                  <td>
+                    <span data-bind="text: specifier_year"></span>
+                    <span data-bind="ifnot: specifier_year, css: { 'has-error message': specifier_year() == '' }">Please enter a publication year.</span>
+                  </td>
+                  <td class="action-cell">
+                    <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="Edit"/>&nbsp;
+                    <input class="submit_button" data-bind="click: pr.ba.deleteSpecifier" type="button" value="Delete"/>
+                  </td>
+                </tr>
+                <!-- /ko -->
+                </tbody>
+              </table>
+              <!-- /ko -->
             <div class="table-controls">
               <button data-bind="click: pr.ba.addSpecifier" type="button" class="submit_button mw-25">Add specifier
               </button>
