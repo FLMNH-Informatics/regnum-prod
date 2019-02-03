@@ -61,7 +61,7 @@ class MySubmissionController < ApplicationController
   def save
     @submission = Submission.handle_save(params)
     if request.xhr?
-      render :json => { :submission_id => @submission.id }.to_json
+      render :json => @submission
     else
       redirect_to show_my_submission_path(@submission.id)
     end

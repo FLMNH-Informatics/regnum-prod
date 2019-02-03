@@ -410,8 +410,13 @@ function Phyloregnum(){
             contentType: 'application/json',
             data: data,
             success: function(response) {
-                if (subid === 'new') { document.location.href = '/my_submission/' + response.submission_id }
-                else { jQuery('#submission_id').val(response.submission_id) }
+                if (subid === 'new') { document.location.href = '/my_submission/' + response.id }
+                else {
+                    //update specifiers if they were changed by rails
+                    self.submissionModel.specifiers(response.specifiers.map(pr.makeSpecifier));
+                    jQuery('#submission_id').val(response.id)
+
+                }
             }
         }).done(function(){
             if (action === 'Submit')
