@@ -17,6 +17,7 @@ class Submission < ActiveRecord::Base
 
   before_create lambda{ self.status_id = 1 }
   before_create :check_serialized
+  before_save :remove_invalid_specifiers
 
   after_find :check_serialized
   after_find lambda{ @current_status = self.status_id }
@@ -77,7 +78,17 @@ class Submission < ActiveRecord::Base
     submission
   end
 
+  def is_apomorphy?
+    self.clade_type.include? "apomorphy"
+  end
+
   private
+
+  def remove_invalid_specifiers
+    unless self.is_apomorphy?
+      self.specifiers.delete_if { |specifier| specifier["specifier_type"] == "apomorphy" }
+    end
+  end
 
   # sets empty serialized fields
   def check_serialized
