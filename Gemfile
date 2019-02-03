@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 #source 'https://github.com/mislav/will_paginate.git'
 
 gem 'rails', '~>4.2'#'4.1.16' #'4.0.13'#'4.0'#'3.2.21'#'3.1.12'#'3.0.3'
-gem 'bcrypt'
+gem 'bcrypt-ruby', :require => "bcrypt"
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'htmlentities'
@@ -26,20 +26,17 @@ gem "recaptcha", :require => "recaptcha/rails"
 gem 'rufus-scheduler'
 #gem 'meta_where'  RAILS 3.1.12 doesn't support
 gem 'activerecord-import'#, '~>0.2.0'
-gem 'activejob', '>= 4.2.11'
 # group :test do
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
+gem 'rspec-rails'
+gem 'factory_girl_rails'
 # end
 # group :assets do
-  gem 'sass-rails'#,   '~> 3.2.6'#'~> 3.1.7'
+gem 'sass-rails'#,   '~> 3.2.6'#'~> 3.1.7'
 #  gem 'coffee-rails'#, '~> 3.2.2'#'~> 3.1.1'
 #  gem 'uglifier'#,     '>= 1.0.3'
 # end
 #gem 'rmagick', '2.12.0'
 
-gem "loofah", ">= 2.2.3"
-gem "rack", ">= 1.6.11"
 
 
 
