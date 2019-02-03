@@ -33,7 +33,7 @@ module TabsHelper
           :submissions   => {
               :text       => "Review",
               :controller => 'submissions',
-              :subnav     => [:review_submissions, :export],
+              :subnav     => [:review_submissions, :export, :export_json],
               :link       => '/submissions' },
           :search        => {
               :text       => "Search",
@@ -62,6 +62,13 @@ module TabsHelper
               :parent    => :submissions,
               :path      => "export_submissions_path",
               :is_button => true },
+          :export_json        => {
+              :title      => "Export submissions in JSON",
+              :tooltip    => "Download a JSON file of all submissions",
+              :parent     => :submissions,
+              :path       => "export_json_submissions_path",
+              :is_button  => true
+          },
           :list_users         => {
               :title  => 'User List',
               :parent => :admin,
@@ -152,6 +159,7 @@ module TabsHelper
       result_str = '<ul id="secondary">'
       @@nav_menu[:primary][tab][:subnav].each do |subtab|
         subtab_hash = @@nav_menu[:secondary][subtab]
+
         if subtab_path_for subtab
           if controller_name == "my_submission" && controller.action_name.to_s == subtab.to_s
             result_str << "<li class='top_subtab current'>#{link_to "#{subtab_hash[:title]}", eval(subtab_hash[:path])}</li>"
@@ -160,7 +168,6 @@ module TabsHelper
             result_str << "<li class='top_subtab current'>#{link_to "#{subtab_hash[:title]}", eval(subtab_hash[:path])}</li>"
             @sub_tab = subtab
           elsif controller_name == subtab.to_s
-            byebug
             result_str << "<li class='top_subtab current #{"active" if current_subtab?(subtab)}'>#{link_to "#{subtab_hash[:title]}", eval(subtab_hash[:path])}</li>"
             @sub_tab = subtab
 

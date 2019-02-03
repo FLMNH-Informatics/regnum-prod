@@ -46,6 +46,13 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  def export_json
+    send_data Submission.all.to_json,
+              :type         => 'application/json',
+              :disposition  => "attachment",
+              :filename     => "regnum_submissions.json"
+  end
+
   def export
     require 'csv'
     csv_string = CSV.generate do |csv|

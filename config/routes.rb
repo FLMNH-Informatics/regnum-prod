@@ -65,6 +65,7 @@ Regnum::Application.routes.draw do
   resources :submissions do
     collection do
       get :export
+      get :export_json
     end
   end
 
