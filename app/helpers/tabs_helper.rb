@@ -196,70 +196,16 @@ module TabsHelper
     end
   end
 
-  def generate_sub_subtabs
-    # show subnavigation if current tab is selected
-
-    tab    = @current_tab
-    subtab = @sub_tab
-
-    if (tab && subtab && @@nav_menu[:primary][tab][:subnav] && @@nav_menu[:secondary][subtab][:subnav])
-      result_str = "<div id='submain'> <ul id='teritiary'>"
-      @@nav_menu[:secondary][subtab][:subnav].each { |sub_subtab|
-        # currently selected subtab
-
-        if controller_name == "cladename"
-
-          if controller.action_name.to_sym == sub_subtab || (sub_subtab == :cladename && (controller.action_name == "edit" || controller.action_name == "new" || controller.action_name == "save"))
-            result_str << "<li class='top_sec_subtab current'>#{link_to "#{@@nav_menu[:teritiary][sub_subtab][:title]}", ''}</li>"
-          else
-            if params[:id].nil?
-              result_str << "<li class='top_sec_subtab inactive'><span >#{@@nav_menu[:teritiary][sub_subtab][:title]}</span></li>"
-
-            else
-              result_str << "<li class='top_sec_subtab active'><a href='" + eval(@@nav_menu[:teritiary][sub_subtab][:path]) + "' Onclick='  if(change_status == 1){var where_to= confirm(\"Unsaved Data will be Lost. Are you sure you want to Continue ?\");if(where_to){return true}else{return false}}'>" + @@nav_menu[:teritiary][sub_subtab][:title] + "</a>"
-
-            end
-          end
-
-        elsif controller_name == "my_submission" && controller.action_name.to_s == sub_subtab.to_s
-
-          result_str << "<li class='top_sec_subtab current'>#{link_to "#{@@nav_menu[:teritiary][sub_subtab][:title]}", ''}</li>"
-        elsif @@librarylist[controller_name.to_sym] && sub_subtab == controller_name.to_sym
-
-
-        else
-
-          result_str << "<li class='top_sec_subtab active'>#{link_to "#{@@nav_menu[:teritiary][sub_subtab][:title]}", eval(@@nav_menu[:teritiary][sub_subtab][:path])}</li>"
-
-        end
-
-      }
-      result_str << "</ul></li> </div>"
-    end
-  end
-
-  def active_tab?(tab)
-
-    #if !current_user.nil?
-    return true
-    #end
-
-  end
-
   def subtab_tooltip tab_hash
-    if tab_hash.has_key? :tooltip
-      "title='#{ tab_hash[:tooltip] }'"
-    end
-
+    "title='#{ tab_hash[:tooltip] }'" if tab_hash.has_key? :tooltip
   end
 
   def tab_class?(tab)
     if current_tab?(tab)
       tab_class = 'top_tab current'
-    elsif active_tab?(tab)
-      tab_class = 'top_tab active'
     else
-      tab_class = 'top_tab inactive'
+      tab_class = 'top_tab active'
     end
+    #option 'top_tab inactive'
   end
 end
