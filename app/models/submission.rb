@@ -79,7 +79,7 @@ class Submission < ActiveRecord::Base
   end
 
   def is_apomorphy?
-    self.clade_type.include? "apomorphy"
+    self.clade_type&.include? "apomorphy"
   end
 
   private
