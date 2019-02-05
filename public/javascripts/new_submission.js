@@ -1,5 +1,18 @@
 jQuery(document).ready(function () {
     function NewSubmissionViewModel() {
+
+        function Submission(submission) {
+            function Submitter(user) {
+                var self = this;
+                self.fullname = user.first_name + ' ' + user.last_name;
+                self.email = user.email;
+            }
+
+            var self = this;
+            self.name = submission.name
+            self.submitter = new Submitter(submission.user);
+        }
+
         var self = this;
         self.existing_submissions = ko.observableArray([]);
         self.acceptDuplicate = ko.observable(false);
@@ -63,6 +76,18 @@ jQuery(document).ready(function () {
                 document.location.href = '/my_submission/' + response.submission_id;
             });
         };
+
+        function Submission(submission) {
+            function Submitter(user) {
+                var self = this;
+                self.fullname = user.first_name + ' ' + user.last_name;
+                self.email = user.email;
+            }
+
+            var self = this;
+            self.name = submission.name
+            self.submitter = new Submitter(submission.user);
+        }
     }
 
     ko.applyBindings(new NewSubmissionViewModel());
