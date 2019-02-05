@@ -38,7 +38,7 @@ module TabsHelper
           :search        => {
               :text       => "Search",
               :controller => 'search',
-              :subnav     => [],
+              :subnav     => [:cladename],
               :link       => '/search' },
           :admin         => {
               :text       => 'Admin',
@@ -159,7 +159,6 @@ module TabsHelper
       result_str = '<ul id="secondary">'
       @@nav_menu[:primary][tab][:subnav].each do |subtab|
         subtab_hash = @@nav_menu[:secondary][subtab]
-
         if subtab_path_for subtab
           if controller_name == "my_submission" && controller.action_name.to_s == subtab.to_s
             result_str << "<li class='top_subtab current'>#{link_to "#{subtab_hash[:title]}", eval(subtab_hash[:path])}</li>"
@@ -203,7 +202,6 @@ module TabsHelper
     tab    = @current_tab
     subtab = @sub_tab
 
-byebug
     if (tab && subtab && @@nav_menu[:primary][tab][:subnav] && @@nav_menu[:secondary][subtab][:subnav])
       result_str = "<div id='submain'> <ul id='teritiary'>"
       @@nav_menu[:secondary][subtab][:subnav].each { |sub_subtab|
