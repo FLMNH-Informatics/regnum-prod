@@ -1,4 +1,5 @@
 .sortable-table-div
+  = render :partial => 'shared/sortable_table_loading_message'
   %table.sortable-table
     %tr.sortable-table-header-row
       %th.sortable.table-header-link{}= table_sort_header('name')

@@ -299,6 +299,11 @@ span.required{
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
 }
+
+.sortable-table-loading{
+    text-align: center;
+    margin: 2em;
+}
 .sortable-table-header-row{
     background-color:#D4E8FF;
 }

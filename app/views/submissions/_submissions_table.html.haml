@@ -1,14 +1,17 @@
 .sortable-table-div
+  = render :partial => 'shared/sortable_table_loading_message'
   %table#user_submissions_table.sortable-table
     %tr.sortable-table-header-row
       %th.sortable.table-header-link=table_sort_header('name')
+      %th.sortable.table-header-link=table_sort_header('clade_type', 'Type')
       %th.sortable.table-header-link=table_sort_header('status_id','status')
-      %th.sortable.table-header-link=table_sort_header('submitted_by') 
+      %th.sortable.table-header-link=table_sort_header('submitted_by', 'Submitter')
       %th{:colspan => 3}
     %tbody
       -@subs.each do |sub|
         %tr{:class => cycle('odd-row','even-row'), :id => sub.id, :title => "click to open submission"  }
           %td= sub.name
+          %td= sub.clade_type
           %td= sub.status.status
           %td{ :style => 'width:180px'}= sub.user.nil? ? "" : sub.user.last_name + ', ' + sub.user.first_name
           %td{ :style => 'width:40px'}
