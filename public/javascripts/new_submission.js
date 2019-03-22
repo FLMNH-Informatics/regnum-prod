@@ -65,8 +65,7 @@ jQuery(document).ready(function () {
         }, this);
 
         self.submitNewSubmission = function () {
-            var data = ko.mapping.toJSON(self.new_submission)
-            debugger;
+            var data = ko.mapping.toJSON(self.new_submission);
             jQuery.ajax({
                 type: 'POST',
                 url: '/create',
