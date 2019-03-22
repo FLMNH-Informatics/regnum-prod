@@ -14,7 +14,10 @@ SubmissionsIndex.loadTable = function(tableContainer, target){
     if (target !== undefined && tableContainer !== undefined ){
         jQuery('.sortable-table-div').children('.sortable-table-loading').show();
         tableContainer.find('table').hide();
-        jQuery('.sortable-table-holder').load(target, function(){ tableContainer.find('table').show(); });
+        jQuery('.sortable-table-holder').load(target, function(){
+            tableContainer.find('table').show();
+            tableContainer.find('a.button').button();
+        });
     } else {
         if (target === undefined) console.log("Error, target is undefined in call to SubmissionsIndex.loadTable");
         if (tableContainer === undefined) console.log("Error, tableContainer is undefined in call to SubmissionsIndex.loadTable");

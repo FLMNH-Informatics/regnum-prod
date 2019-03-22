@@ -23,6 +23,14 @@ module ApplicationHelper
         files.concat [ 'submissions_index.js', 'search_submissions.js', 'submissions_table_actions.js']
       when 'submissions/show'
         #files.concat ['submissions_show.js']
+      when 'submissions/edit'
+        files.concat [
+           'submission_model.js',
+           'my_submissions/create_cladename.js',
+           'cladename_tools.js',
+           'my_submissions/float_window_actions.js',
+           'character_window.js',
+           'my_submissions/ko.paging.extender.js' ]
       when 'admin/index'
         files.concat ['admin_index.js']
       when 'phenotypes/index'

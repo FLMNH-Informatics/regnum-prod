@@ -9,13 +9,14 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  def show
+  def edit
     @sub = Submission.find(params[:id])
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
 
-    #if request.xhr?
-      render :show, :layout => false
-    #end     
+    respond_to do |format|
+      format.html { render 'cladename/new' }
+      format.json { render :json => @sub }
+    end
   end
 
   def destroy

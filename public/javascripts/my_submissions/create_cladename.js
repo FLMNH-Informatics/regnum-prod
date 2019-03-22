@@ -123,7 +123,7 @@ function Phyloregnum(){
             checkName: function (newValue){
                 var checkSubmissionModel = self.submissionModel.checkSubmissionModel;
                 checkSubmissionModel.checkingName(true);
-                jQuery.getJSON("check_name", { 'name': newValue, 'current_id': self.submissionModel.id() })
+                jQuery.getJSON("/my_submission/check_name", { 'name': newValue, 'current_id': self.submissionModel.id() })
                     .done(function (data) {
                         if (data.length !== 0){
                             var existingSubmissions = jQuery.map(data, function(submission){
@@ -699,13 +699,9 @@ jQuery(document).ready(function(){
         jQuery.get('/templates/load?template='+pr.templatesToLoad[key],function(response){
             pr.templates[pr.templatesToLoad[key]] = response
         })
-    })
-////////////////////////////actions executed on page load///////////////////////////
-    /* Execute on page load */
+    });
 
-    var pathArray = window.location.pathname.split('/')
-    var id = pathArray[pathArray.length-1]
-    //load submission if id given in url(restful url)
+    var id = jQuery("#submission_id").val();
     if(!isNaN(id)){
         pr.loadSubmission(id)
     }

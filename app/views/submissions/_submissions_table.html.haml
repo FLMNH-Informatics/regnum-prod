@@ -19,7 +19,7 @@
               %input.submit_button{:type => 'submit', :value => 'review'} 
           -if current_user.is_admin? 
             %td{:style => 'width:40px'}
-              = link_to "Edit", "/my_submission/" + sub.id.to_s, class: "button"
+              = link_to "Edit", "/submissions/" + sub.id.to_s + "/edit", class: "button"
           %td{ :style => 'width:40px'}
             =form_for sub, :url => submission_path(sub.id), :html => {:method => :delete } do |s|
               %button.submit_button{:type => 'submit', :title => 'click to delete'} Delete
