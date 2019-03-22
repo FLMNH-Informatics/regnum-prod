@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190114192626) do
+ActiveRecord::Schema.define(version: 20190204194315) do
 
   create_table "apomorphies", force: :cascade do |t|
     t.string  "description",    limit: 255
@@ -45,6 +45,12 @@ ActiveRecord::Schema.define(version: 20190114192626) do
   add_index "apomorphy_refs", ["apomorphy_id"], name: "apomorphy_fk_apomorphy_refs_3", using: :btree
   add_index "apomorphy_refs", ["citation_id"], name: "citation_fk_Apomorphy_Ref_1", using: :btree
   add_index "apomorphy_refs", ["citation_id"], name: "citation_fk_apomorphy_refs_3", using: :btree
+
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "bioportal_ontologies", force: :cascade do |t|
     t.integer "bioportal_id", limit: 4
