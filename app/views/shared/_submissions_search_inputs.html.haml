@@ -1,0 +1,24 @@
+.container-fluid
+  .row
+    .form-group.col-sm-12
+      %label{ :for => 'submission_search' } Submissions search
+      %input.form-control#submission_search{ :type => 'text', :name => 'term' }
+  .row
+    .form-group.col-sm-12
+      %label{ :for => 'clade_type' } Definition type
+      %select.form-group#clade_type{ :name => 'clade_type' }
+        %option{:value => 'all' } All
+        %option{:value => "minimum-clade_standard"} Minimum Clade - Standard
+        %option{:value => "minimum-clade_directly_specified_ancestor"}
+          Minimum Clade - Directly Specified Ancestor
+          %span.required (Rare)
+        %option{:value => "maximum-clade_standard"} Maximum Clade - Standard
+        %option{:value => "apomorphy-based_standard"} Apomorphy Based - Standard
+        %option{:value => "minimum-crown-clade"} Minimum Crown Clade
+        %option{:value => "maximum-crown-clade"} Maximum Crown Clade
+        %option{:value => "apomorphy-modified_crown_clade"} Apomorphy Modified Crown Clade
+        %option{:value => "maximum-total-clade"} Maximum Total Clade
+        %option{:value => "crown-based_total_clade"} Crown Based - Total Clade
+  .row
+    .form-group.col-sm-12
+      %input.button#search{:type => :submit, :value => 'search'}

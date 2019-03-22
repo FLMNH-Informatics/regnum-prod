@@ -72,6 +72,7 @@ class SubmissionsController < ApplicationController
     params[:page] ||= '1'
     params[:order] ||= 'name'
     params[:dir] ||= 'up'
+    params[:clade_type] ||= 'all'
     dir = params[:dir] == 'up' ? 'ASC' : 'DESC'
     subs = if current_user.is_admin?
       Submission.where("name LIKE ?", "#{params[:term]}%") #admin sees all :)
@@ -82,6 +83,6 @@ class SubmissionsController < ApplicationController
     elsif current_user.is_opt_in_reviewer?
       Submission.opt_in.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "#{params[:term]}%") 
     end .order("#{params[:order]} #{dir}").paginate(:page => params[:page], :per_page => 12)
-    return subs
+    return params[:clade_type] == 'all' ? subs : subs.where("clade_type = ?", params[:clade_type])
   end
 end

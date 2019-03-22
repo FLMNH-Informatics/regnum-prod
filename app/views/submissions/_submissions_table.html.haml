@@ -19,11 +19,10 @@
               %input.submit_button{:type => 'submit', :value => 'review'} 
           -if current_user.is_admin? 
             %td{:style => 'width:40px'}
-              =form_for sub, :url => my_submission_path + '/' + sub.id.to_s, :html => {:method => :get } do |s|
-                %input.submit_button{:type => 'submit', :value => 'edit'} 
+              = link_to "Edit", "/my_submission/" + sub.id.to_s, class: "button"
           %td{ :style => 'width:40px'}
             =form_for sub, :url => submission_path(sub.id), :html => {:method => :delete } do |s|
-              %input.submit_button{:type => 'submit', :value => 'delete', :title => 'click to delete'}
+              %button.submit_button{:type => 'submit', :title => 'click to delete'} Delete
       %tr
         %td{:colspan => 5, :style => 'text-align:center;padding:1px;border:none;'}
           =will_paginate @subs, renderer: RemoteLinkRenderer,:params => {:controller => :submissions, :action => nil}

@@ -15,10 +15,14 @@ class MySubmissionController < ApplicationController
     params[:order] ||= 'name'
     params[:dir]   ||= 'up'
     dir            = params[:dir] == 'up' ? 'ASC' : 'DESC'
+    params[:clade_type] ||= 'all'
+
     stats          = current_user ? "status_id IN (4,3,2)" : "status_id = 4"
-    @subs          = Submission.where(["submitted_by = ? AND name LIKE ?", current_user.id, params[:term] + '%'])
-                         .order("#{params[:order]} #{dir}")
-                         .paginate(:page => params[:page], :per_page => 12)
+
+    @subs = (params[:clade_type] == 'all' ? Submission : Submission.where('clade_type = ?', params[:clade_type]))
+                .where(["submitted_by = ? AND name LIKE ?", current_user.id, params[:term] + '%'])
+                .order("#{params[:order]} #{dir}")
+                .paginate(:page => params[:page], :per_page => 12)
     if request.xhr?
       render :partial => 'my_submissions_table', :layout => false
     else
