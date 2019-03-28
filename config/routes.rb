@@ -1,5 +1,5 @@
 Regnum::Application.routes.draw do
-  
+
   match '/' => 'search#index', via: :get
   match '/logout' => 'accounts#logout', :as => :logout, via: [:get, :post]
   match '/login' => 'accounts#login', :as => :login, via: :get
@@ -16,7 +16,7 @@ Regnum::Application.routes.draw do
   match '/cladename' => 'my_submission#cladename', :as => :cladename, via: [:get, :post]
   match '/save' => 'my_submission#save', :as => :save, via: :post
   match '/create' => 'my_submission#create', as: 'create', via: :post
-  
+
   match '/faq' => 'application#faq', :as => :faq, via: :get
 
   match '/search' => 'search#index', :as => :search, via: :get

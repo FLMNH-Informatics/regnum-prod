@@ -1,4 +1,4 @@
-class Submission < ActiveRecord::Base
+class Submission < ApplicationRecord
 
   self.table_name = "submissions"
   self.inheritance_column = false
@@ -8,7 +8,7 @@ class Submission < ActiveRecord::Base
   belongs_to :user, :foreign_key => :submitted_by
   has_many :submission_citation_attachments
 
-  attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by
+  # attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by
   attr_accessor :status_comments #editors comments for status changes
 
   #scope :submitted, where("status_id <> 4")
@@ -59,6 +59,8 @@ class Submission < ActiveRecord::Base
   end
 
   def self.handle_save params
+    byebug
+
     submission = Submission.find(params[:submission_id])
     submission.citations           = params[:citations] if params.has_key?(:citations)
     submission.specifiers          = params[:specifiers] if params.has_key?(:specifiers)

@@ -1,5 +1,5 @@
-module ActiveRecord
-  class Base
-    include SyncRecords::SelectScope
-  end
-end
+# module ActiveRecord
+#   class Base
+#     include SyncRecords::SelectScope
+#   end
+# end

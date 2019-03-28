@@ -1,5 +1,5 @@
-class User < ActiveRecord::Base
-  attr_accessible :email, :password, :password_confirmation
+class User < ApplicationRecord
+  #attr_accessible :email, :password, :password_confirmation
   attr_accessor :password
 
   has_many :submissions
