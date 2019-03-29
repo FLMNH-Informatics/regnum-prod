@@ -1,2 +1,2 @@
-require Rails.root.to_s + '/lib/respond_to_parent/responds_to_parent'
+require Rails.root.to_s + '/app/lib/respond_to_parent/responds_to_parent'
 ActionController::Base.send :include, RespondsToParent
