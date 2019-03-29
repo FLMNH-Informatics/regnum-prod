@@ -1,6 +1,6 @@
 class OntologiesController < ApplicationController
 
-  #before_filter :requires_authentication, :except => [:get_concept, :auto_complete]
+  #before_action :requires_authentication, :except => [:get_concept, :auto_complete]
 
   def index
       #params[:path_from] = true #if request.fullpath.match(/\/remote/)

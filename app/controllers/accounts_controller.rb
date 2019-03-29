@@ -1,6 +1,6 @@
 class AccountsController < ApplicationController
   
-  before_filter :requires_current_user, :only => [:show,:update]
+  before_action :requires_current_user, :only => [:show,:update]
 
   def new
     if request.xhr?
