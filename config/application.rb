@@ -14,7 +14,8 @@ module Regnum
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    config.autoload_paths += %W(#{config.root}/lib)
+    # config.autoload_paths += %W(#{config.root}/lib)
+    # lib directory has been moved to app/lib to ensure loading by application
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
