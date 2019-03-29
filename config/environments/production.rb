@@ -60,11 +60,13 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "regnum_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
+  #begin pre rails 5
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
       :address => 'smtp.ufl.edu',
       :authentication => 'plain'
   }
+  #end pre rails 5
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
