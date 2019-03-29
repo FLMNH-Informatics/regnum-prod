@@ -8,7 +8,7 @@ class Submission < ApplicationRecord
   belongs_to :user, :foreign_key => :submitted_by
   has_many :submission_citation_attachments
 
-  # attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by
+  # attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by #removed in rails 5
   attr_accessor :status_comments #editors comments for status changes
 
   #scope :submitted, where("status_id <> 4")
@@ -16,10 +16,8 @@ class Submission < ApplicationRecord
   @current_time = Time.now
 
   before_create lambda{ self.status_id = 1 }
-  before_create :check_serialized
   before_save :remove_invalid_specifiers
 
-  after_find :check_serialized
   after_find lambda{ @current_status = self.status_id }
 
   #citation
@@ -59,8 +57,7 @@ class Submission < ApplicationRecord
   end
 
   def self.handle_save params
-    byebug
-
+    params = params.to_unsafe_h #change in rails 5, need to permit all parameters, this is the fastest way but might be unsafe
     submission = Submission.find(params[:submission_id])
     submission.citations           = params[:citations] if params.has_key?(:citations)
     submission.specifiers          = params[:specifiers] if params.has_key?(:specifiers)
@@ -90,40 +87,6 @@ class Submission < ApplicationRecord
     unless self.is_apomorphy?
       self.specifiers.delete_if { |specifier| specifier["specifier_type"] == "apomorphy" }
     end
-  end
-
-  # sets empty serialized fields
-  def check_serialized
-    ####remember you can assign numerics as keys in ruby a hash
-    #
-    # Authors
-    # auths = [];
-    # if (self.authors.nil? or self.authors.is_a? String)
-    #   self.authors = {0=>{}};
-    # end
-
-    ####
-    # Citations
-#     cits = {
-#         #only one citation
-#         primary_phylogeny:  {},
-#         preexisting:        {},
-#         #many citations
-#         description:  { 0=>{} },
-#         phylogeny:    { 0=>{} }
-#     }
-# byebug
-#     if self.citations == nil
-#       # self.citations = cits
-#     else
-#       cits.each{|k,v| self.citations[k]=v unless self.citations.has_key?(k)}
-#     end
-
-    ####
-    # Specifiers
-    # if self.specifiers == nil
-    #   self.specifiers = {0=>{}}
-    # end
   end
 
   # create new status change record on status change
