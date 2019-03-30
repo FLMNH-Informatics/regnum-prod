@@ -2,8 +2,8 @@ require 'htmlentities'
 
 class MySubmissionController < ApplicationController
 
-  before_filter :requires_logged_in
-  before_filter lambda { check_requester(params[:submission_id]) unless params[:submission_id] == 'new' }, :only => [:save, :add_attachment]
+  before_action :requires_logged_in
+  before_action lambda { check_requester(params[:submission_id]) unless params[:submission_id] == 'new' }, :only => [:save, :add_attachment]
   # need filter for remove attachement to check user cred
 
   #

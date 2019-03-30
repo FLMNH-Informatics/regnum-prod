@@ -2,7 +2,7 @@ require 'cgi'
 
 class SearchController < ApplicationController
 
-  before_filter :requires_logged_in, :only => [:search_res]
+  before_action :requires_logged_in, :only => [:search_res]
 
   #new search - index delegates search functions.
   def index

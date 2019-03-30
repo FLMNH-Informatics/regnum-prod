@@ -44,21 +44,7 @@ Regnum::Application.routes.draw do
   # match '/admin/users/:id' => 'admin#index', via: :get
   match '/admin/users/:id' => 'admin#edit_user', via: [:get,:put,:delete]
   match '/admin/update_user/:id' => 'admin#update_user', :as => :update_user, via: :patch
-  #
-  match '/phenotypes' => 'phenotypes#index', :as => :phenotypes, via: :get
-  match '/phenotypes/create' => 'phenotypes#create', via: :post
-  match '/phenotypes/import_ontologies' => 'phenotypes#import_ontologies', via: :post
-  #match '/phenotypes/new/:state_id' => 'phenotypes#new'
-  match '/phenotypes/new' => 'phenotypes#new', via: :get
-  match '/phenotypes/get_form_fields' => 'phenotypes#get_form_fields', via: :get
 
-  match '/characters/new' => 'phenotypes#new_character', via: :get
-  match '/characters/create_character' => 'phenotypes#create_character', via: :post
-  match '/characters/destroy_character' => 'phenotypes#destroy_character', via: :post
-  match '/characters/destroy_state' => 'phenotypes#destroy_state', via: :post
-  match '/characters/destroy_phenotype' => 'phenotypes#destroy_phenotype', via: :post
-  match '/characters/:character_id/states/new' => 'phenotypes#new_state', via: :get
-  match '/characters/:character_id/states' => 'phenotypes#create_state' , :via => [:post]
 
   match '/ontologies/auto_complete_terms' => 'ontologies#auto_complete_terms', via: :get
   resources :accounts
