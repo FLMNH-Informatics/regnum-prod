@@ -134,16 +134,7 @@
           <div class="form-group col-sm-12">
             <label for="new_type">Definition Type:</label>
             <select data-bind="value: clade_type, event: { change: pr.onCladeTypeChange }" name="cladename[clade_type]" id="new_type" class="value-input form-control">
-              <option value="minimum-clade_standard">Minimum Clade - Standard</option>
-              <option value="minimum-clade_directly_specified_ancestor">Minimum Clade - Directly Specified Ancestor
-                <span class="required">(Rare)</span></option>
-              <option value="maximum-clade_standard">Maximum Clade - Standard</option>
-              <option value="apomorphy-based_standard">Apomorphy Based - Standard</option>
-              <option value="minimum-crown-clade">Minimum Crown Clade</option>
-              <option value="maximum-crown-clade">Maximum Crown Clade</option>
-              <option value="apomorphy-modified_crown_clade">Apomorphy Modified Crown Clade</option>
-              <option value="maximum-total-clade">Maximum Total Clade</option>
-              <option value="crown-based_total_clade">Crown Based - Total Clade</option>
+              <%= options_for_select Submission.clade_types.keys.sort %>
             </select>
             <div id="definition_type_definitions" class="help-block" style="">
               <p id="minimum-clade_standard_def" style="">A minimum-clade definition associates a name

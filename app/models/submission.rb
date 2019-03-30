@@ -5,7 +5,7 @@ class Submission < ApplicationRecord
 
   enum clade_type: {
       "Minimum Clade - Standard":                    "minimum-clade_standard",
-      "Minimum Clade - Directly Specified Ancestor": "minimum-clade_directly_specified_ancestor",
+      "Minimum Clade - Directly Specified Ancestor (rare)": "minimum-clade_directly_specified_ancestor",
       "Maximum Clade - Standard":                    "maximum-clade_standard",
       "Apomorphy Based - Standard":                  "apomorphy-based_standard",
       "Minimum Crown Clade":                         "minimum-crown-clade",
