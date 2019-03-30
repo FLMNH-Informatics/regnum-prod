@@ -1,7 +1,19 @@
 class Submission < ApplicationRecord
 
-  self.table_name = "submissions"
+  self.table_name         = "submissions"
   self.inheritance_column = false
+
+  enum clade_type: {
+      "Minimum Clade - Standard":                    "minimum-clade_standard",
+      "Minimum Clade - Directly Specified Ancestor": "minimum-clade_directly_specified_ancestor",
+      "Maximum Clade - Standard":                    "maximum-clade_standard",
+      "Apomorphy Based - Standard":                  "apomorphy-based_standard",
+      "Minimum Crown Clade":                         "minimum-crown-clade",
+      "Maximum Crown Clade":                         "maximum-crown-clade",
+      "Apomorphy Modified Crown Clade":              "apomorphy-modified_crown_clade",
+      "Maximum Total Clade":                         "maximum-total-clade",
+      "Crown Based - Total Clade":                   "crown-based_total_clade"
+  }
 
   belongs_to :status
   has_many :status_changes
@@ -15,24 +27,24 @@ class Submission < ApplicationRecord
   #scope :approved, where("status_id = 4")
   @current_time = Time.now
 
-  before_create lambda{ self.status_id = 1 }
+  before_create lambda { self.status_id = 1 }
   before_save :remove_invalid_specifiers
 
-  after_find lambda{ @current_status = self.status_id }
+  after_find lambda { @current_status = self.status_id }
 
   #citation
-  before_update lambda{ self.updated_at = @current_time }
+  before_update lambda { self.updated_at = @current_time }
   before_update :check_status_change
   # authors, citations and specifiers are stored as hashes
   # this conveniently makes all the fields searchable on a single column
   serialize :authors, Array
   serialize :citations, Hash
   serialize :specifiers, Array
-  
+
   scope :opt_in, -> { where(establish: true) }
   scope :opt_out, -> { where(establish: false) }
   #scope :approved, where(:status_id => Status.where(:status => 'approved').first.id)
-  
+
   def temp_id
     #reverting to just plain id, see issue #89
     self.id
@@ -51,14 +63,14 @@ class Submission < ApplicationRecord
       stat.comments
     end
   end
-  
+
   def submitted_by_user?(current_user_id)
     self.submitted_by == current_user_id
   end
 
   def self.handle_save params
-    params = params.to_unsafe_h #change in rails 5, need to permit all parameters, this is the fastest way but might be unsafe
-    submission = Submission.find(params[:submission_id])
+    params                         = params.to_unsafe_h #change in rails 5, need to permit all parameters, this is the fastest way but might be unsafe
+    submission                     = Submission.find(params[:submission_id])
     submission.citations           = params[:citations] if params.has_key?(:citations)
     submission.specifiers          = params[:specifiers] if params.has_key?(:specifiers)
     submission.preexisting         = params[:preexisting] == 'null' ? false : params[:preexisting]
@@ -92,11 +104,11 @@ class Submission < ApplicationRecord
   # create new status change record on status change
   def check_status_change
     if self.status_id != @current_status
-      sc = StatusChange.new
+      sc               = StatusChange.new
       sc.submission_id = self.id
-      sc.status_id = self.status_id
-      sc.changed_at = @current_time 
-      sc.comments = status_comments
+      sc.status_id     = self.status_id
+      sc.changed_at    = @current_time
+      sc.comments      = status_comments
       sc.save
       #give sub a global id if approved
       if self.status.eq?('approved')
@@ -104,9 +116,9 @@ class Submission < ApplicationRecord
       end
     end
   end
-  
-  def generate_guid(time=nil)
+
+  def generate_guid(time = nil)
     UUIDTools::UUID.timestamp_create(time).to_s
   end
-  
+
 end
