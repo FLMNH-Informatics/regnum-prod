@@ -27,7 +27,7 @@ class Submission < ApplicationRecord
   #scope :approved, where("status_id = 4")
   @current_time = Time.now
 
-  before_create lambda { self.status_id = 1 }
+  before_validation :assign_status_unsubmitted,  on: :create
   before_save :remove_invalid_specifiers
 
   after_find lambda { @current_status = self.status_id }
@@ -94,6 +94,11 @@ class Submission < ApplicationRecord
   end
 
   private
+
+  def assign_status_unsubmitted
+    byebug
+    self.status_id = 1
+  end
 
   def remove_invalid_specifiers
     unless self.is_apomorphy?
