@@ -6,9 +6,16 @@
   .row
     .form-group.col-sm-12
       %label{ :for => 'clade_type' } Definition type
-      %select.form-group#clade_type{ :name => 'clade_type' }
+      %select.form-control#clade_type{ :name => 'clade_type' }
         %option{:value => 'all' } All
         =options_for_select Submission.clade_types.sort
+  - if controller_name == 'submissions' && current_user.is_admin?
+    .row
+      .form-group.col-sm-12
+        %label{ :for => 'submitted_by' } Submitted by
+        %select.form-control#submitted_by{ :name => "submitted_by" }
+          %option{:value => 'all' } All
+          =options_from_collection_for_select User.with_submissions.alphabetize, 'id', 'last_first'
   .row
     .form-group.col-sm-12
       %input.button#search{:type => :submit, :value => 'search'}
