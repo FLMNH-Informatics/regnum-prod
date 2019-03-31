@@ -1,9 +1,9 @@
 class SubmissionsController < ApplicationController
 
-  before_action :requires_a_editor_or_admin
+  before_action :requires_reviewer
 
   def index
-    @subs = submissions_for_editor(params)
+    @subs = Submission.find_submissions_for_role(current_user.role, params)
     if request.xhr?
       render :partial => 'submissions/submissions_table', :layout => false
     end
@@ -69,23 +69,25 @@ class SubmissionsController < ApplicationController
 
   private
 
+  #this is now a model method
   #gets right set of subs depending of type of editor/admin
-  def submissions_for_editor(params)
-    params[:term]       ||= ''
-    params[:page]       ||= '1'
-    params[:order]      ||= 'name'
-    params[:dir]        ||= 'up'
-    params[:clade_type] ||= 'all'
-    dir                 = params[:dir] == 'up' ? 'ASC' : 'DESC'
-    subs                = if current_user.is_admin?
-                            Submission.where("name LIKE ?", "#{params[:term]}%") #admin sees all :)
-                          elsif current_user.is_reviewer?
-                            Submission.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "#{params[:term]}%")
-                          elsif current_user.is_opt_out_reviewer?
-                            Submission.opt_out.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "#{params[:term]}%")
-                          elsif current_user.is_opt_in_reviewer?
-                            Submission.opt_in.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "#{params[:term]}%")
-                          end.order("#{params[:order]} #{dir}").paginate(:page => params[:page], :per_page => 12)
-    return params[:clade_type] == 'all' ? subs : subs.where(clade_type: params[:clade_type])
-  end
+  # def submissions_for_editor(params)
+  #   debugger;
+  #   params[:term]       ||= ''
+  #   params[:page]       ||= '1'
+  #   params[:order]      ||= 'name'
+  #   params[:dir]        ||= 'up'
+  #   params[:clade_type] ||= 'all'
+  #   dir                 = params[:dir] == 'up' ? 'ASC' : 'DESC'
+  #   subs                = if current_user.is_admin?
+  #                           Submission.where("name LIKE ?", "#{params[:term]}%") #admin sees all :)
+  #                         elsif current_user.is_reviewer?
+  #                           Submission.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "#{params[:term]}%")
+  #                         elsif current_user.is_opt_out_reviewer?
+  #                           Submission.opt_out.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "#{params[:term]}%")
+  #                         elsif current_user.is_opt_in_reviewer?
+  #                           Submission.opt_in.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "#{params[:term]}%")
+  #                         end.order("#{params[:order]} #{dir}").paginate(:page => params[:page], :per_page => 12)
+  #   return params[:clade_type] == 'all' ? subs : subs.where(clade_type: params[:clade_type])
+  # end
 end

@@ -4,15 +4,15 @@ class Submission < ApplicationRecord
   self.inheritance_column = false
 
   enum clade_type: {
-      "Minimum Clade - Standard":                    "minimum-clade_standard",
+      "Minimum Clade - Standard":                           "minimum-clade_standard",
       "Minimum Clade - Directly Specified Ancestor (rare)": "minimum-clade_directly_specified_ancestor",
-      "Maximum Clade - Standard":                    "maximum-clade_standard",
-      "Apomorphy Based - Standard":                  "apomorphy-based_standard",
-      "Minimum Crown Clade":                         "minimum-crown-clade",
-      "Maximum Crown Clade":                         "maximum-crown-clade",
-      "Apomorphy Modified Crown Clade":              "apomorphy-modified_crown_clade",
-      "Maximum Total Clade":                         "maximum-total-clade",
-      "Crown Based - Total Clade":                   "crown-based_total_clade"
+      "Maximum Clade - Standard":                           "maximum-clade_standard",
+      "Apomorphy Based - Standard":                         "apomorphy-based_standard",
+      "Minimum Crown Clade":                                "minimum-crown-clade",
+      "Maximum Crown Clade":                                "maximum-crown-clade",
+      "Apomorphy Modified Crown Clade":                     "apomorphy-modified_crown_clade",
+      "Maximum Total Clade":                                "maximum-total-clade",
+      "Crown Based - Total Clade":                          "crown-based_total_clade"
   }
 
   belongs_to :status
@@ -27,7 +27,7 @@ class Submission < ApplicationRecord
   #scope :approved, where("status_id = 4")
   @current_time = Time.now
 
-  before_validation :assign_status_unsubmitted,  on: :create
+  before_validation :assign_status_unsubmitted, on: :create
   before_save :remove_invalid_specifiers
 
   after_find lambda { @current_status = self.status_id }
@@ -89,6 +89,19 @@ class Submission < ApplicationRecord
     submission
   end
 
+  def self.find_submissions_for_user user, params
+    params[:submitted_by] = user.id
+    Submission.find_submissions params
+  end
+
+  def self.find_submissions_for_role role, params
+    role_name   = role.is_a?(Role) ? role.name : role
+    submissions = role_name == 'admin' ? Submission : Submission.where(status: Status.find_by_status('unsubmitted'))
+    submissions = submissions.opt_in if role_name.include? "opt_in"
+    submissions = submissions.opt_out if role_name.include? "opt_out"
+    Submission.find_submissions params, submissions
+  end
+
   def is_apomorphy?
     self.clade_type&.include? "apomorphy"
   end
@@ -123,6 +136,27 @@ class Submission < ApplicationRecord
 
   def generate_guid(time = nil)
     UUIDTools::UUID.timestamp_create(time).to_s
+  end
+
+  private
+
+  def self.find_submissions params, submissions = nil
+    params[:term]       ||= ''
+    params[:page]       ||= '1'
+    params[:order]      ||= 'name'
+    params[:dir]        ||= 'up'
+    params[:clade_type] ||= 'all'
+    params[:status]     ||= 'all'
+    dir                 = params[:dir] == 'up' ? 'ASC' : 'DESC'
+
+    submissions = Submission unless submissions
+    submissions = submissions.where(submitted_by: params[:submitted_by])  unless params[:submitted_by] == 'all' || params[:submitted_by].nil?
+    submissions = submissions.where(clade_type: params[:clade_type])      unless params[:clade_type] == 'all' || params[:clade_type].nil?
+    submissions = submissions.where(status_id: params[:status])           unless params[:status] == 'all' || params[:status].nil?
+    submissions = submissions.where("name LIKE ?", "%#{params[:term]}%")  unless params[:term].strip.blank? || params[:term].nil?
+
+    submissions.order("#{params[:order]} #{dir}")
+        .paginate(:page => params[:page], :per_page => 12)
   end
 
 end
