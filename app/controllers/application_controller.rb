@@ -5,9 +5,6 @@ class ApplicationController < ActionController::Base
 
   #TODO should turn below on -- need to fix forms first
   #protect_from_forgery
-
-  alias_method :requires_reviewer, :requires_a_editor_or_admin
-  alias_method :requires_an_editor_or_admin, :requires_a_editor_or_admin
   
   helper_method :current_user
   helper_method :logged_in?
@@ -52,6 +49,9 @@ class ApplicationController < ActionController::Base
   def requires_a_editor_or_admin
     no_pass if !logged_in? || !(current_user.is_a_reviewer? || current_user.is_admin?)
   end
+
+  alias_method :requires_reviewer, :requires_a_editor_or_admin
+  alias_method :requires_an_editor_or_admin, :requires_a_editor_or_admin
 
   # makes sure params id matches
   # session user_id    like for a user
