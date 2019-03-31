@@ -106,6 +106,10 @@ class Submission < ApplicationRecord
     self.clade_type&.include? "apomorphy"
   end
 
+  def deletable?
+    return status.not?('approved')  && status.not?('rejected')  && status.not?('submitted')
+  end
+
   private
 
   def assign_status_unsubmitted
