@@ -10,6 +10,8 @@ module ApplicationHelper
       when 'my_submission/new'
         files.concat [ 'submission_model.js', 'new_submission.js']#['cladename_tools.js','create_cladename.js']
       when 'my_submission/show'
+        files.concat []
+      when 'my_submission/edit'
         files.concat [
          'submission_model.js',
          'my_submissions/create_cladename.js',
