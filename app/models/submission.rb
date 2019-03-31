@@ -96,7 +96,6 @@ class Submission < ApplicationRecord
   private
 
   def assign_status_unsubmitted
-    byebug
     self.status_id = 1
   end
 
