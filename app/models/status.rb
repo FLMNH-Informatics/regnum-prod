@@ -8,6 +8,10 @@ class Status < ApplicationRecord
     self.status == stat
   end
 
+  def not?(stat)
+    !self.eq?(stat)
+  end
+
   def approved?
     self.status == 'approved'
   end
