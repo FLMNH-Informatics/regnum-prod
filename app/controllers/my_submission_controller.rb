@@ -13,7 +13,7 @@ class MySubmissionController < ApplicationController
     @subs = Submission.find_submissions_for_user(current_user, params)
 
     if request.xhr?
-      render :partial => 'my_submissions_table', :layout => false
+      render :partial => 'shared/submissions_table', :layout => false
     else
       render 'index'
     end
@@ -88,7 +88,7 @@ class MySubmissionController < ApplicationController
       @subs          = Submission.where(["submitted_by = ? AND name LIKE ?", current_user.id, params[:term] + '%'])
                            .order("#{params[:order]} #{dir}")
                            .paginate(:page => params[:page], :per_page => 12)
-      render :partial => 'my_submission/my_submissions_table', :layout => false
+      render :partial => 'shared/submissions_table', :layout => false
     else
       redirect_to :action => :index
     end

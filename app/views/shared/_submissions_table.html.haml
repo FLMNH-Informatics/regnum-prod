@@ -1,0 +1,34 @@
+.sortable-table-div
+  = render :partial => 'shared/sortable_table_loading_message'
+  %table#user_submissions_table.sortable-table
+    %tr.sortable-table-header-row
+      %th.sortable.table-header-link=table_sort_header('name')
+      %th.sortable.table-header-link=table_sort_header('clade_type', 'Type')
+      %th.sortable.table-header-link=table_sort_header('status_id','status')
+      - if controller.controller_name == 'submissions'
+        %th.sortable.table-header-link=table_sort_header('submitted_by', 'Submitter')
+      %th{:colspan => 3}
+    %tbody
+      -@subs.each do |sub|
+        %tr{:class => cycle('odd-row','even-row'), :id => sub.id, :title => "click to open submission"  }
+          %td
+            %em= sub.name
+          %td= sub.clade_type
+          %td= sub.status.status
+          - if controller.controller_name == 'submissions'
+            %td{ :style => 'width:180px'}= sub.user.nil? ? "" : sub.user.last_name + ', ' + sub.user.first_name
+          %td{ :style => 'width:40px'}
+            = link_to "View", (controller.controller_name == 'submissions' ? submission_path(sub.id) : my_submission_path(sub.id)), class: "button"
+          -if current_user.is_admin?
+            %td{:style => 'width:40px'}
+              = link_to "Edit", (controller.controller_name == 'submissions' ? edit_submission_path(sub.id) : edit_my_submission_path(sub.id)), class: "button"
+          -if sub.deletable? && (current_user.is_admin? || controller.controller_name == 'my_submission')
+            %td{ :style => 'width:40px'}
+              =form_for sub, :url => submission_path(sub.id), :html => {:method => :delete } do |s|
+                %button.submit_button{:type => 'submit', :title => 'click to delete'} Delete
+      %tr
+        %td{:colspan => 5, :style => 'text-align:center;padding:1px;border:none;'}
+          =will_paginate @subs, renderer: RemoteLinkRenderer,:params => {:controller => controller.controller_name, :action => nil}
+      %tr
+        %td{:colspan => 5, :style => 'text-align:center;padding:1px;border:none;'}
+          =page_entries_info @subs, {:model => 'clade names'}

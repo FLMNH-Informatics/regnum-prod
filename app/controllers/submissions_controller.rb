@@ -5,7 +5,7 @@ class SubmissionsController < ApplicationController
   def index
     @subs = Submission.find_submissions_for_role(current_user.role, params)
     if request.xhr?
-      render :partial => 'submissions/submissions_table', :layout => false
+      render :partial => 'shared/submissions_table', :layout => false
     end
   end
 
@@ -33,7 +33,7 @@ class SubmissionsController < ApplicationController
     #SubmissionCitationAttachment.delete_all(["submission_id = ?", params[:id]])
     @subs = Submission.find_submissions_for_role(current_user.role, params)
     if request.xhr?
-      render :partial => 'submissions/submissions_table', :layout => false
+      render :partial => 'shared/submissions_table', :layout => false
     else
       redirect_to :action => :index
     end
