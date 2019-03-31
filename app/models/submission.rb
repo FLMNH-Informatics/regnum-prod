@@ -107,7 +107,7 @@ class Submission < ApplicationRecord
   end
 
   def deletable?
-    return status.not?('approved')  && status.not?('rejected')  && status.not?('submitted')
+    %w(approved rejected submitted).none?{ |stat| status.not? stat }
   end
 
   private
