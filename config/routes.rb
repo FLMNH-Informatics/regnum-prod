@@ -26,16 +26,28 @@ Regnum::Application.routes.draw do
   match '/save_submission' => 'my_submission#save_submission', as: :save_submission, via: [:post,:put]
   match '/name/:id' => 'cladename#find_name', :as => :name, via: :get
 
-  match '/my_submission' => 'my_submission#index', :as => :my_submission, via: :get
-  match '/my_submission/new' => 'my_submission#new', :as => :new, via: :get
-  match '/my_submission/check_name' => 'my_submission#check_name', :as => :check_name, via: :get
-  match '/my_submission/template' => 'my_submission#template', :as => :template, via: :get
-  match '/my_submission/add_attachment' => 'my_submission#add_attachment', :as => :add_attachment, via: :post
+  resources :my_submission do
+    member do
+      get :template
+      post :add_attachment
+    end
+    collection do
+      get :check_name
+    end
+  end
+
+  # match '/my_submission' => 'my_submission#index', :as => :my_submission, via: :get
+  # match '/my_submission/new' => 'my_submission#new', :as => :new, via: :get
+  # match '/my_submission/check_name' => 'my_submission#check_name', :as => :check_name, via: :get
+  # match '/my_submission/template' => 'my_submission#template', :as => :template, via: :get
+  # match '/my_submission/add_attachment' => 'my_submission#add_attachment', :as => :add_attachment, via: :post
   match '/my_submission/view_attachment/:id' => 'my_submission#view_attachment', :as => :view_attachment, via: :get
   match '/my_submission/remove_attachment/:id' => 'my_submission#remove_attachment', :as => :remove_attachment, via: :get
-  match '/my_submission/delete/:id' => 'my_submission#delete', :as => :delete, via: :delete
+  # match '/my_submission/delete/:id' => 'my_submission#delete', :as => :delete, via: :delete
   #this one comes last so my_submission method calls can pass
-  match '/my_submission/:id' => 'my_submission#show', :as => :show_my_submission, via: :get
+  # match '/my_submission/:id' => 'my_submission#show', :as => :show_my_submission, via: :get
+  #
+  #
   match '/templates/load' => 'templates#load', :as => :load_template, via: :get
   #
   match '/admin' => 'admin#index', :as => :admin, via: :get

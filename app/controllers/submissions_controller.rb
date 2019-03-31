@@ -9,6 +9,15 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  def show
+    @sub = Submission.find(params[:id])
+    @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
+    respond_to do |format|
+      format.html { render 'shared/submission_view' }
+      format.json { render :json => @sub }
+    end
+  end
+
   def edit
     @sub   = Submission.find(params[:id])
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
@@ -21,9 +30,8 @@ class SubmissionsController < ApplicationController
 
   def destroy
     Submission.delete(params[:id])
-    SubmissionCitationAttachment.delete_all(["submission_id = ?", params[:id]])
-
-    @subs = submissions_for_editor(params)
+    #SubmissionCitationAttachment.delete_all(["submission_id = ?", params[:id]])
+    @subs = Submission.find_submissions_for_role(current_user.role, params)
     if request.xhr?
       render :partial => 'submissions/submissions_table', :layout => false
     else

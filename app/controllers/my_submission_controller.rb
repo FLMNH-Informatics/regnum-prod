@@ -27,7 +27,16 @@ class MySubmissionController < ApplicationController
     @sub   = Submission.find(params[:id])
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
     respond_to do |format|
-      format.html { render 'cladename/new' }
+      format.html { render 'shared/submission_view' }
+      format.json { render :json => @sub }
+    end
+  end
+
+  def edit
+    @sub   = Submission.find(params[:id])
+    @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
+    respond_to do |format|
+      format.html { render 'shared/submission_edit' }
       format.json { render :json => @sub }
     end
   end
