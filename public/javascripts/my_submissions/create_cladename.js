@@ -1,5 +1,5 @@
 //define phyloregnum object/namespace
-// 
+
 function Phyloregnum(){
     var self = this;
 
@@ -386,6 +386,28 @@ function Phyloregnum(){
         return str
     }
 
+    self.attach_file = function(citation, data, event){
+
+        var form = event.target.form,
+            data = new FormData(),
+            action = form.getAttribute('action'),
+            xhr = new XMLHttpRequest();
+
+        data.append('file', event.srcElement.files[0]);
+        xhr.open("POST", action, true);
+        xhr.onload = function(event){
+            if (xhr.status == 200){
+                debugger;
+                'success'
+            }else{
+                debugger;
+                'fail'
+            }
+        }
+        xhr.send(data);
+
+    }
+
     self.save_submission = function(action){
         jQuery('#spinner').show()
 
@@ -696,7 +718,7 @@ jQuery(document).ready(function(){
     jQuery('#modal-message-window').dialog({modal: true, width: 300, height: 200})
 
     jQuery.each(pr.templatesToLoad,function(key){
-        jQuery.get('/templates/load?template='+pr.templatesToLoad[key],function(response){
+        jQuery.get('/templates/load?template='+pr.templatesToLoad[key]+"&submission_id="+jQuery("#submission_id").val(),function(response){
             pr.templates[pr.templatesToLoad[key]] = response
         })
     });

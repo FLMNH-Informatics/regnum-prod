@@ -19,6 +19,7 @@ class Submission < ApplicationRecord
   has_many :status_changes
   belongs_to :user, :foreign_key => :submitted_by
   has_many :submission_citation_attachments
+  has_many_attached :files
 
   # attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by #removed in rails 5
   attr_accessor :status_comments #editors comments for status changes

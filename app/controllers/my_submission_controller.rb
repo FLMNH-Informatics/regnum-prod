@@ -3,7 +3,7 @@ require 'htmlentities'
 class MySubmissionController < ApplicationController
 
   before_action :requires_logged_in
-  before_action lambda { check_requester(params[:submission_id]) unless params[:submission_id] == 'new' }, :only => [:save, :add_attachment]
+  before_action lambda { check_requester(params[:submission_id]) unless params[:submission_id] == 'new' }, :only => [:save]
   # need filter for remove attachement to check user cred
 
   #
@@ -111,16 +111,18 @@ class MySubmissionController < ApplicationController
   #
   ##
   def add_attachment
-    attach               = SubmissionCitationAttachment.new
-    attach.file          = params[:file]
-    attach.submission_id = params[:submission_id]
-    attach.citation_type = params[:type]
-    #index id for phylogeny attachments
-
-    attach.index_id = (params.has_key?(:cid) ? params[:cid] : 0)
-    attach.save
-
-    render :json => { :path => attach.file.to_s, :id => attach.id }.to_json
+    byebug
+    render json: { foo: "bar" }
+    # attach               = SubmissionCitationAttachment.new
+    # attach.file          = params[:file]
+    # attach.submission_id = params[:submission_id]
+    # attach.citation_type = params[:type]
+    # #index id for phylogeny attachments
+    #
+    # attach.index_id = (params.has_key?(:cid) ? params[:cid] : 0)
+    # attach.save
+    #
+    # render :json => { :path => attach.file.to_s, :id => attach.id }.to_json
   end
 
   #
