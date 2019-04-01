@@ -22,6 +22,7 @@ class TemplatesController < ApplicationController
   
   def load
     to_load = params[:template]
+    @sub = Submission.find(params[:submission_id])
     render :partial => @templates[to_load] , :layout => false
   end
 
