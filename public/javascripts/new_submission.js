@@ -72,7 +72,7 @@ jQuery(document).ready(function () {
                 data: data,
                 contentType: 'application/json'
             }).done(function (response) {
-                document.location.href = '/my_submission/' + response.submission_id;
+                document.location.href = '/my_submission/' + response.submission_id + '/edit';
             });
         };
 

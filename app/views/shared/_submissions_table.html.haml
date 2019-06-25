@@ -24,7 +24,7 @@
               = link_to "Edit", (controller.controller_name == 'submissions' ? edit_submission_path(sub.id) : edit_my_submission_path(sub.id)), class: "button"
           -if sub.deletable? && (current_user.is_admin? || controller.controller_name == 'my_submission')
             %td{ :style => 'width:40px'}
-              =form_for sub, :url => submission_path(sub.id), :html => {:method => :delete } do |s|
+              =form_for sub, :url => (controller.controller_name == 'submissions' ? submission_path(sub.id) : my_submission_path(sub.id)), :html => {:method => :delete } do |s|
                 %button.submit_button{:type => 'submit', :title => 'click to delete'} Delete
       %tr
         %td{:colspan => 5, :style => 'text-align:center;padding:1px;border:none;'}
