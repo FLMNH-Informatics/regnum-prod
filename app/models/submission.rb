@@ -111,6 +111,15 @@ class Submission < ApplicationRecord
     %w(approved rejected submitted).none?{ |stat| status.eq? stat }
   end
 
+  def attached_files
+    self.files.map do |file|
+      {
+          filename: file.filename,
+          url: Rails.application.routes.url_helpers.rails_blob_path(file, disposition: :attachment, only_path: true)
+      }
+    end
+  end
+
   private
 
   def assign_status_unsubmitted
@@ -143,7 +152,6 @@ class Submission < ApplicationRecord
     UUIDTools::UUID.timestamp_create(time).to_s
   end
 
-  private
 
   def self.find_submissions params, submissions = nil
     params[:term]       ||= ''

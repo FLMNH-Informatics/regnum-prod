@@ -23,20 +23,20 @@ class MySubmissionController < ApplicationController
   ##
   def show
     #redirect_to create_submission
-    @sub   = Submission.find(params[:id])
+    @sub   = Submission.with_attached_files.find(params[:id])
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
     respond_to do |format|
       format.html { render 'shared/submission_view' }
-      format.json { render :json => @sub }
+      format.json { render :json => { submission: @sub, attached_files: @sub.attached_files } }
     end
   end
 
   def edit
-    @sub   = Submission.find(params[:id])
+    @sub   = Submission.with_attached_files.find(params[:id])
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
     respond_to do |format|
       format.html { render 'shared/submission_edit' }
-      format.json { render :json => @sub }
+      format.json { render :json => { submission: @sub, attached_files: @sub.attached_files } }
     end
   end
 
@@ -112,8 +112,9 @@ class MySubmissionController < ApplicationController
   #
   ##
   def add_attachment
-    byebug
-    render json: { foo: "bar" }
+    @submission = Submission.find(params[:id])
+    attached_files = @submission.files.attach(params[:file])
+    render json: { attached_files: attached_files }
     # attach               = SubmissionCitationAttachment.new
     # attach.file          = params[:file]
     # attach.submission_id = params[:submission_id]

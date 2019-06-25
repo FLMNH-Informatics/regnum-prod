@@ -456,12 +456,14 @@ function Phyloregnum(){
         jQuery('#submission_id').val(id)
         jQuery.getJSON('/my_submission/'+id,function(response){
             var submission = response.submission ? response.submission : response;
+            // submission.attached_files = response.attached_files;
             submission.submission_id = id
             //set save action
             submission.subaction = ''
             ///ko key mapping
             pr.submissionModel.displayAuths = ko.pureComputed(self.displayAuthors, pr.submissionModel);
             pr.submissionModel = ko.mapping.fromJS(submission, pr.ko.mapping, pr.submissionModel);
+            pr.submissionModel.attachedFiles = ko.observableArray(response.attached_files);
             if (pr.submissionModel.authors().length === 0) pr.submissionModel.authors.push(self.makeAuthor());
             jQuery.each(pr.submissionModel, function(k,v){
                 if((typeof(v)=='function' && v()=='null')||v==null){
@@ -470,6 +472,7 @@ function Phyloregnum(){
             })
             pr.submissionModel.name.subscribe(pr.submissionModel.checkSubmissionModel.checkName);
             pr.submissionModel.checkSubmissionModel.checkName(pr.submissionModel.name);
+
             ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'));
             jQuery.loadWidgets('#contents');
             jQuery('#modal-message-window').dialog('destroy');
