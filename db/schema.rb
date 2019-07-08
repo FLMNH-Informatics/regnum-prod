@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_08_025128) do
+ActiveRecord::Schema.define(version: 2019_07_08_025429) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name", null: false
@@ -522,8 +522,10 @@ ActiveRecord::Schema.define(version: 2019_07_08_025128) do
     t.text "specifiers"
     t.bigint "definitional_citation_id"
     t.bigint "preexisting_citation_id"
+    t.bigint "primary_phylogeny_citation_id"
     t.index ["definitional_citation_id"], name: "index_submissions_on_definitional_citation_id"
     t.index ["preexisting_citation_id"], name: "index_submissions_on_preexisting_citation_id"
+    t.index ["primary_phylogeny_citation_id"], name: "index_submissions_on_primary_phylogeny_citation_id"
   end
 
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
@@ -549,4 +551,5 @@ ActiveRecord::Schema.define(version: 2019_07_08_025128) do
   add_foreign_key "citations", "users", column: "created_by_id"
   add_foreign_key "submissions", "citations", column: "definitional_citation_id"
   add_foreign_key "submissions", "citations", column: "preexisting_citation_id"
+  add_foreign_key "submissions", "citations", column: "primary_phylogeny_citation_id"
 end

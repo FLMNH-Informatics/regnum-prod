@@ -5,6 +5,7 @@ class Submission < ApplicationRecord
 
   belongs_to :definitional_citation, class_name: 'Citation', foreign_key: 'definitional_citation_id'
   belongs_to :preexisting_citation, class_name: 'Citation', foreign_key: 'preexisting_citation_id'
+  belongs_to :primary_phylogeny_citation, class_name: 'Citation', foreign_key: 'primary_phylogeny_citation_id'
 
   enum clade_type: {
       "Minimum Clade - Standard":                           "minimum-clade_standard",
