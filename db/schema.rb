@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_31_223315) do
+ActiveRecord::Schema.define(version: 2019_07_08_021325) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name", null: false
@@ -94,33 +94,36 @@ ActiveRecord::Schema.define(version: 2019_03_31_223315) do
     t.string "attribute_value"
   end
 
-  create_table "citations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "citation_types", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.string "citation_type"
+  end
+
+  create_table "citations", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "title"
-    t.string "updated_by"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "year"
-    t.string "authors"
-    t.integer "created_by"
-    t.string "pages"
+    t.bigint "citation_type_id"
+    t.string "section_title"
+    t.text "authors"
+    t.text "editors"
+    t.text "series_editors"
     t.string "publisher"
-    t.string "journal"
-    t.string "article_title"
-    t.string "book_editors"
-    t.string "series_editors"
-    t.string "edition"
-    t.string "volumes"
     t.string "city"
-    t.string "volume"
+    t.string "edition"
+    t.string "book_section"
+    t.string "figure"
+    t.string "journal"
     t.string "number"
+    t.string "pages"
     t.string "isbn"
-    t.string "abstract"
-    t.string "keywords"
     t.string "url"
     t.string "doi"
-    t.integer "cladename_id", null: false
-    t.string "citation_for", limit: 0
-    t.string "type", limit: 0
+    t.string "volume"
+    t.string "year"
+    t.text "keywords"
+    t.integer "created_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["citation_type_id"], name: "index_citations_on_citation_type_id"
+    t.index ["created_by_id"], name: "index_citations_on_created_by_id"
   end
 
   create_table "cladename_apomorphies", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
@@ -517,6 +520,8 @@ ActiveRecord::Schema.define(version: 2019_03_31_223315) do
     t.text "authors"
     t.text "citations"
     t.text "specifiers"
+    t.bigint "definitional_citation_id"
+    t.index ["definitional_citation_id"], name: "index_submissions_on_definitional_citation_id"
   end
 
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
@@ -538,4 +543,7 @@ ActiveRecord::Schema.define(version: 2019_03_31_223315) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "citations", "citation_types"
+  add_foreign_key "citations", "users", column: "created_by_id"
+  add_foreign_key "submissions", "citations", column: "definitional_citation_id"
 end

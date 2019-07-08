@@ -3,6 +3,8 @@ class Submission < ApplicationRecord
   self.table_name         = "submissions"
   self.inheritance_column = false
 
+  belongs_to :definitional_citation, class_name: 'Citation', foreign_key: 'definitional_citation_id'
+
   enum clade_type: {
       "Minimum Clade - Standard":                           "minimum-clade_standard",
       "Minimum Clade - Directly Specified Ancestor (rare)": "minimum-clade_directly_specified_ancestor",
