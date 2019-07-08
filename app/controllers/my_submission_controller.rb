@@ -2,29 +2,17 @@ require 'htmlentities'
 
 class MySubmissionController < ApplicationController
 
-  before_filter :requires_logged_in
-  before_filter lambda { check_requester(params[:submission_id]) unless params[:submission_id] == 'new' }, :only => [:save, :add_attachment]
+  before_action :requires_logged_in
+  before_action lambda { check_requester(params[:submission_id]) unless params[:submission_id] == 'new' }, :only => [:save]
   # need filter for remove attachement to check user cred
 
   #
   #
   ##
   def index
-    params[:term]  ||= ''
-    params[:page]  ||= '1'
-    params[:order] ||= 'name'
-    params[:dir]   ||= 'up'
-    dir            = params[:dir] == 'up' ? 'ASC' : 'DESC'
-    params[:clade_type] ||= 'all'
-
-    stats          = current_user ? "status_id IN (4,3,2)" : "status_id = 4"
-
-    @subs = (params[:clade_type] == 'all' ? Submission : Submission.where('clade_type = ?', params[:clade_type]))
-                .where(["submitted_by = ? AND name LIKE ?", current_user.id, params[:term] + '%'])
-                .order("#{params[:order]} #{dir}")
-                .paginate(:page => params[:page], :per_page => 12)
+    @subs = Submission.find_submissions_for_user(current_user, params)
     if request.xhr?
-      render :partial => 'my_submissions_table', :layout => false
+      render :partial => 'shared/submissions_table', :layout => false
     else
       render 'index'
     end
@@ -35,11 +23,20 @@ class MySubmissionController < ApplicationController
   ##
   def show
     #redirect_to create_submission
-    @sub   = Submission.find(params[:id])
+    @sub   = Submission.with_attached_files.find(params[:id])
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
     respond_to do |format|
-      format.html { render 'cladename/new' }
-      format.json { render :json => @sub }
+      format.html { render 'shared/submission_view' }
+      format.json { render :json => { submission: @sub, attached_files: @sub.attached_files } }
+    end
+  end
+
+  def edit
+    @sub   = Submission.with_attached_files.find(params[:id])
+    @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
+    respond_to do |format|
+      format.html { render 'shared/submission_edit' }
+      format.json { render :json => { submission: @sub, attached_files: @sub.attached_files } }
     end
   end
 
@@ -49,7 +46,7 @@ class MySubmissionController < ApplicationController
     @clad       = @deftypeid
     params[:id] = nil
     respond_to do |format|
-      format.html { render 'cladename/create_clade' } #:cladename}
+      format.html { render 'cladename/create_clade' }
     end
   end
 
@@ -58,7 +55,7 @@ class MySubmissionController < ApplicationController
     if request.xhr?
       render :json => { :submission_id => @submission.id }.to_json
     else
-      redirect_to show_my_submission_path(@submission.id)
+      redirect_to edit_my_submission_path(@submission.id)
     end
   end
 
@@ -74,26 +71,28 @@ class MySubmissionController < ApplicationController
   #
   #
   ##
-  def delete
+  def destroy
     sub = Submission.find(params[:id])
     if !sub.status.approved? || !sub.status.rejected?
       sub.delete
-      SubmissionCitationAttachment.delete_all(["submission_id = ?", params[:id]])
+      #SubmissionCitationAttachment.delete_all(["submission_id = ?", params[:id]])
     end
-    if request.xhr?
-      params[:term]  ||= ''
-      params[:page]  ||= '1'
-      params[:order] ||= 'name'
-      params[:dir]   ||= 'up'
-      dir            = params[:dir] == 'up' ? 'ASC' : 'DESC'
-      stats          = current_user ? "status_id IN (4,3,2)" : "status_id = 4"
-      @subs          = Submission.where(["submitted_by = ? AND name LIKE ?", current_user.id, params[:term] + '%'])
-                           .order("#{params[:order]} #{dir}")
-                           .paginate(:page => params[:page], :per_page => 12)
-      render :partial => 'my_submission/my_submissions_table', :layout => false
-    else
-      redirect_to :action => :index
-    end
+    # if request.xhr?
+    #   byebug
+    #   params[:term]  ||= ''
+    #   params[:page]  ||= '1'
+    #   params[:order] ||= 'name'
+    #   params[:dir]   ||= 'up'
+    #   dir            = params[:dir] == 'up' ? 'ASC' : 'DESC'
+    #   stats          = current_user ? "status_id IN (4,3,2)" : "status_id = 4"
+    #   @subs          = Submission.where(["submitted_by = ? AND name LIKE ?", current_user.id, params[:term] + '%'])
+    #                        .order("#{params[:order]} #{dir}")
+    #                        .paginate(:page => params[:page], :per_page => 12)
+    #   render :partial => 'shared/submissions_table', :layout => false
+    # else
+    byebug
+      redirect_to :action => :index, :notice => "Submission deleted"
+    # end
   end
 
   #
@@ -113,16 +112,19 @@ class MySubmissionController < ApplicationController
   #
   ##
   def add_attachment
-    attach               = SubmissionCitationAttachment.new
-    attach.file          = params[:file]
-    attach.submission_id = params[:submission_id]
-    attach.citation_type = params[:type]
-    #index id for phylogeny attachments
-
-    attach.index_id = (params.has_key?(:cid) ? params[:cid] : 0)
-    attach.save
-
-    render :json => { :path => attach.file.to_s, :id => attach.id }.to_json
+    @submission = Submission.find(params[:id])
+    attached_files = @submission.files.attach(params[:file])
+    render json: { attached_files: attached_files }
+    # attach               = SubmissionCitationAttachment.new
+    # attach.file          = params[:file]
+    # attach.submission_id = params[:submission_id]
+    # attach.citation_type = params[:type]
+    # #index id for phylogeny attachments
+    #
+    # attach.index_id = (params.has_key?(:cid) ? params[:cid] : 0)
+    # attach.save
+    #
+    # render :json => { :path => attach.file.to_s, :id => attach.id }.to_json
   end
 
   #

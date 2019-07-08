@@ -23,7 +23,7 @@ module TabsHelper
           :my_submission => {
               :text       => "My Submissions",
               :controller => 'my_submission',
-              :subnav     => [:my_submissions, :cladename, :edit],
+              :subnav     => [:my_submissions, :cladename, :view, :edit],
               :link       => '/my_submission' },
           :phenotypes    => {
               :text       => "Phenotypes",
@@ -33,7 +33,7 @@ module TabsHelper
           :submissions   => {
               :text       => "Review",
               :controller => 'submissions',
-              :subnav     => [:review_submissions, :reviewer_edit, :export, :export_json],
+              :subnav     => [:review_submissions, :reviewer_view, :reviewer_edit, :export, :export_json],
               :link       => '/submissions' },
           :search        => {
               :text       => "Search",
@@ -49,14 +49,22 @@ module TabsHelper
       :secondary => {
           :edit               => {
               :title      => "Prepare submission",
-              :path       => "show_my_submission_path",
+              :path       => "edit_my_submission_path",
               :require_id => true },
+          :view => {
+              :title => "View submission",
+              :path => "my_submission_path",
+          },
+          :reviewer_view => {
+              :title => "Review submission",
+              :path => "submission_path"
+          },
           :reviewer_edit               => {
               :title      => "Edit submission",
               :path       => "edit_submission_path",
               :require_id => true },
           :review_submissions => {
-              :title  => "Review submissions",
+              :title  => "All submissions",
               :path   => "submissions_path" },
           :export             => {
               :title     => "Export CSV of registration numbers",

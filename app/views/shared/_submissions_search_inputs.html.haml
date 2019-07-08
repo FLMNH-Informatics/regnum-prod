@@ -6,19 +6,22 @@
   .row
     .form-group.col-sm-12
       %label{ :for => 'clade_type' } Definition type
-      %select.form-group#clade_type{ :name => 'clade_type' }
+      %select.form-control#clade_type{ :name => 'clade_type' }
         %option{:value => 'all' } All
-        %option{:value => "minimum-clade_standard"} Minimum Clade - Standard
-        %option{:value => "minimum-clade_directly_specified_ancestor"}
-          Minimum Clade - Directly Specified Ancestor
-          %span.required (Rare)
-        %option{:value => "maximum-clade_standard"} Maximum Clade - Standard
-        %option{:value => "apomorphy-based_standard"} Apomorphy Based - Standard
-        %option{:value => "minimum-crown-clade"} Minimum Crown Clade
-        %option{:value => "maximum-crown-clade"} Maximum Crown Clade
-        %option{:value => "apomorphy-modified_crown_clade"} Apomorphy Modified Crown Clade
-        %option{:value => "maximum-total-clade"} Maximum Total Clade
-        %option{:value => "crown-based_total_clade"} Crown Based - Total Clade
+        =options_for_select Submission.clade_types.sort
+  .row
+    .form-group.col-sm-12
+      %label{ :for => 'status' } Submission status
+      %select.form-control#status{ :name => 'status' }
+        %option{ :value => 'all' } All
+        =options_from_collection_for_select Status.all, 'id', 'status'
+  - if controller_name == 'submissions' && current_user.is_admin?
+    .row
+      .form-group.col-sm-12
+        %label{ :for => 'submitted_by' } Submitted by
+        %select.form-control#submitted_by{ :name => "submitted_by" }
+          %option{ :value => 'all' } All
+          =options_from_collection_for_select User.with_submissions.alphabetize, 'id', 'last_first'
   .row
     .form-group.col-sm-12
       %input.button#search{:type => :submit, :value => 'search'}

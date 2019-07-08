@@ -12,6 +12,9 @@ class ApplicationController < ActionController::Base
   helper_method :requires_admin
   helper_method :requires_editor
   helper_method :requires_user
+  helper_method :requires_reviewer
+  helper_method :requires_an_editor_or_admin
+
   
   def faq
      render 'shared/faq', :layout => (logged_in? ? 'application' : 'public')
@@ -47,9 +50,8 @@ class ApplicationController < ActionController::Base
     no_pass if !logged_in? || !(current_user.is_a_reviewer? || current_user.is_admin?)
   end
 
-  def requires_an_editor_or_admin
-    requires_a_editor_or_admin
-  end
+  alias_method :requires_reviewer, :requires_a_editor_or_admin
+  alias_method :requires_an_editor_or_admin, :requires_a_editor_or_admin
 
   # makes sure params id matches
   # session user_id    like for a user

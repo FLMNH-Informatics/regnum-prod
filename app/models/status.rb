@@ -1,11 +1,15 @@
-class Status  < ActiveRecord::Base
+class Status < ApplicationRecord
 
   self.table_name = 'status'
-  has_one :submission
+  has_many :submissions
   has_many :status_changes
 
   def eq?(stat)
     self.status == stat
+  end
+
+  def not?(stat)
+    !self.eq?(stat)
   end
 
   def approved?

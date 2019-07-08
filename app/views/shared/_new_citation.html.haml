@@ -1,89 +1,92 @@
 %input#new_citation_for{ type: "hidden", name: "citation_for" }
-%form#new-citation-form-entry{ action: "#" }
-  .container-fluid
-    .row
-      .form-group.col-sm-4
-        %label{ for: "citation_type" } Type:
-        %select#citation_type.form-control{ data: { bind: "value: citation_type" } }
-          %option{ value: "book" } Book
-          %option{ value: "journal" } Journal Article
-          %option{ value: "book_section" } Book Section
-    .row
-      .form-group.col-sm-12
-        %label{ for: "title", data: { bind: "text: citation_type() == 'journal' ? 'Article Title' : 'Book Title' " } }
-        %input#title.form-control{ type: "text", data: { bind: "value: title" } }
-    / ko if: citation_type() == 'book_section'
-    .row
-      .form-group.col-sm-12
-        %label{ for: "section-title" } Section Title
-        %input#section-title.form-control{ type: "text", data: { bind: "value: section_title" } }
-    / /ko
-    .row{ data: { bind: "if: citation_type() == 'journal'" } }
-      .form-group.col-sm-12
-        %label{ for: "journal" } Journal
-        %input#journal.form-control{ type: "text", data: { bind: "value: journal" } }
-    .row
-      .form-group.col-sm-12
-        %label Author(s):
-        #citation-author-container
-          = render 'shared/add_author', { author_type: "author" }
-    .row
-      / ko if: citation_type() != 'journal'
-      .form-group.col-sm-12{ data: { bind: "if: citation_type() != 'journal'" } }
-        %label Book Editor(s):
-        = render 'shared/add_author', { author_type: "editor" }
-      / /ko
-
-    / ko if: citation_type() == 'book_section'
-    .row{ data: {bind: "if: citation_type() == 'book_section'" } }
-      .form-group.col-sm-12
-        %label Series Editor(s):
-        = render 'shared/add_author', { author_type: "series_editor" }
-    / /ko
+.container-fluid
+  .row
+    .form-group.col-sm-4
+      %label{ for: "citation_type" } Type:
+      %select#citation_type.form-control{ data: { bind: "value: citation_type" } }
+        %option{ value: "book" } Book
+        %option{ value: "journal" } Journal Article
+        %option{ value: "book_section" } Book Section
+  .row
+    .form-group.col-sm-12
+      %label{ for: "title", data: { bind: "text: citation_type() == 'journal' ? 'Article Title' : 'Book Title' " } }
+      %input#title.form-control{ type: "text", data: { bind: "value: title" } }
+  / ko if: citation_type() == 'book_section'
+  .row
+    .form-group.col-sm-12
+      %label{ for: "section-title" } Section Title
+      %input#section-title.form-control{ type: "text", data: { bind: "value: section_title" } }
+  / /ko
+  .row{ data: { bind: "if: citation_type() == 'journal'" } }
+    .form-group.col-sm-12
+      %label{ for: "journal" } Journal
+      %input#journal.form-control{ type: "text", data: { bind: "value: journal" } }
+  .row
+    .form-group.col-sm-12
+      %label Author(s):
+      #citation-author-container
+        = render 'shared/add_author', { author_type: "author" }
+  .row
     / ko if: citation_type() != 'journal'
-    .row{ data: { bind: "if: citation_type() != 'journal'" } }
-      .form-group.col-sm-9
-        %label{ for: "publisher" } Publisher
-        %input#publisher.form-control{ type: "text", data: { bind: "value: publisher" } }
+    .form-group.col-sm-12{ data: { bind: "if: citation_type() != 'journal'" } }
+      %label Book Editor(s):
+      = render 'shared/add_author', { author_type: "editor" }
     / /ko
-    .row
-      .form-group.col-sm-3
-        %label{ for: "year" } Year
-        %input#year.form-control{ type: "text", data: { bind: "value: year" } }
-      / ko if: citation_type() != 'journal'
-      .form-group.col-sm-4{ data: { bind: "if: citation_type() != 'journal'" } }
-        %label{ for: "city" } City
-        %input#city.form-control{ type: "text", data: { bind: "value: city" } }
-      / /ko
-      .form-group.col-sm-3
-        %label{ for: "edition" } Edition
-        %input#edition.form-control{ type: "text", data: { bind: "value: edition" } }
-      .form-group.col-sm-3
-        %label{ for: "volume", data: { bind: "text: citation_type() == 'journal' ? 'Volume #' : 'Volume'" } } Volume
-        %input#volume.form-control{ type: "text", data: { bind: "value: volume" } }
-      .form-group.col-sm-2
-        %label{ for: "pages" } Page(s)
-        %input#pages.form-control{ type: "text", data: { bind: "value: pages" } }
-      / ko if: citation_type() == 'journal'
-      .form-group.col-sm-3{ data: { bind: "if: citation_type() == 'journal'" } }
-        %label{ for: "figure" } Figure
-        %input#figure.form-control{ type: "text", data: { bind: "value: figure" } }
-      / /ko
-    .row
-      .form-group.col-sm-6
-        %label{ for: "keywords" } Keywords
-        %input#keywords{ type: "text", data: { bind: "value: keywords" } }
-      / ko if: citation_type() == 'journal'
-      .form-group.col-sm-6{ data: { bind: "if: citation_type() == 'journal'" } }
-        %label{ for: "isbn" } ISBN/ISSN
-        %input#isbn{ type: "text", data: { bind: "value: isbn" } }
-      / /ko
-      .form-group.col-sm-6
-        %label{ for: "url" } URL
-        %input#url{ type: "url", data: { bind: "value: url" } }
-      .form-group.col-sm-6
-        %label{ for: "doi" } DOI
-        %input#doi{ type: "text", data: { bind: "value: doi" } }
+
+  / ko if: citation_type() == 'book_section'
+  .row{ data: {bind: "if: citation_type() == 'book_section'" } }
+    .form-group.col-sm-12
+      %label Series Editor(s):
+      = render 'shared/add_author', { author_type: "series_editor" }
+  / /ko
+  / ko if: citation_type() != 'journal'
+  .row{ data: { bind: "if: citation_type() != 'journal'" } }
+    .form-group.col-sm-9
+      %label{ for: "publisher" } Publisher
+      %input#publisher.form-control{ type: "text", data: { bind: "value: publisher" } }
+  / /ko
+  .row
+    .form-group.col-sm-3
+      %label{ for: "year" } Year
+      %input#year.form-control{ type: "text", data: { bind: "value: year" } }
+    / ko if: citation_type() != 'journal'
+    .form-group.col-sm-4{ data: { bind: "if: citation_type() != 'journal'" } }
+      %label{ for: "city" } City
+      %input#city.form-control{ type: "text", data: { bind: "value: city" } }
+    / /ko
+    .form-group.col-sm-3
+      %label{ for: "edition" } Edition
+      %input#edition.form-control{ type: "text", data: { bind: "value: edition" } }
+    .form-group.col-sm-3
+      %label{ for: "volume", data: { bind: "text: citation_type() == 'journal' ? 'Volume #' : 'Volume'" } } Volume
+      %input#volume.form-control{ type: "text", data: { bind: "value: volume" } }
+    .form-group.col-sm-2
+      %label{ for: "pages" } Page(s)
+      %input#pages.form-control{ type: "text", data: { bind: "value: pages" } }
+    / ko if: citation_type() == 'journal'
+    .form-group.col-sm-3{ data: { bind: "if: citation_type() == 'journal'" } }
+      %label{ for: "figure" } Figure
+      %input#figure.form-control{ type: "text", data: { bind: "value: figure" } }
+    / /ko
+  .row
+    .form-group.col-sm-6
+      %label{ for: "keywords" } Keywords
+      %input#keywords{ type: "text", data: { bind: "value: keywords" } }
+    / ko if: citation_type() == 'journal'
+    .form-group.col-sm-6{ data: { bind: "if: citation_type() == 'journal'" } }
+      %label{ for: "isbn" } ISBN/ISSN
+      %input#isbn{ type: "text", data: { bind: "value: isbn" } }
+    / /ko
+    .form-group.col-sm-6
+      %label{ for: "url" } URL
+      %input#url{ type: "url", data: { bind: "value: url" } }
+    .form-group.col-sm-6
+      %label{ for: "doi" } DOI
+      %input#doi{ type: "text", data: { bind: "value: doi" } }
+  .row
+    .form-group.col-sm-12
+      = form_for @sub, url: add_attachment_my_submission_path(@sub) do |f|
+        = f.file_field :file, { id: "file_attachment", data: { bind: "event: {change: function(data, e){ pr.attach_file(this, data, e) } }" }, direct_upload: true }
 -# not needed per nico
 -# .row
 -#   .form-group.col-sm-4

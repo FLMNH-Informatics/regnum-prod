@@ -1,7 +1,7 @@
 class TemplatesController < ApplicationController
   
   helper :my_submission
-  before_filter :requires_logged_in
+  before_action :requires_logged_in
   
   attr_accessor :templates
 
@@ -22,6 +22,7 @@ class TemplatesController < ApplicationController
   
   def load
     to_load = params[:template]
+    @sub = Submission.find(params[:submission_id])
     render :partial => @templates[to_load] , :layout => false
   end
 

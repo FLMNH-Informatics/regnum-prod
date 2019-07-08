@@ -1,11 +1,21 @@
-class User < ActiveRecord::Base
-  attr_accessible :email, :password, :password_confirmation
+class User < ApplicationRecord
+  #attr_accessible :email, :password, :password_confirmation
   attr_accessor :password
 
-  has_many :submissions
+  has_many :submissions, :foreign_key => 'submitted_by'
   belongs_to :role
   has_and_belongs_to_many :ontologies
-  
+
+
+  scope :alphabetize, -> { order(:last_name, :first_name) }
+  scope :with_submissions, -> { joins(:submissions).distinct }
+  #alias the above, but we need to do it in context of the class, because scopes are class methods
+  class << self
+    alias_method :with_submission, :with_submissions
+    alias_method :has_submission, :with_submissions
+    alias_method :has_submissions, :with_submissions
+  end
+
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
   validates_presence_of :first_name
@@ -15,6 +25,14 @@ class User < ActiveRecord::Base
 
   before_create lambda{ self.enabled = false ; self.role_id = 2 }
   before_save :encrypt_password
+
+  def last_first
+    [last_name, first_name].join(", ")
+  end
+
+  def first_last
+    [first_name, last_name].join(" ")
+  end
   
   def encrypt_password
     if password.present?

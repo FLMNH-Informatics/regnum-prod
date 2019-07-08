@@ -1,6 +1,6 @@
 class AccountsController < ApplicationController
   
-  before_filter :requires_current_user, :only => [:show,:update]
+  before_action :requires_current_user, :only => [:show,:update]
 
   def new
     if request.xhr?
@@ -71,7 +71,7 @@ class AccountsController < ApplicationController
     if !user.nil?  && user.enabled == true
       session[:user_id] = user.id
       session[:user_email] = user.email
-      redirect_to :my_submission
+      redirect_to action: :index, controller: :my_submission
     else
       redirect_to :login, :notice => "Incorrect email/password combination!"
     end
