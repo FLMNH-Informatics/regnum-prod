@@ -1,0 +1,3 @@
+class CitationType < ApplicationRecord
+
+end
