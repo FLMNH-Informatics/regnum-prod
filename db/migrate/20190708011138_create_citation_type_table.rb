@@ -3,6 +3,7 @@ class CreateCitationTypeTable < ActiveRecord::Migration[5.2]
     if ActiveRecord::Base.connection.table_exists? 'citation_types'
       drop_table :citation_types
     end
+
     create_table :citation_types do |t|
       t.string :citation_type
     end
