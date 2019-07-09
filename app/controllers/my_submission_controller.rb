@@ -33,6 +33,7 @@ class MySubmissionController < ApplicationController
 
   def edit
     @sub   = Submission.with_attached_files.find(params[:id])
+    byebug
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
     respond_to do |format|
       format.html { render 'shared/submission_edit' }
