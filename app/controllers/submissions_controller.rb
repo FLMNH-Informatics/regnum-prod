@@ -19,9 +19,10 @@ class SubmissionsController < ApplicationController
   end
 
   def edit
+    byebug
     @sub   = Submission.find(params[:id])
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
-
+byebug
     respond_to do |format|
       format.html { render 'shared/submission_edit' }
       format.json { render :json => @sub }
