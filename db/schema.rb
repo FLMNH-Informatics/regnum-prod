@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_09_034857) do
+ActiveRecord::Schema.define(version: 2019_07_09_054052) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name", null: false
@@ -503,6 +503,14 @@ ActiveRecord::Schema.define(version: 2019_07_09_034857) do
     t.index ["submission_id"], name: "index_submission_description_citations_on_submission_id"
   end
 
+  create_table "submission_reference_phylogenies", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+    t.integer "submission_id"
+    t.bigint "citation_id"
+    t.index ["citation_id"], name: "index_submission_reference_phylogenies_on_citation_id"
+    t.index ["submission_id", "citation_id"], name: "index_submission_reference_phylogenies", unique: true
+    t.index ["submission_id"], name: "index_submission_reference_phylogenies_on_submission_id"
+  end
+
   create_table "submissions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.integer "submitted_by"
@@ -559,6 +567,8 @@ ActiveRecord::Schema.define(version: 2019_07_09_034857) do
   add_foreign_key "citations", "users", column: "created_by_id"
   add_foreign_key "submission_description_citations", "citations"
   add_foreign_key "submission_description_citations", "submissions"
+  add_foreign_key "submission_reference_phylogenies", "citations"
+  add_foreign_key "submission_reference_phylogenies", "submissions"
   add_foreign_key "submissions", "citations", column: "definitional_citation_id"
   add_foreign_key "submissions", "citations", column: "preexisting_citation_id"
   add_foreign_key "submissions", "citations", column: "primary_phylogeny_citation_id"

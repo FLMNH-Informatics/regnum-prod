@@ -6,12 +6,17 @@ class Submission < ApplicationRecord
   belongs_to :definitional_citation, class_name: 'Citation', foreign_key: 'definitional_citation_id'
   belongs_to :preexisting_citation, class_name: 'Citation', foreign_key: 'preexisting_citation_id'
   belongs_to :primary_phylogeny_citation, class_name: 'Citation', foreign_key: 'primary_phylogeny_citation_id'
-  has_many :submission_description_citations, class_name: 'SubmissionDescriptionCitation', foreign_key: :submission_id
+
+  has_many :submission_description_citations
   has_many :description_citations,
            through: :submission_description_citations,
            source: :citation
 
-  # has_and_belongs_to_many :description_citations, class_name: 'Citation', join_table: 'submission_description_citations'
+  has_many :submission_reference_phylogenies
+  has_many :reference_phylogenies,
+           through: :submission_reference_phylogenies,
+           source: :citation
+
 
   enum clade_type: {
       "Minimum Clade - Standard":                           "minimum-clade_standard",
