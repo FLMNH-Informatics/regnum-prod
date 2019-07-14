@@ -135,25 +135,35 @@ class Submission < ApplicationRecord
     end
   end
 
-  def create_definitional_citation_from_json json
-    self.definitional_citation = Citation.create_from_json(json)
+  def create_definitional_citation_from_json json, user
+    unless Citation.is_empty_citation_from_json? json
+      self.definitional_citation = Citation.create_from_json(json, user)
+    end
   end
 
-  def create_preexisting_citation_from_json json
-    self.preexisting_citation = Citation.create_from_json(json)
+  def create_preexisting_citation_from_json json, user
+    unless Citation.is_empty_citation_from_json? json
+      self.preexisting_citation = Citation.create_from_json(json, user)
+    end
   end
 
-  def create_primary_phylogeny_citation_from_json json
-    self.primary_phylogeny_citation = Citation.create_from_json(json)
+  def create_primary_phylogeny_citation_from_json json, user
+    unless Citation.is_empty_citation_from_json? json
+      self.primary_phylogeny_citation = Citation.create_from_json(json, user)
+    end
   end
 
-  def create_description_citation_from_json json
-    self.description_citations << Citation.create_from_json(json)
+  def create_description_citation_from_json json, user
+    unless Citation.is_empty_citation_from_json? json
+      self.description_citations << Citation.create_from_json(json, user)
+    end
   end
 
 
-  def create_reference_phylogeny_from_json json
-    self.reference_phylogenies << Citation.create_from_json(json)
+  def create_reference_phylogeny_from_json json, user
+    unless Citation.is_empty_citation_from_json? json
+      self.reference_phylogenies << Citation.create_from_json(json, user)
+    end
   end
 
   private
