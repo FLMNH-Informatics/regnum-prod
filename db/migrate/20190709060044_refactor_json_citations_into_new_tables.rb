@@ -1,6 +1,5 @@
 class RefactorJsonCitationsIntoNewTables < ActiveRecord::Migration[5.2]
   def up
-    p 'in up'
     Submission.all.each do |sub|
       sub.create_definitional_citation_from_json(sub.citations["definitional"], sub.user)
       sub.create_preexisting_citation_from_json(sub.citations["preexisting"], sub.user)
@@ -11,11 +10,11 @@ class RefactorJsonCitationsIntoNewTables < ActiveRecord::Migration[5.2]
       sub.citations["description"].each do |cit|
         sub.create_description_citation_from_json(cit, sub.user)
       end unless sub.citations["description"].nil?
-      sub.save
+      sub.save!
     end
   end
 
   def down
-    Citation.delete_all
+    Citation.destroy_all
   end
 end
