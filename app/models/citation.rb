@@ -3,12 +3,36 @@ class Citation < ApplicationRecord
   belongs_to :created_by, class_name: 'User'
   belongs_to :citation_type
 
+  has_one :submission_definitional,
+          class_name: 'Submission',
+          foreign_key: 'definitional_citation_id',
+          inverse_of: :definitional_citation,
+          dependent: :nullify
+
+  has_one :submission_preexisting,
+          class_name: 'Submission',
+          foreign_key: 'preexisting_citation_id',
+          inverse_of: :preexisting_citation,
+          dependent: :nullify
+
+  has_one :submission_primary_phylogeny,
+          class_name: 'Submission',
+          foreign_key: 'primary_phylogeny_citation_id',
+          inverse_of: :primary_phylogeny_citation,
+          dependent: :nullify
+  has_many :submission_description_citations, foreign_key: 'citation_id', dependent: :delete_all
+  has_many :submission_reference_phylogenies, foreign_key: 'citation_id', dependent: :delete_all
+
   serialize :authors, Array
   serialize :editors, Array
   serialize :series_editors, Array
 
   before_create lambda { self.created_at = Time.now }
   before_update lambda { self.updated_at = Time.now }
+
+  def as_json(options = {})
+    super( include: :citation_type )
+  end
 
   def is_journal?
     citation_type.is_journal?

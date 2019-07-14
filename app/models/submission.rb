@@ -3,16 +3,30 @@ class Submission < ApplicationRecord
   self.table_name         = "submissions"
   self.inheritance_column = false
 
-  belongs_to :definitional_citation, class_name: 'Citation', foreign_key: 'definitional_citation_id'
-  belongs_to :preexisting_citation, class_name: 'Citation', foreign_key: 'preexisting_citation_id'
-  belongs_to :primary_phylogeny_citation, class_name: 'Citation', foreign_key: 'primary_phylogeny_citation_id'
+  belongs_to :definitional_citation,
+             class_name: 'Citation',
+             foreign_key: 'definitional_citation_id',
+             dependent: :destroy,
+             optional: true
 
-  has_many :submission_description_citations
+  belongs_to :preexisting_citation,
+             class_name: 'Citation',
+             foreign_key: 'preexisting_citation_id',
+             dependent: :destroy,
+             optional: true
+
+  belongs_to :primary_phylogeny_citation,
+             class_name: 'Citation',
+             foreign_key: 'primary_phylogeny_citation_id',
+             dependent: :destroy,
+             optional: true
+
+  has_many :submission_description_citations, dependent: :destroy
   has_many :description_citations,
            through: :submission_description_citations,
            source: :citation
 
-  has_many :submission_reference_phylogenies
+  has_many :submission_reference_phylogenies, dependent: :destroy
   has_many :reference_phylogenies,
            through: :submission_reference_phylogenies,
            source: :citation
@@ -60,6 +74,18 @@ class Submission < ApplicationRecord
   scope :opt_in, -> { where(establish: true) }
   scope :opt_out, -> { where(establish: false) }
   #scope :approved, where(:status_id => Status.where(:status => 'approved').first.id)
+
+  def as_json(options = {})
+    super(except:  [:submitted_by,
+                    :submitted_at,
+                    :updated_by,
+                    :updated_at],
+          include: { definitional_citation:            { include: :citation_type },
+                     preexisting_citation:             { include: :citation_type },
+                     primary_phylogeny_citation:       { include: :citation_type },
+                     reference_phylogenies:            { include: :citation_type },
+                     submission_description_citations: { include: :citation_type } })
+  end
 
   def temp_id
     #reverting to just plain id, see issue #89
