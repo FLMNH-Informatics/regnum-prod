@@ -1,10 +1,6 @@
 class CreateCitations < ActiveRecord::Migration[5.2]
   def change
-    if ActiveRecord::Base.connection.table_exists? 'citations'
-      drop_table :citations
-    end
-
-    create_table :citations do |t|
+    create_table :citations, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
       t.string :title
       t.references :citation_type, foreign_key: true
       t.string :section_title
