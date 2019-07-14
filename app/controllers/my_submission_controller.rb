@@ -23,7 +23,13 @@ class MySubmissionController < ApplicationController
   ##
   def show
     #redirect_to create_submission
-    @sub   = Submission.with_attached_files.find(params[:id])
+    @sub   = Submission.includes(
+        :description_citations,
+        :reference_phylogenies,
+        :definitional_citation,
+        :preexisting_citation,
+        :primary_phylogeny_citation
+    ).with_attached_files.find(params[:id])
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
     respond_to do |format|
       format.html { render 'shared/submission_view' }
@@ -32,7 +38,13 @@ class MySubmissionController < ApplicationController
   end
 
   def edit
-    @sub   = Submission.with_attached_files.find(params[:id])
+    @sub   = Submission.includes(
+        :description_citations,
+        :reference_phylogenies,
+        :definitional_citation,
+        :preexisting_citation,
+        :primary_phylogeny_citation
+    ).with_attached_files.find(params[:id])
     byebug
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
     respond_to do |format|
