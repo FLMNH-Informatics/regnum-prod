@@ -31,7 +31,25 @@ class Citation < ApplicationRecord
   before_update lambda { self.updated_at = Time.now }
 
   def as_json(options = {})
-    super( include: :citation_type )
+    super( include: { citation_type: { only: :citation_type } } )
+  end
+
+  def update_attributes(attrs)
+    ct = attrs[:citation_type]
+    if (ct.is_a? Hash)
+      attrs[:citation_type] = CitationType.find(ct[:id])
+    else
+      case attrs[:citation_type]
+        when 'book'
+          attrs[:citation_type] = CitationType.book
+        when 'book_section'
+          attrs[:citation_type] = CitationType.book_section
+        when 'journal'
+          attrs[:citation_type] = CitationType.journal
+      end
+    end
+
+    super(attrs)
   end
 
   def is_journal?

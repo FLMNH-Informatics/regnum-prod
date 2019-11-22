@@ -53,6 +53,7 @@ class SubmissionsController < ApplicationController
 
   def update
     sub                 = Submission.find(params[:id])
+    byebug
     sub.status_id       = params[:status]
     sub.status_comments = params[:editor_comments]
     sub.save

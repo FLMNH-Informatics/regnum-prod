@@ -80,11 +80,12 @@ class Submission < ApplicationRecord
                     :submitted_at,
                     :updated_by,
                     :updated_at],
-          include: { definitional_citation:            { include: :citation_type },
-                     preexisting_citation:             { include: :citation_type },
-                     primary_phylogeny_citation:       { include: :citation_type },
-                     reference_phylogenies:            { include: :citation_type },
-                     submission_description_citations: { include: :citation_type } })
+          include: { definitional_citation:            { include: { citation_type: { only: :citation_type } } },
+                     preexisting_citation:             { include: { citation_type: { only: :citation_type } } },
+                     primary_phylogeny_citation:       { include: { citation_type: { only: :citation_type } } },
+                     reference_phylogenies:            { include: { citation_type: { only: :citation_type } } }
+                    #,submission_description_citations: [{ include: :citation_type }]
+          })
   end
 
   def temp_id
@@ -114,6 +115,7 @@ class Submission < ApplicationRecord
     params                         = params.to_unsafe_h #change in rails 5, need to permit all parameters, this is the fastest way but might be unsafe
     submission                     = Submission.find(params[:submission_id])
     submission.citations           = params[:citations] if params.has_key?(:citations)
+    submission.handle_citations(params[:citations])
     submission.specifiers          = params[:specifiers] if params.has_key?(:specifiers)
     submission.preexisting         = params[:preexisting] == 'null' ? false : params[:preexisting]
     submission.comments            = params[:comments]
@@ -129,6 +131,23 @@ class Submission < ApplicationRecord
     submission.status_id           = Status.find_by_status('submitted').id if params[:subaction] == 'submit'
     submission.save!
     submission
+  end
+
+
+  def handle_citations(citations = {})
+    citations.each do |k, citation|
+      case k.to_sym
+        when :primary_phylogeny
+          primary_phylogeny_citation.update_attributes(citation)
+        when :description
+
+        when :preexisting
+          preexisting_citation.update_attributes(citation)
+        when :definitional
+          definitional_citation.update_attributes(citation)
+      end
+    end
+
   end
 
   def self.find_submissions_for_user user, params

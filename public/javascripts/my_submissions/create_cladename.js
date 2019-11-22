@@ -28,6 +28,7 @@ function Phyloregnum(){
 
     self.makeAuthors = function(authors){
         // if (!authors) console.log('authors is false: create_cladename.js line 18');
+        if (authors == []) authors = [{}];
         authors = authors || [{}];
         var observableAuthors = authors.map(this.makeAuthor);
         var observableArray = ko.observableArray(observableAuthors);

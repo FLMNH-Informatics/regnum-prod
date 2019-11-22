@@ -30,6 +30,7 @@ class MySubmissionController < ApplicationController
         :preexisting_citation,
         :primary_phylogeny_citation
     ).with_attached_files.find(params[:id])
+    byebug
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
     respond_to do |format|
       format.html { render 'shared/submission_view' }
@@ -39,11 +40,11 @@ class MySubmissionController < ApplicationController
 
   def edit
     @sub   = Submission.includes(
-        :description_citations,
-        :reference_phylogenies,
-        :definitional_citation,
-        :preexisting_citation,
-        :primary_phylogeny_citation
+        description_citations: :citation_type,
+        reference_phylogenies: [],
+        definitional_citation: :citation_type,
+        preexisting_citation: :citation_type,
+        primary_phylogeny_citation: :citation_type
     ).with_attached_files.find(params[:id])
     byebug
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
