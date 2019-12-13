@@ -570,16 +570,16 @@ jQuery.outlinkBuilder = function(ofor,oid){
 
         switch(ofor){
             case 'treebase':                        // FIXME - proper link
-                link = '<a class="outlink-link" href="http://purl.org/phylo/treebase/phylows/tree/TB2:'+oid+'">TreeBASE ID: <img class="outlink-arrow" src="/images/outlink-arrow.gif" /></a>'
+                link = '<a class="outlink" href="http://purl.org/phylo/treebase/phylows/tree/TB2:'+oid+'">TreeBASE ID: <img class="outlink-arrow" src="/images/outlink-arrow.gif" /></a>'
                 break;
             case 'ubio':
-                link = '<a class="outlink-link" href="http://www.ubio.org/browser/details.php?namebankID='+oid+'">UBIO ID: <img class="outlink-arrow" src="/images/outlink-arrow.gif" /></a>'
+                link = '<a class="outlink" href="http://www.ubio.org/browser/details.php?namebankID='+oid+'">UBIO ID: <img class="outlink-arrow" src="/images/outlink-arrow.gif" /></a>'
                 break;
             case 'ncbi':
-                link = '<a class="outlink-link" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id='+oid+'">NCBI ID: <img class="outlink-arrow" src="/images/outlink-arrow.gif" /></a>'
+                link = '<a class="outlink" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id='+oid+'">NCBI ID: <img class="outlink-arrow" src="/images/outlink-arrow.gif" /></a>'
                 break;
             case 'treebase_tree':
-                link = '<a class="outlink-link" href="http://purl.org/phylo/treebase/phylows/tree/TB2:'+oid+'">TreeBASE Tree ID: <img class="outlink-arrow" src="/images/outlink-arrow.gif" /></a>'
+                link = '<a class="outlink" href="http://purl.org/phylo/treebase/phylows/tree/TB2:'+oid+'">TreeBASE Tree ID: <img class="outlink-arrow" src="/images/outlink-arrow.gif" /></a>'
                 break;
             default:
                 link = 'unknown'

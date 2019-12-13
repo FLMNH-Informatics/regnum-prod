@@ -239,11 +239,11 @@ span.required{
 .outlink-arrow{
     border:none;
 }
-.outlink-link:link{
+.outlink:link{
     color:blue;
     text-decoration: none;
 }
-.outlink-link:hover{
+.outlink:hover{
     color:blue;
 }
 .outlink:hover{
