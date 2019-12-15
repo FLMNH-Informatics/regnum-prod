@@ -1,5 +1,5 @@
 .accordion{:style => 'border'}
-  -if @stats.empty?
+  -if @stats.nil? || @stats.empty?
     %h3 &nbsp; Submission status changes: Not yet submitted
   -else
     %h3 &nbsp; Submission status changes:

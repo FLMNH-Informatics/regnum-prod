@@ -1,4 +1,13 @@
 class Submission < ActiveRecord::Base
+  CrownType = "crown-based_total_clade"
+  CrownSpecifiers = [
+      #"minimum-clade_standard" #"Minimum Clade - Standard",
+      #"minimum-clade_directly_specified_ancestor" #"Minimum Clade - Directly Specified Ancestor (rare)",
+      #"maximum-clade_standard" #"Maximum Clade - Standard",
+      #"minimum-crown-clade" #"Minimum Crown Clade",
+      "maximum-crown-clade", #"Maximum Crown Clade",
+      "maximum-total-clade"  #Maximum Total Clade"
+  ]
 
   self.table_name = "submissions"
   self.inheritance_column = false
@@ -33,6 +42,7 @@ class Submission < ActiveRecord::Base
   
   scope :opt_in, -> { where(establish: true) }
   scope :opt_out, -> { where(establish: false) }
+  scope :crown_specifiers, -> { where(clade_type: Submission::CrownSpecifiers).order(:name) }
   #scope :approved, where(:status_id => Status.where(:status => 'approved').first.id)
   
   def temp_id
@@ -40,6 +50,9 @@ class Submission < ActiveRecord::Base
     self.id
   end
 
+  def name_id
+    "#{name}|regnum_id=#{id}"
+  end
   def registration_number
     #reverting to just plain id, see issue #89
     temp_id

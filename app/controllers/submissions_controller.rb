@@ -9,6 +9,16 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  def show
+    @sub = Submission.find(params[:id])
+    redirect_to controller: :my_submission, action: :show
+  end
+
+  def crown_specifiers
+    @subs = Submission.crown_specifiers
+    render :json => @subs
+  end
+
   def edit
     @sub = Submission.find(params[:id])
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')

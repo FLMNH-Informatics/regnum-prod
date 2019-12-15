@@ -47,7 +47,7 @@
             .accordion
               %h3 
                 &nbsp;
-                = @sub.citations['preexisting']['0']['title']
+                = @sub.citations['preexisting']['title']
               %div
                 %table
                   -['citation_type','title','authors'].each do |cit|
@@ -55,8 +55,8 @@
                       %td
                         %span
                           %span{:style => 'font-weight:bold;'}= cit.humanize + ': '
-                          = format_output(cit,@sub.citations['preexisting']['0'].delete(cit))
-                  -attachment_prepare(@sub.citations['preexisting']['0']).each do |key,val|
+                          = format_output(cit,@sub.citations['preexisting'].delete(cit))
+                  -attachment_prepare(@sub.citations['preexisting']).each do |key,val|
                     -if !val.blank?
                       %tr
                         %td
@@ -82,7 +82,7 @@
           .accordion
             -@sub.specifiers.each do |key,val|
               -val = attachment_prepare(val) 
-              -if val.has_key? 'specifier_name'
+              -if !val.nil? && val.has_key?('specifier_name')
                 %h3
                   &nbsp;
                   %em= val['specifier_name']
@@ -129,13 +129,13 @@
     -#            %dd= format_output(key,val)
     -if @sub.citations.has_key?('primary_phylogeny')
       %h2.name Primary Reference Phylogeny:
-      -if @sub.citations['primary_phylogeny']['0'].is_a?  Hash
+      -if @sub.citations['primary_phylogeny'].is_a?  Hash
         .accordion
-          %h3{title: output_citation(@sub.citations['primary_phylogeny']['0'])}= citation_title(@sub.citations['primary_phylogeny']['0'])
+          %h3{title: output_citation(@sub.citations['primary_phylogeny'])}= citation_title(@sub.citations['primary_phylogeny'])
           .primary_phylogeny
-            %p.citation= output_citation(@sub.citations['primary_phylogeny']['0'])
+            %p.citation= output_citation(@sub.citations['primary_phylogeny'])
     %h2.name Additional Reference Phylogenies:
-    -if @sub.citations['phylogeny']['0'].is_a? Hash
+    -if @sub.citations['phylogeny'].is_a? Hash
       .accordion
         -@sub.citations['phylogeny'].each do |ind,phy|
           %h3{title: output_citation(phy)}= citation_title(phy)

@@ -18,7 +18,7 @@
         %option{:value => "maximum-crown-clade"} Maximum Crown Clade
         %option{:value => "apomorphy-modified_crown_clade"} Apomorphy Modified Crown Clade
         %option{:value => "maximum-total-clade"} Maximum Total Clade
-        %option{:value => "crown-based_total_clade"} Crown Based - Total Clade
+        %option{:value => "#{ Submission::CrownType }"} Crown Based - Total Clade
   .row
     .form-group.col-sm-12
       %input.button#search{:type => :submit, :value => 'search'}

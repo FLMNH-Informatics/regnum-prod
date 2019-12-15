@@ -1,0 +1,98 @@
+<div id="tab4-div" style="display:none;margin-left:5px;clear:both;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label for="new_abbreviation">Abbreviated Definition:</label>
+        <p class="form-control-static" data-bind="html: abbreviation" id="new_abbreviation"></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label for="new_definition">Verbatim Definition:</label>
+        <textarea data-bind="value: definition" placeholder="Enter definition exactly as stated in the publication. (Do not include a statement of the definition type or an abbreviated definition)" name="cladename[definition]" id="new_definition" rows="8" class="value-input form-control"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label for="qualifying_clause_input">Qualifying Clause</label>
+        <textarea class="form-control" id="qualifying_clause_input" rows="3" data-bind="value: qualifying_clause" name="cladename[qualifying_clause]"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label>Primary Reference Phylogeny</label>
+        <!-- ko ifnot: citations['primary_phylogeny'] -->
+        <p class="form-contol-static help-block">
+          <em>Please add a reference</em>
+          <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('primary_phylogeny', d.citations.primary_phylogeny, e) }">Add
+            reference
+          </button>
+        </p>
+        <!-- /ko -->
+
+        <!-- ko if: citations['primary_phylogeny'] -->
+        <%= render 'shared/citation_table', {
+            citation:        "citations.primary_phylogeny",
+            citation_for:    "primary_phylogeny",
+            include_actions: true,
+            is_single:       true } %>
+        <!-- /ko -->
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label>Additional Reference Phylogenies</label>
+        <div id="phylo-citations" class="citations-table">
+
+          <!-- ko if: citations.phylogeny().length > 0 -->
+          <%= render 'shared/citation_table', {
+              is_single:          false,
+              include_actions:    true,
+              citation_for:       "phylogeny",
+              citation:           "citations.phylogeny.currentPageData",
+              include_pagination: true } %>
+          <!-- /ko -->
+
+          <!-- ko ifnot: citations.phylogeny().length > 0 -->
+          <p class="help-block form-control-static">
+            <em>No additional reference phylogenies</em>
+            <button class="submit_button" data-bind="click: function(d,e){ pr.ba.addCitation('phylogeny', d.citations.phylogeny, e); }">Add
+              reference
+            </button>
+          </p>
+          <!-- /ko -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--<p>Reference for Phylogenetic Definition Citation:</p>-->
+  <!--<div class="citations-table" id="def-citation">-->
+  <!--<table class="sortable-table" id="description">-->
+  <!--<thead>-->
+  <!--<tr style="background-color:white;">-->
+  <!--<th style="width:200px;">Author(s)</th>-->
+  <!--<th>Year</th>-->
+  <!--<th style="width:200px;">Type</th>-->
+  <!--<th style="width:200px;">Title</th>-->
+  <!--<th colspan="2">actions</th>-->
+  <!--</tr>-->
+  <!--</thead>-->
+  <!--<tbody data-bind="foreach: citations.description">-->
+  <!--<tr id="clade-citation" class="odd-row">-->
+  <!--<td style="max-width:200px" data-bind="text: authors"></td>-->
+  <!--<td data-bind="text: year"></td>-->
+  <!--<td data-bind="text: citation_type"></td>-->
+  <!--<td style="max-width:200px" data-bind="text: title"></td>-->
+  <!--<td>-->
+  <!--<input data-bind="click: function(d,e){pr.ba.editCitation('description',d,e)}" type="button" class="def-citation submit_button edit" value="edit"/>-->
+  <!--</td>-->
+  <!--</tr>-->
+  <!--</tbody>-->
+  <!--</table>-->
+  <!--</div>-->
+</div><!-- end tab4-div -->
+

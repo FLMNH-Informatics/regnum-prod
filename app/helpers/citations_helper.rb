@@ -1,7 +1,6 @@
 module CitationsHelper
 
   def citation_title(citation)
-    byebug
     if citation.has_key? 'title'
       citation['title']
     else

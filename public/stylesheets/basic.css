@@ -1973,6 +1973,9 @@ table .has-error.message{
 .has-feedback label.sr-only ~ .form-control-feedback {
     top: 0;
 }
+.help-text{
+    color: #737373;
+}
 .help-block {
     display: block;
     margin-top: 5px;

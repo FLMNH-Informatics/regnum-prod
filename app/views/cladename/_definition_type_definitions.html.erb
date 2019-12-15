@@ -1,0 +1,44 @@
+
+<label for="new_type">Definition Type:</label>
+<select data-bind="value: clade_type, event: { change: pr.onCladeTypeChange }" name="cladename[clade_type]" id="new_type" class="value-input form-control">
+  <option value="minimum-clade_standard">Minimum Clade - Standard</option>
+  <option value="minimum-clade_directly_specified_ancestor">Minimum Clade - Directly Specified Ancestor
+    <span class="required">(Rare)</span></option>
+  <option value="maximum-clade_standard">Maximum Clade - Standard</option>
+  <option value="apomorphy-based_standard">Apomorphy Based - Standard</option>
+  <option value="minimum-crown-clade">Minimum Crown Clade</option>
+  <option value="maximum-crown-clade">Maximum Crown Clade</option>
+  <option value="apomorphy-modified_crown_clade">Apomorphy Modified Crown Clade</option>
+  <option value="maximum-total-clade">Maximum Total Clade</option>
+  <option value="<%= Submission::CrownType %>">Crown Based - Total Clade</option>
+</select>
+<div id="definition_type_definitions" class="help-block" style="">
+  <p id="minimum-clade_standard_def" style="">A minimum-clade definition associates a name
+    with the smallest clade that contains two or more internal specifiers. Specifiers can
+    be species or specimens.</p>
+  <p id="minimum-clade_directly_specified_ancestor_def" style="display: none;">A directly-specified-ancestor
+    definition is a special case of
+    the minimum-clade definition in which the ancestor in which the clade originated is
+    specified directly rather than indirectly through its descendants.</p>
+  <p id="maximum-clade_standard_def" style="display: none;">A maximum-clade associates a name with the
+    largest clade
+    that contains one or more internal specifiers but does not contain one or more
+    external specifiers.</p>
+  <p id="apomorphy-based_standard_def" style="display: none;">An apomorphy-based definition associates a
+    name with a
+    clade originating in the first ancestor to evolve a specified apomorphy that was
+    inherited by one or more internal specifiers.</p>
+  <p id="minimum-crown-clade_def" style="display: none;">A minimum crown clade definition is a minimum clade
+    where all of the internal specifiers are extant.</p>
+  <p id="maximum-crown-clade_def" style="display: none;">A maximum crown clade definition is a maximum clade
+    where at least one of the internal specifiers are extant.</p>
+  <p id="apomorphy-modified_crown_clade_def" style="display: none;">An apomorphy-modified-crown clade is a
+    minimum-clade
+    modified by the use of an apomorphy to define the name of a crown clade.</p>
+  <p id="maximum-total-clade_def" style="display: none;">A maximum total-clade definition is maximum clade
+    where
+    least one of the internal specifiers and all of the external specifiers are extant.</p>
+  <p id="<%= Submission::CrownType %>_def" style="display: none;">A crown based total clade is the total clade of
+    a crown
+    clade</p>
+</div>

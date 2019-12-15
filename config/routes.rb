@@ -66,6 +66,7 @@ Regnum::Application.routes.draw do
     collection do
       get :export
       get :export_json
+      get :crown_specifiers
     end
   end
 

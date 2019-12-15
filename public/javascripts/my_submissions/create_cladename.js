@@ -35,11 +35,19 @@ function Phyloregnum(){
     }
 
     self.makeSpecifier = function (specifier){
-        specifier = specifier || {};
+        var isNewCrown = specifier === "crown";
+        if (isNewCrown){
+            specifier = { specifier_type: "crown" };
+        }else{
+            specifier = specifier || {};
+        }
         var ko_spec = {
             'specifier_type': ko.observable(specifier.specifier_type || 'species'),
             'authors': pr.makeAuthors(specifier.authors),
             'specifier_kind': ko.observable(specifier.specifier_kind || ''),
+            'specifier_crown': ko.observable(specifier.specifier_crown || ''),
+            'specifier_crown_link': ko.observable(self.crownSpecifierLink(specifier.specifier_crown) || ''),
+            'specifier_crown_name': ko.observable(self.crownSpecifierName(specifier.specifier_crown) || ''),
             'specifier_character_name': ko.observable(specifier.specifier_character_name || ''),
             'specifier_character_description': ko.observable(specifier.specifier_character_definition || specifier.specifier_character_description || ''),
             'specifier_name': ko.observable(specifier.specifier_name || ''),
@@ -52,8 +60,9 @@ function Phyloregnum(){
             'ubio_id': specifier.ubio_id || '',
             'ncbi_id': specifier.ncbi_id || '',
             'treebase_id': specifier.treebase_id || ''
-        }
+        };
         ko_spec.displayAuths = ko.pureComputed(self.displayAuthors, ko_spec);
+        ko_spec.crownSpecifierLink = ko.pureComputed(self.crownSpecifierLink, ko_spec);
         return ko_spec;
     }
 
@@ -92,6 +101,20 @@ function Phyloregnum(){
     self.makeCitations = function(citations){
         if (!citations) return ko.observableArray([]);
         return ko.observableArray(citations.map(this.makeCitation));
+    }
+
+    self.crownSpecifierLink = function(crownSpecifier){
+        if (crownSpecifier === "" || crownSpecifier === undefined) return "";
+
+        var specifier_submission_id = crownSpecifier.split("|regnum_id=")[1];
+        return "/submissions/" + specifier_submission_id;
+    }
+
+    self.crownSpecifierName = function(crownSpecifier){
+        if (crownSpecifier === "" || crownSpecifier === undefined) return "";
+
+        var crownName = crownSpecifier.split("|regnum_id=")[0];
+        return crownName;
     }
 
 
@@ -144,6 +167,10 @@ function Phyloregnum(){
 
     self.isApomorphy = function(){
         return [ 'apomorphy-based_standard', 'apomorphy-modified_crown_clade' ].includes( self.submissionModel.clade_type() )
+    }
+
+    self.isCrown = function(){
+        return self.submissionModel.clade_type() == 'crown-based_total_clade';
     }
 
     self.ko = {
@@ -232,9 +259,8 @@ function Phyloregnum(){
 
     //define button actions
     self.ba = {
-        addSpecifier: function(){
-            jQuery.showSpecifier('new')
-        },
+        addCrownSpecifier: () => jQuery.showSpecifier('crown'),
+        addSpecifier: () => jQuery.showSpecifier('new'),
         editSpecifier: function(specifier){
             jQuery.showSpecifier(specifier)
         },
@@ -280,11 +306,14 @@ function Phyloregnum(){
             specifiers,
             internal = [], //not including apomorphs (they are always internal)
             external = [],
+            crown = [],
             apomorph = [];
 
         jQuery.each(this.submissionModel.specifiers(), function(ind,obj){
-            if(obj.specifier_type() === 'apomorphy'){
-                apomorph.push(obj.specifier_character_name() +'(' + obj.specifier_name() + ')' )
+            if(obj.specifier_type() === 'apomorphy') {
+                apomorph.push(obj.specifier_character_name() + '(' + obj.specifier_name() + ')')
+            }else if (obj.specifier_type() === 'crown'){
+                crown.push("Crown specifier: " + obj.specifier_crown())
             }else{
                 var kind = obj.specifier_kind() === undefined ? obj.kind() : obj.specifier_kind()
                 switch(kind){
@@ -294,7 +323,7 @@ function Phyloregnum(){
                         break;
                     case 'external extinct':
                     case 'external extant':
-                        external.push(obj.specifier_name())
+                        external.push(obj.specifier_name());
                         break;
                 }
             }
@@ -580,7 +609,7 @@ jQuery.showSpecifier = function(sfor, callback){
 
     if (typeof(sfor) != 'object'){
         modalTitle = "Add specifier";
-        specifier = pr.makeSpecifier();
+        specifier = sfor == "crown" ? pr.makeSpecifier("crown") :  pr.makeSpecifier();
         pr.submissionModel.specifiers.push(specifier);
     }else{
         specifier = sfor;

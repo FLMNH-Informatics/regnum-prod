@@ -62,11 +62,13 @@ module ApplicationHelper
   end
   
   def attachment_prepare hashobj
-    if hashobj['attachment_id'] != nil && hashobj['attachment_path'] 
-      hashobj['attachment'] = raw("<a class=\"attachment-link\" title=\"click to view attachment\" href=\"#{hashobj['attachment_path']}\" >download &#8634;</a>")
-      ['attachment_path','attachment_id'].each{|attr| hashobj.delete(attr)}     
+    if !hashobj.nil?
+      if hashobj['attachment_id'] != nil && hashobj['attachment_path']
+        hashobj['attachment'] = raw("<a class=\"attachment-link\" title=\"click to view attachment\" href=\"#{hashobj['attachment_path']}\" >download &#8634;</a>")
+        ['attachment_path','attachment_id'].each{|attr| hashobj.delete(attr)}
+      end
+      return hashobj
     end
-    return hashobj
   end
   
   def format_output(key,val)
