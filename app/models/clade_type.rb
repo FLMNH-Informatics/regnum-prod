@@ -1,0 +1,2 @@
+class CladeType < ApplicationRecord
+end
