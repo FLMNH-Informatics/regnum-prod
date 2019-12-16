@@ -58,7 +58,12 @@ class SubmissionsController < ApplicationController
   end
 
   def export_json
-    send_data Submission.all.to_json,
+    send_data Submission.all.map{|sub|
+      if (sub.clade_type == Submission::CrownType)
+        sub.specifiers = sub.specifiers.select{|spec| spec["specifier_type"] == "crown"}
+      end
+      sub
+    }.to_json,
               :type         => 'application/json',
               :disposition  => "attachment",
               :filename     => "regnum_submissions.json"
