@@ -1,55 +1,15 @@
 <div id="tab3-div" style="display:none;margin-left:5px;">
   <div class="container-fluid">
     <div class="row">
-      <div class="form-group col-sm-12">
-        <%= render 'cladename/definition_type_definitions' %>
-      </div>
-    </div>
-    <div class="row">
       <div class="form-group col-sm-12" id="specifiers-table-holder">
         <!-- ko if: pr.isCrown() -->
-          <label>Clade Specifier:</label>
-          <!-- ko foreach: specifiers().filter(s => s.specifier_type() == 'crown') -->
-            <p class="help-block">
-              <span class="help-text">Clade: </span>
-              <a data-bind="attr: {
-                            href: specifier_crown_link,
-
-                            title: specifier_crown_name
-                          }">
-                <span data-bind="text: specifier_crown_name"></span>
-              </a>
-              <input class="submit_button" data-bind="click: pr.ba.editSpecifier" type="button" value="Edit"/>&nbsp;
-            </p>
-          <!-- /ko -->
-          <div class="table-controls">
-          </div>
+          <%= render 'cladename/specifiers_crown' %>
         <!-- /ko -->
-        <!-- ko ifnot: pr.isCrown() -->
-          <label>Clade Specifiers</label>
-          <!-- ko if: specifiers().length > 0 -->
-            <!-- ko if: specifiers().some( function(spec){ return spec.specifier_type() == 'apomorphy' } ) -->
-            <%= render 'cladename/specifiers_table_apomorphy' %>
-            <!-- /ko -->
-            <!-- ko if: specifiers().some( function(spec){ return (spec.specifier_type() != 'apomorphy' || spec.specifier_type() != 'crown' } ) -->
-            <%= render 'cladename/specifiers_table_species_and_specimen' %>
-            <!-- /ko -->
-            <div class="table-controls">
-              <button data-bind="click: pr.ba.addSpecifier" type="button" class="submit_button mw-25">Add specifier
-              </button>
-            </div>
-          <!-- /ko -->
+        <!-- ko if: pr.isApomorphy() -->
+          <%= render 'cladename/specifiers_apomorphy' %>
         <!-- /ko -->
-        <!-- ko if: (!pr.isCrown() && specifiers().length == 0) || (pr.isCrown() && specifiers().filter(s => s.specifier_type() == 'crown').length == 0) -->
-          <p class="help-block form-control-static">
-            <em>Please add a specifier</em>
-            <!-- ko if: pr.isCrown() -->
-              <button data-bind="click: pr.ba.addCrownSpecifier" type="button" class="submit_button mw-25">Add specifier</button>
-            <!-- /ko -->
-            <!-- ko ifnot: pr.isCrown() -->
-              <button data-bind="click: pr.ba.addSpecifier" type="button" class="submit_button mw-25">Add specifier</button>
-            <!-- /ko -->
-          </p>
+        <!-- ko ifnot: pr.isApomorphy() -->
+          <%= render 'cladename/specifiers_species_and_specimen' %>
         <!-- /ko -->
       </div>
     </div>

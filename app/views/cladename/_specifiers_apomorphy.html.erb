@@ -1,13 +1,13 @@
-<span class="help-block">Apomorphy type:</span>
-<table id="" class="specifiers-table sortable-table form-control-static">
+<h3>Specifiers: <span class="help-text" data-bind="ifnot: specifiers().some(s => s.specifier_type() == 'apomorphy')">(<em>Please add a specifier</em>)</span></h3>
+<!-- ko if: specifiers().some(s => s.specifier_type() == 'apomorphy') -->
+  <table id="" class="specifiers-table sortable-table form-control-static">
   <thead>
   <th>Apomorphy Character</th>
   <th>Character description</th>
   <th>Author(s)</th>
   <th>Publication Year</th>
   </thead>
-  <tbody data-bind="foreach: specifiers().filter(s => s.specifier_type() != 'crown')">
-
+  <tbody data-bind="foreach: specifiers()">
   <!-- ko if: specifier_type() == 'apomorphy' -->
   <tr data-bind="css: { 'even-row': $index() % 2 == 0, 'odd-row': $index() % 2 == 1 }">
     <td>
@@ -37,3 +37,8 @@
 
   </tbody>
 </table>
+<!-- /ko -->
+<button type="button"
+        class="submit_button mw-25"
+        data-bind="click: pr.ba.addApomorphySpecifier">
+  Add specifier</button>

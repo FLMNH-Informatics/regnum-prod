@@ -593,9 +593,10 @@ span.required{
 }
 #new_name_string{
     font-weight:bold;
+    font-family: "Source Code Pro", Monaco, monospace;
     clear:both;
+    letter-spacing: -0.04em;
     min-height:17px;
-    color:#333;
     border-radius: 3px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;

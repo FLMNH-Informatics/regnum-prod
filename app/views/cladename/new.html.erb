@@ -1,56 +1,68 @@
 <input type="hidden" name="submission_id" id="submission_id" class="value-input" value="<%= @sub.id.to_s %>"/>
-
 <input type="hidden" value="" name="cladename[abbreviation]" id="abbreviation" class="value-input"/>
-
 <input type="button" id="character-window-button" value="Special characters viewer" class="button" style="margin-left:30px"/>
 <div id="new-cladename-window">
-  <ul id="new-cladename-tabs">
-    <li class="active-tab tab" id="tab1">Clade Name</li>
-
-    <li id="tab3" class="tab">Definition Type &amp; Specifiers</li>
-    <li id="tab4" class="tab">Definition</li>
-    <li id="spinner" style="border:none;background:none;display:none;"><img src="/images/ajax-loader.gif"/>&nbsp;&nbsp;saving...
-    </li>
-  </ul>
-
-  <div id="new-cladename-content">
-    <%= render 'cladename/clade_name_tab' %>
-    <div style="display:none" id="tab2-div"></div><!-- end tab2-div -->
-    <%= render 'cladename/definition_type_and_specifiers_tab' %>
-    <%= render 'cladename/definition_tab' %>
-    <div id="save-and-reference" class="container-fluid">
-      <div class="row">
-        <div class="form-group col-sm-12">
-          <label>Name String:</label>
-          <p class="form-control-static" data-bind="text: name_string" id="new_name_string"></p>
-        </div>
-        <div class="form-group col-sm-12">
-          <label>Registration Number:</label>
-          <p class="form-control-static" data-bind="text: id"></p>
-        </div>
+  <div id="save-and-reference" class="container-fluid">
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <h1>Clade name: <span class="help-text" data-bind="text: name"></span></h1>
+      </div>
+      <div class="form-group col-sm-12">
+        <h2>Name string:
+          <span class="form-control-static help-text" data-bind="text: name_string" id="new_name_string"></span>
+        </h2>
       </div>
     </div>
-
-
-    <!-- floatable window -->
-    <div id="new-cladename-synonyms" class="float-window" style="display:none;">
-      <div class="window-title-bar">
-        <div style="margin:8px 10px 0px 10px;">
-          Synonyms List
-          <div class="close-button" title="close window" onclick="jQuery('#new-cladename-synonyms').fadeOut();">X</div>
-        </div>
-      </div>
-      <div class="float-window-content" id="synonyms-window-content">
-        <%= render :partial => 'shared/synonyms_table' %>
-      </div>
-    </div>
-    <%#= draggable_element "new-cladename-synonyms" %>
-
   </div>
-</div>
-<div style="margin-left:30px; margin-bottom: 20px; float:left;clear:both;max-width:800px;min-width:600px;" id="new-cladename-save-submit">
-  <input type="button" value="Save" class="button" style="border:1px solid #999"/>&nbsp;&nbsp;<input style="border:1px solid #999" type="button" value="Submit for review" class="button"/>
-</div>
-<div style="margin-left:30px;float:left;clear:both;max-width:800px;min-width:600px;">
-  <%= render :partial => 'shared/status_change_list' %>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <ul id="new-cladename-tabs">
+          <li class="active-tab tab" id="tab1">Clade Name</li>
+
+          <li id="tab3" class="tab">Specifiers</li>
+          <li id="tab4" class="tab">Definition</li>
+          <li id="spinner" style="border:none;background:none;display:none;"><img src="/images/ajax-loader.gif"/>&nbsp;&nbsp;saving...
+          </li>
+        </ul>
+        <div id="new-cladename-content">
+          <%= render 'cladename/clade_name_tab' %>
+          <%= render 'cladename/definition_type_and_specifiers_tab' %>
+          <%= render 'cladename/definition_tab' %>
+
+
+          <!-- floatable window -->
+          <div id="new-cladename-synonyms" class="float-window" style="display:none;">
+            <div class="window-title-bar">
+              <div style="margin:8px 10px 0px 10px;">
+                Synonyms List
+                <div class="close-button" title="close window" onclick="jQuery('#new-cladename-synonyms').fadeOut();">X</div>
+              </div>
+            </div>
+            <div class="float-window-content" id="synonyms-window-content">
+              <%= render :partial => 'shared/synonyms_table' %>
+            </div>
+          </div>
+          <%#= draggable_element "new-cladename-synonyms" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid" style="margin-top: 2em;" id="new-cladename-save-submit">
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <span><b>Registration number:</b> <span class="help-text" data-bind="text: id"></span></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <input type="button" value="Save" class="button" style="border:1px solid #999"/>&nbsp;&nbsp;<input style="border:1px solid #999" type="button" value="Submit for review" class="button"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <%= render :partial => 'shared/status_change_list' %>
+      </div>
+    </div>
+  </div>
 </div>

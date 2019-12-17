@@ -35,12 +35,11 @@ function Phyloregnum(){
     }
 
     self.makeSpecifier = function (specifier){
-        var isNewCrown = specifier === "crown";
-        if (isNewCrown){
-            specifier = { specifier_type: "crown" };
-        }else{
-            specifier = specifier || {};
+        if (typeof(specifier) === "string"){
+            specifier = specifier === "new" ? {} : { specifier_type: specifier };
         }
+        specifier = specifier || {};
+
         var ko_spec = {
             'specifier_type': ko.observable(specifier.specifier_type || 'species'),
             'authors': pr.makeAuthors(specifier.authors),
@@ -166,7 +165,16 @@ function Phyloregnum(){
     }
 
     self.isApomorphy = function(){
-        return [ 'apomorphy-based_standard', 'apomorphy-modified_crown_clade' ].includes( self.submissionModel.clade_type() )
+        return [ 'apomorphy-based_standard', 'apomorphy-modified_crown_clade' ].includes( self.submissionModel.clade_type() );
+    }
+
+    self.hasCrownSpecifier = function(){
+        return self.submissionModel.specifiers().some(s =>
+            s.specifier_type() === 'crown' && typeof(s.specifier_crown()) != 'undefined' && s.specifier_crown() !== '')
+    }
+
+    self.hasIncompleteCrownSpecifier = function(){
+        return self.submissionModel.specifiers().some(s => s.specifier_type() == 'crown' && (typeof(s.specifier_crown()) == 'undefined' || s.specifier_crown() === '') );
     }
 
     self.isCrown = function(){
@@ -260,6 +268,7 @@ function Phyloregnum(){
     //define button actions
     self.ba = {
         addCrownSpecifier: () => jQuery.showSpecifier('crown'),
+        addApomorphySpecifier: () => jQuery.showSpecifier('apomorphy'),
         addSpecifier: () => jQuery.showSpecifier('new'),
         editSpecifier: function(specifier){
             jQuery.showSpecifier(specifier)
@@ -477,7 +486,7 @@ function Phyloregnum(){
             })
             pr.submissionModel.name.subscribe(pr.submissionModel.checkSubmissionModel.checkName);
             pr.submissionModel.checkSubmissionModel.checkName(pr.submissionModel.name);
-            ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-content'));
+            ko.applyBindings(pr.submissionModel, document.getElementById('new-cladename-window'));
             jQuery.loadWidgets('#contents');
             jQuery('#modal-message-window').dialog('destroy');
         })
@@ -603,38 +612,30 @@ jQuery.citationType = function(type){
 *
 *
 */
-jQuery.showSpecifier = function(sfor, callback){
+jQuery.showSpecifier = function(specifier, callback){
     var modalTitle = 'Edit specifier',
-        specifier;
+        exists = typeof(specifier) === 'object';
 
-    if (typeof(sfor) != 'object'){
+    if (!exists){
         modalTitle = "Add specifier";
-        specifier = sfor == "crown" ? pr.makeSpecifier("crown") :  pr.makeSpecifier();
+        specifier = pr.makeSpecifier(specifier);
         pr.submissionModel.specifiers.push(specifier);
     }else{
-        specifier = sfor;
+        specifier = specifier;
     }
 
     //callback to setup observers
     var cback = function(){
         var bindingElement = document.getElementById('float-window-content-holder');
 
-        jQuery('#window-for-text').html((sfor == 'new' ? 'New' : 'Edit') + ' Specifier/Qualifier')
-
-        if(sfor != 'new'){
-            var ind = pr.submissionModel.specifiers.indexOf(specifier)
-            //jQuery.specifierType(data[parseInt(sfor)].type)
-            jQuery('#specifier_table_entry_id').val(ind)
-            // jQuery.each(sfor,function(ind,obj){
-            //     jQuery('#new_'+ind).val(obj)
-            // })
-            //todo: fix attachments
-            // if(pr.submissionModel.specifiers()[ind]['attachment_path'] !== undefined ){
-            //     var id = pr.submissionModel.specifiers()[ind]['attachment_id']
-            //     jQuery('#specifier-attachment-cell').html('<a href="'+pr.submissionModel.specifiers()[ind]['attachment_path']+'">View</a>&nbsp;|&nbsp;<a class="specifier" href="/my_submission/remove_attachment/'+id+'">Remove</a>')
-            // }else{
-            //     jQuery('#specifier-attachment-cell').html(pr.emptyAttachmentFile)
-            // }
+        if(exists){
+            var ind = pr.submissionModel.specifiers.indexOf(specifier);
+            jQuery('#specifier_table_entry_id').val(ind);
+            jQuery('#new_specifier_type_container').hide();
+        } else{
+            if (specifier != 'new'){
+                jQuery('#new_specifier_type').val(specifier)
+            }
         }
 
         ko.cleanNode(bindingElement);

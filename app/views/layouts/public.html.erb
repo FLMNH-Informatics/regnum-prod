@@ -75,17 +75,11 @@
 
 
     <div id="float-window-holder" style="display:none;">
-      <!--<div class="window-title-bar" >
-        <div style="margin:8px 10px 0px 10px;">
-          <span style="text-transform:capitalize;" id="window-for-text"></span>
-          <div class="close-button" title="close window" onclick="jQuery('#float-window-holder').fadeOut();">X</div>
-        </div>
-      </div>-->
       <div  id="float-window-content-holder" ></div>
     </div>
     <%#= draggable_element "float-window-holder" %>
-	<%#= render(:partial=>"issues/feedback", :layout=>false) if logged_in?%>
-    
+	  <%#= render(:partial=>"issues/feedback", :layout=>false) if logged_in?%>
+
       <form id="login-box" action="/authenticate" method="post" style="display:none;">
         <table>
           <tr>

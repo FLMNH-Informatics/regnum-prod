@@ -1,111 +1,128 @@
 <div id="tab1-div" class="container-fluid">
-  <div class="form-group col-sm-10">
-    <label for="new_name">Clade Name:</label>
-    <input data-bind="textInput: name" type="text" id="new_name" name="cladename[name]" value="" class="value-input form-control"/>
-    &nbsp;&nbsp;<span id="status"></span></td>
-  </div>
-  <div class="form-group col-sm-2 mtformicon">
-    <!-- ko if: checkSubmissionModel.checkingName() -->
-    <i class="fas fa-spinner fa-spin fa-2x"></i>
-    <!-- /ko -->
-    <!-- ko if: !checkSubmissionModel.checkingName() && !checkSubmissionModel.nameUnique() -->
-    <i class="fas fa-exclamation-triangle fa-2x red"></i>
-    <!-- /ko -->
-    <!-- ko if: !checkSubmissionModel.checkingName() && checkSubmissionModel.nameUnique() && name().length > 0  -->
-    <i class="fas fa-check-circle fa-2x green"></i>
-    <!-- /ko -->
-  </div>
-  <!-- ko if: checkSubmissionModel.existingSubmissions().length > 0 -->
-  <div class="col-sm-12 form-group">
-    <p class="help-block text-warning">
-      <b>Warning: </b> The name you're creating already exists in Regnum with the submitter information:
-    </p>
-    <table id="existing_submissions">
-      <thead>
-      <th>Name</th>
-      <th>Submitter</th>
-      <th>Submitter email</th>
-      </thead>
-      <tbody data-bind="foreach: checkSubmissionModel.existingSubmissions()">
-      <tr>
-        <td><em data-bind="text: name"></em></td>
-        <td><span data-bind="text: submitter.fullname"></span></td>
-        <td><a data-bind="text: submitter.email, attr: { href: 'mailto: ' + submitter.email }"></a></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <!-- /ko -->
-  <div class="form-group col-sm-12">
-    <label>Definitional Author(s)</label>
-    <div>
-      <%= render 'shared/add_author', { author_type: 'author' } %>
+  <div class="row">
+    <div class="form-group col-sm-10">
+      <label for="new_name">Clade Name:</label>
+      <input data-bind="textInput: name" type="text" id="new_name" name="cladename[name]" value="" class="value-input form-control"/>
+      &nbsp;&nbsp;<span id="status"></span></td>
+    </div>
+    <div class="form-group col-sm-2 mtformicon">
+      <!-- ko if: checkSubmissionModel.checkingName() -->
+      <i class="fas fa-spinner fa-spin fa-2x"></i>
+      <!-- /ko -->
+      <!-- ko if: !checkSubmissionModel.checkingName() && !checkSubmissionModel.nameUnique() -->
+      <i class="fas fa-exclamation-triangle fa-2x red"></i>
+      <!-- /ko -->
+      <!-- ko if: !checkSubmissionModel.checkingName() && checkSubmissionModel.nameUnique() && name().length > 0  -->
+      <i class="fas fa-check-circle fa-2x green"></i>
+      <!-- /ko -->
     </div>
   </div>
-  <div class="form-group col-sm-12">
-    <label>Definitional Citation</label>
-    <!-- ko ifnot: citations['definitional'] -->
-    <p class="form-contol-static help-block">
-      <em>Please add a reference</em>
-      <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('definitional', d.citations.definitional, e) }">Add
-        reference
-      </button>
-    </p>
-    <!-- /ko -->
-    <!-- ko if: citations['definitional'] -->
-    <%= render 'shared/citation_table', {
-        citation:        "citations.definitional",
-        citation_for:    "definitional",
-        include_actions: true,
-        is_single:       true } %>
-    <!-- /ko -->
+  <div class="row">
+    <div class="form-group col-sm-10">
+      <%= render 'cladename/definition_type_definitions' %>
+    </div>
   </div>
-  <div class="form-group col-sm-12">
-    <div id="new-preexisting-box" class="">
-      <strong>
-        <label>
-          <input data-bind="checked: preexisting" type="checkbox" id="new_preexisting" class="value-input" name="cladename[preexisting]"/>
-          &nbsp; Pre-existing Name
-        </label>
-      </strong>
-      <div id="new-preexisting-table" data-bind="visible: preexisting">
-        <div class="row">
-          <div class="form-group col-sm-12">
-            <label for="new_preexisting_code">Code:</label>
-            <select data-bind="value: preexisting_code" name="cladename[preexisting_code]" id="new_preexisting_code" class="value-input form-control">
-              <option value="ICBN">ICN - the botanical code</option>
-              <option value="ICZN">ICZN - the zoological code</option>
-              <option value="ICNB">ICNB - the bacterial code</option>
-              <option value="ICTV">ICTV - the virus code</option>
-            </select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-sm-12">
-            <label>Nominal Author(s):</label>
-            <!-- ko ifnot: citations['preexisting'] -->
-            <p class="form-contol-static help-block">
-              <em>Please add a reference</em>
-              <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('preexisting', d.citations.preexisting, e) }">Add
-                reference
-              </button>
-            </p>
-            <!-- /ko -->
-            <!-- ko if: citations['preexisting'] -->
-            <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting', d.citations.preexisting, e); }"
-               href="#"
-               id="new-primary-phylogeny-reference-add">[Edit reference]</a>
-            <p class="form-control-static" data-bind="text: citations['preexisting'].displayAuths"></p>
-            <!-- /ko -->
-          </div>
-        </div>
-        <div style="clear: both;"></div>
+  <!-- ko if: checkSubmissionModel.existingSubmissions().length > 0 -->
+  <div class="row">
+    <div class="col-sm-10 form-group">
+      <p class="help-block text-warning">
+        <b>Warning: </b> The name you're creating already exists in Regnum with the submitter information:
+      </p>
+      <table id="existing_submissions">
+        <thead>
+        <th>Name</th>
+        <th>Submitter</th>
+        <th>Submitter email</th>
+        </thead>
+        <tbody data-bind="foreach: checkSubmissionModel.existingSubmissions()">
+        <tr>
+          <td><em data-bind="text: name"></em></td>
+          <td><span data-bind="text: submitter.fullname"></span></td>
+          <td><a data-bind="text: submitter.email, attr: { href: 'mailto: ' + submitter.email }"></a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- /ko -->
+  <div class="row">
+    <div class="form-group col-sm-10">
+      <label>Definitional Author(s)</label>
+      <div>
+        <%= render 'shared/add_author', { author_type: 'author' } %>
       </div>
     </div>
   </div>
-  <div class="form-group col-sm-12">
-    <label for="new_comments">Comments:</label>
-    <textarea data-bind="value: comments" name="cladename[comments]" class="value-input form-control" id="new_comments" rows="5" cols="40"></textarea>
+  <div class="row">
+    <div class="form-group col-sm-10">
+      <label>Definitional Citation</label>
+      <!-- ko ifnot: citations['definitional'] -->
+      <p class="form-contol-static help-block">
+        <em>Please add a reference</em>
+        <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('definitional', d.citations.definitional, e) }">Add
+          reference
+        </button>
+      </p>
+      <!-- /ko -->
+      <!-- ko if: citations['definitional'] -->
+      <%= render 'shared/citation_table', {
+          citation:        "citations.definitional",
+          citation_for:    "definitional",
+          include_actions: true,
+          is_single:       true } %>
+      <!-- /ko -->
+    </div>
   </div>
-</div><!-- end tab1-div -->
+  <div class="row">
+    <div class="form-group col-sm-10">
+      <div id="new-preexisting-box" class="">
+        <strong>
+          <label>
+            <input data-bind="checked: preexisting" type="checkbox" id="new_preexisting" class="value-input" name="cladename[preexisting]"/>
+            &nbsp; Pre-existing Name
+          </label>
+        </strong>
+        <div id="new-preexisting-table" data-bind="visible: preexisting">
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label for="new_preexisting_code">Code:</label>
+              <select data-bind="value: preexisting_code" name="cladename[preexisting_code]" id="new_preexisting_code" class="value-input form-control">
+                <option value="ICBN">ICN - the botanical code</option>
+                <option value="ICZN">ICZN - the zoological code</option>
+                <option value="ICNB">ICNB - the bacterial code</option>
+                <option value="ICTV">ICTV - the virus code</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label>Nominal Author(s):</label>
+              <!-- ko ifnot: citations['preexisting'] -->
+              <p class="form-contol-static help-block">
+                <em>Please add a reference</em>
+                <button class="submit_button" data-bind="click: function(d, e){ pr.ba.addCitation('preexisting', d.citations.preexisting, e) }">Add
+                  reference
+                </button>
+              </p>
+              <!-- /ko -->
+              <!-- ko if: citations['preexisting'] -->
+              <a data-bind="click: function(d,e){ pr.ba.editCitation('preexisting', d.citations.preexisting, e); }"
+                 href="#"
+                 id="new-primary-phylogeny-reference-add">[Edit reference]</a>
+              <p class="form-control-static" data-bind="text: citations['preexisting'].displayAuths"></p>
+              <!-- /ko -->
+            </div>
+          </div>
+          <div style="clear: both;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-sm-10">
+      <label for="new_comments">Comments:</label>
+      <textarea data-bind="value: comments" name="cladename[comments]" class="value-input form-control" id="new_comments" rows="5" cols="40"></textarea>
+    </div>
+  </div>
+</div>
 
