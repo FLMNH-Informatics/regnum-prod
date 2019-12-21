@@ -23,7 +23,7 @@ module SubmissionsHelper
 
   def crown_specifiers_select_tag
     select_tag("crown_specifier",
-               options_from_collection_for_select(Submission.crown_specifiers, :name_id, :name),
+               options_from_collection_for_select(Submission.crown_specifiers, :name_id, :name_and_clade_type),
                include_blank: true,
                data: { bind: "value: specifier_crown" })
 

@@ -1,58 +1,58 @@
 class Submission < ActiveRecord::Base
-  MinimumCladeStandard = "minimum-clade_standard"
-  MinimumCladeDirectlySpecifiedAncestor = "minimum-clade_directly_specified_ancestor"
-  MaximumCladeStandard = "maximum-clade_standard"
-  ApomorphyBasedStandard = "apomorphy-based_standard"
-  MinimumCrownClade = "minimum-crown-clade"
-  MaximumCrownClade = "maximum-crown-clade"
-  ApomorphyModifiedCrownClade = "apomorphy-modified_crown_clade"
-  MaximumTotalClade = "maximum-total-clade"
-  CrownBasedTotalClade = "crown-based_total_clade"
+  MinimumCladeStandard                  = { 
+      name: "Minimum Clade - Standard", 
+      key: "minimum-clade_standard", 
+      description: "A minimum-clade definition associates a name with the smallest clade that contains two or more internal specifiers. Specifiers can be species or specimens." }
+  MinimumCladeDirectlySpecifiedAncestor = { 
+      name: "Minimum Clade - Directly Specified Ancestor", 
+      key: "minimum-clade_directly_specified_ancestor", 
+      description: "A directly-specified-ancestor definition is a special case of the minimum-clade definition in which the ancestor in which the clade originated is specified directly rather than indirectly through its descendants." }
+  MaximumCladeStandard                  = { 
+      name: "Maximum Clade - Standard", 
+      key: "maximum-clade_standard", 
+      description: "A maximum-clade associates a name with the largest clade that contains one or more internal specifiers but does not contain one or more external specifiers." }
+  ApomorphyBasedStandard                = { 
+      name: "Apomorphy Based - Standard", 
+      key: "apomorphy-based_standard", 
+      description: "An apomorphy-based definition associates a name with a clade originating in the first ancestor to evolve a specified apomorphy that was inherited by one or more internal specifiers." }
+  MinimumCrownClade                     = { 
+      name: "Minimum Crown Clade", 
+      key: "minimum-crown-clade", 
+      description: "A minimum crown clade definition is a minimum clade where all of the internal specifiers are extant." }
+  MaximumCrownClade                     = { 
+      name: "Maximum Crown Clade", 
+      key: "maximum-crown-clade", 
+      description: "A maximum crown clade definition is a maximum clade where at least one of the internal specifiers are extant." }
+  ApomorphyModifiedCrownClade           = { 
+      name: "Apomorphy Modified Crown Clade", 
+      key: "apomorphy-modified_crown_clade", 
+      description: "An apomorphy-modified-crown clade is a minimum-clade modified by the use of an apomorphy to define the name of a crown clade." }
+  MaximumTotalClade                     = { 
+      name: "Maximum Total Clade", 
+      key: "maximum-total-clade", 
+      description: "A maximum total-clade definition is maximum clade where least one of the internal specifiers and all of the external specifiers are extant." }
+  CrownBasedTotalClade                  = { 
+      name: "Crown Based - Total Clade", 
+      key: "crown-based_total_clade", 
+      description: "A crown based total clade is the total clade of a crown clade" }
 
-  Clades = [
-      MinimumCladeStandard,
-      MinimumCladeDirectlySpecifiedAncestor,
-      MaximumCladeStandard,
-      ApomorphyBasedStandard,
-      MinimumCrownClade,
-      MaximumCrownClade,
-      ApomorphyModifiedCrownClade,
-      MaximumTotalClade,
-      CrownBasedTotalClade
+  CladeTypes = [
+      Submission::MinimumCladeStandard,
+      Submission::MinimumCladeDirectlySpecifiedAncestor,
+      Submission::MaximumCladeStandard,
+      Submission::ApomorphyBasedStandard,
+      Submission::MinimumCrownClade,
+      Submission::MaximumCrownClade,
+      Submission::ApomorphyModifiedCrownClade,
+      Submission::MaximumTotalClade,
+      Submission::CrownBasedTotalClade
   ]
-
-  CladeNames = {
-      MinimumCladeStandard: "Minimum Clade - Standard",
-      MinimumCladeDirectlySpecifiedAncestor: "Minimum Clade - Directly Specified Ancestor",
-      MaximumCladeStandard: "Maximum Clade - Standard",
-      ApomorphyBasedStandard: "Apomorphy Based - Standard",
-      MinimumCrownClade: "Minimum Crown Clade",
-      MaximumCrownClade: "Maximum Crown Clade",
-      ApomorphyModifiedCrownClade: "Apomorphy Modified Crown Clade",
-      MaximumTotalClade: "Maximum Total Clade",
-      CrownBasedTotalClade: "Crown Based - Total Clade"
-  }
-  
-  CladeDescriptions = {
-      MinimumCladeStandard: "A minimum-clade definition associates a name with the smallest clade that contains two or more internal specifiers. Specifiers can be species or specimens.",
-      MinimumCladeDirectlySpecifiedAncestor: "A directly-specified-ancestor definition is a special case of the minimum-clade definition in which the ancestor in which the clade originated is specified directly rather than indirectly through its descendants.",
-      MaximumCladeStandard: "A maximum-clade associates a name with the largest clade that contains one or more internal specifiers but does not contain one or more external specifiers.",
-      ApomorphyBasedStandard: "An apomorphy-based definition associates a name with a clade originating in the first ancestor to evolve a specified apomorphy that was inherited by one or more internal specifiers.",
-      MinimumCrownClade: "A minimum crown clade definition is a minimum clade where all of the internal specifiers are extant.",
-      MaximumCrownClade: "A maximum crown clade definition is a maximum clade where at least one of the internal specifiers are extant.",
-      ApomorphyModifiedCrownClade: "An apomorphy-modified-crown clade is a minimum-clade modified by the use of an apomorphy to define the name of a crown clade.",
-      MaximumTotalClade: "A maximum total-clade definition is maximum clade where least one of the internal specifiers and all of the external specifiers are extant.",
-      CrownBasedTotalClade: "A crown based total clade is the total clade of a crown clade"
-  }
   
   
   CrownSpecifiers = [
-      #"minimum-clade_standard" #"Minimum Clade - Standard",
-      #"minimum-clade_directly_specified_ancestor" #"Minimum Clade - Directly Specified Ancestor (rare)",
-      #"maximum-clade_standard" #"Maximum Clade - Standard",
-      #"minimum-crown-clade" #"Minimum Crown Clade",
-      "maximum-crown-clade", #"Maximum Crown Clade",
-      "maximum-total-clade"  #Maximum Total Clade"
+      Submission::MinimumCrownClade,
+      Submission::MaximumCrownClade,
+      Submission::ApomorphyModifiedCrownClade
   ]
 
   self.table_name = "submissions"
@@ -88,7 +88,14 @@ class Submission < ActiveRecord::Base
   
   scope :opt_in, -> { where(establish: true) }
   scope :opt_out, -> { where(establish: false) }
-  scope :crown_specifiers, -> { where(clade_type: Submission::CrownSpecifiers).order(:name) }
+  scope :crown_specifiers, -> { where(clade_type: Submission::CrownSpecifiers.map{|x| x[:key] }).order(:name) }
+  scope :crown_specifiers_ordered_by_clade_type, -> { where(clade_type: Submission::CrownSpecifiers.map{|x| x[:key] }).order(:clade_type, :name) }
+
+  #Submission::MinimumCrownClade,
+  #    Submission::MaximumCrownClade,
+  #    Submission::ApomorphyModifiedCrownClade
+
+
   #scope :approved, where(:status_id => Status.where(:status => 'approved').first.id)
   
   def temp_id
@@ -99,9 +106,18 @@ class Submission < ActiveRecord::Base
   def name_id
     "#{name}|regnum_id=#{id}"
   end
+
+  def name_and_clade_type
+    "#{name} (#{clade_type_name})"
+  end
+
   def registration_number
     #reverting to just plain id, see issue #89
     temp_id
+  end
+
+  def clade_type_name
+    Submission::CladeTypes.find{ |ct| clade_type == ct[:key] }[:name]
   end
 
   def current_status_comments
