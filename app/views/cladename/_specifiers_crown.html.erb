@@ -4,23 +4,20 @@
 <!-- ko foreach: specifiers() -->
   <!-- ko if: specifier_type() == 'crown' -->
     <p class="help-block">
-      <!-- ko ifnot:  typeof(specifier_crown()) == 'undefined' || specifier_crown() == '' -->
         <span class="help-text">Clade: </span>
         <a data-bind="attr: { href: specifier_crown_link, title: specifier_crown_name}">
-          <span data-bind="text: specifier_crown_name"></span>
+          <!-- ko ifnot: pr.hasIncompleteCrownSpecifier() -->
+            <em data-bind="text: specifier_crown_name"></em>
+          <!-- /ko -->
+          <!-- ko if: pr.hasIncompleteCrownSpecifier() -->
+          <span class="help-text"><em>Please make a selection</em></span>
+          <!-- /ko -->
         </a>
-      <!-- /ko -->
-      <!-- ko ifnot: typeof(specifier_crown()) == 'undefined' || specifier_crown() == '' -->
       <input class="submit_button" type="button" value="Edit" data-bind="click: pr.ba.editSpecifier" />&nbsp;
-      <!-- /ko -->
-
-      <!-- ko if: typeof(specifier_crown()) == 'undefined' || specifier_crown() == '' -->
-        <input class="submit_button" type="button" value="Add specifier" data-bind="click: pr.ba.editSpecifier" />&nbsp;
-      <!-- /ko -->
     </p>
   <!-- /ko -->
 <!-- /ko -->
-<!-- ko if: pr.hasIncompleteCrownSpecifier() -->
+<!-- ko ifnot: pr.hasCrownSpecifier() -->
   <button type="button"
           class="submit_button mw-25"
           data-bind="click: pr.ba.addCrownSpecifier">

@@ -39,7 +39,7 @@
     </tbody>
   </table>
 <!-- /ko -->
-<!-- ko if: !pr.isCrown() || (pr.isCrown() && pr.hasCrownSpecifier())  -->
+<!-- ko if: !pr.isCrown() || (pr.isCrown() && pr.hasCrownSpecifier() && !pr.hasIncompleteCrownSpecifier())  -->
 <button data-bind="click: pr.ba.addSpecifier"
         type="button"
         class="submit_button mw-25"
