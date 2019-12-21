@@ -5,14 +5,14 @@
   <!-- ko if: specifier_type() == 'crown' -->
     <p class="help-block">
         <span class="help-text">Clade: </span>
+      <!-- ko ifnot: pr.hasIncompleteCrownSpecifier() -->
         <a data-bind="attr: { href: specifier_crown_link, title: specifier_crown_name}">
-          <!-- ko ifnot: pr.hasIncompleteCrownSpecifier() -->
             <em data-bind="text: specifier_crown_name"></em>
-          <!-- /ko -->
-          <!-- ko if: pr.hasIncompleteCrownSpecifier() -->
-          <span class="help-text"><em>Please make a selection</em></span>
-          <!-- /ko -->
         </a>
+      <!-- /ko -->
+      <!-- ko if: pr.hasIncompleteCrownSpecifier() -->
+        <span class="help-text"><em>Please make a selection</em></span>
+      <!-- /ko -->
       <input class="submit_button" type="button" value="Edit" data-bind="click: pr.ba.editSpecifier" />&nbsp;
     </p>
   <!-- /ko -->
