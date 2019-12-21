@@ -1,0 +1,7 @@
+<div id="definition_type_definitions" class="help-block" style="">
+  <% Submission::CladeDescriptions.each do |key, description|
+    clade_key = Submission.const_get(key)
+ %>
+    <p id="<%= clade_key %>_def" data-bind="if: clade_type() == '<%= clade_key %>'"><%= description %></p>
+  <% end %>
+</div>

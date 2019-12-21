@@ -805,11 +805,6 @@ jQuery(document).ready(function(){
 
 
     /*CLADE TYPE & SPECIFIERS TAB*/
-    jQuery('#new_type').on('change', function(){
-        var type = this.value;
-        jQuery('#definition_type_definitions').children('p').hide();
-        jQuery('#' + type + '_def').show();
-    })
 
     //on citation save button
 

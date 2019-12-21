@@ -59,7 +59,7 @@ class SubmissionsController < ApplicationController
 
   def export_json
     send_data Submission.all.map{|sub|
-      if (sub.clade_type == Submission::CrownType)
+      if (sub.clade_type == Submission::CrownBasedTotalClade)
         sub.specifiers = sub.specifiers.select{|spec| spec["specifier_type"] == "crown"}
       end
       sub

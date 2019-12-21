@@ -1,5 +1,51 @@
 class Submission < ActiveRecord::Base
-  CrownType = "crown-based_total_clade"
+  MinimumCladeStandard = "minimum-clade_standard"
+  MinimumCladeDirectlySpecifiedAncestor = "minimum-clade_directly_specified_ancestor"
+  MaximumCladeStandard = "maximum-clade_standard"
+  ApomorphyBasedStandard = "apomorphy-based_standard"
+  MinimumCrownClade = "minimum-crown-clade"
+  MaximumCrownClade = "maximum-crown-clade"
+  ApomorphyModifiedCrownClade = "apomorphy-modified_crown_clade"
+  MaximumTotalClade = "maximum-total-clade"
+  CrownBasedTotalClade = "crown-based_total_clade"
+
+  Clades = [
+      MinimumCladeStandard,
+      MinimumCladeDirectlySpecifiedAncestor,
+      MaximumCladeStandard,
+      ApomorphyBasedStandard,
+      MinimumCrownClade,
+      MaximumCrownClade,
+      ApomorphyModifiedCrownClade,
+      MaximumTotalClade,
+      CrownBasedTotalClade
+  ]
+
+  CladeNames = {
+      MinimumCladeStandard: "Minimum Clade - Standard",
+      MinimumCladeDirectlySpecifiedAncestor: "Minimum Clade - Directly Specified Ancestor",
+      MaximumCladeStandard: "Maximum Clade - Standard",
+      ApomorphyBasedStandard: "Apomorphy Based - Standard",
+      MinimumCrownClade: "Minimum Crown Clade",
+      MaximumCrownClade: "Maximum Crown Clade",
+      ApomorphyModifiedCrownClade: "Apomorphy Modified Crown Clade",
+      MaximumTotalClade: "Maximum Total Clade",
+      CrownBasedTotalClade: "Crown Based - Total Clade"
+  }
+  
+  CladeDescriptions = {
+      MinimumCladeStandard: "A minimum-clade definition associates a name with the smallest clade that contains two or more internal specifiers. Specifiers can be species or specimens.",
+      MinimumCladeDirectlySpecifiedAncestor: "A directly-specified-ancestor definition is a special case of the minimum-clade definition in which the ancestor in which the clade originated is specified directly rather than indirectly through its descendants.",
+      MaximumCladeStandard: "A maximum-clade associates a name with the largest clade that contains one or more internal specifiers but does not contain one or more external specifiers.",
+      ApomorphyBasedStandard: "An apomorphy-based definition associates a name with a clade originating in the first ancestor to evolve a specified apomorphy that was inherited by one or more internal specifiers.",
+      MinimumCrownClade: "A minimum crown clade definition is a minimum clade where all of the internal specifiers are extant.",
+      MaximumCrownClade: "A maximum crown clade definition is a maximum clade where at least one of the internal specifiers are extant.",
+      ApomorphyModifiedCrownClade: "An apomorphy-modified-crown clade is a minimum-clade modified by the use of an apomorphy to define the name of a crown clade.",
+      MaximumTotalClade: "A maximum total-clade definition is maximum clade where least one of the internal specifiers and all of the external specifiers are extant.",
+      CrownBasedTotalClade: "A crown based total clade is the total clade of a crown clade"
+  }
+  
+  
   CrownSpecifiers = [
       #"minimum-clade_standard" #"Minimum Clade - Standard",
       #"minimum-clade_directly_specified_ancestor" #"Minimum Clade - Directly Specified Ancestor (rare)",
