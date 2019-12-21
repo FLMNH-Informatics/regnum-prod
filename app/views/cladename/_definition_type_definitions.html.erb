@@ -1,15 +1,6 @@
 
 <label for="new_type">Definition Type:</label>
 <select data-bind="value: clade_type" name="cladename[clade_type]" id="new_type" class="value-input form-control">
-  <option value="minimum-clade_standard">Minimum Clade - Standard</option>
-  <option value="minimum-clade_directly_specified_ancestor">Minimum Clade - Directly Specified Ancestor
-    <span class="required">(Rare)</span></option>
-  <option value="maximum-clade_standard">Maximum Clade - Standard</option>
-  <option value="apomorphy-based_standard">Apomorphy Based - Standard</option>
-  <option value="minimum-crown-clade">Minimum Crown Clade</option>
-  <option value="maximum-crown-clade">Maximum Crown Clade</option>
-  <option value="apomorphy-modified_crown_clade">Apomorphy Modified Crown Clade</option>
-  <option value="maximum-total-clade">Maximum Total Clade</option>
-  <option value="<%= Submission::CrownBasedTotalClade %>">Crown Based - Total Clade</option>
+  <%= render 'cladename/clade_type_options_for_select' %>
 </select>
 <%= render 'cladename/clade_type_definitions' %>
