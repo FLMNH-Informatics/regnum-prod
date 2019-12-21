@@ -178,7 +178,8 @@ function Phyloregnum(){
     }
 
     self.isCrown = function(){
-        return self.submissionModel.clade_type() == 'crown-based_total_clade';
+        var ct = self.submissionModel.clade_type();
+        return ct == 'maximum-total-clade' || ct == 'crown-based_total_clade';
     }
 
     self.ko = {
