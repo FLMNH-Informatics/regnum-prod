@@ -5,7 +5,7 @@
     #new_specifier_type_container.form-group.col-sm-12
       %label{ for: "new_specifier_type" } Type:
       %select#new_specifier_type.form-control{ class: "form-control", data: { bind: "value: specifier_type" } }
-        / ko if: pr.isCrown() && (!pr.hasCrownSpecifier() || jQuery('#specifier_table_entry_id').val() == 'new')
+        / ko if: pr.isCrown() && !pr.hasCrownSpecifier()
         %option#crown-option{ value: "crown" } Crown
         / /ko
         %option#species-option{   value: "species"   } Species
