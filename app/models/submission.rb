@@ -50,6 +50,7 @@ class Submission < ActiveRecord::Base
   
   
   CrownSpecifiers = [
+      Submission::MinimumCladeStandard,
       Submission::MinimumCrownClade,
       Submission::MaximumCrownClade,
       Submission::ApomorphyModifiedCrownClade
