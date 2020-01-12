@@ -82,6 +82,7 @@ class SubmissionsController < ApplicationController
   end
 
   private
+
   #gets right set of subs depending of type of editor/admin
   def submissions_for_editor(params)
     params[:term] ||= ''
@@ -91,13 +92,13 @@ class SubmissionsController < ApplicationController
     params[:clade_type] ||= 'all'
     dir = params[:dir] == 'up' ? 'ASC' : 'DESC'
     subs = if current_user.is_admin?
-      Submission.where("name LIKE ?", "#{params[:term]}%") #admin sees all :)
+      Submission.where("name LIKE ?", "%#{params[:term]}%") #admin sees all :)
     elsif current_user.is_reviewer?
-      Submission.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "#{params[:term]}%")
+      Submission.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "%#{params[:term]}%")
     elsif current_user.is_opt_out_reviewer?
-      Submission.opt_out.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "#{params[:term]}%")
+      Submission.opt_out.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "%#{params[:term]}%")
     elsif current_user.is_opt_in_reviewer?
-      Submission.opt_in.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "#{params[:term]}%") 
+      Submission.opt_in.where("status_id > ? AND name LIKE ?", Status.find_by_status('unsubmitted').id, "%#{params[:term]}%")
     end .order("#{params[:order]} #{dir}").paginate(:page => params[:page], :per_page => 12)
     return params[:clade_type] == 'all' ? subs : subs.where("clade_type = ?", params[:clade_type])
   end
