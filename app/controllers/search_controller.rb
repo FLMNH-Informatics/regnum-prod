@@ -10,11 +10,12 @@ class SearchController < ApplicationController
     params[:page] ||= '1'
     params[:order] ||= 'name'
     params[:dir] ||= 'up'
-
+    byebug
     dir = params[:dir] == 'up' ? 'ASC' : 'DESC'
     stats = current_user ? "status_id IN (4,3,2)" : "status_id = 4"
-    @sub = Submission.where(["name LIKE ? AND #{stats}", params[:term] + '%'])
-             .order("#{params[:order]} #{dir}")
+    @sub = Submission
+               .where("name LIKE ? AND ?","#{stats}", "%#{params[:term]}%'")
+               .order("#{params[:order]} #{dir}")
                .paginate(:page => params[:page], :per_page => 12)
     if request.xhr?
         render :partial => 'search_table', :layout => false
