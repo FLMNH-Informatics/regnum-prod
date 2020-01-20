@@ -186,7 +186,7 @@ class Submission < ActiveRecord::Base
 #         description:  { 0=>{} },
 #         phylogeny:    { 0=>{} }
 #     }
-# byebug
+# 
 #     if self.citations == nil
 #       # self.citations = cits
 #     else
