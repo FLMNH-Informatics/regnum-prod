@@ -3,17 +3,19 @@ class AdminController < ApplicationController
   before_filter :requires_admin
 
   def index
-    
-
     params[:term] ||= ''
     params[:page] ||= '1'
     params[:order] ||= 'last_name'
     params[:dir] ||= 'up'
-
     dir = params[:dir] == 'up' ? 'ASC' : 'DESC'
-    #stats = current_user ? "status_id IN (4,3,2)" : "status_id = 4"
-    #@sub = Submission.where(["name LIKE ? AND #{stats}", params[:term] + '%'])
-    @users = User.where("last_name LIKE ?", "%#{params[:term]}%").order("#{params[:order]} #{dir}").paginate(:page => params[:page], :per_page => 15)
+    if params[:user_id]
+      @users = User.where(id: params[:user_id])
+                   .paginate(:page => params[:page], :per_page => 15)
+    else
+      @users = User.where("last_name LIKE ?", "%#{params[:term]}%")
+                   .order("#{params[:order]} #{dir}")
+                   .paginate(:page => params[:page], :per_page => 15)
+    end
     if request.xhr?
         render :partial => 'user_table', :layout => false
     else
