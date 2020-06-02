@@ -15,6 +15,10 @@ class User < ActiveRecord::Base
 
   before_create lambda{ self.enabled = false ; self.role_id = 2 }
   before_save :encrypt_password
+
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
   
   def encrypt_password
     if password.present?
@@ -34,6 +38,11 @@ class User < ActiveRecord::Base
       nil
     end
   end
+
+  def self.has_email? email
+    User.where(email: email).count != 0
+  end
+
   #TODO need to change Role.role_id to Role.rank for clarity sake User.role_id = Role.id Role.role_id is really a ranking
   def is_a_reviewer?; ['reviewer','reviewer_opt_in', 'reviewer_opt_out'].index(self.role.name) != nil end
 
@@ -47,5 +56,9 @@ class User < ActiveRecord::Base
   def is_opt_out_reviewer?; ( self.role.role_id == Role.find_by_name('reviewer_opt_out').role_id ) end
   
   def is_user?; self.role.role_id == Role.find_by_name('user').role_id end
+
+  def self.admin_user_emails
+    ["chrisdell@gmail.com", "ncellinese@ufl.edu"]
+  end
   
 end

@@ -33,7 +33,7 @@ Regnum::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      :address => 'smtp.ufl.edu',
+      :address => 'localhost',
       :authentication => 'plain'
   }
   # Enable serving of images, stylesheets, and javascripts from an asset server

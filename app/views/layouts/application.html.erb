@@ -64,12 +64,9 @@
                     <%= flash[:notice] ||  flash[:error] %>
                 </p>
                 <%= yield %>
-         
          </div>
-         <div style="font-size:8px;font-weight:bold;text-align:center;padding-top:5px;color:#666;"><p>phyloregnum.org 2013</p></div>
+         <div style="font-size:8px;font-weight:bold;text-align:center;padding-top:5px;color:#666;"><p>phyloregnum.org 2020</p></div>
       </div>
-      
-
        <div id="modal-window" style="display:none;">
          <form id="resource_search_form" action="/search_res" method='get'>
            <input type="hidden" name="resource" id="dialog_resource" />
@@ -78,8 +75,6 @@
          <div id="specifier-resource-list" style="overflow:auto;text-align: center;margin-top:5px;">
 
          </div>
-
-         <!--<input id="outlink_autocomplete_search" name="outlink_search_field" type="text" size="20" /> -->
        </div>
     </div>
 
@@ -92,10 +87,6 @@
             <div style="font-weight:bold;margin:20px 10px;">Loading...</div>
       </div>
     </div>
-
-    <%#= draggable_element "float-window-holder" %>
-	<%#= render(:partial=>"issues/feedback", :layout=>false) if logged_in?%>
-
 
    <!-- include javascript for defining behavior of page elements - unobtrusive javascript -->
    <% if FileTest.exists?("public/javascripts/#{controller.controller_name}/#{controller.action_name}.js") %>

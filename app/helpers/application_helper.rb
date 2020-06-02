@@ -2,7 +2,8 @@
 module ApplicationHelper
   # cheap helper for producing JS files to controller/action route
   def javascript_files_to_use
-    files = ['float_window.js', 'sortable_table.js', 'global.js', 'knockout.min.js', 'knockout.mapping.js']
+    # files = ['float_window.js', 'sortable_table.js', 'global.js', 'knockout.min.js', 'knockout.mapping.js']
+    files = ['float_window.js', 'global.js', 'knockout.min.js', 'knockout.mapping.js']
     out = ''
     case controller.controller_name+'/'+action_name
       when 'my_submission/index'

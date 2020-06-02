@@ -17,26 +17,42 @@ class AccountsController < ApplicationController
 
   def create
     info = params[:account]
+    email = info[:email]
+
+    if email.blank?
+      redirect_to action: :new, notice: "You must have a valid email."
+      return
+    end
+
+    if User.has_email? email
+      flash[:notice] = "There is already a user with the email #{email}"
+      redirect_to action: :new
+      return
+    end
 
     @user = User.new
     @user.first_name = info[:first_name]
     @user.last_name = info[:last_name]
-    @user.email = info[:email]
+    @user.email = email
     @user.institution = info[:institution]
     @user.password = info[:password]
     @user.password_confirmation = info[:password_confirmation]
 
-    if verify_recaptcha(:model => params, :message => "Oh! It's error with reCAPTCHA!") && @user.save
-      #if admin is logged in and creating account
-      AccountMailer.account_created(@user).deliver
-      if !current_user.nil? && current_user.is_admin?
-        redirect_to :controller => :admin, :action => :index
+    begin
+      if verify_recaptcha(:model => params, :message => "Oh! It's error with reCAPTCHA!") && @user.save
+        AccountMailer.account_created(@user).deliver
+        if !current_user.nil? && current_user.is_admin?
+          redirect_to :controller => :admin, :action => :index
+        else
+          redirect_to :login
+        end
       else
-        
-        redirect_to :login
+        flash[:notice] = "Could not create account."
+        redirect_to :new
       end
-    else
-      redirect_to :action => :new , :notice => 'could not create account'
+    rescue
+      flash[:notice] = "Sorry, something went wrong"
+      redirect_to :new
     end
   end
 

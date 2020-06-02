@@ -1,0 +1,24 @@
+!!!
+%html
+  %head
+    %meta{:content => 'text/html; charset=UTF-8', :'http-equiv' => 'Content-Type'}
+  %body
+    %h3 Phyloregnum Account Created
+    %p= "A new user has signed up for www.phyloregnum.org:"
+    %dl
+      %dt First name
+      %dd @user.first_name
+      %dt Last name
+      %dd @user.last_name
+      %dt Email
+      %dd @user.email
+      %dt Institution
+      %dd @user.institution
+    %p This user is currently disabled.
+    %p
+      Please review this information and
+      %a{href: "www.phyloregnum.org/admin?user_id=#{@user.id}"} click here to enable the user
+      . Or navigate to https://www.phyloregnum.org/admin?user_id=
+      = @user.id
+      .
+
