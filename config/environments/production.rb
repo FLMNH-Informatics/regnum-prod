@@ -32,10 +32,7 @@ Regnum::Application.configure do
   config.serve_static_assets = true
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-      :address => 'localhost',
-      :authentication => 'plain'
-  }
+  config.action_mailer.smtp_settings = { address: 'localhost' }
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
 
