@@ -1,5 +1,6 @@
 .new_account_box
   %form{ :action => '/accounts', :method => 'post' }
+    - account = params[:account] || {}
     .container-fluid
       .row
         .form-group.col-sm-12
@@ -7,19 +8,19 @@
       .row
         .form-group.col-sm-12
           %label{for: "accounts[first_name]"} First Name
-          %input.form-control{:type => 'text', :name => "account[first_name]"}
+          %input.form-control{:type => 'text', :name => "account[first_name]", :value => account[:first_name] || ''}
       .row
         .form-group.col-sm-12
           %label{for: "accounts[first_name]"} Last Name
-          %input.form-control{:type => 'text', :name => "account[last_name]"}
+          %input.form-control{:type => 'text', :name => "account[last_name]", :value => account[:last_name] || ''}
       .row
         .form-group.col-sm-12
           %label{for: "accounts[institution]"} Institution
-          %input.form-control{:type => 'text', :name => "account[institution]"}
+          %input.form-control{:type => 'text', :name => "account[institution]", :value => account[:institution] || ''}
       .row
         .form-group.col-sm-12
           %label{for: "accounts[email]"} Email
-          %input.form-control{:type => 'email', :name => "account[email]"}
+          %input.form-control{:type => 'email', :name => "account[email]", :value => account[:email]}
       .row
         .form-group.col-sm-12
           %label{for: "accounts[first_name]"} Password

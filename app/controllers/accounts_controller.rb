@@ -35,20 +35,34 @@ class AccountsController < ApplicationController
     @user.last_name = info[:last_name]
     @user.email = email
     @user.institution = info[:institution]
-    @user.password = info[:password]
-    @user.password_confirmation = info[:password_confirmation]
+    @user.password = info.delete :password
+    @user.password_confirmation = info.delete :password_confirmation
+
+    if @user.password != @user.password_confirmation
+      flash[:error] = "The passwords entered do not match."
+      redirect_to action: :new, account: info
+      return
+    end
+
+    if @user.password.length < 6
+      flash[:error] = "Please choose a longer password"
+      redirect_to action: :new, account: info
+      return
+    end
 
     begin
       if verify_recaptcha(:model => params, :message => "Oh! It's error with reCAPTCHA!") && @user.save
-        AccountMailer.account_created(@user).deliver
+        AccountMailer.account_created(@user).deliver_now
+        AdminAccountMailer.account_created(@user).deliver_now
         if !current_user.nil? && current_user.is_admin?
           redirect_to :controller => :admin, :action => :index
         else
+          flash[:notice] = "Account created and pending.  Please stand by for approval."
           redirect_to :login
         end
       else
         flash[:notice] = "Could not create account."
-        redirect_to :new
+        redirect_to action: :new, account: info
       end
     rescue
       flash[:notice] = "Sorry, something went wrong"
