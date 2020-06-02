@@ -6,7 +6,7 @@ jQuery(document).ready(function(){
             jQuery('.sortable-table-holder').html(response)
         })
     })
-    jQuery('.sortable-table-holder').click(function(event){
+    jQuery('#user-table-holder tbody tr.user-row').click(function(event){
         event.preventDefault()
         switch(event.target.tagName.toLowerCase()){
             case 'input':
@@ -55,11 +55,14 @@ jQuery(document).ready(function(){
     jQuery('#user_window_content').click(function(event){
         event.preventDefault()
         if(event.target.attributes.type.value === 'submit'){
-
             jQuery('#user_window_content form').ajaxSubmit( function(response){
                 jQuery('#user_window').hide()
                 jQuery('#user-table-holder').html(response)
-            })
+            });
+        }
+
+        if (event.target.attributes.type.value === 'button'){
+            response.redirect("/admin")
         }
     })
 })

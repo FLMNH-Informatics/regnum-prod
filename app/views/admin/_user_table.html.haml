@@ -8,7 +8,7 @@
       %th.name.sortable.table-header-link= table_sort_header('last_login')
       %th{:style=>'width:40px;color:#333;text-align:center;', :colspan => 3} 
     -@users.each do |user|
-      %tr{:class => cycle('odd-row','even-row'), :id => user.id }
+      %tr.user-row{:class => cycle('odd-row','even-row'), :id => user.id }
         %td= user.last_name + ', ' + user.first_name
         %td.user-email= user.email
         %td= user.role.name

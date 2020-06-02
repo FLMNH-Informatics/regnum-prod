@@ -1,45 +1,41 @@
 .new_account_box
-  Sign up as a new user
   %form{ :action => '/accounts', :method => 'post' }
-    %table{:style => 'font-weight:bold;margin:20px;'}
-      %tr
-        %td First Name:
-      %tr
-        %td
-          %input{:type => 'text', :name => "account[first_name]"}
-      %tr
-        %td Last Name:
-      %tr
-        %td
-          %input{:type => 'text', :name => "account[last_name]"}
-      %tr
-        %td Email:
-      %tr
-        %td
-          %input{:type => 'text', :name => "account[email]"}
-      %tr
-        %td Institution:
-      %tr
-        %td
-          %input{:type => 'text', :name => "account[institution]"}
-      %tr
-        %td Password:
-      %tr
-        %td
-          %input{:type => 'password', :name => "account[password]"}
-      %tr
-        %td Password Confirmation:
-      %tr
-        %td
-          %input{:type => 'password', :name => "account[password_confirmation]"}
-      %tr
-        %td Enter phrase below:
-      %tr
-        %td{:style => 'float:left'}= recaptcha_tags
-
-      %tr
-        %td{:style => 'padding-top:20px;text-align:right;'}
-          %input{:type => 'submit', :value => "submit" , :class => 'button', :style => "border:1px solid #999;"}
+    - account = params[:account] || {}
+    .container-fluid
+      .row
+        .form-group.col-sm-12
+          %h1 Sign up
+      .row
+        .form-group.col-sm-12
+          %label{for: "accounts[first_name]"} First Name
+          %input.form-control{:type => 'text', :name => "account[first_name]", :value => account[:first_name] || ''}
+      .row
+        .form-group.col-sm-12
+          %label{for: "accounts[first_name]"} Last Name
+          %input.form-control{:type => 'text', :name => "account[last_name]", :value => account[:last_name] || ''}
+      .row
+        .form-group.col-sm-12
+          %label{for: "accounts[institution]"} Institution
+          %input.form-control{:type => 'text', :name => "account[institution]", :value => account[:institution] || ''}
+      .row
+        .form-group.col-sm-12
+          %label{for: "accounts[email]"} Email
+          %input.form-control{:type => 'email', :name => "account[email]", :value => account[:email]}
+      .row
+        .form-group.col-sm-12
+          %label{for: "accounts[first_name]"} Password
+          %input.form-control{:type => 'password', :name => "account[password]"}
+      .row
+        .form-group.col-sm-12
+          %label{for: "accounts[first_name]"} Password Confirmation
+          %input.form-control{:type => 'password', :name => "account[password_confirmation]"}
+      .row
+        .form-group.col-sm-12
+          %label reCAPTCHA
+          = recaptcha_tags
+      .row
+        .form-group.col-sm-12
+          %button.form-control{:type => 'submit'} Submit
   %a{:style => 'font-size:10px;',:href => '/login'} return to login
 
 

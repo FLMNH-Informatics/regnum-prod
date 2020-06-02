@@ -3,9 +3,17 @@
   %head
     %meta{:content => 'text/html; charset=UTF-8', :'http-equiv' => 'Content-Type'}
   %body
-    %h3 Phyloregnum Account Created
+    %h3 Phyloregnum Account Creation Pending
+    %p= "Hello #{@user.full_name}"
     %p 
-      = "You have received this email to inform you that an account on sandbox.phyloregnum.org has been registered to #{@user.email}"
-    %p 
-      = "You will receive another email when your account is active."
+      An account at
+      %a{href: "phyloregnum.org"} phyloregnum.org
+      has been registered to
+      = @user.email
+    %p This account is pending approval. You will receive another email when your account is active.
+    %p
+      Please contact us at
+      %a{href: 'mailto:help@phyloregnum.org'} help@phyloregnum.org
+      with any questions.
+
 
