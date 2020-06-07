@@ -2148,3 +2148,7 @@ label{
 .red{ color: darkred; }
 .green{ color: green; }
 .mtformicon{ margin-top: 15px; }
+
+.introduction p > a {
+    white-space: nowrap;
+}
