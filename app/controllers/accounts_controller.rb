@@ -66,7 +66,7 @@ class AccountsController < ApplicationController
       end
     rescue
       flash[:notice] = "Sorry, something went wrong"
-      redirect_to :new
+      redirect_to action: :new, account: info
     end
   end
 
