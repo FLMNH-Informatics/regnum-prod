@@ -4,13 +4,13 @@
   -else
     -#Search all approved clade names
 .public-search-box{:style => "width:#{logged_in? ? '380px' : '580px'};margin:5px auto 40px auto;height:60px;display:block;"}	
-  -#.content_box{:style => 'float:left;margin:20px 10px;height:100%;'}
-    -#%form{:action => search_path, :id => 'search_form' }
+  .content_box{:style => 'float:left;margin:20px 10px;height:100%;'}
+    %form{:action => search_path, :id => 'search_form' }
       %table{:style => 'width:100%'}
         %tr
           %td.content_title RegNum search:
         %tr
-          %td{:style => 'text-align:left;'}           
+          %td{:style => 'text-align:left;'}
             %input{:type => :text, :size => 25, :name => 'term', :style => 'height:26px;font-size:1.0em;'}
           %td{:style => 'text-align:right;'}
             %input{:type => :submit, :value => 'search', :id => 'search_button', :class => 'button'}
