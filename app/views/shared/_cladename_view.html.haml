@@ -26,7 +26,7 @@
           %p Author(s):
       %tr  
         %td= display_authors @sub.authors
-      -if (!logged_in? || (current_user.is_editor? || current_user.is_admin?))
+      -#if (!logged_in? || (current_user.is_editor? || current_user.is_admin?))
         %tr
           %td.name
             %p Establish under PhyloCode:
