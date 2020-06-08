@@ -15,6 +15,9 @@ module SubmissionsHelper
 
   def verbatim_definition
     definition = @sub.definition
+    if definition.nil?
+      return ""
+    end
     @sub.specifiers
         .map { |sv| sv[:specifier_name] }
         .each { |spec_name| definition.gsub!(/#{spec_name}/i, '<em>\0</em>') }

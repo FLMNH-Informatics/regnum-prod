@@ -17,7 +17,7 @@ jQuery(document).ready(function(){
                       height: 600,
                       width: 820,
                       title: 'Clade Name'
-                   },function(){ jQuery.loadWidgets('#float-window-content-holder') }) 
+                   },function(){ debugger; jQuery.loadWidgets('#float-window-content-holder') })
                 }, 'html')
 
                 break

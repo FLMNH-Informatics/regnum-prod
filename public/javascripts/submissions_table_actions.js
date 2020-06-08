@@ -10,6 +10,17 @@ jQuery(document).ready(function(){
                     })
                 }
                 break;
+            case 'View':
+                var id = jQuery(event.target).parents('tr')[0].id
+
+                jQuery.get('/search/'+id, function(response){
+                    jQuery.openFloatWindow(response,{
+                        height: 600,
+                        width: 820,
+                        title: 'Clade Name'
+                    },function(){ debugger; jQuery.loadWidgets('#float-window-content-holder') })
+                }, 'html')
+                break;
         }
     })
 });

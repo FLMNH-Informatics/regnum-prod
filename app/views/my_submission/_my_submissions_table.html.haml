@@ -14,7 +14,7 @@
           %td= sub.status.status    
           %td{ :style => 'width:40px'}
             =form_for sub, :url => '/search/'+ sub.id.to_s, :method => :get do |s|
-              %input.submit_button{:type => 'submit', :value => 'view'}    
+              %button.submit_button{:type => 'submit'} View
           %td{ :style => 'width:40px'}
             -if !sub.status.eq?('approved')  && !sub.status.eq?('rejected')  && !sub.status.eq?('submitted')       
               = link_to "Edit", "/my_submission/" + sub.id.to_s, class: "button"
