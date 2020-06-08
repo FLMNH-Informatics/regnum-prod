@@ -92,8 +92,14 @@ module ApplicationHelper
             display_authors val
           when 'specifier_name'
             '<i>' + val + '</i>'
+          when 'definition_type'
+            obj = Submission::CladeTypes.select{|ct| ct[:key] == val}
+            if (obj.nil?)
+              return ""
+            end
+            obj[:name]
           else
-            val
+            val.humanize
         end)
   end
 

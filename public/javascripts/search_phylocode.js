@@ -6,7 +6,7 @@ jQuery(document).ready(function(){
         event.preventDefault();
         search();
     })
-    
+
     jQuery('.sortable-table-holder').click(function(event){
        
         switch(event.target.tagName.toLowerCase()){
