@@ -138,8 +138,15 @@ span.required{
     padding:2px 4px;
     text-align:left;
 }
+.clade-name-table tr{
+    border-top-width: 2em;
+}
 .clade-name-table .name{
     text-align:left;
+}
+.clade-name-table .name p{
+    margin-bottom:0;
+    margin-top: 1em;
 }
 .close-button{
     width:12px;

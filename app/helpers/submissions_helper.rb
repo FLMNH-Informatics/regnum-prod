@@ -28,5 +28,4 @@ module SubmissionsHelper
                data: { bind: "value: specifier_crown" })
 
   end
-
 end

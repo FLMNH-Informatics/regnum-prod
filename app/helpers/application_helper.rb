@@ -71,19 +71,55 @@ module ApplicationHelper
       return hashobj
     end
   end
-  
-  def format_output(key,val)
+
+  def format_output(key, val)
     raw(case key
-    when 'ubio_id'
-      '<a class="outlink-link" href="http://www.ubio.org/browser/details.php?namebankID='+val+'">'+val+'</a>'
-    when 'treebase_id'   
-      '<a class="outlink-link" href="http://purl.org/phylo/treebase/phylows/tree/TB2:'+val+'">'+val+'</a>'
-    when 'ncbi_id'
-      '<a class="outlink-link" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id='+val+'">'+val+'</a>'
-    when 'treebase_tree_id'
-      '<a class="outlink-link" href="http://purl.org/phylo/treebase/phylows/tree/TB2:'+val+'">'+val+'</a>'
-    else
-      val
-    end)
+          when 'ubio_id'
+            '<a class="outlink-link" href="http://www.ubio.org/browser/details.php?namebankID=' + val + '">' + val + '</a>'
+          when 'treebase_id'
+            '<a class="outlink-link" href="http://purl.org/phylo/treebase/phylows/tree/TB2:' + val + '">' + val + '</a>'
+          when 'ncbi_id'
+            '<a class="outlink-link" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' + val + '">' + val + '</a>'
+          when 'treebase_tree_id'
+            '<a class="outlink-link" href="http://purl.org/phylo/treebase/phylows/tree/TB2:' + val + '">' + val + '</a>'
+          when 'authors'
+            display_authors val
+          when 'editors'
+            display_authors val
+          when 'series_editors'
+            display_authors val
+          when 'collectors'
+            display_authors val
+          when 'specifier_name'
+            '<i>' + val + '</i>'
+          else
+            val
+        end)
+  end
+
+
+
+  def display_authors authors_array
+    if authors_array.count == 0
+      return ""
+    end
+
+    if authors_array.count == 1
+      author = authors_array.first
+      if (author[:first_name].empty? && author[:last_name].empty?)
+        return ""
+      end
+    end
+
+    authors = authors_array.map do |auth|
+      "#{auth[:last_name]}. #{auth[:first_name]} #{auth[:middle_name]}".strip
+    end
+
+    out = "<ul>"
+    authors.each do |auth|
+      out += "<li>#{auth}</li>"
+    end
+    out += "</ul>"
+    raw out
   end
 end

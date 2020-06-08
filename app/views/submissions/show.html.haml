@@ -6,7 +6,8 @@
   =form_for @sub, :url => '/submissions/'+@sub.id.to_s, :method => :put do |s|
     %table{style: "width:100%"}
       %tr
-        %td.name Status:
+        %td.name
+          %p Status:
         %td{:style => 'text-align:right;'}
           %input{:type => 'submit', :value => 'Save', :id => 'sub_save_button'}
       %tr
@@ -14,7 +15,8 @@
           %select{:name => 'status'}
             = options_from_collection_for_select Status.all, :status_id, :status, @sub.status_id
       %tr
-        %td.name{:colspan => '2' } Editor Comments:
+        %td.name{:colspan => '2' }
+          %p Editor Comments:
       %tr
         %td{:colspan => '2'}
           %textarea{ :name => 'editor_comments', :rows => 5, :style => "width: 100%"}

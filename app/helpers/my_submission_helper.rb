@@ -140,5 +140,5 @@ module MySubmissionHelper
     end
     out << '</table>'
     raw out
-	end
+  end
 end
