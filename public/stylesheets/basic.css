@@ -115,13 +115,13 @@ span.required{
     color:blue;
 }
 .new_account_box{
-    font-size:1.5em;
-    margin:20px;
-    padding:10px;
-    border-radius:3px;
-    background-color:#d5d5d5;
-    width:350px;
-    border:1px solid #999;
+    font-size: 1.5em;
+    margin: auto;
+    padding: 10px;
+    border-radius: 3px;
+    background-color: #d5d5d5;
+    width: 350px;
+    border: 1px solid #999;
 }
 .add-citation-box{
     /*background-color:#ffe8ac;*/

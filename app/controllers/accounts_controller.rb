@@ -18,6 +18,8 @@ class AccountsController < ApplicationController
   def create
     info = params[:account]
     email = info[:email]
+    password = info.delete :password
+    password_confirmation = info.delete :password_confirmation
 
     if email.blank?
       redirect_to action: :new, notice: "You must have a valid email."
@@ -26,7 +28,7 @@ class AccountsController < ApplicationController
 
     if User.has_email? email
       flash[:notice] = "There is already a user with the email #{email}"
-      redirect_to action: :new
+      redirect_to action: :new, account: info
       return
     end
 
@@ -35,8 +37,8 @@ class AccountsController < ApplicationController
     @user.last_name = info[:last_name]
     @user.email = email
     @user.institution = info[:institution]
-    @user.password = info.delete :password
-    @user.password_confirmation = info.delete :password_confirmation
+    @user.password = password
+    @user.password_confirmation = password_confirmation
 
     if @user.password != @user.password_confirmation
       flash[:error] = "The passwords entered do not match."
@@ -57,7 +59,7 @@ class AccountsController < ApplicationController
         if !current_user.nil? && current_user.is_admin?
           redirect_to :controller => :admin, :action => :index
         else
-          flash[:notice] = "Account created and pending.  Please stand by for approval."
+          flash[:notice] = "Account created and pending.  You will be notified via email at #{@user.email} when your account is approved."
           redirect_to :login
         end
       else
@@ -66,7 +68,7 @@ class AccountsController < ApplicationController
       end
     rescue
       flash[:notice] = "Sorry, something went wrong"
-      redirect_to :new
+      redirect_to action: :new, account: info
     end
   end
 
