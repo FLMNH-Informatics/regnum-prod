@@ -180,10 +180,11 @@ span.required{
     border-radius:4px;
     background-color:#FFF7CD;
     border:1px solid #999;
-    float:left;
-    clear:both;
-    width:97%;
-    margin:10px 0px;
+    clear: both;
+    width: 750px;
+    /*max-width: 600px;*/
+    /*min-width: 400px;*/
+    margin: auto auto;
     background-color:#BCE1A8;
 }
 .expander{
@@ -2151,4 +2152,14 @@ label{
 
 .introduction p > a {
     white-space: nowrap;
+}
+
+.submission-holder{
+    max-width: 750px;
+    min-width: 400px;
+    margin: auto auto;
+}
+
+.centered{
+    text-align: center;
 }
