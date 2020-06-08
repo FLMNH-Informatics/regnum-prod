@@ -59,9 +59,9 @@ class Submission < ActiveRecord::Base
   self.table_name = "submissions"
   self.inheritance_column = false
 
+  belongs_to :user, :foreign_key => :submitted_by
   belongs_to :status
   has_many :status_changes
-  belongs_to :user, :foreign_key => :submitted_by
   has_many :submission_citation_attachments
 
   attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by
