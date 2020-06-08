@@ -47,25 +47,28 @@ class AdminController < ApplicationController
   end
 
   def edit_user
-    action = params[:user_action]
+    action = params.delete(:user_action)
     user = User.find(params[:id])
-    partial = 'admin/user_table'
+    msg_end = "user #{user.full_name}";
     case action
       when 'disable'
         user.enabled = false
         user.save
+        flash[:notice] = "Disabled #{msg_end}"
       when 'enable'
         user.enabled = true
         user.save
         if user.last_login.blank?
           AccountMailer.account_activated(user).deliver
         end
+        flash[:notice] = "Enabled #{msg_end}"
       when 'delete'
         User.delete(params[:id])
+        flash[:notice] = "Deleted #{msg_end}"
       when 'edit'
         @user = user
         @roles = Role.order('role_id ASC')
-        partial = 'admin/user_edit'
+        render partial: 'admin/user_edit', layout: false
     end
     
     params[:term] ||= ''
@@ -74,14 +77,9 @@ class AdminController < ApplicationController
     params[:dir] ||= 'up'
 
     dir = params[:dir] == 'up' ? 'ASC' : 'DESC'
-    @users = User.order("#{params[:order]} #{dir}").paginate(:page => params[:page], :per_page => 15)
+    @users = User.order("#{params[:order]} #{dir}").paginate(page: params[:page], per_page: 15)
 
-    if request.xhr?
-      render :partial => partial, :layout => false
-    else
-      redirect_to :action => :index
-    end
-
+    redirect_to action: :index
   end
 
 
