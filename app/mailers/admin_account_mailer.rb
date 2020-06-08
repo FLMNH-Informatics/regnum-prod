@@ -5,7 +5,6 @@ class AdminAccountMailer < ActionMailer::Base
 
   def account_created(user)
     @user = user
-    byebug
     mail(to: User.admin_user_emails, subject: "New account created on Regnum")
   end
 
