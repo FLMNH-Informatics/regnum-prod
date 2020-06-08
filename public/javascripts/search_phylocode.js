@@ -1,10 +1,13 @@
 jQuery(document).ready(function(){
+
+    search();
+
     jQuery('#search_button').click(function(event){
-        event.preventDefault()
-        jQuery('.sortable-table-holder').load('/search', jQuery('#search_form').serialize())
+        event.preventDefault();
+        search();
     })
-    //
-    jQuery('.sortable-table-holder').click(function(event){       
+    
+    jQuery('.sortable-table-holder').click(function(event){
        
         switch(event.target.tagName.toLowerCase()){
 
@@ -42,6 +45,10 @@ jQuery(document).ready(function(){
             width:220
         })  
     })
+
+    function search(){
+        jQuery('.sortable-table-holder').load('/search', jQuery('#search_form').serialize())
+    }
 
     /*jQuery('#sign-up-link').click(function(event){
         event.preventDefault()

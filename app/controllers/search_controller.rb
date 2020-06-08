@@ -13,7 +13,7 @@ class SearchController < ApplicationController
     dir = params[:dir] == 'up' ? 'ASC' : 'DESC'
     status_ids = current_user ? "(4,3,2)" : "(4)"
     @sub = Submission
-               .where("name LIKE ? AND status_id IN #{status_ids}","%#{params[:term]}%")
+               .where("name LIKE ? AND status_id IN #{status_ids}","%#{params[:term] || ""}%")
                .order("#{params[:order]} #{dir}")
                .paginate(:page => params[:page], :per_page => 12)
     if request.xhr?
