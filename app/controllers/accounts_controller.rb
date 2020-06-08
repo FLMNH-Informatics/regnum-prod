@@ -59,7 +59,7 @@ class AccountsController < ApplicationController
         if !current_user.nil? && current_user.is_admin?
           redirect_to :controller => :admin, :action => :index
         else
-          flash[:notice] = "Account created and pending.  Please stand by for approval."
+          flash[:notice] = "Account created and pending.  You will be notified via email when your account is approved."
           redirect_to :login
         end
       else
