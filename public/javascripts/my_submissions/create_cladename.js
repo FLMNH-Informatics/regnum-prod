@@ -377,7 +377,6 @@ function Phyloregnum(){
         extstr += external.join(' V ')
 
         str += apostr + (apostr == '' || intstr == '' ? '' : ' & ') + intstr + (extstr == '' ? '' : ' ~ ' + extstr)
-        str += "  TODO: finalize definition"
         return str
     }
 
