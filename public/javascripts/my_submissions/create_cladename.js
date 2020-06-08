@@ -777,12 +777,12 @@ jQuery(document).ready(function(){
     })
     //action for save and submit buttons
     jQuery('#new-cladename-save-submit input[type="button"]').click(function(target){
-        if(target.target.value === 'Submit'){
+        if(target.target.value === 'Submit for review'){
             if(confirm('You will no longer be able to edit this submission once\n it is submitted. Are you sure you want to submit?')){
-                pr.save_submission(target.target.value)
+                pr.save_submission("Submit")
             }
         }else{
-            pr.save_submission(target.target.value)
+            pr.save_submission("Save")
         }
     })
 
