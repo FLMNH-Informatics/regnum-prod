@@ -56,7 +56,10 @@
     </div>
     <div class="row">
       <div class="form-group col-sm-12">
-        <input type="button" value="Save" class="button" style="border:1px solid #999"/>&nbsp;&nbsp;<input style="border:1px solid #999" type="button" value="Submit for review" class="button"/>
+        <%- if @sub.is_unsubmitted? %>
+          <input type="button" value="Save" class="button" style="border:1px solid #999"/>&nbsp;&nbsp;
+          <input style="border:1px solid #999" type="button" value="Submit for review" class="button"/>
+        <%- end %>
       </div>
     </div>
     <div class="row">

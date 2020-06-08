@@ -154,6 +154,14 @@ class Submission < ActiveRecord::Base
     submission
   end
 
+  def is_submitted?
+    self.status.status == "submitted"
+  end
+
+  def is_unsubmitted?
+    self.status.status == "unsubmitted"
+  end
+
   def is_apomorphy?
     self.clade_type&.include? "apomorphy"
   end
