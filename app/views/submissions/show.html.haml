@@ -1,10 +1,10 @@
-%div{:style => 'margin:10px 0px;float:left;clear:both;width:100%;'}
+.submission-holder.centered
   =render :partial => 'shared/status_change_list'
-.submission-holder{:style => 'float:left;clear:both;'}
+.submission-holder
   =render :partial => 'shared/cladename_view'
 .editor-box
   =form_for @sub, :url => '/submissions/'+@sub.id.to_s, :method => :put do |s|
-    %table
+    %table{style: "width:100%"}
       %tr
         %td.name Status:
         %td{:style => 'text-align:right;'}
@@ -17,7 +17,7 @@
         %td.name{:colspan => '2' } Editor Comments:
       %tr
         %td{:colspan => '2'}
-          %textarea{ :name => 'editor_comments', :rows => 5, :cols => 87 }
+          %textarea{ :name => 'editor_comments', :rows => 5, :style => "width: 100%"}
 
 
 

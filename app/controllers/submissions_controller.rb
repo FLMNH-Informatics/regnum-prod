@@ -11,7 +11,8 @@ class SubmissionsController < ApplicationController
 
   def show
     @sub = Submission.find(params[:id])
-    redirect_to controller: :my_submission, action: :show
+    @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
+    # redirect_to controller: :my_submission, action: :show
   end
 
   def crown_specifiers
@@ -43,17 +44,22 @@ class SubmissionsController < ApplicationController
   
 
   def update
-
-    sub = Submission.find(params[:id])
-    sub.status_id = params[:status]
-    sub.status_comments= params[:editor_comments]
-    sub.save
+    @sub = Submission.find(params[:id])
+    if (@sub.status_id == params[:status].to_i)
+      flash[:notice] = "You must change the status to leave an editor comment."
+      redirect_to action: :show
+      return
+    end
+    @sub.status_id = params[:status]
+    @sub.status_comments = params[:editor_comments]
+    @sub.save
+    flash[:notice] = "Submission #{@sub.name} updated."
     #send email
     #StatusMailer.status_change(current_user, sub).deliver
     if request.xhr?
       index
     else
-      redirect_to :action => :index
+      redirect_to action: :show
     end
   end
 
