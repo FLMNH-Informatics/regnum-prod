@@ -10,6 +10,7 @@ module SubmissionsHelper
       sn = spec[:specifier_name]
       abv.sub!(sn, "<em>#{sn}</em>")
     end
+    abv.sub!("TODO: finalize definition","")
     raw abv
   end
 
