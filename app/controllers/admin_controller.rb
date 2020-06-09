@@ -60,6 +60,7 @@ class AdminController < ApplicationController
         user.save
         if user.last_login.blank?
           AccountMailer.account_activated(user).deliver
+          AdminAccountMailer.account_activated(user).deliver
         end
         flash[:notice] = "Enabled #{msg_end}"
       when 'delete'
