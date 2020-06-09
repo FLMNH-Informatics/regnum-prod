@@ -42,10 +42,15 @@
       <% if logged_in? %>
         <div>Logged in as <span style="color:blue"><%= current_user.email %></span></div>
         <div class="account_buttons">
-          <%= link_to 'my account', '/accounts/' + current_user.id.to_s %><%= link_to 'logout', '/logout' %>
+          <%= link_to 'my account', '/accounts/' + current_user.id.to_s %>
+          <%= link_to 'logout', '/logout' %>
+          <%= link_to 'help', '/help' %>
         </div>
       <% else %>
-        <%= link_to 'login', '/login' %>
+        <div class="account_buttons">
+          <%= link_to 'login', '/login' %>
+          <%= link_to 'help', '/help' %>
+        </div>
       <% end %>
     </div>
 

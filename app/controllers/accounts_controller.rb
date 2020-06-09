@@ -9,10 +9,13 @@ class AccountsController < ApplicationController
   end
   #def login
   def login
- 
     if request.xhr?
       render :login, :layout => false
     end
+  end
+
+  def help
+    render(:help, layout: false)  if request.xhr?
   end
 
   def create

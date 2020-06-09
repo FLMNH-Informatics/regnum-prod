@@ -18,6 +18,7 @@ Regnum::Application.routes.draw do
   match '/create' => 'my_submission#create', as: 'create', via: :post
   
   match '/faq' => 'application#faq', :as => :faq, via: :get
+  match '/help' => 'accounts#help', :as => :help, via: :get
 
   match '/search' => 'search#index', :as => :search, via: :get
   match '/search/:id' => 'search#show', :as => :show, via: :get

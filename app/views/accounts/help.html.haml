@@ -1,0 +1,10 @@
+.container{ style: "background-color:#FFFDF3;width:100%;"}
+  %p#notice.status-msg{ style: "align:center;"}
+    = flash[:notice] || flash[:error]
+  .introduction{style: "width:50%; margin: auto auto;"}
+    %h1 Help
+  .introduction{style: "width:50%;margin: auto auto;font-size:15px;line-height:1.5em;"}
+    %p
+      Apologies if you are encountering issues.  For assistance, please contact
+      %b ncellinese [at] flmnh.ufl.edu
+    %p Please include as much helpful information about the issue as possible. Screenshots are welcome.
