@@ -63,7 +63,12 @@ class MySubmissionController < ApplicationController
   end
 
   def save
-    @submission = Submission.handle_save(params)
+    @submission = Submission.find(params[:submission_id])
+
+    if current_user.id == @submission.user.id
+      @submission = Submission.handle_save(params)
+    end
+
     if request.xhr?
       render :json => @submission
     else
@@ -76,10 +81,17 @@ class MySubmissionController < ApplicationController
   ##
   def delete
     sub = Submission.find(params[:id])
-    if !sub.status.approved? || !sub.status.rejected?
-      sub.delete
-      SubmissionCitationAttachment.delete_all(["submission_id = ?", params[:id]])
+    if current_user.id != sub.user.id
+      flash[:error] = "You do not own this submission."
+      redirect_to :action => :index
+      return
+    else
+      if !sub.status.approved? || !sub.status.rejected?
+        sub.delete
+        SubmissionCitationAttachment.delete_all(["submission_id = ?", params[:id]])
+      end
     end
+
     if request.xhr?
       params[:term]  ||= ''
       params[:page]  ||= '1'
