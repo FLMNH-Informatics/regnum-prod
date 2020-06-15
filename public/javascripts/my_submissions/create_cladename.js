@@ -533,7 +533,6 @@ function Phyloregnum(){
         isValidAuthor: function(author){
             return author.last_name().trim() !== ''; },
         isValidAuthorInput: function ($author) {
-            debugger;
             var $author_inputs = $author.find('input');
             return $author_inputs.toArray().every(function (el) {
                 var nameType = el.dataset.nameType;

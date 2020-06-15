@@ -24,14 +24,13 @@ jQuery(document).ready(function(){
                       height: 600,
                       width: 820,
                       title: 'Clade Name'
-                   },function(){ debugger; jQuery.loadWidgets('#float-window-content-holder') })
+                   },function(){ jQuery.loadWidgets('#float-window-content-holder') })
                 }, 'html')
 
                 break
             case 'input':
                 event.preventDefault()
                 if(event.target.type == 'submit'){
-                    debugger;
                     search(jQuery('#search_form').serialize())
                 }
                 break

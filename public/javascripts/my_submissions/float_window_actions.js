@@ -12,7 +12,6 @@ jQuery.save_citation = function(){
             data: d ,
             dataType: 'json',
             success: function(response){
-                debugger;
                 if(type === 'phylogeny'){
                   //var id = parseInt(jQuery('#phylogeny_table_citation_id').val())
                   pr.submissionModel.citations.phylogeny()[parseInt(id)]['attachment_path'] = response.path
@@ -61,7 +60,6 @@ jQuery(document).ready(function(){
 
     //delegate clicks on float window
     jQuery('#float-window-content-holder').click(function(event) {
-        debugger;
         if (event.target.classList.contains('outlink') === true) {
             var res = event.target.id.split('_outlink_img')[0]
             var search = ''

@@ -120,7 +120,6 @@ class OntologiesController < ApplicationController
         terms = Array.new # to be saved to db in batches (much faster)
         concept_id = 0 # concept counter to make temp ids
        if x != "1042"
-          debugger
           doc = Nokogiri::XML(open("http://rest.bioontology.org/bioportal/virtual/ontology/#{x}/all?apikey=305277ee-63e7-4f8e-bcb3-b51160a4ebfd"))
           # loop through xml classBeans, create concepts
           doc.xpath('//success/data/page/contents/classBeanResultList/classBean').each do |classBean|
