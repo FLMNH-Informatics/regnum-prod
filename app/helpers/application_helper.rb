@@ -103,19 +103,133 @@ module ApplicationHelper
         end)
   end
 
+  def display_citation citation
+    if has_authors? citation[:authors]
+      return display_citation_with_authors citation
+    end
 
+    display_citation_with_editors citation
+  end
 
-  def display_authors authors_array
-    if authors_array.count == 0
+  def display_citation_with_editors citation
+    editors = editor_string citation[:editors]
+    pages = get_citation_pages citation
+    "#{editors}. (#{citation[:year]}) #{citation[:title]}. #{citation[:publisher]}, #{citation[:city]}. #{pages}"
+  end
+
+  def display_citation_with_authors citation
+    authors = author_string citation[:authors]
+    if has_authors? citation[:editors]
+      editors = author_string citation[:editors]
+    else
+      editors = ""
+    end
+    pages = get_citation_pages citation
+    "#{authors}. (#{citation[:year]}) #{citation[:title]}. #{editors} #{citation[:publisher]}, #{citation[:city]}. #{pages}"
+  end
+
+  def get_citation_pages citation
+    pages = citation[:pages]
+    if pages.nil? || pages.empty?
       return ""
+    end
+
+    if pages.include? "-"
+      return "(pp. #{pages})"
+    end
+
+    "(p. #{pages})"
+  end
+
+  def author_string editors_array
+    count = editors_array.count
+    out = ""
+
+    editors = editors_array.each_with_index.map do |auth, i|
+      last_name = auth[:last_name]
+      middle_name = auth[:middle_name]
+      first_name = auth[:first_name]
+      if i == 0
+        return "#{last_name}, #{citation_first_name(first_name)}#{citation_middle_name(middle_name)}"
+      end
+      return "#{citation_first_name(first_name)}#{citation_middle_name(middle_name)} #{last_name}"
+    end
+
+    last_index = count - 1
+
+    if last_index == 0
+      return editors.first
+    end
+
+    editors.each_with_index do |ed, i|
+      if i == last_index
+        out += "and #{ed}"
+      else
+        out += "#{ed}, "
+      end
+    end
+    out
+  end
+
+  def editor_string editors_array
+    count = editors_array.count
+    if (count == 1)
+      suffix = "(Ed.)"
+    else
+      suffix = "(Eds.)"
+    end
+    out = ""
+    editors = editors_array.each_with_index.map do |auth, i|
+      last_name = auth[:last_name]
+      middle_name = auth[:middle_name]
+      first_name = auth[:first_name]
+      if i == 0
+        return "#{last_name}, #{citation_first_name(first_name)}#{citation_middle_name(middle_name)}"
+      end
+      return "#{citation_first_name(first_name)}#{citation_middle_name(middle_name)} #{last_name}"
+    end
+    last_index = count - 1
+    editors.each_with_index do |ed, i|
+      if i == last_index
+        out += "and #{ed}"
+      else
+        out += "#{ed}, "
+      end
+    end
+    "#{out} #{suffix}"
+  end
+
+  def citation_middle_name middle_name
+    if middle_name.empty?
+      return ""
+    end
+    return middle_name.slice(0) + "."
+  end
+
+  def citation_first_name first_name
+    if first_name.empty?
+      return ""
+    end
+    return first_name.slice(0) + "."
+  end
+
+  def has_authors? authors_array
+    if authors_array.count == 0
+      return false
     end
 
     if authors_array.count == 1
       author = authors_array.first
-      if (author[:first_name].empty? && author[:last_name].empty?)
-        return ""
+      if author[:first_name].empty? && author[:last_name].empty?
+        return false
       end
     end
+
+    true
+  end
+
+  def display_authors authors_array
+    return "" if !has_authors? authors_array
 
     authors = authors_array.map do |auth|
       "#{auth[:last_name]}. #{auth[:first_name]} #{auth[:middle_name]}".strip

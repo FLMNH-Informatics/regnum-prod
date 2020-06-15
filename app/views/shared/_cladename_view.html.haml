@@ -32,6 +32,7 @@
             %p Establish under PhyloCode:
         %tr  
           %td= @sub.establish ? 'yes' : 'no'
+      = render :partial => 'shared/submission_citation', locals: {citation: @sub.citations['definitional'], citation_type: "Definitional"}
       %tr
         %td.name
           %p Pre-existing name:
@@ -47,31 +48,8 @@
           %td.name
             %p Pre-existing Author(s):
         %tr  
-          %td= @sub.preexisting_authors      
-        %tr  
-          %td.name
-            %p Pre-existing Reference:
-        %tr
-          %td
-            .accordion
-              %h3 
-                &nbsp;
-                = @sub.citations['preexisting']['title']
-              %div
-                %table
-                  -['citation_type','title','authors'].each do |cit|
-                    %tr
-                      %td
-                        %span
-                          %span{:style => 'font-weight:bold;'}= cit.humanize + ': '
-                          = format_output(cit,@sub.citations['preexisting'].delete(cit))
-                  -attachment_prepare(@sub.citations['preexisting']).each do |key,val|
-                    -if !val.blank?
-                      %tr
-                        %td
-                          %span
-                            %span{:style => 'font-weight:bold;'}= key.humanize + ': '
-                            = format_output(key,val)
+          %td= @sub.preexisting_authors
+        = render :partial => 'shared/submission_citation', locals: {citation: @sub.citations['preexisting'], citation_type: "Pre-existing"}
       %tr
         %td.name
           %p Comments:
