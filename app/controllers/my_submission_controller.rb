@@ -129,6 +129,12 @@ class MySubmissionController < ApplicationController
   #
   ##
   def add_attachment
+    sub = Submission.find(params[:submission_id])
+    if current_user.id != sub.user.id
+      flash[:error] = "You do not own this submission."
+      redirect_to :action => :index
+      return
+    end
     attach               = SubmissionCitationAttachment.new
     attach.file          = params[:file]
     attach.submission_id = params[:submission_id]
@@ -153,6 +159,12 @@ class MySubmissionController < ApplicationController
   #
   ##
   def remove_attachment
+    sub = Submission.find(params[:submission_id])
+    if current_user.id != sub.user.id
+      flash[:error] = "You do not own this submission."
+      redirect_to :action => :index
+      return
+    end
     id = params[:id]
     begin
       SubmissionCitationAttachment.find(id).destroy
