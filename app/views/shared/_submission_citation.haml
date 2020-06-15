@@ -1,0 +1,19 @@
+- unless citation.nil?
+  %tr
+    %td.name
+      %p= "#{citation_type} Citation"
+  %tr
+    %td
+      .accordion
+        %h3
+          &nbsp;
+          = display_citation citation
+        %div
+          %table
+            -['citation_type', 'title', 'authors', 'editors', 'publisher', 'city', 'pages', 'doi'].each do |cit|
+              - if (!citation[cit].nil? && !citation[cit].empty?) || (citation[cit].is_a?(Array) && has_authors?(citation[cit]))
+                %tr
+                  %td
+                    %span
+                      %span{style: "font-weight: bold;"}= cit.humanize + ': '
+                      = format_output(cit, citation.delete(cit))

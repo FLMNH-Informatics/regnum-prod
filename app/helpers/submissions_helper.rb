@@ -1,6 +1,9 @@
 module SubmissionsHelper
 
   def name_string_formatted
+    if @sub.name_string.nil?
+      return ""
+    end
     raw @sub.name_string.sub(@sub.name, "<em>#{@sub.name}</em>")
   end
 
@@ -30,6 +33,5 @@ module SubmissionsHelper
                options_from_collection_for_select(Submission.crown_specifiers, :name_id, :name_and_clade_type),
                include_blank: "Please make a selection",
                data: { bind: "value: specifier_crown" })
-
   end
 end
