@@ -134,6 +134,15 @@ class Submission < ActiveRecord::Base
     self.submitted_by == current_user_id
   end
 
+  def submitted_at
+    statuses = self.status_changes.all.sort{|a,b| b<=>a}.first
+    if statuses.nil?
+      "Not submitted"
+    else
+      "#{statuses.status.status} - #{statuses.changed_at}"
+    end
+  end
+
   def self.handle_save params
     submission = Submission.find(params[:submission_id])
     submission.citations           = params[:citations] if params.has_key?(:citations)
