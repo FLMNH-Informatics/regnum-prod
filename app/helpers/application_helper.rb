@@ -150,9 +150,10 @@ module ApplicationHelper
       middle_name = auth[:middle_name]
       first_name = auth[:first_name]
       if i == 0
-        return "#{last_name}, #{citation_first_name(first_name)}#{citation_middle_name(middle_name)}"
+        "#{last_name}, #{citation_first_name(first_name)}#{citation_middle_name(middle_name)}"
+      else
+        "#{citation_first_name(first_name)}#{citation_middle_name(middle_name)} #{last_name}"
       end
-      return "#{citation_first_name(first_name)}#{citation_middle_name(middle_name)} #{last_name}"
     end
 
     last_index = count - 1
@@ -184,9 +185,10 @@ module ApplicationHelper
       middle_name = auth[:middle_name]
       first_name = auth[:first_name]
       if i == 0
-        return "#{last_name}, #{citation_first_name(first_name)}#{citation_middle_name(middle_name)}"
+        "#{last_name}, #{citation_first_name(first_name)}#{citation_middle_name(middle_name)}"
+      else
+        "#{citation_first_name(first_name)}#{citation_middle_name(middle_name)} #{last_name}"
       end
-      return "#{citation_first_name(first_name)}#{citation_middle_name(middle_name)} #{last_name}"
     end
     last_index = count - 1
     editors.each_with_index do |ed, i|
