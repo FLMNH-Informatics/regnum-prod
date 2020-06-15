@@ -470,7 +470,8 @@ function Phyloregnum(){
     //passing in submission id
     self.loadSubmission = function(id){
         jQuery('#submission_id').val(id)
-        jQuery.getJSON('/my_submission/'+id,function(response){
+        var location = "/" + document.location.pathname.slice(1).split("/")[0];
+        jQuery.getJSON(location+ "/" + id, function(response){
             var submission = response.submission ? response.submission : response;
             submission.submission_id = id
             //set save action

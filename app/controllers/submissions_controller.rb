@@ -12,6 +12,9 @@ class SubmissionsController < ApplicationController
   def show
     @sub = Submission.find(params[:id])
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
+    if request.xhr?
+      render :json => @sub
+    end
     # redirect_to controller: :my_submission, action: :show
   end
 
