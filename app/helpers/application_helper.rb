@@ -23,7 +23,7 @@ module ApplicationHelper
       when 'submissions/index'
         files.concat [ 'submissions_index.js', 'search_submissions.js', 'submissions_table_actions.js']
       when 'submissions/show'
-        #files.concat ['submissions_show.js']
+        files.concat ['submissions_show.js']
       when 'submissions/edit'
         files.concat [
            'submission_model.js',

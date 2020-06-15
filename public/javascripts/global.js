@@ -81,21 +81,5 @@ jQuery(document).ready(function () {
       jQuery.loadWidgets('#float-window-holder')
     })
   })
-
-  jQuery('.submission-holder').on('click', 'li.section-tab', function (event) {
-    jQuery('.submission-holder #view-tabs>li.section-tab').css({
-      'background-color': '#ffe8ac',
-      'border-bottom': '1px solid #777'
-    })
-    //show selected tab and div
-    //widgets must be loaded/unloaded on each tab click cause they wont size properly on non displayed items
-    jQuery('#' + event.target.id).css({'background-color': '#FFFAE1', 'border-bottom': '1px solid #FFFAE1'});
-    jQuery(event.target).parents('ul').siblings('.section-tab-div').hide(0, function () {
-      jQuery.unloadWidgets('#float-window-holder')
-    })
-    jQuery('#' + event.target.id + '-div').show(0, function () {
-      jQuery.loadWidgets('#float-window-holder')
-    })
-  })
 })
 

@@ -1,7 +1,11 @@
-.submission-holder.centered
+.submission-holder
   =render :partial => 'shared/status_change_list'
 .submission-holder
+  %h1{style:"margin-top:1em;margin-bottom:1em;"} Submission:
+.submission-holder
   =render :partial => 'shared/cladename_view'
+.submission-holder
+  %h1{style:"margin-top:1em;margin-bottom:1em;"} Editor comments and approval:
 .editor-box
   =form_for @sub, :url => '/submissions/'+@sub.id.to_s, :method => :put do |s|
     %table{style: "width:100%"}

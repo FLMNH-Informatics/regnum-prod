@@ -1,4 +1,4 @@
-#submission_content.section.sized-content{ :style => 'float:left;clear:both;margin:auto auto;width:750px;min-height:500px;'}
+#submission_content.section.sized-content{ :style => 'margin:auto auto;width:750px;min-height:500px;'}
   #clade-name= @sub.name
   %ul#view-tabs
     %li#name-tab.section-tab{:style => 'border-bottom:1px solid #FFFAE1;'} Clade Name
@@ -8,19 +8,17 @@
     %table.clade-name-table
       %tr
         %td.name
+          %p Registration Number:
+        %td.name
           %p RegNum UUID:
       %tr
-        %td= @sub.guid
-      %tr
-        %td.name
-          %p Registration Number:
-      %tr  
         %td= @sub.temp_id
+        %td= @sub.guid
       %tr
         %td.name
           %p Name String:
       %tr  
-        %td= name_string_formatted
+        %td{colspan: "2"}= name_string_formatted
       %tr
         %td.name
           %p Author(s):
