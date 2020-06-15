@@ -36,6 +36,10 @@ class MySubmissionController < ApplicationController
   def show
     #redirect_to create_submission
     @sub   = Submission.find(params[:id])
+    if current_user.id != @sub.user.id
+      redirect_to my_submission_path
+      return
+    end
     @stats = StatusChange.where(:submission_id => params[:id]).order('changed_at DESC')
     respond_to do |format|
       format.html { render 'cladename/new' }
