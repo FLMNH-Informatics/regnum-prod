@@ -69,7 +69,7 @@ class MySubmissionController < ApplicationController
   def save
     @submission = Submission.find(params[:submission_id])
 
-    if current_user.id == @submission.user.id
+    if current_user.id == @submission.user.id || current_user.is_admin?
       @submission = Submission.handle_save(params)
     end
 
