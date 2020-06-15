@@ -11,7 +11,7 @@ jQuery(document).ready(function(){
        
         switch(event.target.tagName.toLowerCase()){
           case 'a':
-            if (event.target.classList.contains('paginate_link')){
+            if (event.target.classList.contains('paginate_link') || event.target.classList.contains('table-header-link')){
               event.preventDefault();
               search(event.target.search);
             }
