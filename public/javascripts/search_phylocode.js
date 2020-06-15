@@ -1,18 +1,22 @@
 jQuery(document).ready(function(){
 
-    search();
+    search(document.location.search);
 
     jQuery('#search_button').click(function(event){
         event.preventDefault();
-        search();
+        search(jQuery('#search_form').serialize());
     })
 
     jQuery('.sortable-table-holder').click(function(event){
        
         switch(event.target.tagName.toLowerCase()){
-
+          case 'a':
+            if (event.target.classList.contains('paginate_link')){
+              event.preventDefault();
+              search(event.target.search);
+            }
+            break;
             case 'td':
-               
                 var id = jQuery(event.target).parents('tr')[0].id
                
                 jQuery.get('/search/'+id, function(response){
@@ -27,7 +31,8 @@ jQuery(document).ready(function(){
             case 'input':
                 event.preventDefault()
                 if(event.target.type == 'submit'){
-                    jQuery('.sortable-table-holder').load('/search', jQuery('#search_form').serialize())
+                    debugger;
+                    search(jQuery('#search_form').serialize())
                 }
                 break
 
@@ -46,8 +51,14 @@ jQuery(document).ready(function(){
         })  
     })
 
-    function search(){
-        jQuery('.sortable-table-holder').load('/search', jQuery('#search_form').serialize())
+    function search(params){
+        params = params || "";
+        if (params[0] === "?"){
+          params = params.slice(1);
+        }
+
+      history.pushState({}, "", window.location.origin + window.location.pathname + "?" + params)
+        jQuery('.sortable-table-holder').load('/search', params.replace("?",""))
     }
 
     /*jQuery('#sign-up-link').click(function(event){
