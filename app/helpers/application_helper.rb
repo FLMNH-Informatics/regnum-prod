@@ -175,9 +175,9 @@ module ApplicationHelper
   def editor_string editors_array
     count = editors_array.count
     if (count == 1)
-      suffix = "(Ed.)"
+      suffix = "(ed.)"
     else
-      suffix = "(Eds.)"
+      suffix = "(eds.)"
     end
     out = ""
     editors = editors_array.each_with_index.map do |auth, i|
