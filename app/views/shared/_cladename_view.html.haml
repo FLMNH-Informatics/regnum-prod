@@ -99,8 +99,8 @@
                             = format_output(k,v)
                      
   #definition-tab-div.section.section-tab-div{:style => 'display:none'}
-    %h2 Abbreviated Definition
-    %p= abbreviation_formatted
+    - #%h2 Abbreviated Definition
+    - #%p= abbreviation_formatted
     %h2 Verbatim Definition
     %p= verbatim_definition
     -if @sub.citations.has_key?('primary_phylogeny')
