@@ -10,7 +10,7 @@
           = display_citation citation
         %div
           %table
-            -['citation_type', 'title', 'authors', 'editors', 'publisher', 'city', 'pages', 'doi'].each do |cit|
+            -['citation_type', 'title', 'authors', 'editors', 'publisher', 'year', 'city', 'edition', 'volume', 'pages', 'keywords', 'url', 'doi'].each do |cit|
               - if (!citation[cit].nil? && !citation[cit].empty?) || (citation[cit].is_a?(Array) && has_authors?(citation[cit]))
                 %tr
                   %td
