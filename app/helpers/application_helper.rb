@@ -99,7 +99,7 @@ module ApplicationHelper
             end
             obj[:name]
           else
-            val.humanize
+            val
         end)
   end
 
