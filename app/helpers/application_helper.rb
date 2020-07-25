@@ -1,4 +1,5 @@
 # Methods added to this helper will be available to all templates in the application.
+require 'uri'
 module ApplicationHelper
   # cheap helper for producing JS files to controller/action route
   def javascript_files_to_use
@@ -74,6 +75,8 @@ module ApplicationHelper
 
   def format_output(key, val)
     raw(case key
+          when 'citation_type'
+            val.humanize
           when 'ubio_id'
             '<a class="outlink-link" href="http://www.ubio.org/browser/details.php?namebankID=' + val + '">' + val + '</a>'
           when 'treebase_id'
@@ -82,6 +85,14 @@ module ApplicationHelper
             '<a class="outlink-link" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=' + val + '">' + val + '</a>'
           when 'treebase_tree_id'
             '<a class="outlink-link" href="http://purl.org/phylo/treebase/phylows/tree/TB2:' + val + '">' + val + '</a>'
+          when 'url'
+            url = val.start_with?("http") ? val : "https://" + val
+            if url =~ URI::regexp
+              out = '<a class="outlink-link" href="' + url + '">' + val + '</a>'
+            else
+              out = val
+            end
+            out
           when 'authors'
             display_authors val
           when 'editors'
