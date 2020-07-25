@@ -110,10 +110,16 @@
           %h3{title: output_citation(@sub.citations['primary_phylogeny'])}= citation_title(@sub.citations['primary_phylogeny'])
           .primary_phylogeny
             %p.citation= output_citation(@sub.citations['primary_phylogeny'])
-    %h2.name Additional Reference Phylogenies:
     -if @sub.citations['phylogeny'].is_a? Hash
+      %h2.name Additional Reference Phylogeny:
       .accordion
-        -@sub.citations['phylogeny'].each do |ind,phy|
+        %h3{title: output_citation(@sub.citations['phylogeny'])}= citation_title(@sub.citations['phylogeny'])
+        .additional_reference
+          %p.citation= output_citation(@sub.citations['phylogeny'])
+    -if @sub.citations['phylogeny'].is_a? Array
+      %h2.name Additional Reference Phylogenies:
+      - @sub.citations['phylogeny'].each do |phy|
+        .accordion
           %h3{title: output_citation(phy)}= citation_title(phy)
           .additional_reference
             %p.citation= output_citation(phy)
