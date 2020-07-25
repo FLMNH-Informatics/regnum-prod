@@ -46,7 +46,7 @@
           %td.name
             %p Pre-existing Author(s):
         %tr  
-          %td= @sub.preexisting_authors
+          %td= display_authors @sub.citations['preexisting']['authors']
         = render :partial => 'shared/submission_citation', locals: {citation: @sub.citations['preexisting'], citation_type: "Pre-existing"}
       %tr
         %td.name
