@@ -2,7 +2,7 @@
 require 'uri'
 module ApplicationHelper
 
-  GUIDE_URL = "https://github.com/FLMNH-Informatics/regnum-documentation/blob/main/Guides/requirements-for-phylogenetically-defined-names-guide.pdf"
+  GuideUrl = "https://github.com/FLMNH-Informatics/regnum-documentation/blob/main/Guides/requirements-for-phylogenetically-defined-names-guide.pdf"
 
   # cheap helper for producing JS files to controller/action route
   def javascript_files_to_use

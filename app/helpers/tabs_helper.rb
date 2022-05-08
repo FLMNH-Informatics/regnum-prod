@@ -104,7 +104,7 @@ module TabsHelper
       @current_tab = tab if current_tab?(tab)
 
     end
-    result_str << "<li class=\"top_tab active\"><a href=\"#{GUIDE_URL}\">Requirements for phylogenetically defined names</a></li>"
+    result_str << "<li class=\"top_tab active\"><a href=\"#{ ApplicationHelper::GuideUrl }\">Requirements for phylogenetically defined names</a></li>"
     result_str << (logged_in? ? "" : "<li class=\"top_tab active\"><a href=\"/login\">Login</a></li>")
     result_str << "</ul></div>"
   end
