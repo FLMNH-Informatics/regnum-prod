@@ -1,6 +1,9 @@
 # Methods added to this helper will be available to all templates in the application.
 require 'uri'
 module ApplicationHelper
+
+  GUIDE_URL = "https://github.com/FLMNH-Informatics/regnum-documentation/blob/main/Guides/requirements-for-phylogenetically-defined-names-guide.pdf"
+
   # cheap helper for producing JS files to controller/action route
   def javascript_files_to_use
     # files = ['float_window.js', 'sortable_table.js', 'global.js', 'knockout.min.js', 'knockout.mapping.js']
