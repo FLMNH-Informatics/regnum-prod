@@ -23,6 +23,7 @@
 #contents_wrapper {
   min-height: 76%;
   width: 100%;
+  background: inherit;
 }
 #contents{
   min-height:700px;
