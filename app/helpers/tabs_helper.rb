@@ -88,7 +88,6 @@ module TabsHelper
 
   }
 
-
   def generate_tabs
     controller_name = self.controller.controller_name
     result_str      = "<div id='header'><ul id='primary'>"
@@ -105,6 +104,7 @@ module TabsHelper
       @current_tab = tab if current_tab?(tab)
 
     end
+    result_str << "<li class=\"top_tab active\"><a href=\"#{ ApplicationHelper::GuideUrl }\">Requirements for phylogenetically defined names</a></li>"
     result_str << (logged_in? ? "" : "<li class=\"top_tab active\"><a href=\"/login\">Login</a></li>")
     result_str << "</ul></div>"
   end

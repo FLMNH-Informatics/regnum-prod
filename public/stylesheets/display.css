@@ -451,3 +451,19 @@ table.coding {
 #projects_body {
     padding: 0px 20px 0px 20px
 }
+
+#footer_container{
+  padding:5px;
+  color:#777;
+  clear:both;
+  max-width:600px;
+  margin:auto auto;
+}
+
+#footer_container p:first-child{
+  text-align: center;
+}
+
+#footer_container p:last-child{
+  padding-bottom: 2em;
+}
