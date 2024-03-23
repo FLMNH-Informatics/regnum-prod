@@ -56,7 +56,8 @@ class AccountsController < ApplicationController
     end
 
     begin
-      if verify_recaptcha(:model => params, :message => "Oh! It's error with reCAPTCHA!") && @user.save
+      #if verify_recaptcha(:model => params, :message => "Oh! It's error with reCAPTCHA!") && @user.save
+      if @user.save
         AccountMailer.account_created(@user).deliver_now
         AdminAccountMailer.account_created(@user).deliver_now
         if !current_user.nil? && current_user.is_admin?
