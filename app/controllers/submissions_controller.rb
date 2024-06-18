@@ -2,7 +2,7 @@ require 'will_paginate/array'
 
 class SubmissionsController < ApplicationController
 
-  before_filter :requires_a_editor_or_admin
+  before_action :requires_a_editor_or_admin
 
   def index
     @subs = submissions_for_editor(params)

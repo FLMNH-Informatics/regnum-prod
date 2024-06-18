@@ -1,9 +1,9 @@
 class AccountsController < ApplicationController
   
-  before_filter :requires_current_user, :only => [:show,:update]
+  before_action :requires_current_user, :only => [:show,:update]
 
   def new
-    if request.xhr?
+    if request.xhr? 
       render :new, :layout => false
     end
   end
@@ -28,7 +28,8 @@ class AccountsController < ApplicationController
       redirect_to action: :new, notice: "You must have a valid email."
       return
     end
-
+    
+    info = info.to_enum.to_h 
     if User.has_email? email
       flash[:notice] = "There is already a user with the email #{email}"
       redirect_to action: :new, account: info
@@ -56,8 +57,9 @@ class AccountsController < ApplicationController
     end
 
     begin
-      #if verify_recaptcha(:model => params, :message => "Oh! It's error with reCAPTCHA!") && @user.save
+      #if verify_recaptcha(:model => params, :message => "Oh! It's error with reCAPTCHA!") && 
       if @user.save
+        Rails.logger.info 'Successfully verified recaptcha'
         AccountMailer.account_created(@user).deliver_now
         AdminAccountMailer.account_created(@user).deliver_now
         if !current_user.nil? && current_user.is_admin?

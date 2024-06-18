@@ -2,7 +2,7 @@ require 'cgi'
 
 class SearchController < ApplicationController
 
-  before_filter :requires_logged_in, :only => [:search_res]
+  before_action :requires_logged_in, :only => [:search_res]
 
   #new search - index delegates search functions.
   def index
@@ -44,7 +44,11 @@ class SearchController < ApplicationController
   end
 
   def show
+
     @sub = Submission.find(params[:id])
+    #s = @sub.citations.to_h
+    #@sub.citations = s
+    #puts @sub.inspect
     if request.xhr?
       render :partial => 'shared/cladename_view', :layout => false
     else

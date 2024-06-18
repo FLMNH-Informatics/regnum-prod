@@ -1,7 +1,7 @@
 class TemplatesController < ApplicationController
   
   helper :my_submission
-  before_filter :requires_logged_in
+  before_action :requires_logged_in
   
   attr_accessor :templates
 

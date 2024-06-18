@@ -2,19 +2,23 @@ source 'https://rubygems.org'
 # source 'http://gems.github.com'
 #source 'https://github.com/mislav/will_paginate.git'
 
-gem 'rails', '~>4.2'#'4.1.16' #'4.0.13'#'4.0'#'3.2.21'#'3.1.12'#'3.0.3'
+gem 'rails', '~>6.1' # '~>4.2'#'4.1.16' #'4.0.13'#'4.0'#'3.2.21'#'3.1.12'#'3.0.3'
 gem 'bcrypt-ruby', :require => "bcrypt"
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'htmlentities'
-gem 'mysql2', '~> 0.4'
+gem 'mysql2', '~> 0.5'
 ##rails 3.1.12 doesn't support
 # gem 'activerecord-mysql2-adapter'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 #gem 'debugger' DOESNOT WORK WITH RUBY >= 2
+# Newer ruby
+#gem 'debug'
+
 gem 'byebug'
 gem 'nokogiri'
-gem 'protected_attributes'
+# gem 'protected_attributes'
+gem 'protected_attributes_continued'
 
 gem 'will_paginate'
 gem "paperclip"
@@ -28,7 +32,8 @@ gem 'rufus-scheduler'
 gem 'activerecord-import'#, '~>0.2.0'
 # group :test do
 gem 'rspec-rails'
-gem 'factory_girl_rails'
+gem 'factory_bot', '6.4.3'
+gem 'factory_bot_rails', '6.4.3'
 # end
 # group :assets do
 gem 'sass-rails'#,   '~> 3.2.6'#'~> 3.1.7'
@@ -36,25 +41,13 @@ gem 'sass-rails'#,   '~> 3.2.6'#'~> 3.1.7'
 #  gem 'uglifier'#,     '>= 1.0.3'
 # end
 #gem 'rmagick', '2.12.0'
-
-
-
+gem 'rmagick'
 
 # Use unicorn as the web server
 # gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
-
-# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
-# gem 'ruby-debug'
-# gem 'ruby-debug19'
-
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
