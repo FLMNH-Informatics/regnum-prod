@@ -2,8 +2,9 @@ Instructions for running locally on *nix systems.
 
 - checkout `main` branch from regnum-prod repository
 - install RVM https://rvm.io/rvm/install
-- install Ruby 2.5.8 with RVM (`rvm install 2.5.8`) (hoping this step isn't too hard on whichever platform you are on, I ran into a few bumps with Ubuntu and OpenSSL but was able to resolve them) 
-- install bundler gem 1.17.1   (`gem install bundler -v 1.17.1`)
+- install Ruby 2.5.9 with RVM (`rvm install 2.5.9`) (hoping this step isn't too hard on whichever platform you are on, I ran into a few bumps with Ubuntu and OpenSSL but was able to resolve them) 
+- run ruby gem system updae (`gem update --system 3.2.3`)
+- install bundler gem  (`gem install bundler`)
 - install regnum app gems with bundler (`bundler install`)
 - install MySQL and required client packages, create user with admin access that batches database.yml configuration
 - rake db:create  (it might say the DB already exists)
