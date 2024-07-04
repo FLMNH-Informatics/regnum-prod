@@ -2,7 +2,7 @@
 
 class CladenameController < ApplicationController
 
-  before_filter :requires_logged_in
+  before_action :requires_logged_in
 
   def check_homonym
     tem = params[:name].split(',')

@@ -1,6 +1,6 @@
 module Ontologies
   class TermsController < ApplicationController
-    before_filter :requires_authentication
+    before_action :requires_authentication
 
     def index
           start = (params[:page] || 0).to_i

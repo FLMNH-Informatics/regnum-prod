@@ -145,7 +145,7 @@ class Submission < ActiveRecord::Base
 
   def self.handle_save params
     submission = Submission.find(params[:submission_id])
-    submission.citations           = params[:citations] if params.has_key?(:citations)
+    submission.citations           = params[:citations].to_unsafe_h if params.has_key?(:citations)
     submission.specifiers          = params[:specifiers] if params.has_key?(:specifiers)
     submission.preexisting         = params[:preexisting] == 'null' ? false : params[:preexisting]
     submission.comments            = params[:comments]

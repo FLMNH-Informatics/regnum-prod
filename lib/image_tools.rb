@@ -1,4 +1,5 @@
-require 'RMagick'
+#require 'RMagick'
+require 'rmagick'
 require 'fileutils'
 
 module ImageTools

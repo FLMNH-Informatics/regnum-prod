@@ -3,7 +3,7 @@ class RemoteLinkRenderer < WillPaginate::ActionView::LinkRenderer
   
   protected
 
-  def previous_or_next_page(page, text, classname)
+  def previous_or_next_page(page, text, classname, *args)
     if page
       link(text, page, :class => classname + ' paginate_link')
     else
