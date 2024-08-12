@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   validates_presence_of :email
   validates_uniqueness_of :email
 
-  #before_create lambda{ self.enabled = false ; self.role_id = 2 }
+  before_create lambda{ self.enabled = false ; self.role_id = 2 }
   before_save :encrypt_password
 
   def full_name
