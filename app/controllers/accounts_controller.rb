@@ -28,14 +28,13 @@ class AccountsController < ApplicationController
       redirect_to action: :new, notice: "You must have a valid email."
       return
     end
-    
-    info = info.to_enum.to_h 
+  
     if User.has_email? email
       flash[:notice] = "There is already a user with the email #{email}"
-      redirect_to action: :new, account: info
+      redirect_to action: :new, account: info.to_enum.to_h 
       return
     end
-
+   
     @user = User.new
     @user.first_name = info[:first_name]
     @user.last_name = info[:last_name]
@@ -46,13 +45,13 @@ class AccountsController < ApplicationController
 
     if @user.password != @user.password_confirmation
       flash[:error] = "The passwords entered do not match."
-      redirect_to action: :new, account: info
+      redirect_to action: :new, account: info.to_enum.to_h 
       return
     end
 
     if @user.password.length < 6
       flash[:error] = "Please choose a longer password"
-      redirect_to action: :new, account: info
+      redirect_to action: :new, account: info.to_enum.to_h 
       return
     end
 
@@ -70,11 +69,11 @@ class AccountsController < ApplicationController
         end
       else
         flash[:notice] = "Could not create account."
-        redirect_to action: :new, account: info
+        redirect_to action: :new, account: info.to_enum.to_h 
       end
-    rescue
+    rescue => error
       flash[:notice] = "Sorry, something went wrong"
-      redirect_to action: :new, account: info
+      redirect_to action: :new, account: info.to_enum.to_h 
     end
   end
 
