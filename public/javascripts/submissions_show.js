@@ -12,7 +12,7 @@ jQuery(document).ready(function(){
         //widgets must be loaded/unloaded on each tab click cause they wont size properly on non displayed items
         jQuery('#' + event.target.id).css({'background-color': '#FFFAE1', 'border-bottom': '1px solid #FFFAE1'});
         jQuery(event.target).parents('ul').siblings('.section-tab-div').hide(0, function () {
-            jQuery.unloadWidgets('.submission-holder')
+            //jQuery.unloadWidgets('.submission-holder')
         })
         jQuery('#' + event.target.id + '-div').show(0, function () {
             jQuery.loadWidgets('.submission-holder')

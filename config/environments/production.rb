@@ -31,11 +31,13 @@ Regnum::Application.configure do
   # In production, Apache or nginx will already do this
   config.serve_static_assets = true
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { address: 'localhost' }
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = { address: 'localhost' }
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
-
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
 

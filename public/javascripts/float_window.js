@@ -5,7 +5,7 @@ jQuery.openFloatWindow = function(content, options, callback){
 		show: 'drop',
 		hide: 'drop',
 		close: function(){
-			jQuery.unloadWidgets('#float-window-holder')
+			//jQuery.unloadWidgets('#float-window-holder')
 		}
 	}
 	jQuery.extend(opts,options)
