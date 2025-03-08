@@ -1,7 +1,6 @@
 #type-tab-div>table, #name-tab-div table, #definition-tab-div table{
   margin:5px;
   width:98%;
-	display: static;
 }
 .section-tab{
    padding-bottom:1px;
