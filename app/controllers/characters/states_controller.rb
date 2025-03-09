@@ -1,7 +1,7 @@
 module Characters
   class StatesController < ApplicationController
     include Restful::Responder
-    before_filter :requires_authentication
+    before_action :requires_authentication
     
     def index
 #      respond_to do |format|
