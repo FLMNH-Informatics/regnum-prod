@@ -45,12 +45,12 @@ jQuery.fillInputs = function (jqhash) {
 //param provides optional ancestor selector to narrow the search
 jQuery.loadWidgets = function (focus) {
   var str = focus == undefined ? '' : focus
-  jQuery(str + ' .accordion').accordion({active: false, collapsible: true})
+  jQuery(str + ' .accordion').accordion({active: false, collapsible: true, heightStyle: "content"})
 }
 
 jQuery.unloadWidgets = function (focus) {
   var str = focus == undefined ? '' : focus
-  jQuery(str + ' .accordion').accordion('destroy')
+  //jQuery(str + ' .accordion').accordion('destroy')
 }
 //not used yet... -if performance is slow
 jQuery.refreshWidgets = function (focus) {
