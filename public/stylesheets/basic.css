@@ -2171,7 +2171,7 @@ label{
     text-align: center;
 }
 /* patch jquery ui theme for regnum colors */
-.ui-widget-header{
+.ui-dialog-titlebar.ui-widget-header{
     background: #FFE8AC;
     border: 1px solid #aaa;
     color: #333;    
