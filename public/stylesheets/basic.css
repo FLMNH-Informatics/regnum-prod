@@ -2178,5 +2178,5 @@ label{
 }
 
 .ui-dialog-titlebar{
-    cursor: pointer;
+    cursor: grabbing;
 }
