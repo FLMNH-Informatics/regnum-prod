@@ -652,7 +652,7 @@ button.ui-button::-moz-focus-inner {
 	top: 0;
 }
 .ui-draggable .ui-dialog-titlebar {
-	cursor: pointer;
+	cursor: grabbing;
 }
 .ui-progressbar {
 	height: 2em;
