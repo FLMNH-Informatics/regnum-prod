@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <%= stylesheet_link_tag 'tabs', 'jquery-ui', 'jquery-ui.theme', 'jquery-ui.structure', 'jquery-ui-humanity', 'basic', 'shared', 'display', 'cladename', 'autocomplete', 'characters' %>
   <!-- include customized style sheets for each controller if they exist -->
-  <% if FileTest.exists?("public/stylesheets/#{controller.controller_name}.css") %>
+  <% if FileTest.exist?("public/stylesheets/#{controller.controller_name}.css") %>
     <%= stylesheet_link_tag controller.controller_name %>
   <% end %>
 
@@ -22,7 +22,7 @@
   <%= javascript_files_to_use %>
   <%#= javascript_include_tag 'create_cladename.js'  %>
   <%#= javascript_include_tag 'list_submissions.js'  %>
-  <% if FileTest.exists?("public/javascripts/#{controller.controller_name}.js") %>
+  <% if FileTest.exist?("public/javascripts/#{controller.controller_name}.js") %>
     <%= javascript_include_tag controller.controller_name %>
   <% end %>
   <script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
@@ -97,7 +97,7 @@
 </div>
 
 <!-- include javascript for defining behavior of page elements - unobtrusive javascript -->
-<% if FileTest.exists?("public/javascripts/#{controller.controller_name}/#{controller.action_name}.js") %>
+<% if FileTest.exist?("public/javascripts/#{controller.controller_name}/#{controller.action_name}.js") %>
   <%= javascript_include_tag controller.controller_name + '/' + controller.action_name %>
 <% end %>
 </body>

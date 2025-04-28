@@ -26,6 +26,9 @@ gem 'rspec'
 gem 'haml'
 gem 'sass'
 gem 'uuidtools'
+gem 'puma'
+gem 'bigdecimal'
+gem 'mutex_m'
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'rufus-scheduler'
 #gem 'meta_where'  RAILS 3.1.12 doesn't support
