@@ -34,7 +34,7 @@ gem 'rufus-scheduler'
 #gem 'meta_where'  RAILS 3.1.12 doesn't support
 gem 'activerecord-import'#, '~>0.2.0'
 # group :test do
-gem 'rspec-rails'
+# gem 'rspec-rails'
 gem 'factory_bot', '6.4.3'
 gem 'factory_bot_rails', '6.4.3'
 # end
