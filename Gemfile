@@ -26,12 +26,15 @@ gem 'rspec'
 gem 'haml'
 gem 'sass'
 gem 'uuidtools'
+gem 'puma'
+gem 'bigdecimal'
+gem 'mutex_m'
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'rufus-scheduler'
 #gem 'meta_where'  RAILS 3.1.12 doesn't support
 gem 'activerecord-import'#, '~>0.2.0'
 # group :test do
-gem 'rspec-rails'
+# gem 'rspec-rails'
 gem 'factory_bot', '6.4.3'
 gem 'factory_bot_rails', '6.4.3'
 # end
