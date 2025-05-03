@@ -409,14 +409,14 @@ function Phyloregnum(){
             str += ', converted clade name.'
         }else{
             str += " [" + submission.displayAuths() + "]";
-            var primary_phylogeny;
-            if (typeof(citations.primary_phylogeny) === 'function') {
-                primary_phylogeny = citations.primary_phylogeny();
-            } else if (typeof(citations.primary_phylogeny) === 'object'){
-                primary_phylogeny = citations.primary_phylogeny;
+            var definitional;
+            if (typeof(citations.definitional) === 'function') {
+                definitional = citations.definitional();
+            } else if (typeof(citations.definitional) === 'object'){
+                definitional = citations.definitional;
             }
-            if(typeof(primary_phylogeny) === 'object'){
-                str += displayProp(primary_phylogeny.year())
+            if(typeof(definitional) === 'object'){
+                str += displayProp(definitional.year())
             }
             str += ', new clade name.'
         }
