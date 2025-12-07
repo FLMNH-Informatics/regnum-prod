@@ -208,7 +208,6 @@ EOF
     start 
   end 
 
-
   private
 
   def remove_invalid_specifiers
