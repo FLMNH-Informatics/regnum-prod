@@ -8,6 +8,7 @@ gem 'bcrypt-ruby', :require => "bcrypt"
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'htmlentities'
 gem 'mysql2', '~> 0.5'
+gem 'dumpable'
 ##rails 3.1.12 doesn't support
 # gem 'activerecord-mysql2-adapter'
 # gem 'ruby-debug19', :require => 'ruby-debug'

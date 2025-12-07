@@ -92,6 +92,16 @@ class SubmissionsController < ApplicationController
               :filename    => "regnum_cladenames_with_registration_number.csv")
   end
 
+  def export_sql
+    Submission.all.dump(:path => 'dump.sql')
+    dump = Submission.sql_dump_start + File.read('dump.sql')
+
+    send_data dump,  
+      :type        => 'text/sql',
+      :disposition => "attachment",
+      :filename    => "phyloregnum_submissions.sql"
+  end
+
   private
 
   #gets right set of subs depending of type of editor/admin
