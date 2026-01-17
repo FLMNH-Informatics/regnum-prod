@@ -33,7 +33,7 @@ module TabsHelper
           :submissions   => {
               :text       => "Review",
               :controller => 'submissions',
-              :subnav     => [:review_submissions, :reviewer_edit, :export, :export_json],
+              :subnav     => [:review_submissions, :reviewer_edit, :export, :export_json, :export_sql],
               :link       => '/submissions' },
           :search        => {
               :text       => "Search",
@@ -84,6 +84,11 @@ module TabsHelper
           :accepted           => {
               :title  => "Accepted Submissions",
               :path   => 'accepted_url' },
+          :export_sql         => {
+            :title      => "Export submissions as SQL inserts",
+            :tooltip    => "Download all submissions as SQL insert statements",
+            :path       => "export_sql_submissions_path",
+            :is_button  => true}
       }
 
   }

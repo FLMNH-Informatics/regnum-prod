@@ -1,4 +1,5 @@
 require 'will_paginate/array'
+require 'stringio'
 
 class SubmissionsController < ApplicationController
 
@@ -90,6 +91,19 @@ class SubmissionsController < ApplicationController
               :type        => 'text/csv; charset=utf-8; header=present',
               :disposition => "attachment",
               :filename    => "regnum_cladenames_with_registration_number.csv")
+  end
+
+  def export_sql
+    original_stdout = $stdout
+    $stdout = StringIO.new
+    Submission.dump()
+    dump = Submission.sql_dump_start + $stdout.string
+    $stdout = original_stdout
+
+    send_data dump,  
+      :type        => 'text/sql',
+      :disposition => "attachment",
+      :filename    => "phyloregnum_submissions.sql"
   end
 
   private

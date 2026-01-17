@@ -175,6 +175,39 @@ class Submission < ActiveRecord::Base
     self.clade_type&.include? "apomorphy"
   end
 
+  def self.sql_dump_start
+    start = <<-EOF
+DROP TABLE IF EXISTS `submissions`;
+
+CREATE TABLE `submissions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `submitted_by` int DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `submitted_at` datetime DEFAULT NULL,
+  `submitted` tinyint(1) DEFAULT NULL,
+  `establish` tinyint(1) DEFAULT NULL,
+  `updated_by` datetime DEFAULT NULL,
+  `status_id` int DEFAULT NULL,
+  `authors` text COLLATE utf8mb3_unicode_ci,
+  `comments` text COLLATE utf8mb3_unicode_ci,
+  `preexisting` tinyint(1) DEFAULT NULL,
+  `preexisting_code` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `preexisting_authors` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `clade_type` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `definition` text COLLATE utf8mb3_unicode_ci,
+  `citations` text COLLATE utf8mb3_unicode_ci,
+  `specifiers` text COLLATE utf8mb3_unicode_ci,
+  `name_string` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `abbreviation` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `guid` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `qualifying_clause` text COLLATE utf8mb3_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1076 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+EOF
+    start 
+  end 
+
   private
 
   def remove_invalid_specifiers
@@ -236,5 +269,5 @@ class Submission < ActiveRecord::Base
   def generate_guid(time=nil)
     UUIDTools::UUID.timestamp_create(time).to_s
   end
-  
+
 end
