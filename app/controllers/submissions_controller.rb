@@ -1,4 +1,5 @@
 require 'will_paginate/array'
+require 'stringio'
 
 class SubmissionsController < ApplicationController
 
@@ -93,8 +94,11 @@ class SubmissionsController < ApplicationController
   end
 
   def export_sql
-    Submission.all.dump(:path => 'dump.sql')
-    dump = Submission.sql_dump_start + File.read('dump.sql')
+    original_stdout = $stdout
+    $stdout = StringIO.new
+    Submission.dump()
+    dump = Submission.sql_dump_start + $stdout.string
+    $stdout = original_stdout
 
     send_data dump,  
       :type        => 'text/sql',
