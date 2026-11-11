@@ -27,7 +27,9 @@ gem 'rspec'
 gem 'haml'
 gem 'sass'
 gem 'uuidtools'
-gem 'puma'
+# Stay on puma 7.x until 8.0 is tested; 7.2.1 is the first 7.x with its
+# security fixes.
+gem 'puma', '~> 7.2', '>= 7.2.1'
 gem 'bigdecimal'
 gem 'mutex_m'
 gem "recaptcha", :require => "recaptcha/rails"
