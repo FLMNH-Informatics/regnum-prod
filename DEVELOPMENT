@@ -1,14 +1,43 @@
-Instructions for running locally on *nix systems. 
+Running regnum-prod with Docker (how production runs it)
 
-- checkout `main` branch from regnum-prod repository
-- install RVM https://rvm.io/rvm/install
-- install Ruby 2.5.9 with RVM (`rvm install 2.5.9`) (hoping this step isn't too hard on whichever platform you are on, I ran into a few bumps with Ubuntu and OpenSSL but was able to resolve them) 
-- run ruby gem system updae (`gem update --system 3.2.3`)
-- install bundler gem  (`gem install bundler`)
-- install regnum app gems with bundler (`bundler install`)
-- install MySQL and required client packages, create user with admin access that batches database.yml configuration
-- rake db:create  (it might say the DB already exists)
-- rake db:schema:load
-- rake db:seed 
-- install DB seeds with rake `rake db:seed` (need this to install user roles and statuses)
-- run the server with `rails server -u webrick`  (this runs a webrick server and it might first error out and ask you to create a config/secrets.yml file, just follow the instructions https://stackoverflow.com/questions/32397607/missing-secret-token-and-secret-key-base-for-development-environment-set)
+The Docker image (see Dockerfile) contains Ruby and the bundled gems only. The
+application code is bind-mounted into the container at /usr/src/app, so the
+image and the checkout it runs against must use the same Gemfile.lock: if you
+change Gemfile.lock, rebuild the image and update the checkout together, or
+the app will fail to boot with missing gems.
+
+Build (always with --pull, so Debian and Ruby security patches in the base
+image are picked up; without it a locally cached, outdated base is reused):
+
+  docker build --pull -t phyloregnum .
+  # on an arm64 machine (e.g. Apple Silicon), add: --platform linux/amd64
+
+Run locally with a throwaway MariaDB:
+
+  docker compose up -d --build
+  docker compose exec app bundle exec rails db:schema:load db:seed
+  open http://localhost:3000
+
+Check that a running instance serves its main pages:
+
+  script/smoke_test.sh http://localhost:3000
+  script/smoke_test.sh https://www.phyloregnum.org
+
+The repository has no meaningful automated tests (test/ holds generated stubs
+and rspec-rails is not in the Gemfile), so the smoke test is the check to run
+after rebuilding the image or changing gems.
+
+Production needs files that are not in the repository (they are gitignored):
+config/database.yml (or DATABASE_URL), the secret key base (config/secrets.yml
+or SECRET_KEY_BASE), config/initializers/site_keys.rb and
+config/initializers/recaptcha.rb (see the *EXAMPLE files next to them).
+
+Running without Docker
+
+Use Ruby 3.4 (the version pinned in the Dockerfile), MySQL/MariaDB and its
+client libraries, ImageMagick (for rmagick and paperclip) and shared-mime-info
+(for mimemagic). Then:
+
+  bundle install
+  rake db:create db:schema:load db:seed   # seeds install user roles and statuses
+  rails server
