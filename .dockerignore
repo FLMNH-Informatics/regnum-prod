@@ -1,0 +1,5 @@
+# Only Gemfile and Gemfile.lock are copied into the image; the app is
+# bind-mounted at run time. Keep the build context to just those two.
+*
+!Gemfile
+!Gemfile.lock

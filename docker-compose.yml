@@ -1,0 +1,37 @@
+# Local stack for trying the Docker image: the app (built from ./Dockerfile,
+# with this checkout bind-mounted the way the image expects) plus MariaDB.
+#
+#   docker compose up -d --build
+#   docker compose exec app bundle exec rails db:schema:load db:seed
+#   script/smoke_test.sh http://localhost:3000
+#
+# This is for local testing only. The credentials below are placeholders, and
+# the server supplies its own database.yml / secrets.
+services:
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_ROOT_PASSWORD: regnum-local-only
+      MARIADB_DATABASE: regnum
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      retries: 20
+
+  app:
+    build: .
+    # Gemfile.lock only lists the x86_64-linux-gnu platform.
+    platform: linux/amd64
+    image: phyloregnum:local
+    volumes:
+      - .:/usr/src/app
+    environment:
+      RAILS_ENV: production
+      # Used only if config/database.yml is absent; a local database.yml wins.
+      DATABASE_URL: mysql2://root:regnum-local-only@db/regnum
+      SECRET_KEY_BASE: local-only-not-a-real-secret-0123456789abcdef0123456789abcdef
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
