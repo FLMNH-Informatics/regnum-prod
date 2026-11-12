@@ -12,3 +12,10 @@ Instructions for running locally on *nix systems.
 - rake db:seed 
 - install DB seeds with rake `rake db:seed` (need this to install user roles and statuses)
 - run the server with `rails server -u webrick`  (this runs a webrick server and it might first error out and ask you to create a config/secrets.yml file, just follow the instructions https://stackoverflow.com/questions/32397607/missing-secret-token-and-secret-key-base-for-development-environment-set)
+
+Instructions for running on Mac with docker.
+
+- install mise environment management tool 
+- run mise install
+- install docker
+- create config/database.yml, config/secrets.yml files 
