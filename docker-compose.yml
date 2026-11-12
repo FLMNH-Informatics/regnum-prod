@@ -1,0 +1,18 @@
+services:
+  regnum: 
+    build: .
+    platform: linux/amd64
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - DEBUG=true
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+    ports: 
+      - "3306:3306"
