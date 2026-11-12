@@ -51,7 +51,7 @@ Regnum::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  
+
   #rails 3.1.12
       # Compress JavaScripts and CSS
     #rails 3 deprecation
