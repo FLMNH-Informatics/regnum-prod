@@ -18,3 +18,4 @@ Instructions for running on Mac with docker.
 - install mise environment management tool 
 - run mise install
 - install docker
+- create config/database.yml, config/secrets.yml files 
