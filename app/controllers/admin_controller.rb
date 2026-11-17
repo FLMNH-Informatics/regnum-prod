@@ -39,7 +39,6 @@ class AdminController < ApplicationController
     @user.save
 
     if request.xhr?
-
       index
     else
       redirect_to :action => :index
@@ -70,6 +69,7 @@ class AdminController < ApplicationController
         @user = user
         @roles = Role.order('role_id ASC')
         render partial: 'admin/user_edit', layout: false
+        return
     end
     
     params[:term] ||= ''
