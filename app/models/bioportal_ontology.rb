@@ -1,6 +1,6 @@
 class BioportalOntology < ActiveRecord::Base
   self.table_name = 'bioportal_ontologies'
-  serialize :ontology, Hash
+  serialize :ontology, :type => Hash
 
   def self.synchronize_ontologies
      ontologies = Remote::Bioportal::Ontology.offset(0).all_synchronize({})

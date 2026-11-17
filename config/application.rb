@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require_relative "boot"
 
 require 'rails/all'
 
@@ -15,9 +15,18 @@ module Regnum
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    # config.autoload_paths += %W(#{config.root}/lib)
-    config.eager_load_paths << Rails.root.join('lib')
+    #config.autoload_paths << "#{Rails.root}/lib"
+    lib = root.join("lib")
 
+    config.autoload_paths << lib
+    config.eager_load_paths << lib
+
+    Rails.autoloaders.main.ignore(
+      lib.join("auto_complete"),
+      lib.join("dynamic_form"),
+      lib.join("prototype_legacy_helper"),
+      lib.join("respond_to_parent")
+    )
     #Paperclip.options[:command_path] = '/usr/bin'
 
     # Only load the plugins named here, in the order given (default is alphabetical).
@@ -47,7 +56,7 @@ module Regnum
     # rails 3.1.12 assets stuff
     config.assets.enabled = false
     config.assets.version = '1.0'
-
+    #config.active_support.cache_format_version = 6.1
     # OM
     config.active_record.yaml_column_permitted_classes = [
         Set,

@@ -64,7 +64,7 @@ class Submission < ActiveRecord::Base
   has_many :status_changes
   has_many :submission_citation_attachments
 
-  attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by
+  #attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by
   attr_accessor :status_comments #editors comments for status changes
 
   #scope :submitted, where("status_id <> 4")
@@ -83,9 +83,9 @@ class Submission < ActiveRecord::Base
   before_update :check_status_change
   # authors, citations and specifiers are stored as hashes
   # this conveniently makes all the fields searchable on a single column
-  serialize :authors, Array
-  serialize :citations, Hash
-  serialize :specifiers, Array
+  serialize :authors, :type => Array
+  serialize :citations, :type => Hash
+  serialize :specifiers, :type => Array
   
   scope :opt_in, -> { where(establish: true) }
   scope :opt_out, -> { where(establish: false) }

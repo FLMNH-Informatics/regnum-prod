@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :password, :password_confirmation
+  #attr_accessible :email, :password, :password_confirmation
   attr_accessor :password
 
   has_many :submissions, foreign_key: "submitted_by"

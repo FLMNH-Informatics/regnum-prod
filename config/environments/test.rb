@@ -33,24 +33,10 @@ Regnum::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
-
-
-
-  #3.1.12
-  # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
-
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-
-
-
-
-  #3.2.21
-  # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)

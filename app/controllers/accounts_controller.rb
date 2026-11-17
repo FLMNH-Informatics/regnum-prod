@@ -19,6 +19,8 @@ class AccountsController < ApplicationController
   end
 
   def create
+    params.expect( :account => [:first_name, :last_name, :institution, :email, :password, :password_confirmation])
+
     info = params[:account]
     email = info[:email]
     password = info.delete :password
@@ -114,5 +116,15 @@ class AccountsController < ApplicationController
     end
   end
 
+#attr_accessible :email, :password, :password_confirmation
 
+  private 
+
+  def post_params
+    # Rails 8+ recommended syntax:
+    params.expect(post: [:email, :password, :password_confirmation])
+
+    # Classic syntax (also fully supported in Rails 8):
+    # params.require(:post).permit(:title, :body, tag_ids: [])
+  end
 end

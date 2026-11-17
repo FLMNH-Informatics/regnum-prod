@@ -188,5 +188,14 @@ class MySubmissionController < ApplicationController
   end
   #
   #
-  #
+  # Enables protected parameter and removes attr_accessible from the models
+  #attr_accessible :name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by
+  #attr_accessor :status_comments #editors comments for status changes
+  def post_params
+    # Rails 8+ recommended syntax:
+    params.expect(post: [:name, :authors, :comments, :establish, :preexisting, :clade_type, :specifiers, :citations, :submitted_by])
+
+    # Classic syntax (also fully supported in Rails 8):
+    # params.require(:post).permit(:title, :body, tag_ids: [])
+  end
 end
