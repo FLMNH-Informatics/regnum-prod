@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY Gemfile Gemfile.lock ./
 RUN apt update && apt upgrade -y
-RUN apt purge --auto-remove openssh-server
+RUN apt purge -y openssh-client
 RUN bundle config --set-path /usr/src/bundle \
  && bundle install 
 
